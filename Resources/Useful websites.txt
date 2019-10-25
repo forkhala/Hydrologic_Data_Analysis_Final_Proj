@@ -1,0 +1,8 @@
+USGS National Water Information System - Web Interface
+https://waterdata.usgs.gov/nwis
+
+Water Quality Portal (used for site selection)
+https://www.waterqualitydata.us
+
+Water Feature data download
+https://viewer.nationalmap.gov/basic/?basemap=b1&category=nhd&title=NHD%20View
