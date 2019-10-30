@@ -12,6 +12,10 @@ editor_options:
 
 1. What is the current state of the rivers in the Southeastern Missouri River Basin and how has it changed over time?
 
+> Be more specific. Go beyond water quality and quantity in this space. How has discharge and nutrient levels changed over time. How can we quantify the shifting extremes as it relates to water quality and quantity. How do floods and droughts impact how nutrients get into streams. 
+
+> How would land use affect the occurance of floods and droughts? What other data can we pull in to address that? Pull in ESRI shapefile. dbf but only if the shp file is in there at the same time. lulcc: landuselandcoverchange
+
 2. What effects did the March 2019 floods have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
 
 3. What effects did the 2012-2013 drought have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
@@ -21,6 +25,10 @@ editor_options:
 
 
 ## What hypotheses will your team address? 
+
+
+> 1a. Nutrients come from quickflow. 1b. Nutrients come from groundwater. Give two options. If we see this phenomena, what are the mechanisms at play?
+
 
 * Hypotheses should relate directly to your questions. Each numbered hypothesis should match up with the correponding numbered question. 
 * There may be multiple working hypotheses for a single question. If this is the case, note each hypothesis as 1a, 1b. etc.
@@ -39,6 +47,8 @@ editor_options:
 ## What dataset(s) will your team analyze?
 
 USGS, Water Quality Portal
+
+> Run exact same line of code for the different HUC codes. Shooting for number of sites or threshold for number of characterizations or samples (ex: all sites with all variables were included, everything was excluded. Second they have to be above x, etc. Methodologically reproducible)
 
 ## How will you set up and manage your project repository? 
 
@@ -91,6 +101,12 @@ We will also pull the watershed boundary dataset from USGS to map our sites and 
 Visualizing our site locations and basic discharge behavior will be our first steps in exploring our data. We will visualize basic discharge behavior and water quality data.
 
 After exploration, we will address NA's if they are affecting our data. 
+
+> How would we visualize; distributions across watersheds, plot over time; violin plots, box plots, etc. to visualize range of data. Can be part of final report to give context. 
+
+> can do C-Q plots (concentration quantity plots) without it being high frequency data.
+
+> smaller watersheds won't have as much data, but still worth it to include to see picture at the smaller local scale.
 
 ### Data wrangling
 

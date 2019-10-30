@@ -1,0 +1,371 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Proposal and Analysis Plan},
+            pdfauthor={Rachel Bash, Caroline Watson, Keqi He, Haoyu Zhang},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Proposal and Analysis Plan}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Rachel Bash, Caroline Watson, Keqi He, Haoyu Zhang}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{October 25, 2019}
+
+
+\begin{document}
+\maketitle
+
+\hypertarget{what-questions-will-your-team-address}{%
+\subsection{What questions will your team
+address?}\label{what-questions-will-your-team-address}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  What is the current state of the rivers in the Southeastern Missouri
+  River Basin and how has it changed over time?
+\end{enumerate}
+
+\begin{quote}
+Be more specific. Go beyond water quality and quantity in this space.
+How has discharge and nutrient levels changed over time. How can we
+quantify the shifting extremes as it relates to water quality and
+quantity. How do floods and droughts impact how nutrients get into
+streams.
+\end{quote}
+
+\begin{quote}
+How would land use affect the occurance of floods and droughts? What
+other data can we pull in to address that? Pull in ESRI shapefile. dbf
+but only if the shp file is in there at the same time. lulcc:
+landuselandcoverchange
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  What effects did the March 2019 floods have on the water quality and
+  quantity of rivers in the Missouri River Basin areas of interest?
+\item
+  What effects did the 2012-2013 drought have on the water quality and
+  quantity of rivers in the Missouri River Basin areas of interest?
+\item
+  Given past and current data, what can we predict about the future
+  state of water in the Missouri River Basin?
+\end{enumerate}
+
+\hypertarget{what-hypotheses-will-your-team-address}{%
+\subsection{What hypotheses will your team
+address?}\label{what-hypotheses-will-your-team-address}}
+
+\begin{quote}
+1a. Nutrients come from quickflow. 1b. Nutrients come from groundwater.
+Give two options. If we see this phenomena, what are the mechanisms at
+play?
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Hypotheses should relate directly to your questions. Each numbered
+  hypothesis should match up with the correponding numbered question.
+\item
+  There may be multiple working hypotheses for a single question. If
+  this is the case, note each hypothesis as 1a, 1b. etc.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Water quantity and quality in the Missouri River Basin has become more
+  variable (more frequent storms and droughts) over time.
+\item
+  Nutrient concentrations and flow volume increased due to the floods of
+  the 2019 flood.(we will create a hysteresis plot and a hydrograph for
+  each site and nutrient of interest)
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Nitrate concentration will increase with flow. We hypothesize that
+  hysteresis plots will exhibit a clockwise direction due to flushing of
+  nutrients from the quickflow.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  Discharge will decrease during a drought, also causing a decreased
+  concentration of nitrogen due to less overland flow.
+\item
+  We predict that total flow in the Missouri River Basin is decreasing
+  (non-stationary), and so the future situation of the river basin will
+  see the continuation of current trends of decreasing overall volume of
+  flow.
+\end{enumerate}
+
+\hypertarget{what-datasets-will-your-team-analyze}{%
+\subsection{What dataset(s) will your team
+analyze?}\label{what-datasets-will-your-team-analyze}}
+
+USGS, Water Quality Portal
+
+\begin{quote}
+Run exact same line of code for the different HUC codes. Shooting for
+number of sites or threshold for number of characterizations or samples
+(ex: all sites with all variables were included, everything was
+excluded. Second they have to be above x, etc. Methodologically
+reproducible)
+\end{quote}
+
+\hypertarget{how-will-you-set-up-and-manage-your-project-repository}{%
+\subsection{How will you set up and manage your project
+repository?}\label{how-will-you-set-up-and-manage-your-project-repository}}
+
+We have set up a git repository, so we will pull and push from the same
+master.
+
+\hypertarget{create-a-table-of-variables-you-will-analyze.}{%
+\subsection{Create a table of variables you will
+analyze.}\label{create-a-table-of-variables-you-will-analyze.}}
+
+\begin{itemize}
+\tightlist
+\item
+  Column 1: Variable
+\item
+  Column 2: Units (if known)
+\item
+  Column 3: Dependent (response) or independent (predictor) variable?
+\item
+  Column 4: To which hypothesis(es) does this variable pertain?
+\end{itemize}
+
+\emph{Note: You may not know all of the individual variables you plan to
+analyze at this point. It is sufficient to describe what type of
+variable you anticipate using (e.g., land cover) and decide on specifics
+later}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+
+\NormalTok{Variable <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"discharge"}\NormalTok{, }\StringTok{"time"}\NormalTok{, }\StringTok{"nitrogen"}\NormalTok{, }\StringTok{"pH"}\NormalTok{, }\StringTok{"total coliform"}\NormalTok{, }
+              \StringTok{"O2 Concentration"}\NormalTok{, }\StringTok{"Phosphorus"}\NormalTok{)}
+
+\NormalTok{Units <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"cfs or m3/s"}\NormalTok{, }\StringTok{"UTC"}\NormalTok{, }\StringTok{"mg/L"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"cfu/100mL"}\NormalTok{, }\StringTok{"mg/L"}\NormalTok{, }\StringTok{"mg/L"}\NormalTok{)}
+
+\NormalTok{TypeOfVariable <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"both"}\NormalTok{, }\StringTok{"independent"}\NormalTok{, }\StringTok{"dependent"}\NormalTok{, }\StringTok{"dependent"}\NormalTok{, }\StringTok{"dependent"}\NormalTok{, }
+                    \StringTok{"dependent"}\NormalTok{, }\StringTok{"dependent"}\NormalTok{)}
+
+\NormalTok{Hypothesis <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"all"}\NormalTok{, }\StringTok{"all"}\NormalTok{, }\StringTok{"2 and 3"}\NormalTok{, }\StringTok{"2 and 3"}\NormalTok{, }\StringTok{"2"}\NormalTok{, }\StringTok{"2 and 3"}\NormalTok{, }\StringTok{"2 and 3"}\NormalTok{)}
+
+\NormalTok{Table <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(Variable, Units, TypeOfVariable, Hypothesis)}
+
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(Table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+Variable & Units & TypeOfVariable & Hypothesis\tabularnewline
+\midrule
+\endhead
+discharge & cfs or m3/s & both & all\tabularnewline
+time & UTC & independent & all\tabularnewline
+nitrogen & mg/L & dependent & 2 and 3\tabularnewline
+pH & 1 & dependent & 2 and 3\tabularnewline
+total coliform & cfu/100mL & dependent & 2\tabularnewline
+O2 Concentration & mg/L & dependent & 2 and 3\tabularnewline
+Phosphorus & mg/L & dependent & 2 and 3\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{what-tasks-will-your-team-conduct}{%
+\subsection{What tasks will your team
+conduct?}\label{what-tasks-will-your-team-conduct}}
+
+\hypertarget{data-acquisition}{%
+\subsubsection{Data acquisition}\label{data-acquisition}}
+
+We will get our data from USGS (NWIS Site) and the Water Quality Portal
+by looking for sites with good available data in the Missouri Region
+(Hydrologic Region 10). We will pick 2-4 sites from each HUC 4 in the
+1020-1029. We will choose sites that are both on the Missouri River and
+sites that are on tributaries of the Missouri River. We will only pull
+USGS sites on rivers.
+
+We will clean our dataset by getting rid of unnecessary columns to make
+analysis easier and will rename columns for clarity and conciseness.
+
+We will also pull the watershed boundary dataset from USGS to map our
+sites and water features.
+
+\hypertarget{data-exploration}{%
+\subsubsection{Data exploration}\label{data-exploration}}
+
+Visualizing our site locations and basic discharge behavior will be our
+first steps in exploring our data. We will visualize basic discharge
+behavior and water quality data.
+
+After exploration, we will address NA's if they are affecting our data.
+
+\begin{quote}
+How would we visualize; distributions across watersheds, plot over time;
+violin plots, box plots, etc. to visualize range of data. Can be part of
+final report to give context.
+\end{quote}
+
+\begin{quote}
+can do C-Q plots (concentration quantity plots) without it being high
+frequency data.
+\end{quote}
+
+\begin{quote}
+smaller watersheds won't have as much data, but still worth it to
+include to see picture at the smaller local scale.
+\end{quote}
+
+\hypertarget{data-wrangling}{%
+\subsubsection{Data wrangling}\label{data-wrangling}}
+
+We will create subset tables in order to focus on specific sites when we
+address our flooding and drought questions. We will group our data by
+year when we want to address trends over time. We will also wrangle data
+by summarizing by month (and by day) from multiple years to get average,
+maximum, and minimum values to compare. In order to find the recurrence
+interval, we will need to wrangle data in order to find peak discharge.
+
+\hypertarget{data-analysis-and-visualization}{%
+\subsubsection{Data analysis and
+visualization}\label{data-analysis-and-visualization}}
+
+We will create hysteresis plots, recurrence interval plots, discharge
+over time, typical discharge pattern over a year (plot with min, max,
+and mean), nutrient concentration patterns over a year (specifically for
+2019), pH over time and over flow, total cell count over time, total
+coliform over time, plot hydrograph separation between baseflow and
+quickflow. We will be creating dygraphs to visualize time series for
+discharge and, if applicable, nutrient and oxygen concentrations.
+
+
+\end{document}
