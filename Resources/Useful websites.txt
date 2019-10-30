@@ -6,3 +6,9 @@ https://www.waterqualitydata.us
 
 Water Feature data download
 https://viewer.nationalmap.gov/basic/?basemap=b1&category=nhd&title=NHD%20View
+
+HUC name
+https://water.usgs.gov/GIS/huc_name.html
+
+NWIS parameter code
+https://nwis.waterdata.usgs.gov/usa/nwis/pmcodes
