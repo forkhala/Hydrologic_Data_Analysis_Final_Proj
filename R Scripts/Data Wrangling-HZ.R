@@ -53,7 +53,7 @@ View(huc1021.sites.DNP)
 
 # Record site nos. of selected ones
 huc1021.site.no <- unique(huc1021.sites.DNP$site_no)
-huc1021.site.no
+huc1021.site.no #4 sites
 
 #---- HUC1021 end ----
 
