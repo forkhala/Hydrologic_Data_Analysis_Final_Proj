@@ -18,4 +18,8 @@ huc1021Discharge <- huc1021sites %>%
 huc1021Nitrogen <- huc1021sites %>%
   filter(parm_cd=="00600")
 
-huc1021join <- left_join(huc1021Discharge,huc1021Nitrogen, by = "site_no")
+huc1021join <- 
+  left_join(huc1021Discharge,huc1021Nitrogen, 
+            by = c("agency_cd", "site_no", "station_nm", "site_tp_cd", "dec_lat_va",
+                   "dec_lat_va", 
+          #FINISH joining                                                        ))
