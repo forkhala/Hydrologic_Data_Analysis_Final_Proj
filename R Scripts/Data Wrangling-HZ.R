@@ -15,6 +15,7 @@ huc1021all.site.no <- seq(from = 10210001, to = 10210010, by = 1)
 huc1021.sites <- whatNWISdata(huc = huc1021all.site.no) %>%
   select(site_no, station_nm, huc_cd, site_tp_cd, dec_lat_va, dec_long_va,
          parm_cd, data_type_cd, stat_cd, srs_id, begin_date, end_date, count_nu)
+  # I picked and rearranged columns I think relevant to our project; we may change it if we want.
 
 # Filter for sites with total nitrogen "00600"
 # (Total nitrogen [nitrate + nitrite + ammonia + organic-N], water, unfiltered, mg/l)
