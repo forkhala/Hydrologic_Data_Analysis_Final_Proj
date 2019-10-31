@@ -537,4 +537,4 @@ allsiteno
 
 # Output the dataframe of site description
 
-write.csv(allsites, file = "./Data/Processed/candidate_USGSsite.csv", na = NA)
+write.csv(allsites, file = "./Data/Processed/candidate_USGSsite.csv", na = "NA")
