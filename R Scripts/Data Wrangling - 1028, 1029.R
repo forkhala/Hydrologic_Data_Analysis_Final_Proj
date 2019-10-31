@@ -2,8 +2,7 @@ getwd()
 library(dataRetrieval)
 library(tidyverse)
 
-##### HUC 1028
-#####
+##### HUC 1028 #####
 #getting data for huc 1028
 #creating seq for grand and chariton (two different sets of huc numbers)
 grand.huc = seq(10280101, 10280103, by = 1)
