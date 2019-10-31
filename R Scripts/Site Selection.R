@@ -49,7 +49,7 @@ huc1020.sites.DNP <- huc1020.sites.D %>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
 # them for different HUC4 region.
-View(huc1020.sites.DNP)
+
 
 # Record site nos. of selected ones
 huc1020.site.no <- unique(huc1020.sites.DNP$site_no)
@@ -100,7 +100,6 @@ huc1021.sites.DNP <- huc1021.sites.D %>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
 # them for different HUC4 region.
-View(huc1021.sites.DNP)
 
 # Record site nos. of selected ones
 huc1021.site.no <- unique(huc1021.sites.DNP$site_no)
@@ -151,7 +150,6 @@ huc1022.sites.DNP <- huc1022.sites.D %>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
 # them for different HUC4 region.
-View(huc1022.sites.DNP)
 
 # Record site nos. of selected ones
 huc1022.site.no <- unique(huc1022.sites.DNP$site_no)
@@ -202,7 +200,6 @@ huc1023.sites.DNP <- huc1023.sites.D %>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
 # them for different HUC4 region.
-View(huc1023.sites.DNP)
 
 # Record site nos. of selected ones
 huc1023.site.no <- unique(huc1023.sites.DNP$site_no)
@@ -258,7 +255,6 @@ huc1024.sites.DNP <- huc1024.sites.D %>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
 # them for different HUC4 region.
-View(huc1024.sites.DNP)
 
 # Record site nos. of selected ones
 huc1024.site.no <- unique(huc1024.sites.DNP$site_no)
@@ -316,7 +312,6 @@ huc1025.sites.DNP <- huc1025.sites.D %>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
 # them for different HUC4 region.
-View(huc1025.sites.DNP)
 
 # Record site nos. of selected ones
 huc1025.site.no <- unique(huc1025.sites.DNP$site_no)
@@ -364,7 +359,6 @@ huc1026.sites.DNP <- huc1026.sites.D %>%
   inner_join(., huc1026.sites.P,
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
-View(huc1026.sites.DNP)
 
 # Record site nos. of selected ones
 huc1026.site.no <- unique(huc1026.sites.DNP$site_no)
@@ -411,7 +405,6 @@ huc1027.sites.DNP <- huc1027.sites.D %>%
   inner_join(., huc1027.sites.P,
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
-View(huc1027.sites.DNP)
 
 # Record site nos. of selected ones
 huc1027.site.no <- unique(huc1027.sites.DNP$site_no)
@@ -465,7 +458,6 @@ huc1028.sites.DNP <- huc1028.sites.D %>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
 # them for different HUC4 region.
-View(huc1028.sites.DNP)
 
 # Record site nos. of selected ones
 huc1028.site.no <- unique(huc1028.sites.DNP$site_no)
@@ -530,7 +522,6 @@ huc1029.sites.DNP <- huc1029.sites.D %>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
 # them for different HUC4 region.
-View(huc1029.sites.DNP)
 
 # Record site nos. of selected ones
 huc1029.site.no <- unique(huc1029.sites.DNP$site_no)
@@ -543,3 +534,7 @@ allsites <- rbind(huc1020.sites.DNP, huc1021.sites.DNP, huc1022.sites.DNP, huc10
                   huc1028.sites.DNP, huc1029.sites.DNP)
 allsiteno <- unique(allsites$site_no)
 allsiteno
+
+# Output the dataframe of site description
+
+write.csv(allsites, file = "./Data/Processed/candidate_USGSsite.csv", na = NA)
