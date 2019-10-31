@@ -2,6 +2,8 @@ getwd()
 library(dataRetrieval)
 library(tidyverse)
 
+##### HUC 1028
+#####
 #getting data for huc 1028
 #creating seq for grand and chariton (two different sets of huc numbers)
 grand.huc = seq(10280101, 10280103, by = 1)
@@ -54,8 +56,9 @@ View(huc1028.sites.DNP)
 huc1028.site.no <- unique(huc1028.sites.DNP$site_no)
 huc1028.site.no #11 sites
 
+#---- HUC1028 end ----
 
-##HUC 1029 Data
+##### HUC 1029 #####
 
 #getting data for huc 1029
 #creating seq for osage and gasconade (two different sets of huc numbers)
@@ -118,4 +121,4 @@ View(huc1029.sites.DNP)
 huc1029.site.no <- unique(huc1029.sites.DNP$site_no)
 huc1029.site.no #10 sites
 
-
+#---- HUC1029 end ----
