@@ -22,7 +22,7 @@ huc1024.sites.all <- rbind(huc1024.sites.first10,huc1024.sites.remaining)
 # Filter for sites with total nitrogen "00600"
 # (Total nitrogen [nitrate + nitrite + ammonia + organic-N], water, unfiltered, mg/l)
 huc1024.sites.N <- huc1024.sites.all %>%
-  filter(parm_cd == "00600") %>%
+  filter(parm_cd == "99133") %>%
   rename_at(vars(-(1:6)), ~ paste(., sep = "_",'N'))
 # Last line appends "_N" to all column names, except for the first 6, because we need to join by the
 # first 6 cols later.
@@ -59,6 +59,13 @@ huc1024.site.no <- unique(huc1024.sites.DNP$site_no)
 huc1024.site.no #6 sites
 
 
+#sites: 	06808500 and 06817000 have high freq uv for N; do they also for D?
+# Sites with discharge "00060"
+huc1024.sites.Duv <- huc1024.sites.all %>%
+  filter(site_no== "06808500" | site_no== "06817000", parm_cd == "00060", data_type_cd=="uv")%>%
+  rename_at(vars(-(1:6)), ~ paste(., sep = "_",'D'))
+#Yes, the two sites that have high freq N also have high freq D!
+
 #---- HUC1024 end ----
 
 
@@ -89,7 +96,7 @@ huc1025.sites.N <- huc1025.sites.all %>%
 # (Phosphorus, water, unfiltered, mg/l as phosphorus)
 huc1025.sites.P <- huc1025.sites.all %>%
   filter(parm_cd == "00665") %>%
-  rename_at(vars(-(1:6)), ~ paste(., sep = "_",'P'))
+  rename_at(vars(-(1:6)), ~ paste(., sep = "_",'P')) 
 
 # Sites with discharge "00060"
 # (Discharge, cubic feet per second) there is also discharge in metric unit, but few sites have it.
@@ -118,3 +125,4 @@ huc1025.site.no #4 sites
 
 
 #---- HUC1025 end ----
+
