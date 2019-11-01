@@ -47,7 +47,8 @@ huc1021.sites.DNP <- huc1021.sites.D %>%
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
   inner_join(., huc1021.sites.P,
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
-  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
+  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50) %>%
+  filter_at(vars(starts_with("end_date")), all_vars(. > "2010-01-01"))
   # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
   # them for different HUC4 region.
 View(huc1021.sites.DNP)
@@ -92,13 +93,15 @@ huc1026.sites.D <- huc1026.sites %>%
   filter(parm_cd == "00060")%>%
   rename_at(vars(-(1:6)), ~ paste(., sep = "_",'D'))
 
+
 # Find out the sites that are common in D N P data
 huc1026.sites.DNP <- huc1026.sites.D %>%
   inner_join(., huc1026.sites.N, 
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
   inner_join(., huc1026.sites.P,
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
-  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
+  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50) %>%
+  filter_at(vars(starts_with("end_date")), any_vars(. > "2010-01-01"))
 View(huc1026.sites.DNP)
 
 # Record site nos. of selected ones
