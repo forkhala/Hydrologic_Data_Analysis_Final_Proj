@@ -22,7 +22,7 @@ huc1024.sites.all <- rbind(huc1024.sites.first10,huc1024.sites.remaining)
 # Filter for sites with total nitrogen "00600"
 # (Total nitrogen [nitrate + nitrite + ammonia + organic-N], water, unfiltered, mg/l)
 huc1024.sites.N <- huc1024.sites.all %>%
-  filter(parm_cd == "99133") %>%
+  filter(parm_cd == "00600") %>%
   rename_at(vars(-(1:6)), ~ paste(., sep = "_",'N'))
 # Last line appends "_N" to all column names, except for the first 6, because we need to join by the
 # first 6 cols later.
@@ -49,7 +49,7 @@ huc1024.sites.DNP <- huc1024.sites.D %>%
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
   inner_join(., huc1024.sites.P,
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
-  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
+  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50, data_type_cd_D=="dv")
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
 # them for different HUC4 region.
 View(huc1024.sites.DNP)
@@ -57,6 +57,8 @@ View(huc1024.sites.DNP)
 # Record site nos. of selected ones
 huc1024.site.no <- unique(huc1024.sites.DNP$site_no)
 huc1024.site.no #6 sites
+
+#best sites with the most overall data: 06818000 and 06810000
 
 
 #sites: 	06808500 and 06817000 have high freq uv for N; do they also for D?
@@ -66,7 +68,7 @@ huc1024.sites.Duv <- huc1024.sites.all %>%
   rename_at(vars(-(1:6)), ~ paste(., sep = "_",'D'))
 #Yes, the two sites that have high freq N also have high freq D!
 
-#---- HUC1024 end ----
+#---- HUC1024 end ----------------------------------
 
 
 ##### HUC 1025 #####
@@ -114,7 +116,7 @@ huc1025.sites.DNP <- huc1025.sites.D %>%
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
   inner_join(., huc1025.sites.P,
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
-  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
+  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50, data_type_cd_D=="dv")
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
 # them for different HUC4 region.
 View(huc1025.sites.DNP)
@@ -123,6 +125,11 @@ View(huc1025.sites.DNP)
 huc1025.site.no <- unique(huc1025.sites.DNP$site_no)
 huc1025.site.no #4 sites
 
+#best sites: 06844500 and 06856600 with most overall data
 
 #---- HUC1025 end ----
 
+
+bestsites1024.1025 <- c("06844500", "06856600", "06818000", "06810000")
+
+highfreq1024.1025 <-  c("06808500", "06817000")
