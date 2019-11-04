@@ -89,7 +89,7 @@ huc1025.sites.all <- rbind(huc1025.sites.first10,huc1025.sites.remaining)
 # Filter for sites with total nitrogen "00600"
 # (Total nitrogen [nitrate + nitrite + ammonia + organic-N], water, unfiltered, mg/l)
 huc1025.sites.N <- huc1025.sites.all %>%
-  filter(parm_cd == "00600") %>%
+  filter(parm_cd == "00630") %>%
   rename_at(vars(-(1:6)), ~ paste(., sep = "_",'N'))
 # Last line appends "_N" to all column names, except for the first 6, because we need to join by the
 # first 6 cols later.
