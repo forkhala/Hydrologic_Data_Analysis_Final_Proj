@@ -1,7 +1,7 @@
 
 
 
-########## Section I - USGS Site Selection ##########
+########## Section I - USGS Site Selection - Long Term ##########
 
 # Packages required for this section
 library(dataRetrieval)
@@ -47,15 +47,20 @@ huc1021.sites.DNP <- huc1021.sites.D %>%
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
   inner_join(., huc1021.sites.P,
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
-  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50) %>%
-  filter_at(vars(starts_with("end_date")), all_vars(. > "2010-01-01"))
+  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
   # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
   # them for different HUC4 region.
 View(huc1021.sites.DNP)
 
 # Record site nos. of selected ones
 huc1021.site.no <- unique(huc1021.sites.DNP$site_no)
-huc1021.site.no #4 sites
+huc1021.site.no
+
+# Select best sites
+best1021.site <- huc1021.sites.DNP %>% 
+  filter_at(vars(starts_with("end_date")), all_vars(. > "2010-01-01"))
+View(best1021.site)
+best1021.site.no <- c("06775900", "06794000")
 
 #---- HUC1021 end ----
 
@@ -108,6 +113,9 @@ View(huc1026.sites.DNP)
 huc1026.site.no <- unique(huc1026.sites.DNP$site_no)
 huc1026.site.no
 
+# Select best site
+best1026.site.no <- c("06877600", "06874000")
+
 #---- 1026 end ----
 
 ##### 1027 #####
@@ -155,4 +163,10 @@ View(huc1027.sites.DNP)
 huc1027.site.no <- unique(huc1027.sites.DNP$site_no)
 huc1027.site.no
 
+# Select best sites
+best1027.site <- huc1027.sites.DNP %>%
+  filter_at(vars(starts_with("end_date")), all_vars(. > "2010-01-01"))
+View(best1027.site)
+
+best1027.site.no <- c("06892350", "06887500")
 #---- 1027 end ----
