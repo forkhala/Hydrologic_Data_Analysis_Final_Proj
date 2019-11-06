@@ -125,3 +125,5 @@ huc1027.site.no <- unique(huc1027.sites.DN$site_no)
 huc1027.site.no # "06892350" "06892513"
 
 #---- 1027 end ----
+
+highfreq.1027 <- c("06892350", "06892513")
