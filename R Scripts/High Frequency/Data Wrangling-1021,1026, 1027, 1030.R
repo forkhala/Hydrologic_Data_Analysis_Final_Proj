@@ -126,4 +126,49 @@ huc1027.site.no # "06892350" "06892513"
 
 #---- 1027 end ----
 
-highfreq.1027 <- c("06892350", "06892513")
+##### HUC 1030 #####
+# Generate a series of 8-digit HUC no
+huc1030all.site.no <- c(seq(from = 10300101, to = 10300104, by = 1), "10300200")
+
+# Get all sites within 1030
+huc1030.sites <- whatNWISdata(huc = huc1030all.site.no, service = "uv") %>%
+  select(site_no, station_nm, huc_cd, site_tp_cd, dec_lat_va, dec_long_va,
+         parm_cd, data_type_cd, stat_cd, srs_id, begin_date, end_date, count_nu)
+# I picked and rearranged columns I think relevant to our project; we may change it if we want.
+
+# Filter for sites with total nitrogen "99133"
+# (Nitrate plus nitrite, water, in situ, milligrams per liter as nitrogen)
+huc1030.sites.N <- huc1030.sites %>%
+  filter(parm_cd == "99133") %>%
+  rename_at(vars(-(1:6)), ~ paste(., sep = "_",'N'))
+# Last line appends "_N" to all column names, except for the first 6, because we need to join by the
+# first 6 cols later.
+
+# Sites with discharge "00060"
+# (Discharge, cubic feet per second) there is also discharge in metric unit, but few sites have it.
+huc1030.sites.D <- huc1030.sites %>%
+  filter(parm_cd == "00060")%>%
+  rename_at(vars(-(1:6)), ~ paste(., sep = "_",'D'))
+
+# Select and join sites with all N, P, Discharge data present. Dataframes are joined by first 6 columns
+# so that duplicates of these basic info on sites will not be created during joining.
+
+# (I used inner_join because we want to "return all rows from x where there are matching values 
+# in y" (the help page). We can discuss which join function to be used during meeting.)
+huc1030.sites.DN <- huc1030.sites.D %>%
+  inner_join(., huc1030.sites.N, 
+             by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))
+# count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
+# them for different HUC4 region.
+View(huc1030.sites.DN)
+
+# Record site nos. of selected ones
+huc1030.site.no <- unique(huc1030.sites.DN$site_no)
+huc1030.site.no # "06934500"
+
+#---- HUC1030 end ----
+
+##### Summary of sites selected for high frequency (uv) in 1021, 1026, 1027, 1030 #####
+
+highfreq.1027.1030 <- c("06892350", "06892513", "06934500")
+# two sites in 1027, one in 1030; in the order of 1027, 1030; none in 1021, 1026

@@ -123,7 +123,7 @@ best1026.site.no <- c("06877600", "06874000")
 huc1027all.site.no1 <- seq(from = 10270101, to = 10270104, by = 1)
 huc1027all.site.no2 <- seq(from = 10270201, to = 10270207, by = 1)
 
-# Get all sites within 1021
+# Get all sites within 1027
 huc1027.sites1 <- whatNWISdata(huc = huc1027all.site.no1) %>%
   select(site_no, station_nm, huc_cd, site_tp_cd, dec_lat_va, dec_long_va,
          parm_cd, data_type_cd, stat_cd, srs_id, begin_date, end_date, count_nu)
@@ -171,4 +171,55 @@ View(best1027.site)
 best1027.site.no <- c("06892350", "06887500")
 #---- 1027 end ----
 
-bestsites1021.1026.1027 <- c("06775900", "06794000", "06877600", "06874000", "06892350", "06887500")
+##### HUC 1030 #####
+# Generate a series of 8-digit HUC no
+huc1030all.site.no <- c(seq(from = 10300101, to = 10300104, by = 1), "10300200")
+
+# Get all sites within 1030
+huc1030.sites <- whatNWISdata(huc = huc1030all.site.no) %>%
+  select(site_no, station_nm, huc_cd, site_tp_cd, dec_lat_va, dec_long_va,
+         parm_cd, data_type_cd, stat_cd, srs_id, begin_date, end_date, count_nu)
+
+# Filter for sites with total nitrogen "00600"
+# (Total nitrogen [nitrate + nitrite + ammonia + organic-N], water, unfiltered, mg/l)
+huc1030.sites.N <- huc1030.sites %>%
+  filter(parm_cd == "00600") %>%
+  rename_at(vars(-(1:6)), ~ paste(., sep = "_",'N'))
+
+# Sites with total phosphorus "00665"
+# (Phosphorus, water, unfiltered, mg/l as phosphorus)
+huc1030.sites.P <- huc1030.sites %>%
+  filter(parm_cd == "00665") %>%
+  rename_at(vars(-(1:6)), ~ paste(., sep = "_",'P'))
+
+# Sites with discharge "00060"
+# (Discharge, cubic feet per second) there is also discharge in metric unit, but few sites have it.
+huc1030.sites.D <- huc1030.sites %>%
+  filter(parm_cd == "00060")%>%
+  rename_at(vars(-(1:6)), ~ paste(., sep = "_",'D'))
+
+# Select and join sites with all N, P, Discharge data present. Dataframes are joined by first 6 columns
+# so that duplicates of these basic info on sites will not be created during joining.
+huc1030.sites.DNP <- huc1030.sites.D %>%
+  inner_join(., huc1030.sites.N, 
+             by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
+  inner_join(., huc1030.sites.P,
+             by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
+  filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
+View(huc1030.sites.DNP)
+
+# Record site nos. of selected ones
+huc1030.site.no <- unique(huc1030.sites.DNP$site_no)
+huc1030.site.no
+
+# Select best sites
+best1030.site <- huc1030.sites.DNP %>% 
+  filter_at(vars(starts_with("end_date")), all_vars(. > "2019-01-01"))
+View(best1030.site)
+best1030.site.no <- c("06934500", "06894000")
+
+#---- HUC1030 end ----
+
+bestsites1021.1026.1027.1030 <- 
+  c("06775900", "06794000", "06877600", "06874000", "06892350", "06887500", "06934500", "06894000")
+# in the order of 1021, 1026, 1027, 1030
