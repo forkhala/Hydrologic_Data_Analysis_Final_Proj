@@ -1,6 +1,3 @@
-
-
-
 ########## Section I - USGS Site Selection ##########
 
 # Packages required for this section
@@ -56,7 +53,13 @@ View(huc1020.sites.DNP)
 
 # Record site nos. of selected ones
 huc1020.site.no <- unique(huc1020.sites.DNP$site_no)
-huc1020.site.no #4 sites
+huc1020.site.no #13 sites
+
+# Select best sites
+best1020.site <- huc1020.sites.DNP %>% 
+  filter_at(vars(starts_with("end_date")), all_vars(. > "2010-01-01"))
+View(best1020.site)
+best1020.site.no <- c("06768000", "06805500")
 
 #---- HUC1020 end ----
 
@@ -109,6 +112,12 @@ View(huc1021.sites.DNP)
 huc1021.site.no <- unique(huc1021.sites.DNP$site_no)
 huc1021.site.no #4 sites
 
+# Select best sites
+best1021.site <- huc1021.sites.DNP %>% 
+  filter_at(vars(starts_with("end_date")), all_vars(. > "2010-01-01"))
+View(best1021.site)
+best1021.site.no <- c("06775900", "06794000")
+
 #---- HUC1021 end ----
 
 ##### HUC 1022 #####
@@ -158,7 +167,13 @@ View(huc1022.sites.DNP)
 
 # Record site nos. of selected ones
 huc1022.site.no <- unique(huc1022.sites.DNP$site_no)
-huc1022.site.no #4 sites
+huc1022.site.no #6 sites
+
+# Select best sites
+best1022.site <- huc1022.sites.DNP %>% 
+  filter_at(vars(starts_with("end_date")), all_vars(. > "2010-01-01"))
+View(best1022.site)
+best1022.site.no <- c("06800000", "06800500")
 
 #---- HUC1022 end ----
 
@@ -211,6 +226,12 @@ View(huc1023.sites.DNP)
 huc1023.site.no <- unique(huc1023.sites.DNP$site_no)
 huc1023.site.no #4 sites
 
+# Select best sites
+best1023.site <- huc1023.sites.DNP %>% 
+  filter_at(vars(starts_with("end_date")), all_vars(. > "2010-01-01"))
+View(best1023.site)
+best1023.site.no <- c("06609500", "06610000")
+
 #---- HUC1023 end ----
 
-
+bestsites1020.1023 <- c("06768000", "06805500", "06775900", "06794000", "06800000", "06800500", "06609500", "06610000")
