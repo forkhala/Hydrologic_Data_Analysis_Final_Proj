@@ -36,7 +36,21 @@ huc1020.sites.D <- huc1020.sites %>%
   filter(parm_cd == "00060")%>%
   rename_at(vars(-(1:6)), ~ paste(., sep = "_",'D'))
 
-# Select and join sites with all N, P, Discharge data present. Dataframes are joined by first 6 columns
+# Filter for sites with pH "00400"
+huc1020.sites.pH <- huc1020.sites %>%
+  filter(parm_cd == "00400") %>%
+  rename_at(vars(-(1:6)), ~ paste(., sep = "_",'pH'))
+# Last line appends "_pH" to all column names, except for the first 6, because we need to join by the
+# first 6 cols later.
+
+# Filter for sites with total coliform "31501"
+huc1020.sites.tc <- huc1020.sites %>%
+  filter(parm_cd == "31501") %>%
+  rename_at(vars(-(1:6)), ~ paste(., sep = "_",'tc'))
+# Last line appends "_tc" to all column names, except for the first 6, because we need to join by the
+# first 6 cols later.
+
+# Select and join sites with all N, P, Discharge data, pH present. Dataframes are joined by first 6 columns
 # so that duplicates of these basic info on sites will not be created during joining.
 
 # (I used inner_join because we want to "return all rows from x where there are matching values 
@@ -45,6 +59,10 @@ huc1020.sites.DNP <- huc1020.sites.D %>%
   inner_join(., huc1020.sites.N, 
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
   inner_join(., huc1020.sites.P,
+             by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
+  inner_join(., huc1020.sites.pH,
+             by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
+  inner_join(., huc1020.sites.tc,
              by = c("site_no","station_nm","huc_cd","site_tp_cd","dec_lat_va","dec_long_va"))%>%
   filter(count_nu_D > 100 & count_nu_N > 50 & count_nu_P > 50)
 # count_nu for count number of that variable; I arbitrarily chose these criteria. We can play with
