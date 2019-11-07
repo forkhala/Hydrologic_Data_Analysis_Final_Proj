@@ -1,5 +1,7 @@
 pacman::p_load(tidyverse, dataRetrieval, sf, maps)
 
+##### Map sites selected, water bodies, and watersheds in the study region ####
+
 bestsites1021.1026.1027.1030 <- 
   c("06775900", "06794000", "06877600", "06874000", "06892350", 
     "06887500", "06934500", "06894000")
@@ -57,7 +59,49 @@ best.sites.map <- ggplot() +
           alpha = 0.5, size = 2)
 print(best.sites.map)
 
+###### Using Watershed (HUC4) Boundary #####
+# Still need run most codes above, except waterfeature ones (starting around line 44)
+# and those producing graphs
 
+# import watershed shapefile
+AllHUC4 <- st_read("./Data/Shapefiles/WBD_10_HU2_Shape/WBDHU4.dbf")
+HUC4.SE <- AllHUC4 %>%
+  filter(HUC4 %in% seq(from = 1020, to = 1030, by = 1))
+HUC4.NW <- AllHUC4 %>%
+  filter(HUC4 %in% seq(from = 1000, to = 1019, by = 1))
+
+# import stream geometric file; this may take some time
+st_layers("./Data/Shapefiles/Small_Scale_Map/hydr48m010g.gdb")
+streams <- st_read("./Data/Shapefiles/Small_Scale_Map/hydr48m010g.gdb", layer = "Stream")%>%
+  st_zm(drop = T, what = "ZM") # drop z/m dimension, and only keep x, y dimensions for 2D figures
+
+streams.HU10 <- streams %>%
+  filter(Region == 10)
+
+# all states related to missouri region
+allstates.map <- states %>% 
+  filter(ID %in% c("montana","north dakota","south dakota","nebraska","iowa","kansas","missouri",
+                   "wyoming","colorado", "minnesota", "idaho"))
+allstates.map <- st_set_crs(allstates.map, proj) #set projection
+
+sitemap <- ggplot() +
+  geom_sf(data = allstates.map, fill = "white", size = 0.4) +
+  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.4) +
+  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.4) +
+  geom_sf(data = streams.HU10, color = "lightblue", alpha = 0.3, size = 0.25) +
+  scale_fill_brewer(palette = "Paired") +
+  geom_sf(data = best.sites.spatial, fill="magenta", color="magenta", 
+          alpha = 0.5, size = 2) +
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
+        legend.title = element_text(size = 8.5)) + 
+  labs(fill = "Watershed Name")
+
+# Caution this takes time to display, and even longer than ggsave()
+print(sitemap)
+# save file
+ggsave("site_map.jpg", sitemap, dpi = 300, width = 9, height = 9, units = "in")
+
+#---- site mapping ends ----
 
 
 #look for pH
