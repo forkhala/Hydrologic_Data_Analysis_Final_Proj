@@ -38,7 +38,7 @@ bestsites.DNP <- full_join(bestsites.discharge, bestsites.NP,
                        by = c("site_no", "agency_cd", "Date"))
 
 #converting bestsites.DNP file to .csv
-write.csv(bestsites.DNP, "./Data/Raw/bestsites.DNP")
+write.csv(bestsites.DNP, "./Data/Raw/bestsites.DNP.csv")
 
 ## ---High Frequency Data----
 
@@ -62,4 +62,4 @@ highfreqsites.DN <- readNWISqw(siteNumbers = c(highfreqsites),
                                startDate = "",
                                endDate = "")
 #writing .csv file
-write.csv(highfreqsites.DN, "./Data/Raw/highfreqsitesDN")
+write.csv(highfreqsites.DN, "./Data/Raw/highfreqsitesDN.csv")
