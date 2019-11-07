@@ -111,10 +111,9 @@ huc1028.sites.N.uv <- huc1028.sites %>%
 huc1028.sites.discharge.uv <- huc1028.sites.DNP %>%
   filter(data_type_cd_D == "uv") #06902000
 
-#reading in uv N information for sites 06902000 and 06905500
-huc1028.sites.uv <- readNWISqw(siteNumbers = c("06902000",
-                                               "06905500"),
-                               parameterCd = c("00060", 
+#reading in uv N information for sites 06902000 
+huc1028.sites.uv <- readNWISqw(siteNumbers = c("06902000"),
+                               parameterCd = c("00060",
                                                "00630"), #discharge, TN
                                startDate = "",
                                endDate = "")
@@ -232,17 +231,6 @@ huc1029.sites.N.uv <- huc1029.all.sites %>%
   filter(parm_cd == "99133") %>% 
   rename_at(vars(-(1:6)), ~ paste(., sep = "_",'N')) #no sites with this parameter code
 
-#filtering huc1029 sites for just discharge uv values
-huc1029.sites.discharge.uv <- huc1029.sites.DNP %>%
-  filter(data_type_cd_D == "uv")
-
-#reading in uv discharge information for sites 06919500 and 06923250
-huc1029.sites.uv <- readNWISuv(siteNumbers = c("06919500",
-                                                "06923250"),
-                                parameterCd = c("00060"), #discharge
-                                startDate = "",
-                                endDate = "")
-names(huc1029.sites.uv)[4:5] <- c("Discharge", "Approval Code")
 
 # ---- HUC 1029 Chosen Sites end ----
 
