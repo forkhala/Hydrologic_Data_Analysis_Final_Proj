@@ -1,6 +1,7 @@
 getwd()
 library(dataRetrieval)
 library(tidyverse)
+#landuse data in LAGOS dataset 
 
 ##### HUC 1028 #####
 #getting data for huc 1028
@@ -61,7 +62,9 @@ View(huc1028.sites.DNP)
 huc1028.site.no <- unique(huc1028.sites.DNP$site_no)
 huc1028.site.no #11 sites
 
-#---- HUC1028 end ----
+#---- HUC1028 end ---
+
+#----HUC1028 Chosen Sites ----
 
 #looking at only daily values
 huc1028.sites.dv <- huc1028.sites.DNP %>%
@@ -90,9 +93,15 @@ huc1028.sites.NP <- readNWISqw(siteNumbers = c("06902000",
                                startDate = "",
                                endDate = "")
 
-#join N&P dataset with discharge dataset? 
+names(huc1028.sites.NP)[3] <- c("Date")
 
-##START HERE!
+#joinining datatables for water quality and discharge data
+huc1028.best.sites <- full_join(huc1028.sites.discharge, huc1028.sites.NP,
+                              by = c("site_no", "agency_cd", "Date"))
+
+#renaming discharge columns
+names(huc1028.best.sites)[4:5] <- c("Discharge", "Approval Code")
+
 #looking for high frequency nitrogen data in huc1028 sites
 huc1028.sites.N.uv <- huc1028.sites %>%
   filter(parm_cd == "99133") %>% 
@@ -100,7 +109,7 @@ huc1028.sites.N.uv <- huc1028.sites %>%
 
 #filtering huc1028 sites for just discharge uv values
 huc1028.sites.discharge.uv <- huc1028.sites.DNP %>%
-  filter(data_type_cd_D == "uv") #06902000 & 06905500 for uv data
+  filter(data_type_cd_D == "uv") #06902000
 
 #reading in uv N information for sites 06902000 and 06905500
 huc1028.sites.uv <- readNWISqw(siteNumbers = c("06902000",
@@ -111,7 +120,7 @@ huc1028.sites.uv <- readNWISqw(siteNumbers = c("06902000",
                                endDate = "")
 #write.csv("/Data/Raw/)
 
-## ---- HUC 1028 Chosen Sites End ----
+## ---- HUC 1028 Chosen Sites End ---
 
 ##### HUC 1029 #####
 
@@ -239,5 +248,5 @@ names(huc1029.sites.uv)[4:5] <- c("Discharge", "Approval Code")
 
 bestsites1028.1029 <- c("06902000", "06905500", "06921070", "06926510")
 
-highfreq1028.1029 <- c("06902000", "06905500", "06919500", "06923250") #no uv N data in 1029 and only one in 1028
+highfreq1028.1029 <- c("06902000") #no uv N data in 1029 and only one in 1028, so only one high frequency data value
 
