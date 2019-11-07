@@ -11,8 +11,10 @@ bestsites1028.1029 <- c("06902000", "06905500", "06921070", "06926510")
 best.sites <- c(bestsites1020.1023, bestsites1021.1026.1027.1030, 
                 bestsites1024.1025, bestsites1028.1029)
 best.sites <- unique(best.sites)
+write.csv(best.sites, file="./Data/Raw/bestsiteslists.csv")
 
-best.sites.info <- whatNWISdata(sites=best.sites) 
+best.sites.info <- whatNWISdata(sites=best.sites)
+
 
 best.sites.lat.long <- best.sites.info %>%
   group_by(site_no) %>%
@@ -50,7 +52,20 @@ waterfeatures <- st_set_crs(waterfeatures, 4269)
 
 best.sites.map <- ggplot() +
   geom_sf(data = states.map, fill = "white") +
-  geom_sf(data = waterfeatures, size = 0.4) +
+  geom_sf(data = waterfeatures, size = 0.4, color="lightgrey") +
   geom_sf(data = best.sites.spatial, fill="magenta", color="magenta", 
           alpha = 0.5, size = 2)
 print(best.sites.map)
+
+
+
+
+#look for pH
+best.sites.pH <- best.sites.info %>%
+  filter(parm_cd=="00400")
+unique(best.sites.pH$site_no)
+
+#look for total coliform
+best.sites.tc <- best.sites.info %>%
+  filter(parm_cd=="31501")
+unique(best.sites.tc$site_no)
