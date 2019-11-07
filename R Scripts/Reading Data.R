@@ -24,7 +24,9 @@ bestsites.discharge <- readNWISdv(siteNumbers = c(best.sites),
                                        endDate = "")
 names(bestsites.discharge)[4:5] <- c("Discharge", "Approval Code")
 
-#Nitrogen and Phosphorous for best sites
+bestsites.discharge$parm_cd <- "00060"
+
+#Nitrogen and Phosphorous for best sites in each
 bestsites.NP <- readNWISqw(siteNumbers = c(best.sites),
                                 parameterCd = c("00600", "00665"), #TN, TP
                                 startDate = "",
@@ -35,10 +37,14 @@ names(bestsites.NP)[3] <- c("Date")
 
 #joinining datatables for water quality and discharge data
 bestsites.DNP <- full_join(bestsites.discharge, bestsites.NP,
-                       by = c("site_no", "agency_cd", "Date"))
+                       by = c("site_no", "agency_cd", "Date", "parm_cd"))
 
 #converting bestsites.DNP file to .csv
 write.csv(bestsites.DNP, "./Data/Raw/bestsites.DNP.csv")
+
+#adding discharge parm code to the dataframe
+levels(bestsites.DNP$parm_cd == 'NA') <- "00060"
+  bestsites.DNP$parm_cd
 
 ## ---High Frequency Data----
 
