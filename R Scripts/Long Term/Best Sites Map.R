@@ -70,9 +70,9 @@ HUC4.SE <- AllHUC4 %>%
 HUC4.NW <- AllHUC4 %>%
   filter(HUC4 %in% seq(from = 1000, to = 1019, by = 1))
 
-# import stream geometric file; this may take some time
-st_layers("./Data/Shapefiles/Small_Scale_Map/hydr48m010g.gdb")
-streams <- st_read("./Data/Shapefiles/Small_Scale_Map/hydr48m010g.gdb", layer = "Stream")%>%
+# import stream geometric file (NOTE shapefiles not included in repos)
+st_layers("../Untracked Proj Data/Small_Scale_Map/hydr48m010g.gdb")
+streams <- st_read("../Untracked Proj Data/Small_Scale_Map/hydr48m010g.gdb", layer = "Stream")%>%
   st_zm(drop = T, what = "ZM") # drop z/m dimension, and only keep x, y dimensions for 2D figures
 
 streams.HU10 <- streams %>%
