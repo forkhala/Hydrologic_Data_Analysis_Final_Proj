@@ -1,5 +1,5 @@
 pacman::p_load(tidyverse, dataRetrieval, sf, maps)
-
+theme_set(theme_classic())
 ##### Map sites selected, water bodies, and watersheds in the study region ####
 
 bestsites1021.1026.1027.1030 <- 
@@ -78,6 +78,9 @@ streams <- st_read("../Untracked Proj Data/Small_Scale_Map/hydr48m010g.gdb", lay
 streams.HU10 <- streams %>%
   filter(Region == 10)
 
+missouri <- streams.HU10 %>%
+  filter(Name == "Missouri River")
+
 # all states related to missouri region
 allstates.map <- states %>% 
   filter(ID %in% c("montana","north dakota","south dakota","nebraska","iowa","kansas","missouri",
@@ -86,18 +89,19 @@ allstates.map <- st_set_crs(allstates.map, proj) #set projection
 
 sitemap <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
-  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.4) +
-  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.4) +
-  geom_sf(data = streams.HU10, color = "lightblue", alpha = 0.3, size = 0.25) +
+  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.5) +
+  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.5) +
+  geom_sf(data = streams.HU10, color = "dodgerblue", alpha = 0.5, size = 0.10) +
+  geom_sf(data = missouri, color = "blue", alpha = 0.8, size = 0.5) +
   scale_fill_brewer(palette = "Paired") +
-  geom_sf(data = best.sites.spatial, fill="magenta", color="magenta", 
-          alpha = 0.5, size = 2) +
+  geom_sf(data = best.sites.spatial, fill="red", color="red", 
+          alpha = 0.8, size = 1) +
   theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
         legend.title = element_text(size = 8.5)) + 
   labs(fill = "Watershed Name")
 
 # Caution this takes time to display, and even longer than ggsave()
-print(sitemap)
+# print(sitemap)
 # save file
 ggsave("site_map.jpg", sitemap, dpi = 300, width = 9, height = 9, units = "in")
 
