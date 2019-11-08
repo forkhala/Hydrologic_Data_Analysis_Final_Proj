@@ -13,7 +13,14 @@ bestsites1028.1029 <- c("06902000", "06905500", "06921070", "06926510")
 best.sites <- c(bestsites1020.1023, bestsites1021.1026.1027.1030, 
                 bestsites1024.1025, bestsites1028.1029)
 best.sites <- unique(best.sites)
-write.csv(best.sites, file="./Data/Raw/bestsiteslists.csv")
+
+site.list <- whatNWISdata(siteNumbers = best.sites, parameterCd = "00060") %>%
+  select(site_no, station_nm, huc_cd) %>%
+  group_by(site_no) %>%
+  summarise(site_nm = first(station_nm),
+            huc_cd = first(huc_cd))
+
+write.csv(site.list, file="./Data/Processed/bestsiteslists.csv")
 
 best.sites.info <- whatNWISdata(sites=best.sites)
 
