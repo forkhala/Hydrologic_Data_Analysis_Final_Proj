@@ -105,13 +105,13 @@ allstates.map <- st_set_crs(allstates.map, proj) #set projection
 
 sitemap <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
-  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.5) +
-  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.5) +
-  geom_sf(data = streams.HU10, color = "dodgerblue", alpha = 0.5, size = 0.10) +
-  geom_sf(data = missouri, color = "blue", alpha = 0.8, size = 0.5) +
+  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.5, size = 0.45) +
+  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.5, size = 0.45) +
+  geom_sf(data = streams.HU10, color = "lightskyblue", alpha = 0.25, size = 0.05) +
+  geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.8) +
   scale_fill_brewer(palette = "Paired") +
-  geom_sf(data = best.sites.spatial, fill="red", color="red", 
-          alpha = 0.8, size = 1) +
+  geom_sf(data = best.sites.spatial, fill="red2", color="red2", 
+          alpha = 0.7, size = 1.1) +
   theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
         legend.title = element_text(size = 8.5)) + 
   labs(fill = "Watershed Name")
