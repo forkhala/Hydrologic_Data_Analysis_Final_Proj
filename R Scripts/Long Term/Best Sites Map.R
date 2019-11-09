@@ -1,7 +1,7 @@
 pacman::p_load(tidyverse, dataRetrieval, sf, maps)
 theme_set(theme_classic())
 ##### Map sites selected, water bodies, and watersheds in the study region ####
-
+# Gathering site nos from scripts
 bestsites1021.1026.1027.1030 <- 
   c("06775900", "06794000", "06877600", "06874000", "06892350", 
     "06887500", "06934500", "06894000")
@@ -13,14 +13,23 @@ bestsites1028.1029 <- c("06902000", "06905500", "06921070", "06926510")
 best.sites <- c(bestsites1020.1023, bestsites1021.1026.1027.1030, 
                 bestsites1024.1025, bestsites1028.1029)
 best.sites <- unique(best.sites)
-
+# Generate a list of selected sites with info on huc and names
 site.list <- whatNWISdata(siteNumbers = best.sites, parameterCd = "00060") %>%
   select(site_no, station_nm, huc_cd) %>%
   group_by(site_no) %>%
   summarise(site_nm = first(station_nm),
-            huc_cd = first(huc_cd))
+            huc_cd = first(huc_cd)) %>%
+  arrange(huc_cd) %>%
+  mutate(huc4 = substr(huc_cd, start = 1, stop = 4))
 
+huc4_nm <- rep(c("Platte", "Loup", "Elkhorn", "Missouri-Little Sioux", "Missouri-Nishnabotna",
+                 "Republican", "Smoky Hill", "Kansas", "Chariton-Grand", "Gasconade-Osage",
+                 "Lower Missouri"), each = 2)
+site.list <- cbind(site.list, huc4_nm)
+# save the list
 write.csv(site.list, file="./Data/Processed/bestsiteslists.csv")
+
+
 
 best.sites.info <- whatNWISdata(sites=best.sites)
 
