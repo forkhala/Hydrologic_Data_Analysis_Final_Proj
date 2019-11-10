@@ -1,0 +1,55 @@
+---
+title: "Flooding and High Freq RB notes"
+author: "Rachel Bash"
+date: "11/10/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Sites
+
+There were 7 sites in our region of interest that had high freq N data, and only 4 sites had high freq N data during the floods of 2019. The sites looked at in depth are:
+
+- West Nishnabotna River in Randolph, IA
+- Nodaway River at Clarinda, IA
+- Kansas River in Desoto, KS
+- Missouri River at Hermann, MO
+
+Missouri River is the biggest and Clarinda the smallest, during average stream flow.
+
+## C-Q plots and hysteresis plots
+
+There was a big flood in March of 2019 due to a "bomb cyclone" https://www.kansascity.com/news/state/missouri/article228237519.html
+has good picture of where levees broke. 
+
+However, instantaneous N values stopped recording during peak of storm, so it was hard to tell what was happening during the storm for N. Good hysteresis plots weren't able to be produced because of this.
+
+**show dygraph of one of the sites with Q and C over time?
+
+## Baseflow
+
+Baseflow and quickflow were separated for the 4 rivers during the year 2019 and it was clear that most rivers have a majority of their water coming from baseflow. 
+
+
+- Hermann had baseflow at 98.9%
+- Clarinda had 82.5%
+- Desoto had 96.2%
+- Randolph had 94.9% 
+These kind of match with the size of the rivers.
+
+Randolph was examined by just looking at the baseflow separation for the Month of March to see if more would be coming from quick flow if just looking at the one month with the big flood. Total baseflow export was 91.1%, which is lower, but not that much lower than the baseflow separation for the whole 2019 year.
+
+## Hydrologic Flashiness
+All had extremely low values for hydrologic flashiness, probably because of the understanding that the baseflow contributes to most of the discharge in the rivers.
+Clarinda had highest flashiness index, while Hermann had lowest.
+
+Desoto really didn't experience the flood in March 2019, but Randolph did.
+
+
+## 2018 October flood
+Because I was disappointed in my lack of results, I chose to also look at the 2018 flood in October. This wasn't as big as the one in March.
+
+There were clearer hysteresis plots that were able to be produced. Clarinda, Randolph, and Shawnee had counterclockwise, diluting storms with negative slope. Meaning the quickflow had low concentration of Nitrate. 
