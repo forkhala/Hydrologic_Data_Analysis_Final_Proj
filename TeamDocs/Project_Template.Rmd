@@ -5,10 +5,10 @@ output:
     fig_caption: yes
     number_sections: yes
 geometry: margin=2.54cm
-title: Experiment Title
+title: Examining the Hydrologic Properties of the Missouri River Basin
 subtitle: Web address for GitHub repository
-author: Your Name
-abstract: "Experimental overview. This section should be no longer than 250 words."
+author: Rachel Bash, Keqi He, Caroline Watson, and Haoyu Zhang
+abstract: "The Missouri River provides critical water resources that drives the region's agriculture, industry, and ecosystems. This is a region that experiences surface water variability, characterized by damaging floods and severe droughts, greatly impacting the agricultural production of the area. This project highlights the changes in streamflow and water quality over time, and identifies key characteristics of the river...."
 fontsize: 12pt
 mainfont: Times New Roman
 ---
