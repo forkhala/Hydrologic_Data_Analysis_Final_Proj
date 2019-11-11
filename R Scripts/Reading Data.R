@@ -39,12 +39,13 @@ names(bestsites.NP)[3] <- c("Date")
 bestsites.DNP <- full_join(bestsites.discharge, bestsites.NP,
                        by = c("site_no", "agency_cd", "Date", "parm_cd"))
 
+bestsites.DNP <- bestsites.DNP %>%
+  mutate(parameter = case_when(parm_cd == "00060" ~ "Discharge",
+                               parm_cd == "00600" ~ "Total Nitrogen",
+                               parm_cd == "00665" ~ "Total Phosphorus"))
+
 #converting bestsites.DNP file to .csv
 write.csv(bestsites.DNP, "./Data/Raw/bestsites.DNP.csv")
-
-#adding discharge parm code to the dataframe
-levels(bestsites.DNP$parm_cd == 'NA') <- "00060"
-  bestsites.DNP$parm_cd
 
 ## ---High Frequency Data----
 
