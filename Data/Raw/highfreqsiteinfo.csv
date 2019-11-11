@@ -1,0 +1,8 @@
+"","agency_cd","site_no","station_nm","site_tp_cd","dec_lat_va","dec_long_va","coord_acy_cd","dec_coord_datum_cd","alt_va","alt_acy_va","alt_datum_cd","huc_cd","data_type_cd","parm_cd","stat_cd","ts_id","loc_web_ds","medium_grp_cd","parm_grp_cd","srs_id","access_cd","begin_date","end_date","count_nu"
+"1","USGS","06604440","Little Sioux River at 300th St near Spencer, IA","ST",43.21277778,-95.2391667,"1","NAD83"," 1319.11",".01","NAVD88","10230003","uv","99133",NA,44529,NA,"wat",NA,701177,0,2012-06-01,2015-10-01,1217
+"2","USGS","06808500","West Nishnabotna River at Randolph, IA","ST",40.8730547,-95.5802746,"U","NAD83"," 932.99",".01","NGVD29","10240002","uv","99133",NA,44654,NA,"wat",NA,701177,0,2016-03-02,2019-11-09,1347
+"3","USGS","06817000","Nodaway River at Clarinda, IA","ST",40.74327778,-95.0141944,"S","NAD83"," 955.36",".01","NGVD29","10240009","uv","99133",NA,44719,NA,"wat",NA,701177,0,2012-05-30,2019-11-09,2719
+"4","USGS","06892350","KANSAS R AT DESOTO, KS","ST",38.9833375,-94.9646893,"M","NAD83"," 753.87","  1","NGVD29","10270104","uv","99133",NA,56913,NA,"wat",NA,701177,0,2013-06-09,2019-11-09,2344
+"5","USGS","06892513","MILL C AT JOHNSON DRIVE, SHAWNEE, KS","ST",39.02916667,-94.8172222,"R","NAD83"," 700.00"," 10","NAVD88","10270104","uv","99133",NA,56956,"[(2)]","wat",NA,701177,0,2015-01-01,2019-01-13,1473
+"6","USGS","06902000","Grand River near Sumner, MO","ST",39.64002778,-93.2736944,"5","NAD83"," 631.18",".05","NGVD29","10280103","uv","99133",NA,171087,NA,"wat",NA,701177,0,2017-06-28,2018-11-06,496
+"7","USGS","06934500","Missouri River at Hermann, MO","ST",38.70980556,-91.4385,"5","NAD83"," 481.50",".05","NAVD88","10300200","uv","99133",NA,77381,NA,"wat",NA,701177,0,2015-03-25,2019-11-09,1690

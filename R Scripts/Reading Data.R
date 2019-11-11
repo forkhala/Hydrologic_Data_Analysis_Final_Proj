@@ -63,10 +63,13 @@ highfreqsites <- c(highfreq1024.1025, highfreq1028.1029, highfreq1020.1023,
 highfreqsites <- unique(highfreqsites)
 
 #reading in data for high frequency N and D
-highfreqsites.DN <- readNWISqw(siteNumbers = c(highfreqsites),
-                               parameterCd = c("00060",
-                                               "00630"), #discharge, TN
-                               startDate = "",
-                               endDate = "")
+
+
+highfreqsiteinfo <- whatNWISdata(siteNumbers = highfreqsites)
+highfreqsiteinfo <- highfreqsiteinfo %>% filter(parm_cd =="99133" & data_type_cd=="uv")
+
 #writing .csv file
-write.csv(highfreqsites.DN, "./Data/Raw/highfreqsitesDN.csv")
+write.csv(highfreqsiteinfo, "./Data/Raw/highfreqsiteinfo.csv")
+
+
+

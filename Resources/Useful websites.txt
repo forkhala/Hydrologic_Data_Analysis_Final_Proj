@@ -4,6 +4,9 @@ https://waterdata.usgs.gov/nwis
 Water Quality Portal (used for site selection)
 https://www.waterqualitydata.us
 
+The National Map - Data Delivery (including the following one)
+https://viewer.nationalmap.gov/basic/
+
 Water Feature data download
 https://viewer.nationalmap.gov/basic/?basemap=b1&category=nhd&title=NHD%20View
 
