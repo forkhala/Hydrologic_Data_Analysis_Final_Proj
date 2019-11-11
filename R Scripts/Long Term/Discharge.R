@@ -7,8 +7,11 @@
 pacman::p_load(tidyverse, dataRetrieval, lubridate, cowplot, grid, gridExtra, ggpubr)
 theme_set(theme_classic())
 
-# Import site info
+# Import site info ####
 
+site.list <- read_csv("./Data/Processed/bestsiteslists.csv", col_types = cols(
+  X1 = "d", site_no = "c", site_nm = "c", huc_cd = "c", huc4 = "c", huc4_nm = "c"))
+site.nos <- site.list$site_no
 #----setup end ----
 
 ######## HU 1020 Platte ########

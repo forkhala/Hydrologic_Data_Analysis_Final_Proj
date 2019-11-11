@@ -107,7 +107,7 @@ sitemap <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.5, size = 0.45) +
   geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.5, size = 0.45) +
-  geom_sf(data = streams.HU10, color = "lightskyblue", alpha = 0.25, size = 0.05) +
+  geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.3, size = 0.05) +
   geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.8) +
   scale_fill_brewer(palette = "Paired") +
   geom_sf(data = best.sites.spatial, fill="red2", color="red2", 
