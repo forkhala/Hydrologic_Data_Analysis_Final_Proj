@@ -10,6 +10,7 @@ highfreqsiteinfo <- read.csv("./Data/Raw/highfreqsiteinfo.csv")
 #but only 4 have data during the time period of interest
 
 str(highfreqsiteinfo)
+summary(highfreqsiteinfo)
 highfreqsiteinfo$end_date <-  as.Date(highfreqsiteinfo$end_date)
 highfreqsiteinfo$begin_date <-  as.Date(highfreqsiteinfo$begin_date)
 
