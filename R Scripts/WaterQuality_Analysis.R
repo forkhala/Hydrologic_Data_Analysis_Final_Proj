@@ -47,6 +47,9 @@ names(bestsites.wq)[3] <- c("Date")
 bestsites.WQ <- full_join(bestsites.discharge, bestsites.wq,
                            by = c("site_no", "agency_cd", "Date", "parm_cd"))
 
+#saving best site waterquality data as a .csv
+write.csv(bestsites.WQ, "./Data/Raw/bestsites.WQ.csv")
+
 #structure of water quality dataframe
 waterquality.summary <- summary(bestsites.wq)
 
@@ -57,7 +60,6 @@ kable(waterquality.summary,
   kable_styling(latex_options = c("hold_position", "striped", 
                                   "scale_down")) %>% 
   kableExtra::landscape() 
-
 
 # ---Exploratory data analysis ----
 
