@@ -85,6 +85,20 @@
     \date{}
     \predate{}\postdate{}
   
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 
 \begin{document}
 \maketitle
@@ -146,6 +160,62 @@ table.\textgreater{}
 
 \textless{}C will do data table for water quality and daily values, R
 will do for high freq\textgreater{}
+
+\begin{landscape}\begin{table}[!h]
+
+\caption{\label{tab:unnamed-chunk-2}Summary of Daily Value Data at 22 sites in the
+      Missouri River Basin}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l}
+\hline
+  &       X & agency\_cd &    site\_no &         Date &   Discharge & Approval.Code &    parm\_cd &   sample\_tm & sample\_end\_dt & sample\_end\_tm & sample\_start\_time\_datum\_cd & tm\_datum\_rlbty\_cd &   coll\_ent\_cd & medium\_cd &     project\_cd & aqfr\_cd &  tu\_id & body\_part\_id &  hyd\_cond\_cd &  samp\_type\_cd &  hyd\_event\_cd &                              sample\_lab\_cm\_tx & remark\_cd &   result\_va &  val\_qual\_tx &    meth\_cd &  dqi\_cd &   rpt\_lev\_va &  rpt\_lev\_cd & lab\_std\_va & prep\_set\_no & prep\_dt &    anl\_set\_no &     anl\_dt &                                                                                                                               result\_lab\_cm\_tx &    anl\_ent\_cd &             startDateTime &            parameter\\
+\hline
+\rowcolor{gray!6}   & Min.   :     1 & USGS:658650 & Min.   :6609500 & 2009-10-20:    36 & Min.   :     0 & A      :618881 & Min.   : 60.00 & 11:00  :  1108 & Mode:logical & 14:15  :     8 & CDT :  8481 & K   :  5636 & USGS-WRD:  9272 & WS  : 13164 & NAWQA-SWS:   879 & Mode:logical & Mode:logical & Mode:logical & 9      :  5662 & 9      : 11792 & 9      : 11673 & tech samples                         :    90 & <   :   470 & Min.   :  0.0 & d      :   426 & ALGOR  :  4992 & A   :  6906 & Min.   :0.0 & DLDQC :   614 & Mode:logical & Mode:logical & Mode:logical & KJNT254A:    12 & Min.   :20010918 & The parameter 00665 was swapped from labcode 2333 to labcode 2759                                                                     :   160 & USGSNWQL:  2213 & 2018-05-08 10:30:00:     6 & Discharge       :645422\\
+\hline
+ & 1st Qu.:164663 & NA & 1st Qu.:6800000 & 2009-11-18:    36 & 1st Qu.:   154 & A e    : 21858 & 1st Qu.: 60.00 & 10:30  :   883 & NA's:658650 & 11:15  :     6 & CST :  4747 & T   :  7592 & USGS-NEL:  1051 & WSQ :    64 & 462900300:   689 & NA's:658650 & NA's:658650 & NA's:658650 & A      :  3373 & A      :   813 & Z      :   863 & tech sample                          :    75 & E   :    71 & 1st Qu.:  0.3 & oc     :   266 & KJ009  :  2579 & R   :  5574 & 1st Qu.:0.0 & LRL   :  1226 & NA's:658650 & NA's:658650 & NA's:658650 & KJNT135A:    11 & 1st Qu.:20070427 & The parameter 00665 was swapped from labcode 2333 to labcode 1984 because the result from labcode 2333 exceeded the calibration range.:    79 & NA's    :656437 & 1975-01-15 11:20:00:     4 & Total Nitrogen  :  6207\\
+\hline
+\rowcolor{gray!6}   & Median :329326 & NA & Median :6856600 & 1982-03-09:    35 & Median :   756 & P      :  4304 & Median : 60.00 & 10:00  :   831 & NA & 04:15  :     4 & NA's:645422 & NA's:645422 & USGSKSWC:   596 & NA's:645422 & 463106100:   649 & NA & NA & NA & 5      :  1397 & 7      :   515 & J      :   292 & tech sample;no sampling method given :    25 & NA's:658109 & Median :  0.7 & n      :    56 & CL084  :   701 & S   :   748 & Median :0.0 & LT-MDL:  1059 & NA & NA & NA & KJNT200A:    10 & Median :20120366 & The parameter 00665 was swapped from labcode 2333 to labcode 2759 because the result from labcode 2333 exceeded the calibration range.:    77 & NA & 1975-02-12 10:30:00:     4 & Total Phosphorus:  7021\\
+\hline
+ & Mean   :329326 & NA & Mean   :6828931 & 1980-08-12:    34 & Mean   : 10226 & P e    :   246 & Mean   : 71.54 & 12:00  :   750 & NA & 05:00  :     4 & NA & NA & USGS    :   517 & NA & 861100399:   542 & NA & NA & NA & 4      :  1235 & H      :    94 & 7      :   151 & tech samples;cross section from churn:    22 & NA & Mean   :  1.7 & doc    :    47 & CL021  :   609 & NA's:645422 & Mean   :0.0 & MRL   :    21 & NA & NA & NA & KJNT021A:     9 & Mean   :20111394 & Report level code updated Oct., Nov. 2015. Reference: NWQL TM 2015.02 (RLC: LT-MDL => DLDQC)                                          :    23 & NA & 1975-03-11 10:50:00:     4 & NA\\
+\hline
+\rowcolor{gray!6}   & 3rd Qu.:493988 & NA & 3rd Qu.:6892350 & 2017-07-25:    34 & 3rd Qu.:  4670 & P Ice  :    79 & 3rd Qu.: 60.00 & 11:30  :   747 & NA & 06:15  :     4 & NA & NA & USGSMOLS:   186 & NA & 463100300:   498 & NA & NA & NA & 8      :   692 & 5      :     8 & B      :   149 & BOTTLES OK                           :    18 & NA & 3rd Qu.:  2.2 & @d     :    11 & AKP01  :   411 & NA & 3rd Qu.:0.0 & NA's  :655730 & NA & NA & NA & KJNT023A:     9 & 3rd Qu.:20151101 & The holding time for the processing of this sample has been exceeded                                                                  :    12 & NA & 1975-07-22 10:00:00:     4 & NA\\
+\hline
+ & Max.   :658650 & NA & Max.   :6934500 & 1979-06-13:    33 & Max.   :739000 & (Other):    54 & Max.   :665.00 & (Other):  8903 & NA & (Other):    98 & NA & NA & (Other) :   188 & NA & (Other)  :  6154 & NA & NA & NA & (Other):   869 & (Other):     6 & (Other):   100 & (Other)                              :  3975 & NA & Max.   :100.0 & (Other):    62 & (Other):   392 & NA & Max.   :0.8 & NA & NA & NA & NA & (Other) :  2869 & Max.   :20191023 & (Other)                                                                                                                               :    28 & NA & (Other)            : 13200 & NA\\
+\hline
+\rowcolor{gray!6}   & NA & NA & NA & (Other)   :658442 & NA's   :13360 & NA's   : 13228 & NA & NA's   :645428 & NA & NA's   :658526 & NA & NA & NA's    :646840 & NA & NA's     :649239 & NA & NA & NA & NA's   :645422 & NA's   :645422 & NA's   :645422 & NA's                                 :654445 & NA & NA's   :645422 & NA's   :657782 & NA's   :648966 & NA & NA's   :655730 & NA & NA & NA & NA & NA's    :655730 & NA's   :655730 & NA's                                                                                                                                  :658271 & NA & NA's               :645428 & NA\\
+\hline
+\end{tabular}}
+\end{table}
+\end{landscape}
+
+\begin{landscape}\begin{table}[!h]
+
+\caption{\label{tab:unnamed-chunk-3}Summary of Water Quality Data in the
+      Missouri River Basin}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l}
+\hline
+  &       X & agency\_cd &    site\_no &         Date & X\_00060\_00003 & X\_00060\_00003\_cd &    parm\_cd &   sample\_tm & sample\_end\_dt & sample\_end\_tm & sample\_start\_time\_datum\_cd & tm\_datum\_rlbty\_cd &   coll\_ent\_cd & medium\_cd &     project\_cd & aqfr\_cd &     tu\_id &  body\_part\_id &  hyd\_cond\_cd &  samp\_type\_cd &  hyd\_event\_cd &                              sample\_lab\_cm\_tx & remark\_cd &   result\_va &  val\_qual\_tx &    meth\_cd &  dqi\_cd &   rpt\_lev\_va &  rpt\_lev\_cd & lab\_std\_va & prep\_set\_no & prep\_dt &    anl\_set\_no &     anl\_dt &                                                                                                                               result\_lab\_cm\_tx &    anl\_ent\_cd &             startDateTime\\
+\hline
+\rowcolor{gray!6}   & Min.   :     1 & USGS:668800 & Min.   :6609500 & 1981-09-01:    56 & Min.   :     0 & A      :618881 & Min.   :   60.00 & 11:00  :  1819 & Mode:logical & 14:15  :    12 & CDT : 14622 & K   :  8908 & USGS-WRD: 15396 & BI  :    11 & NAWQA-SWS:  1411 & Mode:logical & Min.   :0 & Min.   :59.0 & 9      :  9726 & 9      : 20163 & 9      : 19933 & tech samples                         :   149 & <   :   472 & Min.   :     0.0 & d      :   426 & ALGOR  :  4994 & A   : 12661 & Min.   :0.0 & DLDQC :   616 & Mode:logical & Mode:logical & Mode:logical & KJNT254A:    12 & Min.   :20010918 & The parameter 00665 was swapped from labcode 2333 to labcode 2759                                                                     :   160 & USGS-WRD:  2206 & 2018-05-08 10:30:00:     9\\
+\hline
+ & 1st Qu.:167201 & NA & 1st Qu.:6800000 & 1981-09-02:    50 & 1st Qu.:   154 & A e    : 21858 & 1st Qu.:   60.00 & 10:30  :  1402 & NA's:668800 & 11:15  :    10 & CST :  8672 & T   : 14386 & USGS-NEL:  1690 & BP  :    41 & 462900300:  1089 & NA's:668800 & 1st Qu.:0 & 1st Qu.:59.0 & A      :  6963 & A      :  2127 & Z      :  2203 & tech sample                          :   127 & >   :     1 & 1st Qu.:     0.6 & oc     :   266 & KJ009  :  2581 & R   :  9500 & 1st Qu.:0.0 & LRL   :  1226 & NA's:668800 & NA's:668800 & NA's:668800 & KJNT135A:    11 & 1st Qu.:20070428 & The parameter 00665 was swapped from labcode 2333 to labcode 1984 because the result from labcode 2333 exceeded the calibration range.:    79 & USGSKSWC:   392 & 1979-06-13 11:00:00:     7\\
+\hline
+\rowcolor{gray!6}   & Median :334400 & NA & Median :6856600 & 2009-10-20:    43 & Median :   756 & P      :  4388 & Median :   60.00 & 10:00  :  1390 & NA & 05:00  :     7 & NA's:645506 & NA's:645506 & USGSKSWC:   988 & ON  :    26 & 463106100:   991 & NA & Median :0 & Median :94.0 & 5      :  2201 & 7      :   831 & J      :   530 & tech sample;no sampling method given :    50 & A   :    21 & Median :     3.8 & n      :    56 & PROBE  :  2013 & S   :  1133 & Median :0.0 & LT-MDL:  1059 & NA & NA & NA & KJNT200A:    10 & Median :20120404 & The parameter 00665 was swapped from labcode 2333 to labcode 2759 because the result from labcode 2333 exceeded the calibration range.:    77 & USGSNWQL:  2215 & 1975-01-15 11:20:00:     6\\
+\hline
+ & Mean   :334400 & NA & Mean   :6829150 & 2009-11-18:    43 & Mean   : 10227 & P e    :   246 & Mean   :   84.53 & 12:00  :  1277 & NA & 04:15  :     6 & NA & NA & USGS    :   805 & SB  :     8 & 463100300:   853 & NA & Mean   :0 & Mean   :81.2 & 4      :  1939 & H      :   149 & 7      :   248 & Billed FY19.                         :    48 & E   :   113 & Mean   :    88.9 & doc    :    47 & CL084  :   701 & NA's:645506 & Mean   :0.0 & MRL   :    21 & NA & NA & NA & KJNT021A:     9 & Mean   :20111448 & Report level code updated Oct., Nov. 2015. Reference: NWQL TM 2015.02 (RLC: LT-MDL => DLDQC)                                          :    23 & NA's    :663987 & 1975-02-12 10:30:00:     6\\
+\hline
+\rowcolor{gray!6}   & 3rd Qu.:501600 & NA & 3rd Qu.:6892350 & 1980-08-12:    42 & 3rd Qu.:  4670 & P Ice  :    79 & 3rd Qu.:   60.00 & 11:30  :  1232 & NA & 06:15  :     6 & NA & NA & USGSMOLS:   290 & WS  : 23094 & 861100399:   813 & NA & 3rd Qu.:0 & 3rd Qu.:94.0 & 8      :  1089 & 5      :    15 & B      :   224 & tech samples;cross section from churn:    33 & NA's:668193 & 3rd Qu.:     8.0 & @d     :    11 & EL003  :   678 & NA & 3rd Qu.:0.0 & NA's  :665878 & NA & NA & NA & KJNT023A:     9 & 3rd Qu.:20151102 & The holding time for the processing of this sample has been exceeded                                                                  :    12 & NA & 1975-03-11 10:50:00:     6\\
+\hline
+ & Max.   :668800 & NA & Max.   :6934500 & 1982-03-09:    42 & Max.   :739000 & (Other):    54 & Max.   :31501.00 & (Other): 15541 & NA & (Other):   150 & NA & NA & (Other) :   282 & WSQ :   114 & (Other)  : 10401 & NA & Max.   :0 & Max.   :94.0 & (Other):  1376 & (Other):     9 & (Other):   156 & (Other)                              :  6153 & NA & Max.   :400000.0 & (Other):    67 & (Other):  1566 & NA & Max.   :0.8 & NA & NA & NA & NA & (Other) :  2871 & Max.   :20191023 & (Other)                                                                                                                               :    29 & NA & (Other)            : 22627\\
+\hline
+\rowcolor{gray!6}   & NA & NA & NA & (Other)   :668524 & NA's   :23426 & NA's   : 23294 & NA & NA's   :646139 & NA & NA's   :668609 & NA & NA & NA's    :649349 & NA's:645506 & NA's     :653242 & NA & NA's   :668759 & NA's   :668759 & NA's   :645506 & NA's   :645506 & NA's   :645506 & NA's                                 :662240 & NA & NA's   :645506 & NA's   :667927 & NA's   :656267 & NA & NA's   :665878 & NA & NA & NA & NA & NA's    :665878 & NA's   :665878 & NA's                                                                                                                                  :668420 & NA & NA's               :646139\\
+\hline
+\end{tabular}}
+\end{table}
+\end{landscape}
 
 \newpage
 
