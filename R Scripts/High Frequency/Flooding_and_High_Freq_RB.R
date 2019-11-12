@@ -111,6 +111,7 @@ dygraph(
   dyRangeSelector()
 
 #desoto storm
+
 DesotoStorm <- Desoto %>%
   filter(dateTime > "2019-02-22" & dateTime < "2019-02-28") 
 
