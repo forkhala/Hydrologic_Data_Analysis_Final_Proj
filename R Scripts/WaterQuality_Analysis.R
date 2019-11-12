@@ -5,6 +5,7 @@ library(dplyr)
 library(xts)
 library(dygraphs)
 library(lubridate)
+library(kableExtra)
 
 #all bestsites for the hucs
 bestsites1021.1026.1027.1030 <- 
@@ -46,6 +47,18 @@ names(bestsites.wq)[3] <- c("Date")
 bestsites.WQ <- full_join(bestsites.discharge, bestsites.wq,
                            by = c("site_no", "agency_cd", "Date", "parm_cd"))
 
+#structure of water quality dataframe
+waterquality.summary <- summary(bestsites.wq)
+
+#summary of data structure
+kable(waterquality.summary, 
+      caption = "Summary of Water Quality Data in the
+      Missouri River Basin") %>% 
+  kable_styling(latex_options = c("hold_position", "striped", 
+                                  "scale_down")) %>% 
+  kableExtra::landscape() 
+
+
 # ---Exploratory data analysis ----
 
 #filtering dataset 
@@ -79,7 +92,6 @@ bestsites.wq.recent <- bestsites.wq.skinny %>%
 #plotting pH of different sites; color by site
 pH.plot <- ggplot(bestsites.wq.recent, aes(x = Year, y = pH, color = Site)) +
   geom_point(alpha = 0.5) +
-  geom_smooth() +
   ggtitle("pH of Sites in Missiouri River Basin") +
   labs(x = "Year", y = "pH") +
   ylim(c(5.0, 10))
@@ -128,13 +140,37 @@ TC.plot <- ggplot(bestsites.tc, aes(x = Date, y = total.coliform)) +
   labs(x = "Date", y = "Total Coliform (cfu/100 ml)")
 print(TC.plot)
 
+#plot of TP with 6 sites that have total coliform
+TP.plot.2 <- ggplot(bestsites.tc, aes(x = Date, y = total.phosphorus)) +
+  geom_violin() +
+  facet_wrap(~Site)
+print(TP.plot.2)
+
+#plot of TN with 6 sites that have total coliform
+TN.plot.2 <- ggplot(bestsites.tc, aes(x = Date, y = total.nitrogen)) +
+  geom_violin() +
+  facet_wrap(~Site)
+print(TN.plot.2)
+
+#plot of discharge with 6 sites that have total coliform
+dis.plot.2 <- ggplot(bestsites.tc, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  facet_wrap(~Site)
+print(dis.plot.2)
+
+#plot of pH with 6 sites that have total coliform
+ph.plot.2 <- ggplot(bestsites.tc, aes(x = Date, y = pH)) +
+  geom_violin() +
+  facet_wrap(~Site)
+print(ph.plot.2)
+
 #plot of total coliform over time
-TC.plot.time <- ggplot(bestsites.tc, #just want it to plot the dates, but it won't
+TC.plot.time <- ggplot(bestsites.tc,
                        aes(x = Date, y = total.coliform)) +
   geom_point() +
-  geom_smooth() +
   labs(x = "Date", y = "Total Coliform (cfu/100 ml)") +
-  xlim(as.Date(c("1969-01-01"," 1982-12-31")))
+  xlim(as.Date(c("1969-01-01"," 1982-12-31"))) +
+  facet_wrap(~Site)
 print(TC.plot.time)
 
 #### seasonal trend plot for total coliform ####
@@ -163,8 +199,7 @@ totalcoli.seasons.plot <- ggplot(totalcoli.monthly.summaries, aes(x = month)) +
   scale_x_continuous(name = "Month",
                      breaks = c(1,2,3,4,5,6,7,8,9,10,11,12)) +
   labs(y = "Total coliforms (cfu / 100 ml)") 
-print(totalcoli.seasons.plot) #high total coliform amounts in June, a spike in April, and a spike in October
-
+print(totalcoli.seasons.plot) #high total coliform amounts in June, a spike in April, and a spike in October; overlay with discharge?
 
 #daily summary of total coliform data; daily summary of total coliform for day of year for all years
 totalcoli.daily.summaries <- bestsites.tc %>%
@@ -177,30 +212,11 @@ totalcoli.daily.summaries <- bestsites.tc %>%
 
 #daily total coliform plot
 totalcoli.daily.plot <- ggplot(totalcoli.daily.summaries, aes(x = daynum)) +
-  geom_ribbon(aes(ymin = quant25, ymax = quant75), alpha = 0.3) +
-  geom_line(aes(y = Median)) +
+  geom_ribbon(aes(ymin = quant25, ymax = quant75), alpha = 0.3, fill = "blue") +
+  geom_line(aes(y = Median), color = "black") +
   scale_x_continuous(name = "Day of Year") + 
-  labs(y = "Total coliforms (cfu / 100 ml)") +
-  facet_wrap(~Site)
+  labs(y = "Total coliforms (cfu / 100 ml)")
 print(totalcoli.daily.plot)
-
-#total coliform daily summary by site 
-totalcoli.daily.site.summaries <- bestsites.tc %>%
-  mutate(daynum = day(Date)) %>%
-  group_by(Site, daynum) %>%
-  summarize(Median = median(total.coliform, na.rm = T),
-            quant25 = quantile(total.coliform, .25, na.rm = T),
-            quant75 = quantile(total.coliform, .75, na.rm = T))
-
-#daily total coliform plot
-totalcoli.daily.plot <- ggplot(totalcoli.daily.summaries, aes(x = daynum)) +
-  geom_ribbon(aes(ymin = quant25, ymax = quant75), alpha = 0.3) +
-  geom_line(aes(y = Median)) +
-  scale_x_continuous(name = "Day of Year") + 
-  labs(y = "Total coliforms (cfu / 100 ml)") +
-  facet_wrap(~Site)
-print(totalcoli.daily.plot)
-
 
 
 #### Discharge and TN, TP, pH, TC graphs ####
@@ -212,7 +228,9 @@ Discharge <- with(bestsites.wq.skinny, xts(x = Discharge, order.by = Date))
 
 DyData.TN <- cbind(Total_Nitrogen, Discharge)
 
-dygraph(DyData.NPTC) %>% 
+#filtering to include only data from 
+
+dygraph(DyData.TN) %>% 
   dySeries("Total_Nitrogen", axis = "y2") %>% 
   dyAxis(name = "y", label = "Discharge (cfs)") %>%
   dyAxis(name = "y2", label = "Total Nitrogen (mg/l)") %>%
@@ -230,6 +248,13 @@ dygraph(DyData.TP) %>%
   dyAxis(name = "y", label = "Discharge (cfs)") %>%
   dyAxis(name = "y2", label = "Total Phosphorus (mg/l)") %>%
   dyRangeSelector()
+
+#ggplot of discharge and TN
+discharge.TN <- ggplot(bestsites.wq.skinny, aes(x = Date)) +
+  geom_line(aes(y = Discharge, color = "blue")) +
+  geom_point(aes(y = total.nitrogen, fill = "red")) +
+  xlim(c("1970-01-01", "2010-01-01"))
+print(discharge.TN)
 
 #discharge and pH plot over time
 pH <- with(bestsites.wq.skinny, xts(x = pH, order.by = Date))
