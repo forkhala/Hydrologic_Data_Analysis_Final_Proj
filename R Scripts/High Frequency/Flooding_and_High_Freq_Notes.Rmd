@@ -13,19 +13,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 There were 7 sites in our region of interest that had high freq N data, and only 4 sites had high freq N data during the floods of 2019. The sites looked at in depth are:
 
-- West Nishnabotna River in Randolph, IA
-- Nodaway River at Clarinda, IA
-- Kansas River in Desoto, KS
-- Missouri River at Hermann, MO
+    - West Nishnabotna River in Randolph, IA
+    - Nodaway River at Clarinda, IA
+    - Kansas River in Desoto, KS
+    - Missouri River at Hermann, MO
 
-Missouri River is the biggest and Clarinda the smallest, during average stream flow.
+The Missouri River is the biggest river, with an average of 214693 cfs discharge rate during the year 2019, and the Nodaway River is the smallest river, with an average of 1185 cfs discharge rate for 2019.
 
 ## C-Q plots and hysteresis plots
 
-There was a big flood in March of 2019 due to a "bomb cyclone" https://www.kansascity.com/news/state/missouri/article228237519.html
-has good picture of where levees broke. 
-
-However, instantaneous N values stopped recording during peak of storm, so it was hard to tell what was happening during the storm for N. Good hysteresis plots weren't able to be produced because of this.
+In March of 2019, a [bomb cyclone](https://www.kansascity.com/news/state/missouri/article228237519.html) hit the midwest. Our initial research question, what affect did the March 2019 storm have on water quality, attempted to look into the behavior of nitrogen in the discharge of the rivers. Unfortunately, instantaneous Nitrogen values stopped recording during the peak of the storm events in March, so it was hard to create hysteresis plots that exhibited the type of storm and its effects on nitrogen concentration. 
 
 **show dygraph of one of the sites with Q and C over time?
 
