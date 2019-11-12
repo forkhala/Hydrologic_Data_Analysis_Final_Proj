@@ -37,12 +37,23 @@ names(bestsites.NP)[3] <- c("Date")
 
 #joinining datatables for water quality and discharge data
 bestsites.DNP <- full_join(bestsites.discharge, bestsites.NP,
-                       by = c("site_no", "agency_cd", "Date", "parm_cd"))
+                       by = c("site_no", "agency_cd", "Date"))
 
 bestsites.DNP <- bestsites.DNP %>%
   mutate(parameter = case_when(parm_cd == "00060" ~ "Discharge",
                                parm_cd == "00600" ~ "Total Nitrogen",
                                parm_cd == "00665" ~ "Total Phosphorus"))
+
+#structure of daily value dataframe
+dailyvalue.summary <- summary(bestsites.DNP)
+
+#summary of data structure
+kable(dailyvalue.summary, 
+      caption = "Summary of Daily Value Data in the
+      Missouri River Basin") %>% 
+  kable_styling(latex_options = c("hold_position", "striped", 
+                                  "scale_down")) %>% 
+  kableExtra::landscape() 
 
 #converting bestsites.DNP file to .csv
 write.csv(bestsites.DNP, "./Data/Raw/bestsites.DNP.csv")
@@ -63,7 +74,6 @@ highfreqsites <- c(highfreq1024.1025, highfreq1028.1029, highfreq1020.1023,
 highfreqsites <- unique(highfreqsites)
 
 #reading in data for high frequency N and D
-
 
 highfreqsiteinfo <- whatNWISdata(siteNumbers = highfreqsites)
 highfreqsiteinfo <- highfreqsiteinfo %>% filter(parm_cd =="99133" & data_type_cd=="uv")
