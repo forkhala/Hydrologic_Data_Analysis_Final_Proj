@@ -35,6 +35,7 @@ getwd()
 
 # Load your packages
 library(tidyverse)
+library(kableExtra)
 
 # Set your ggplot theme
 theme_set(theme_classic())
@@ -56,6 +57,44 @@ theme_set(theme_classic())
 <Add a table that summarizes your data structure. This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.>
 
 <C will do data table for water quality and daily values, R will do for high freq>
+
+```{r, echo=FALSE, eval=TRUE}
+#reading in daily value data
+bestsites.DNP <- read.csv("../Data/Raw/bestsites.DNP.csv")
+
+#reading in water quality data
+bestsites.wq <- read.csv("../Data/Raw/bestsites.WQ.csv")
+```
+
+```{r, echo=FALSE, eval=TRUE, tbls="Summary of Daily Value Data at 22 sites in the Missouri River Basin", results="asis"}
+
+#structure of daily value dataframe
+dailyvalue.summary <- summary(bestsites.DNP)
+
+#summary of data structure
+kable(dailyvalue.summary, 
+      caption = "Summary of Daily Value Data at 22 sites in the
+      Missouri River Basin") %>% 
+  kable_styling(latex_options = c("hold_position", "striped", 
+                                  "scale_down")) %>% 
+  kableExtra::landscape()
+
+```
+
+```{r, echo=FALSE, eval=TRUE, tbls="Summary of Water Quality Data at 22 sites in the Missouri River Basin", results="asis"}
+
+#structure of water quality dataframe
+waterquality.summary <- summary(bestsites.wq)
+
+#summary of data structure
+kable(waterquality.summary, 
+      caption = "Summary of Water Quality Data in the
+      Missouri River Basin") %>% 
+  kable_styling(latex_options = c("hold_position", "striped", 
+                                  "scale_down")) %>% 
+  kableExtra::landscape() 
+
+```
 
 \newpage
 
