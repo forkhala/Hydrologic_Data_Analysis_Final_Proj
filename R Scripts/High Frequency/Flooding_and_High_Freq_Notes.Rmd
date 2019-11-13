@@ -3,10 +3,40 @@ title: "Flooding and High Freq RB notes"
 author: "Rachel Bash"
 date: "11/10/2019"
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+getwd()
+highfreqsiteinfo <- 
+  read.csv("./Data/Raw/highfreqsiteinfo.csv")
+
+highfreqsite2019 <- highfreqsiteinfo %>%
+  filter(end_date > "2019-03-31") #4 sites have high freq N data in 2019
+
+#read in the data for 4 sites
+highfreqsites.DN <- readNWISuv(site = c("06808500", "06817000", "06892350", "06934500"), 
+                               parameterCd = c("00060", "99133"), 
+                               # Discharge in cfs & Nitrate in mg/l NO3-N
+                               startDate = "2019-01-01",
+                               endDate = "2019-11-01") %>%
+                               renameNWISColumns() %>%
+                               rename(Nitrate_mgl = 6)
+
+#individual sites
+Hermann <- highfreqsites.DN %>%
+           filter(site_no=="06934500")
+Desoto <- highfreqsites.DN %>%
+          filter(site_no=="06892350")
+Clarinda <- highfreqsites.DN %>%
+            filter(site_no=="06817000")
+Randolph <- highfreqsites.DN %>%
+            filter(site_no=="06808500")
+
+library(cowplot)
 ```
 
 ## Sites
@@ -22,28 +52,58 @@ The Missouri River is the biggest river, with an average of 214693 cfs discharge
 
 ## C-Q plots and hysteresis plots
 
-In March of 2019, a [bomb cyclone](https://www.kansascity.com/news/state/missouri/article228237519.html) hit the midwest. Our initial research question, what affect did the March 2019 storm have on water quality, attempted to look into the behavior of nitrogen in the discharge of the rivers. Unfortunately, instantaneous Nitrogen values stopped recording during the peak of the storm events in March, so it was hard to create hysteresis plots that exhibited the type of storm and its effects on nitrogen concentration. 
+In March of 2019, a [bomb cyclone](https://www.kansascity.com/news/state/missouri/article228237519.html) hit the midwest. Our initial research question, what effect did the March 2019 storm have on water quality, attempted to look into the behavior of nitrogen in the discharge of the rivers. Unfortunately, instantaneous Nitrogen values stopped recording during the peak of the storm events in March, so it was hard to create hysteresis plots that exhibited the type of storm and its effects on nitrogen concentration. 
 
-**show dygraph of one of the sites with Q and C over time?
+Even though Nitrogen concentrations were not recorded in March, they were recorded in other times of the year. 2019 was a wet year and many large storm events occurred. 
+
+```{r randolphs, echo=FALSE}
+#Randolph storm
+RandolphStorm <- Randolph %>%
+  filter(dateTime > "2019-06-24" & dateTime < "2019-07-08") 
+
+
+RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="West Nishnabotna River in Randolph, IA")
+
+#semi-clockwise motion, negative slope, so diluting
+```
+
+```{r desotos, fig.cap="\\label{fig:desotos} Hysteresis plots for two storm events in the Missouri River Basin. The storm event on the West Nishnabotna River exhibits an oddly-shaped plot that has a negative slope, indicating it is a diluting storm. The Kansas River experienced a storm in late February that has a counter-clockwise motion and a positive slope, indicating a flushing storm. These two plots illustrate that two rivers near each other can have very different behaviors."}
+#desoto storm
+
+DesotoStorm <- Desoto %>%
+  filter(dateTime > "2019-02-22" & dateTime < "2019-02-28") 
+
+
+DesotoStorm.plot <- ggplot(DesotoStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="Kansas River in Desoto, KS")
+
+
+plot_grid(RandolphStorm.plot, DesotoStorm.plot, ncol=1)
+#very loose counter clockwise motion - loose positive slope for flushing storm
+```
+
+
 
 ## Baseflow
 
-Baseflow and quickflow were separated for the 4 rivers during the year 2019 and it was clear that most rivers have a majority of their water coming from baseflow. 
+Baseflow and quickflow were separated for the 4 rivers with high frequency discharge data during the year 2019 and it was clear that all the rivers have a majority of their water coming from baseflow. 
+
+River            | % Discharge coming from baseflow
+---------------- | ---------------------------------
+Missouri River   | 98.9%
+Nodaway River    | 82.5%
+Kansas River     | 96.2%
+West Nishnabotna | 94.9%
 
 
-- Hermann had baseflow at 98.9%
-- Clarinda had 82.5%
-- Desoto had 96.2%
-- Randolph had 94.9% 
-These kind of match with the size of the rivers.
+The percent of discharge coming from baseflow correlates with the general size of the river. If the river is large, more of the discharge will come from baseflow. The West Nishnabotna River in Randolph, Iowa was further examined to see whether the baseflow percentage changes depending on the storm event. The data was reduced and only discharge data from the month of March in 2019 was examined. Total baseflow export was 91.1%, which is lower, but not that much lower than the baseflow separation for the whole 2019 year.
 
-Randolph was examined by just looking at the baseflow separation for the Month of March to see if more would be coming from quick flow if just looking at the one month with the big flood. Total baseflow export was 91.1%, which is lower, but not that much lower than the baseflow separation for the whole 2019 year.
 
-## Hydrologic Flashiness
-All had extremely low values for hydrologic flashiness, probably because of the understanding that the baseflow contributes to most of the discharge in the rivers.
-Clarinda had highest flashiness index, while Hermann had lowest.
-
-Desoto really didn't experience the flood in March 2019, but Randolph did.
 
 
 ## 2018 October flood
