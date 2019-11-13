@@ -8,7 +8,7 @@ geometry: margin=2.54cm
 title: Examining the Hydrologic Properties of the Missouri River Basin
 subtitle: https://github.com/cwatson1013/Hydrologic_Data_Analysis_Final_Proj
 author: Rachel Bash, Keqi He, Caroline Watson, and Haoyu Zhang
-abstract: "The Missouri River provides critical water resources that drives the region's agriculture, industry, and ecosystems. This is a region that experiences surface water variability, characterized by damaging floods and severe droughts, greatly impacting the agricultural production of the area. This project highlights the changes in streamflow and water quality over time, and identifies key characteristics of the river....Twenty six sites across the lower Missouri River Basin were examined in order to get a fuller picture of the Missouri River and its tributaries over time."
+abstract: "The Missouri River provides critical water resources that drives the region's agriculture, industry, and ecosystems. This is a region that experiences surface water variability, characterized by damaging floods and severe droughts, greatly impacting the agricultural production of the area. It is reported that a serious flood disaster occurred in the lower Missouri River in the spring of 2019 and the Missouri River experienced severe drought in 2012-2013. This project highlights the changes in stream flow and water quality over time, and identifies key characteristics of the river. Twenty two sites across the lower Missouri River Basin were examined in order to get a fuller picture of the Missouri River and its tributaries over time. By analyzing the trend of the Missouri River discharge, we can predict future changes in the Missouri River flow to provide a reference for water resources management. In addition, we focus on the stream flow and water quality of Missouri River during March to July, 2019 to see how discharge influence the water quality and what can be done to keep the water in the Missouri River in good quality."
 fontsize: 12pt
 mainfont: Times New Roman
 editor_options: 
@@ -29,8 +29,9 @@ editor_options:
 
 <Note: set up autoreferencing for figures and tables in your document>
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 # Set your working directory
+
 getwd()
 
 # Load your packages
@@ -42,9 +43,28 @@ library(xts)
 library(dygraphs)
 library(lubridate)
 library(gridExtra)
+library(cowplot)
+library(dataRetrieval)
+
 
 # Set your ggplot theme
 theme_set(theme_classic())
+```
+
+
+```{r, echo=FALSE}
+# Loading in data
+
+#reading in daily value data
+bestsites.DNP <- read.csv("../Data/Raw/bestsites.DNP.csv")
+
+#reading in water quality data
+bestsites.wq <- read.csv("../Data/Raw/bestsites.WQ.csv")
+
+#reading in high freq data
+highfreqsiteinfo <- read.csv("../Data/Raw/highfreqsiteinfo.csv")
+
+
 ```
 
 
@@ -68,24 +88,29 @@ After doing initial data wrangling and analysis on our 22 "best sites", we decid
 
 We have three main datasets:
 
-    1. The daily values dataset with our 22 "best sites"
-    2. The water quality dataset with our 22 "best sites", with only six sites that had total coliform data.
-    3. The high freqency dataset with 7 sites that contain both high freqency discharge and high frequency nitrogen data.
+- The daily values dataset with our 22 "best sites"
+
+- The water quality dataset with our 22 "best sites", with only six sites that had total coliform data.
+
+- The high freqency dataset with 7 sites that contain both high freqency discharge and high frequency nitrogen data.
 
 <Add a table that summarizes your data structure. This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.>
 
 <C will do data table for water quality and daily values, R will do for high freq>
 
+
 ```{r, echo=FALSE, eval=TRUE}
+
 #reading in daily value data
-bestsites.DNP <- read.csv("./Data/Raw/bestsites.DNP.csv")
+bestsites.DNP <- read.csv("../Data/Raw/bestsites.DNP.csv")
 
 #reading in water quality data
-bestsites.wq <- read.csv("./Data/Raw/bestsites.WQ.csv", colClasses=c("parm_cd"="character", 
+bestsites.wq <- read.csv("../Data/Raw/bestsites.WQ.csv", colClasses=c("parm_cd"="character", 
                                                             "Date"="Date",
                                                             "site_no"="character"))
 
 ```
+
 
 ```{r, echo=FALSE, eval=TRUE, tbls="Summary of Daily Value Data at 22 sites in the Missouri River Basin", results="asis"}
 
@@ -125,12 +150,18 @@ kable(waterquality.summary,
 
 <Include text sections to accompany these R chunks to explain the reasoning behind your workflow, and the rationale for your approach.>
 
-The water quality dataset was wrangled to include only Site, Date, Parameter, Value, and Discharge columns. The data was then grouped by Date, Parameter, adn Site, before summarizing to get mean values and mean discharge. The spread function was used to spread the data for the respective parameters into different columns. Only *3* sites were looked at for water quality because these sites contain data for total coliform, as well as pH, total nitrogen, total phosphorus, and discharge. 
+#### Water Quality Data ####
+    
+There were 6 sites in the Missiour River Basin that had total coliform data in addition to total nitrogen, total phosphorus, pH, and discharge data. Out of the 6 sites, only *3* of the sites were chosen for water quality analysis because they had the most data for all of the parameters for water quality. The water quality data was wrangeled to include certain columns necessary for the analysis. The sites that were looked at in depth for water quality analysis are: 
+
+    - 06810000
+    - 06856600
+    - 06934500
 
 ```{r}
 
 #filtering water quality dataset to include only 3 sites
-bestsites.wq.skinny <- sites.wq %>%
+bestsites.wq.skinny <- bestsites.wq %>%
     select(Site = site_no,
               Date = Date,
               Parameter = parm_cd,
@@ -262,7 +293,80 @@ print(totalcoliform.time)
 
 ```
 
-\autoref{fig:tc.dis} was created to see when total coliform measurements were taken and whether high amounts of total coliform coincided with an increase in discharge. Because there were limited total coliform measurements taken, as evidenced in \autoref{fig:tc.time}, there is not a great conclusion from this data. However, \autoref{fig:tc.dis} shows a spike in discharge events between 1972 - 1974, which also happens to be a time when total coliform was sampled. \autoref{fig:tc.dis} also shows increases in total coliform between 1972 - 1975. 
+\autoref{fig:tc.dis} was created to determine whether high amounts of total coliform coincided with an increase in discharge. Because there were limited total coliform measurements taken, as evidenced in \autoref{fig:tc.time}, there is not a great conclusion from this data. However, \autoref{fig:tc.dis} shows a spike in discharge events between 1972 - 1974, which also happens to be a time when total coliform was sampled. \autoref{fig:tc.dis} also shows increases in total coliform between 1972 - 1975. 
+
+```{r}
+#high frequency data wrangling
+highfreqsite2019 <- highfreqsiteinfo %>%
+  filter(end_date > "2019-03-31"); head(highfreqsite2019)
+
+highfreqsites.DN <- readNWISuv(site = c("06808500", "06817000", "06892350", "06934500"), 
+                               parameterCd = c("00060", "99133"), 
+                               # Discharge in cfs & Nitrate in mg/l NO3-N
+                               startDate = "2019-01-01",
+                               endDate = "2019-11-01") %>%
+                               renameNWISColumns() %>%
+                               rename(Nitrate_mgl = 6)
+
+#individual sites
+Hermann <- highfreqsites.DN %>%
+           filter(site_no=="06934500")
+Desoto <- highfreqsites.DN %>%
+          filter(site_no=="06892350")
+Clarinda <- highfreqsites.DN %>%
+            filter(site_no=="06817000")
+Randolph <- highfreqsites.DN %>%
+            filter(site_no=="06808500")
+```
+
+
+### High Frequency Nitrogen and Discharge
+
+There were 7 sites in our region of interest that had high freq N data, and only 4 sites had high freq N data during the floods of 2019. The sites looked at in depth are:
+
+    - West Nishnabotna River in Randolph, IA
+    - Nodaway River at Clarinda, IA
+    - Kansas River in Desoto, KS
+    - Missouri River at Hermann, MO
+
+The Missouri River is the biggest river, with an average of 214693 cfs discharge rate during the year 2019, and the Nodaway River is the smallest river, with an average of 1185 cfs discharge rate for 2019.
+
+In March of 2019, a [bomb cyclone](https://www.kansascity.com/news/state/missouri/article228237519.html) hit the midwest. Our initial research question, what effect did the March 2019 storm have on water quality, attempted to look into the behavior of nitrogen in the discharge of the rivers. Unfortunately, instantaneous Nitrogen values stopped recording during the peak of the storm events in March, so it was hard to create hysteresis plots that exhibited the type of storm and its effects on nitrogen concentration. 
+
+Even though Nitrogen concentrations were not recorded in March, they were recorded in other times of the year. 2019 was a wet year and many large storm events occurred. 
+
+```{r randolphs, echo=FALSE}
+#Randolph storm
+RandolphStorm <- Randolph %>%
+  filter(dateTime > "2019-06-24" & dateTime < "2019-07-08") 
+
+
+RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="West Nishnabotna River in Randolph, IA")
+
+#semi-clockwise motion, negative slope, so diluting
+```
+
+```{r desotos, fig.cap="\\label{fig:desotos} Hysteresis plots", echo=FALSE}
+#desoto storm
+
+DesotoStorm <- Desoto %>%
+  filter(dateTime > "2019-02-22" & dateTime < "2019-02-28") 
+
+
+DesotoStorm.plot <- ggplot(DesotoStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="Kansas River in Desoto, KS")
+
+
+plot_grid(RandolphStorm.plot, DesotoStorm.plot, ncol=1)
+#very loose counter clockwise motion - loose positive slope for flushing storm
+```
+
+The \autoref{fig:desotos} shows Hysteresis plots for two storm events in the Missouri River Basin. The storm event on the West Nishnabotna River exhibits an oddly-shaped plot that has a negative slope, indicating it is a diluting storm. The Kansas River experienced a storm in late February that has a counter-clockwise motion and a positive slope, indicating a flushing storm. These two plots illustrate that two rivers near each other can have very different behaviors.
 
 \newpage
 
