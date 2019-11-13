@@ -9,11 +9,31 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Sites
-
- < Setup the global options for the R chunks in your document >
+All directions from Kateri in <>
+< Setup the global options for the R chunks in your document >
 
 <Note: set up autoreferencing for figures and tables in your document.>
+
+<Paragraph detailing the rationale for your analysis. What is the significant application and/or interest in this topic? Connect to environmental topic(s)/challenge(s).>
+
+<Paragraph detailing your research question(s) and goals. What do you want to find out? Include a sentence (or a few) on the dataset you are using to answer this question - just enough to give your reader an idea of where you are going with the analysis.>
+
+<Information on how the dataset for this analysis were collected, the data contained in the dataset, and any important pieces of information that are relevant to your analyses. This section should contain much of same information as the README file for the dataset but formatted in a way that is more narrative.>
+
+<Add a table that summarizes your data structure. This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.>
+
+<C will do data table for water quality and daily values, R will do for high freq>
+
+<Include R chunks for 5+ lines of summary code (display code and output), 3+ exploratory graphs (display graphs only), and any wrangling you do to your dataset(s).> 
+
+<Include text sections to accompany these R chunks to explain the reasoning behind your workflow, and the rationale for your approach.>
+
+<Include R chunks for 3+ statistical tests (display code and output) and 3+ final visualization graphs (display graphs only).>
+
+<Include text sections to accompany these R chunks to explain the reasoning behind your workflow, rationale for your approach, and the justification of meeting or failing to meet assumptions of tests.>
+
+
+## Sites
 
 
 There were 7 sites in our region of interest that had high freq N data, and only 4 sites had high freq N data during the floods of 2019. The sites looked at in depth are:
