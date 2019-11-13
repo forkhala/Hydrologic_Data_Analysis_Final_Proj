@@ -30,6 +30,46 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -179,11 +219,16 @@ too many to look at and draw relevant conclusions from.
 
 We have three main datasets:
 
-\begin{verbatim}
-1. The daily values dataset with our 22 "best sites"
-2. The water quality dataset with our 22 "best sites", with only six sites that had total coliform data.
-3. The high freqency dataset with 7 sites that contain both high freqency discharge and high frequency nitrogen data.
-\end{verbatim}
+\begin{itemize}
+\item
+  The daily values dataset with our 22 ``best sites''
+\item
+  The water quality dataset with our 22 ``best sites'', with only six
+  sites that had total coliform data.
+\item
+  The high freqency dataset with 7 sites that contain both high freqency
+  discharge and high frequency nitrogen data.
+\end{itemize}
 
 \textless{}Add a table that summarizes your data structure. This table
 can be made in markdown text or inserted as a \texttt{kable} function in
@@ -262,6 +307,104 @@ wrangling you do to your dataset(s).\textgreater{}
 \textless{}Include text sections to accompany these R chunks to explain
 the reasoning behind your workflow, and the rationale for your
 approach.\textgreater{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#high frequency data wrangling}
+\NormalTok{highfreqsite2019 <-}\StringTok{ }\NormalTok{highfreqsiteinfo }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(end_date }\OperatorTok{>}\StringTok{ "2019-03-31"}\NormalTok{); }\KeywordTok{head}\NormalTok{(highfreqsite2019)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in Ops.factor(end_date, "2019-03-31"): '>' not meaningful for
+## factors
+\end{verbatim}
+
+\begin{verbatim}
+##  [1] X                  agency_cd          site_no           
+##  [4] station_nm         site_tp_cd         dec_lat_va        
+##  [7] dec_long_va        coord_acy_cd       dec_coord_datum_cd
+## [10] alt_va             alt_acy_va         alt_datum_cd      
+## [13] huc_cd             data_type_cd       parm_cd           
+## [16] stat_cd            ts_id              loc_web_ds        
+## [19] medium_grp_cd      parm_grp_cd        srs_id            
+## [22] access_cd          begin_date         end_date          
+## [25] count_nu          
+## <0 rows> (or 0-length row.names)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{highfreqsites.DN <-}\StringTok{ }\KeywordTok{readNWISuv}\NormalTok{(}\DataTypeTok{site =} \KeywordTok{c}\NormalTok{(}\StringTok{"06808500"}\NormalTok{, }\StringTok{"06817000"}\NormalTok{, }\StringTok{"06892350"}\NormalTok{, }\StringTok{"06934500"}\NormalTok{), }
+                               \DataTypeTok{parameterCd =} \KeywordTok{c}\NormalTok{(}\StringTok{"00060"}\NormalTok{, }\StringTok{"99133"}\NormalTok{), }
+                               \CommentTok{# Discharge in cfs & Nitrate in mg/l NO3-N}
+                               \DataTypeTok{startDate =} \StringTok{"2019-01-01"}\NormalTok{,}
+                               \DataTypeTok{endDate =} \StringTok{"2019-11-01"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{                               }\KeywordTok{renameNWISColumns}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{                               }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{Nitrate_mgl =} \DecValTok{6}\NormalTok{)}
+
+\CommentTok{#individual sites}
+\NormalTok{Hermann <-}\StringTok{ }\NormalTok{highfreqsites.DN }\OperatorTok{%>%}
+\StringTok{           }\KeywordTok{filter}\NormalTok{(site_no}\OperatorTok{==}\StringTok{"06934500"}\NormalTok{)}
+\NormalTok{Desoto <-}\StringTok{ }\NormalTok{highfreqsites.DN }\OperatorTok{%>%}
+\StringTok{          }\KeywordTok{filter}\NormalTok{(site_no}\OperatorTok{==}\StringTok{"06892350"}\NormalTok{)}
+\NormalTok{Clarinda <-}\StringTok{ }\NormalTok{highfreqsites.DN }\OperatorTok{%>%}
+\StringTok{            }\KeywordTok{filter}\NormalTok{(site_no}\OperatorTok{==}\StringTok{"06817000"}\NormalTok{)}
+\NormalTok{Randolph <-}\StringTok{ }\NormalTok{highfreqsites.DN }\OperatorTok{%>%}
+\StringTok{            }\KeywordTok{filter}\NormalTok{(site_no}\OperatorTok{==}\StringTok{"06808500"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{high-frequency-nitrogen-and-discharge}{%
+\subsubsection{High Frequency Nitrogen and
+Discharge}\label{high-frequency-nitrogen-and-discharge}}
+
+There were 7 sites in our region of interest that had high freq N data,
+and only 4 sites had high freq N data during the floods of 2019. The
+sites looked at in depth are:
+
+\begin{verbatim}
+- West Nishnabotna River in Randolph, IA
+- Nodaway River at Clarinda, IA
+- Kansas River in Desoto, KS
+- Missouri River at Hermann, MO
+\end{verbatim}
+
+The Missouri River is the biggest river, with an average of 214693 cfs
+discharge rate during the year 2019, and the Nodaway River is the
+smallest river, with an average of 1185 cfs discharge rate for 2019.
+
+In March of 2019, a
+\href{https://www.kansascity.com/news/state/missouri/article228237519.html}{bomb
+cyclone} hit the midwest. Our initial research question, what effect did
+the March 2019 storm have on water quality, attempted to look into the
+behavior of nitrogen in the discharge of the rivers. Unfortunately,
+instantaneous Nitrogen values stopped recording during the peak of the
+storm events in March, so it was hard to create hysteresis plots that
+exhibited the type of storm and its effects on nitrogen concentration.
+
+Even though Nitrogen concentrations were not recorded in March, they
+were recorded in other times of the year. 2019 was a wet year and many
+large storm events occurred.
+
+\begin{verbatim}
+## Warning: Removed 9 rows containing missing values (geom_point).
+\end{verbatim}
+
+\begin{figure}
+\centering
+\includegraphics{Project_Template_files/figure-latex/desotos-1.pdf}
+\caption{\label{fig:desotos} Hysteresis plots}
+\end{figure}
+
+The \autoref{fig:desotos} shows Hysteresis plots for two storm events in
+the Missouri River Basin. The storm event on the West Nishnabotna River
+exhibits an oddly-shaped plot that has a negative slope, indicating it
+is a diluting storm. The Kansas River experienced a storm in late
+February that has a counter-clockwise motion and a positive slope,
+indicating a flushing storm. These two plots illustrate that two rivers
+near each other can have very different behaviors.
 
 \newpage
 
