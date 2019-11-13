@@ -30,46 +30,6 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -356,29 +316,6 @@ be elevated, especially if near agricultural land. However, our data
 does not supply enough information to draw conclusions on total coliform
 levels in the rivers of our chosen sites.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#filtering water quality dataset to include only 3 sites}
-\NormalTok{bestsites.wq.skinny <-}\StringTok{ }\NormalTok{bestsites.wq }\OperatorTok{%>%}
-\StringTok{    }\KeywordTok{select}\NormalTok{(}\DataTypeTok{Site =}\NormalTok{ site_no,}
-              \DataTypeTok{Date =}\NormalTok{ Date,}
-              \DataTypeTok{Parameter =}\NormalTok{ parm_cd,}
-              \DataTypeTok{Value =}\NormalTok{ result_va,}
-              \DataTypeTok{Discharge =}\NormalTok{ X_}\DecValTok{00060}\NormalTok{_}\DecValTok{00003}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{    }\KeywordTok{group_by}\NormalTok{(Date, Parameter, Site) }\OperatorTok{%>%}
-\StringTok{    }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{Value =} \KeywordTok{mean}\NormalTok{(Value),}
-              \DataTypeTok{Discharge =} \KeywordTok{mean}\NormalTok{(Discharge)) }\OperatorTok{%>%}
-\StringTok{    }\KeywordTok{spread}\NormalTok{(}\DataTypeTok{key =}\NormalTok{ Parameter, }\DataTypeTok{value =}\NormalTok{ Value) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{    }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{pH =} \StringTok{'00400'}\NormalTok{, }\DataTypeTok{total.coliform =} \StringTok{'31501'}\NormalTok{, }
-           \DataTypeTok{Discharge2 =} \StringTok{'00060'}\NormalTok{, }\DataTypeTok{total.nitrogen =} \StringTok{'00600'}\NormalTok{, }
-           \DataTypeTok{total.phosphorus =} \StringTok{'00665'}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{    }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Year =} \KeywordTok{year}\NormalTok{(Date)) }\OperatorTok{%>%}
-\StringTok{    }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{Discharge2) }\OperatorTok{%>%}\StringTok{     }
-\StringTok{    }\KeywordTok{filter}\NormalTok{(Site }\OperatorTok{==}\StringTok{ "06810000"} \OperatorTok{|}\StringTok{ }\NormalTok{Site }\OperatorTok{==}\StringTok{ "06856600"} \OperatorTok{|}
-\StringTok{           }\NormalTok{Site }\OperatorTok{==}\StringTok{ "06934500"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 Graphs were made to look at total phosphorus, total nitrogen, pH, and
 total coliform over time. These figures were also faceted by site to see
 whether there were trends in specific sites.
@@ -450,70 +387,6 @@ between 1972 - 1975.
 In time series analysis, we focus on the same 3 sites chosen in the
 water quality analysis.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#Discharge Data}
-\CommentTok{# 06810000 Nishnabotna River above Hamburg, IA }
-\NormalTok{NRHDischarge <-}\StringTok{ }\KeywordTok{readNWISdv}\NormalTok{(}\DataTypeTok{siteNumbers =} \StringTok{"06810000"}\NormalTok{,}
-                           \DataTypeTok{parameterCd =} \StringTok{"00060"}\NormalTok{, }\CommentTok{# discharge (ft3/s)}
-                           \DataTypeTok{startDate =} \StringTok{""}\NormalTok{,}
-                           \DataTypeTok{endDate =} \StringTok{""}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(NRHDischarge)[}\DecValTok{4}\OperatorTok{:}\DecValTok{5}\NormalTok{] <-}\KeywordTok{c}\NormalTok{(}\StringTok{"Discharge"}\NormalTok{, }\StringTok{"Approval.Code"}\NormalTok{)}
-\CommentTok{# 06934500 Missouri River at Hermann, MO}
-\NormalTok{MRHDischarge <-}\StringTok{ }\KeywordTok{readNWISdv}\NormalTok{(}\DataTypeTok{siteNumbers =} \StringTok{"06934500"}\NormalTok{,}
-                             \DataTypeTok{parameterCd =} \StringTok{"00060"}\NormalTok{, }\CommentTok{# discharge (ft3/s)}
-                             \DataTypeTok{startDate =} \StringTok{""}\NormalTok{,}
-                             \DataTypeTok{endDate =} \StringTok{""}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(MRHDischarge)[}\DecValTok{4}\OperatorTok{:}\DecValTok{5}\NormalTok{] <-}\KeywordTok{c}\NormalTok{(}\StringTok{"Discharge"}\NormalTok{, }\StringTok{"Approval.Code"}\NormalTok{)}
-\CommentTok{# 06856600 REPUBLICAN R AT CLAY CENTER, KS}
-\NormalTok{RRCCDischarge <-}\StringTok{ }\KeywordTok{readNWISdv}\NormalTok{(}\DataTypeTok{siteNumbers =} \StringTok{"06856600"}\NormalTok{,}
-                           \DataTypeTok{parameterCd =} \StringTok{"00060"}\NormalTok{, }\CommentTok{# discharge (ft3/s)}
-                           \DataTypeTok{startDate =} \StringTok{""}\NormalTok{,}
-                           \DataTypeTok{endDate =} \StringTok{""}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(RRCCDischarge)[}\DecValTok{4}\OperatorTok{:}\DecValTok{5}\NormalTok{] <-}\KeywordTok{c}\NormalTok{(}\StringTok{"Discharge"}\NormalTok{, }\StringTok{"Approval.Code"}\NormalTok{)}
-
-\CommentTok{# Nitrogen Data}
-\CommentTok{# 06810000 Nishnabotna River above Hamburg, IA }
-\NormalTok{NRHNitrogen <-}\StringTok{ }\KeywordTok{readNWISqw}\NormalTok{(}\DataTypeTok{siteNumbers =} \StringTok{"06810000"}\NormalTok{,}
-                          \DataTypeTok{parameterCd =} \StringTok{"00600"}\NormalTok{, }\CommentTok{# nitrogen (mg/L)}
-                          \DataTypeTok{startDate =} \StringTok{""}\NormalTok{,}
-                          \DataTypeTok{endDate =} \StringTok{""}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{select}\NormalTok{(sample_dt, result_va)}
-\CommentTok{# 06934500 Missouri River at Hermann, MO}
-\NormalTok{MRHNitrogen <-}\StringTok{ }\KeywordTok{readNWISqw}\NormalTok{(}\DataTypeTok{siteNumbers =} \StringTok{"06934500"}\NormalTok{,}
-                            \DataTypeTok{parameterCd =} \StringTok{"00600"}\NormalTok{, }\CommentTok{# nitrogen (mg/L)}
-                            \DataTypeTok{startDate =} \StringTok{""}\NormalTok{,}
-                            \DataTypeTok{endDate =} \StringTok{""}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{select}\NormalTok{(sample_dt, result_va)}
-\CommentTok{# 06856600 REPUBLICAN R AT CLAY CENTER, KS}
-\NormalTok{RRCCNitrogen <-}\StringTok{ }\KeywordTok{readNWISqw}\NormalTok{(}\DataTypeTok{siteNumbers =} \StringTok{"06856600"}\NormalTok{,}
-                          \DataTypeTok{parameterCd =} \StringTok{"00600"}\NormalTok{, }\CommentTok{# nitrogen (mg/L)}
-                          \DataTypeTok{startDate =} \StringTok{""}\NormalTok{,}
-                          \DataTypeTok{endDate =} \StringTok{""}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{select}\NormalTok{(sample_dt, result_va)}
-
-\CommentTok{#Phosphorus Data}
-\CommentTok{# 06810000 Nishnabotna River above Hamburg, IA }
-\NormalTok{NRHPhosphorus <-}\StringTok{ }\KeywordTok{readNWISqw}\NormalTok{(}\DataTypeTok{siteNumbers =} \StringTok{"06810000"}\NormalTok{,}
-                            \DataTypeTok{parameterCd =} \StringTok{"00665"}\NormalTok{, }\CommentTok{# phosphorus (mg/L)}
-                            \DataTypeTok{startDate =} \StringTok{""}\NormalTok{,}
-                            \DataTypeTok{endDate =} \StringTok{""}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{select}\NormalTok{(sample_dt, result_va)}
-\CommentTok{# 06934500 Missouri River at Hermann, MO}
-\NormalTok{MRHPhosphorus <-}\StringTok{ }\KeywordTok{readNWISqw}\NormalTok{(}\DataTypeTok{siteNumbers =} \StringTok{"06934500"}\NormalTok{,}
-                              \DataTypeTok{parameterCd =} \StringTok{"00665"}\NormalTok{, }\CommentTok{# phosphorus (mg/L)}
-                              \DataTypeTok{startDate =} \StringTok{""}\NormalTok{,}
-                              \DataTypeTok{endDate =} \StringTok{""}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{select}\NormalTok{(sample_dt, result_va)}
-\CommentTok{# 06856600 REPUBLICAN R AT CLAY CENTER, KS}
-\NormalTok{RRCCPhosphorus <-}\StringTok{ }\KeywordTok{readNWISqw}\NormalTok{(}\DataTypeTok{siteNumbers =} \StringTok{"06856600"}\NormalTok{,}
-                            \DataTypeTok{parameterCd =} \StringTok{"00665"}\NormalTok{, }\CommentTok{# phosphorus (mg/L)}
-                            \DataTypeTok{startDate =} \StringTok{""}\NormalTok{,}
-                            \DataTypeTok{endDate =} \StringTok{""}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{select}\NormalTok{(sample_dt, result_va)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{figure}
 \centering
 \includegraphics{Project_Template_files/figure-latex/discharge.time-1.pdf}
@@ -557,22 +430,11 @@ Also, we do the same things for nitrogen and phosphorus.
 filtering}
 \end{figure}
 
+\newpage
+
 \hypertarget{high-frequency-nitrogen-and-discharge}{%
 \subsection{High Frequency Nitrogen and
 Discharge}\label{high-frequency-nitrogen-and-discharge}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#high frequency data wrangling}
-\NormalTok{highfreqsite2019 <-}\StringTok{ }\NormalTok{highfreqsiteinfo }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{filter}\NormalTok{(end_date }\OperatorTok{>}\StringTok{ "2019-03-31"}\NormalTok{); }\KeywordTok{head}\NormalTok{(highfreqsite2019)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning in Ops.factor(end_date, "2019-03-31"): '>' not meaningful for
-## factors
-\end{verbatim}
 
 \begin{verbatim}
 ##  [1] X                  agency_cd          site_no           
@@ -586,28 +448,6 @@ Discharge}\label{high-frequency-nitrogen-and-discharge}}
 ## [25] count_nu          
 ## <0 rows> (or 0-length row.names)
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{highfreqsites.DN <-}\StringTok{ }\KeywordTok{readNWISuv}\NormalTok{(}\DataTypeTok{site =} \KeywordTok{c}\NormalTok{(}\StringTok{"06808500"}\NormalTok{, }\StringTok{"06817000"}\NormalTok{, }\StringTok{"06892350"}\NormalTok{, }\StringTok{"06934500"}\NormalTok{), }
-                               \DataTypeTok{parameterCd =} \KeywordTok{c}\NormalTok{(}\StringTok{"00060"}\NormalTok{, }\StringTok{"99133"}\NormalTok{), }
-                               \CommentTok{# Discharge in cfs & Nitrate in mg/l NO3-N}
-                               \DataTypeTok{startDate =} \StringTok{"2019-01-01"}\NormalTok{,}
-                               \DataTypeTok{endDate =} \StringTok{"2019-11-01"}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{                               }\KeywordTok{renameNWISColumns}\NormalTok{() }\OperatorTok{%>%}
-\StringTok{                               }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{Nitrate_mgl =} \DecValTok{6}\NormalTok{)}
-
-\CommentTok{#individual sites}
-\NormalTok{Hermann <-}\StringTok{ }\NormalTok{highfreqsites.DN }\OperatorTok{%>%}
-\StringTok{           }\KeywordTok{filter}\NormalTok{(site_no}\OperatorTok{==}\StringTok{"06934500"}\NormalTok{)}
-\NormalTok{Desoto <-}\StringTok{ }\NormalTok{highfreqsites.DN }\OperatorTok{%>%}
-\StringTok{          }\KeywordTok{filter}\NormalTok{(site_no}\OperatorTok{==}\StringTok{"06892350"}\NormalTok{)}
-\NormalTok{Clarinda <-}\StringTok{ }\NormalTok{highfreqsites.DN }\OperatorTok{%>%}
-\StringTok{            }\KeywordTok{filter}\NormalTok{(site_no}\OperatorTok{==}\StringTok{"06817000"}\NormalTok{)}
-\NormalTok{Randolph <-}\StringTok{ }\NormalTok{highfreqsites.DN }\OperatorTok{%>%}
-\StringTok{            }\KeywordTok{filter}\NormalTok{(site_no}\OperatorTok{==}\StringTok{"06808500"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 There were 7 sites in our region of interest that had high freq N data,
 and only 4 sites had high freq N data during the floods of 2019. The
@@ -636,10 +476,6 @@ exhibited the type of storm and its effects on nitrogen concentration.
 Even though Nitrogen concentrations were not recorded in March, they
 were recorded in other times of the year. 2019 was a wet year and many
 large storm events occurred.
-
-\begin{verbatim}
-## Warning: Removed 9 rows containing missing values (geom_point).
-\end{verbatim}
 
 \begin{figure}
 \centering
@@ -782,33 +618,7 @@ hydrologic flashiness.
 
 \newpage
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{##Time Series}
-
-\CommentTok{# 06810000 Nishnabotna River above Hamburg, IA }
-
-\CommentTok{########################### Discharge Analysis ############################}
-\NormalTok{NRHRegressionPlot <-}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(NRHDischarge, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Date, }\DataTypeTok{y =}\NormalTok{ Discharge)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{"lm"}\NormalTok{, }\DataTypeTok{se =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{""}\NormalTok{, }\DataTypeTok{y =} \KeywordTok{expression}\NormalTok{(}\StringTok{"Discharge (ft"}\OperatorTok{^}\DecValTok{3}\OperatorTok{*}\StringTok{"/s)"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{margin =} \KeywordTok{margin}\NormalTok{(}\DataTypeTok{b =} \DecValTok{-10}\NormalTok{), }\DataTypeTok{size =} \DecValTok{12}\NormalTok{), }
-        \DataTypeTok{axis.title.x =} \KeywordTok{element_blank}\NormalTok{())}
-\KeywordTok{print}\NormalTok{(NRHRegressionPlot)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{NRHDischarge <-}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(NRHDischarge)}
-\NormalTok{NRH_ts <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(NRHDischarge[[}\DecValTok{4}\NormalTok{]], }\DataTypeTok{frequency =} \DecValTok{365}\NormalTok{)}
-\KeywordTok{table}\NormalTok{(}\KeywordTok{diff}\NormalTok{(NRHDischarge}\OperatorTok{$}\NormalTok{Date))}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -816,66 +626,9 @@ hydrologic flashiness.
 ## 33279
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Generate the decomposition}
-\NormalTok{NRH_Decomposed <-}\StringTok{ }\KeywordTok{stl}\NormalTok{(NRH_ts, }\DataTypeTok{s.window =} \StringTok{"periodic"}\NormalTok{)}
-
-\CommentTok{# Visualize the decomposed series. }
-\KeywordTok{plot}\NormalTok{(NRH_Decomposed)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-2.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# We can extract the components and turn them into data frames}
-\NormalTok{NRH_Components <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(NRH_Decomposed}\OperatorTok{$}\NormalTok{time.series[,}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{])}
-\NormalTok{NRH_Components <-}\StringTok{ }\KeywordTok{mutate}\NormalTok{(NRH_Components,}
-                         \DataTypeTok{Observed =}\NormalTok{ NRHDischarge}\OperatorTok{$}\NormalTok{Discharge,     }
-                         \DataTypeTok{Date =}\NormalTok{ NRHDischarge}\OperatorTok{$}\NormalTok{Date)}
-
-\CommentTok{# Visualize how the trend maps onto the data}
-\KeywordTok{ggplot}\NormalTok{(NRH_Components) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ Observed, }\DataTypeTok{x =}\NormalTok{ Date),  }\DataTypeTok{size =} \FloatTok{0.25}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ trend, }\DataTypeTok{x =}\NormalTok{ Date), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_hline}\NormalTok{(}\DataTypeTok{yintercept =} \DecValTok{0}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\KeywordTok{expression}\NormalTok{(}\StringTok{"Discharge (ft"}\OperatorTok{^}\DecValTok{3}\OperatorTok{*}\StringTok{"/s)"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-3.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Visualize how the seasonal cycle maps onto the data}
-\KeywordTok{ggplot}\NormalTok{(NRH_Components) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ Observed, }\DataTypeTok{x =}\NormalTok{ Date),  }\DataTypeTok{size =} \FloatTok{0.25}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ seasonal, }\DataTypeTok{x =}\NormalTok{ Date), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_hline}\NormalTok{(}\DataTypeTok{yintercept =} \DecValTok{0}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\KeywordTok{expression}\NormalTok{(}\StringTok{"Discharge (ft"}\OperatorTok{^}\DecValTok{3}\OperatorTok{*}\StringTok{"/s)"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-4.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{NRHDischarge.Monthly <-}\StringTok{ }\NormalTok{NRHDischarge }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Year =} \KeywordTok{year}\NormalTok{(Date),}
-         \DataTypeTok{Month =} \KeywordTok{month}\NormalTok{(Date)) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(Year, Month) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{Discharge =} \KeywordTok{mean}\NormalTok{(Discharge))}
-\NormalTok{NRHMonthly_ts <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(NRHDischarge.Monthly[[}\DecValTok{3}\NormalTok{]], }\DataTypeTok{frequency =} \DecValTok{12}\NormalTok{)}
-\KeywordTok{adf.test}\NormalTok{(NRHMonthly_ts, }\DataTypeTok{alternative =} \StringTok{"stationary"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning in adf.test(NRHMonthly_ts, alternative = "stationary"): p-value
-## smaller than printed p-value
-\end{verbatim}
 
 \begin{verbatim}
 ## 
@@ -886,28 +639,8 @@ hydrologic flashiness.
 ## alternative hypothesis: stationary
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{acf}\NormalTok{(NRHMonthly_ts)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-5.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{pacf}\NormalTok{(NRHMonthly_ts)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-6.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# run the arima function and search for best fit}
-\KeywordTok{auto.arima}\NormalTok{(NRHMonthly_ts, }\DataTypeTok{trace =} \OtherTok{TRUE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -968,53 +701,8 @@ hydrologic flashiness.
 ## AIC=18997.51   AICc=18997.57   BIC=19022.5
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# create an object that defines the best fit model}
-\NormalTok{NRHfit <-}\StringTok{ }\KeywordTok{arima}\NormalTok{(NRHMonthly_ts, }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{),}\DataTypeTok{seasonal =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{order =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{), }\DataTypeTok{period =} \DecValTok{12}\NormalTok{))}
-
-\CommentTok{# make a prediction into the future}
-\NormalTok{NRHprediction <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(NRHfit, }\DataTypeTok{n.ahead =} \DecValTok{10}\OperatorTok{*}\DecValTok{12}\NormalTok{)}
-
-\CommentTok{# plot future predictions}
-\KeywordTok{ts.plot}\NormalTok{(NRHMonthly_ts, NRHprediction}\OperatorTok{$}\NormalTok{pred, }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-7.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{########################### Nitrogen Analysis ############################}
-\CommentTok{# Generate monthly values from March 2004 to September 2014}
-\NormalTok{NRHNitrogenlp <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{approx}\NormalTok{(NRHNitrogen, }\DataTypeTok{n =} \DecValTok{128}\NormalTok{, }\DataTypeTok{method =} \StringTok{"linear"}\NormalTok{))}
-\NormalTok{NRHNitrogenlp}\OperatorTok{$}\NormalTok{x <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(NRHNitrogenlp}\OperatorTok{$}\NormalTok{x, }\DataTypeTok{origin =} \StringTok{"1970-01-01"}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(NRHNitrogenlp) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Date"}\NormalTok{, }\StringTok{"N"}\NormalTok{)}
-
-\CommentTok{# Inspect interpolated values}
-\NormalTok{NRHNinterpolated <-}
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(NRHNitrogen, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ sample_dt, }\DataTypeTok{y =}\NormalTok{ result_va)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ NRHNitrogenlp, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Date, }\DataTypeTok{y =}\NormalTok{ N), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{)}
-\KeywordTok{print}\NormalTok{(NRHNinterpolated)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-8.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Generate time series (smk.test needs ts, not data.frame)}
-\NormalTok{NRHNtimeseries <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(NRHNitrogenlp}\OperatorTok{$}\NormalTok{N, }\DataTypeTok{frequency =} \DecValTok{12}\NormalTok{,}
-                     \DataTypeTok{start =} \KeywordTok{c}\NormalTok{(}\DecValTok{2004}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{11}\NormalTok{), }\DataTypeTok{end =} \KeywordTok{c}\NormalTok{(}\DecValTok{2014}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{16}\NormalTok{))}
-\CommentTok{# Run SMK test}
-\NormalTok{NRHNtrend <-}\StringTok{ }\KeywordTok{smk.test}\NormalTok{(NRHNtimeseries)}
-
-\CommentTok{# Inspect results}
-\NormalTok{NRHNtrend}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1027,12 +715,6 @@ hydrologic flashiness.
 ##    S varS 
 ##  -28 1780
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(NRHNtrend)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1061,38 +743,7 @@ hydrologic flashiness.
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{########################### Phosphorus Analysis ############################}
-\CommentTok{# Generate monthly values from March 2004 to September 2014}
-\NormalTok{NRHPhosphoruslp <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{approx}\NormalTok{(NRHPhosphorus, }\DataTypeTok{n =} \DecValTok{128}\NormalTok{, }\DataTypeTok{method =} \StringTok{"linear"}\NormalTok{))}
-\NormalTok{NRHPhosphoruslp}\OperatorTok{$}\NormalTok{x <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(NRHPhosphoruslp}\OperatorTok{$}\NormalTok{x, }\DataTypeTok{origin =} \StringTok{"1970-01-01"}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(NRHPhosphoruslp) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Date"}\NormalTok{, }\StringTok{"P"}\NormalTok{)}
-
-\CommentTok{# Inspect interpolated values}
-\NormalTok{NRHPinterpolated <-}
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(NRHPhosphorus, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ sample_dt, }\DataTypeTok{y =}\NormalTok{ result_va)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ NRHPhosphoruslp, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Date, }\DataTypeTok{y =}\NormalTok{ P), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{)}
-\KeywordTok{print}\NormalTok{(NRHPinterpolated)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-9.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Generate time series (smk.test needs ts, not data.frame)}
-\NormalTok{NRHPtimeseries <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(NRHPhosphoruslp}\OperatorTok{$}\NormalTok{P, }\DataTypeTok{frequency =} \DecValTok{12}\NormalTok{,}
-                     \DataTypeTok{start =} \KeywordTok{c}\NormalTok{(}\DecValTok{2004}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{11}\NormalTok{), }\DataTypeTok{end =} \KeywordTok{c}\NormalTok{(}\DecValTok{2014}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{16}\NormalTok{))}
-\CommentTok{# Run SMK test}
-\NormalTok{NRHPtrend <-}\StringTok{ }\KeywordTok{smk.test}\NormalTok{(NRHPtimeseries)}
-
-\CommentTok{# Inspect results}
-\NormalTok{NRHPtrend}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1105,12 +756,6 @@ hydrologic flashiness.
 ##    S varS 
 ##   36 1780
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(NRHPtrend)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1139,32 +784,7 @@ hydrologic flashiness.
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# 06934500 Missouri River at Hermann, MO }
-
-\CommentTok{########################### Discharge Analysis ############################}
-
-\NormalTok{MRHRegressionPlot <-}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(MRHDischarge, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Date, }\DataTypeTok{y =}\NormalTok{ Discharge)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{"lm"}\NormalTok{, }\DataTypeTok{se =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{""}\NormalTok{, }\DataTypeTok{y =} \KeywordTok{expression}\NormalTok{(}\StringTok{"Discharge (ft"}\OperatorTok{^}\DecValTok{3}\OperatorTok{*}\StringTok{"/s)"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{margin =} \KeywordTok{margin}\NormalTok{(}\DataTypeTok{b =} \DecValTok{-10}\NormalTok{), }\DataTypeTok{size =} \DecValTok{12}\NormalTok{), }
-        \DataTypeTok{axis.title.x =} \KeywordTok{element_blank}\NormalTok{())}
-\KeywordTok{print}\NormalTok{(MRHRegressionPlot)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-10.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{MRHDischarge <-}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(MRHDischarge)}
-\NormalTok{MRH_ts <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(MRHDischarge[[}\DecValTok{4}\NormalTok{]], }\DataTypeTok{frequency =} \DecValTok{365}\NormalTok{)}
-\KeywordTok{table}\NormalTok{(}\KeywordTok{diff}\NormalTok{(MRHDischarge}\OperatorTok{$}\NormalTok{Date))}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1172,66 +792,9 @@ hydrologic flashiness.
 ## 33276     1
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Generate the decomposition}
-\NormalTok{MRH_Decomposed <-}\StringTok{ }\KeywordTok{stl}\NormalTok{(MRH_ts, }\DataTypeTok{s.window =} \StringTok{"periodic"}\NormalTok{)}
-
-\CommentTok{# Visualize the decomposed series. }
-\KeywordTok{plot}\NormalTok{(MRH_Decomposed)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-11.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# We can extract the components and turn them into data frames}
-\NormalTok{MRH_Components <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(MRH_Decomposed}\OperatorTok{$}\NormalTok{time.series[,}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{])}
-\NormalTok{MRH_Components <-}\StringTok{ }\KeywordTok{mutate}\NormalTok{(MRH_Components,}
-                           \DataTypeTok{Observed =}\NormalTok{ MRHDischarge}\OperatorTok{$}\NormalTok{Discharge,     }
-                           \DataTypeTok{Date =}\NormalTok{ MRHDischarge}\OperatorTok{$}\NormalTok{Date)}
-
-\CommentTok{# Visualize how the trend maps onto the data}
-\KeywordTok{ggplot}\NormalTok{(MRH_Components) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ Observed, }\DataTypeTok{x =}\NormalTok{ Date),  }\DataTypeTok{size =} \FloatTok{0.25}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ trend, }\DataTypeTok{x =}\NormalTok{ Date), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_hline}\NormalTok{(}\DataTypeTok{yintercept =} \DecValTok{0}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\KeywordTok{expression}\NormalTok{(}\StringTok{"Discharge (ft"}\OperatorTok{^}\DecValTok{3}\OperatorTok{*}\StringTok{"/s)"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-12.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Visualize how the seasonal cycle maps onto the data}
-\KeywordTok{ggplot}\NormalTok{(MRH_Components) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ Observed, }\DataTypeTok{x =}\NormalTok{ Date),  }\DataTypeTok{size =} \FloatTok{0.25}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ seasonal, }\DataTypeTok{x =}\NormalTok{ Date), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_hline}\NormalTok{(}\DataTypeTok{yintercept =} \DecValTok{0}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\KeywordTok{expression}\NormalTok{(}\StringTok{"Discharge (ft"}\OperatorTok{^}\DecValTok{3}\OperatorTok{*}\StringTok{"/s)"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-13.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{MRHDischarge.Monthly <-}\StringTok{ }\NormalTok{MRHDischarge }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Year =} \KeywordTok{year}\NormalTok{(Date),}
-         \DataTypeTok{Month =} \KeywordTok{month}\NormalTok{(Date)) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(Year, Month) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{Discharge =} \KeywordTok{mean}\NormalTok{(Discharge))}
-\NormalTok{MRHMonthly_ts <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(MRHDischarge.Monthly[[}\DecValTok{3}\NormalTok{]], }\DataTypeTok{frequency =} \DecValTok{12}\NormalTok{)}
-\KeywordTok{adf.test}\NormalTok{(MRHMonthly_ts, }\DataTypeTok{alternative =} \StringTok{"stationary"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning in adf.test(MRHMonthly_ts, alternative = "stationary"): p-value
-## smaller than printed p-value
-\end{verbatim}
 
 \begin{verbatim}
 ## 
@@ -1242,28 +805,8 @@ hydrologic flashiness.
 ## alternative hypothesis: stationary
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{acf}\NormalTok{(MRHMonthly_ts)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-14.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{pacf}\NormalTok{(MRHMonthly_ts)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-15.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# run the arima function and search for best fit}
-\KeywordTok{auto.arima}\NormalTok{(MRHMonthly_ts, }\DataTypeTok{trace =} \OtherTok{TRUE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1355,63 +898,8 @@ hydrologic flashiness.
 ## AIC=26328.28   AICc=26328.41   BIC=26368.26
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# create an object that defines the best fit model}
-\NormalTok{MRHfit <-}\StringTok{ }\KeywordTok{arima}\NormalTok{(MRHMonthly_ts, }\KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{seasonal =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{order =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{period =} \DecValTok{12}\NormalTok{))}
-
-\CommentTok{# make a prediction into the future}
-\NormalTok{MRHprediction <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(MRHfit, }\DataTypeTok{n.ahead =} \DecValTok{10}\OperatorTok{*}\DecValTok{12}\NormalTok{)}
-
-\CommentTok{# plot future predictions}
-\KeywordTok{ts.plot}\NormalTok{(MRHMonthly_ts, MRHprediction}\OperatorTok{$}\NormalTok{pred, }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-16.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{########################### Nitrogen Analysis ############################}
-\CommentTok{# Generate monthly values from July 1973 to August 2019}
-\NormalTok{MRHNitrogenlp <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{approx}\NormalTok{(MRHNitrogen, }\DataTypeTok{n =} \DecValTok{556}\NormalTok{, }\DataTypeTok{method =} \StringTok{"linear"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning in regularize.values(x, y, ties, missing(ties)): collapsing to
-## unique 'x' values
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{MRHNitrogenlp}\OperatorTok{$}\NormalTok{x <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(MRHNitrogenlp}\OperatorTok{$}\NormalTok{x, }\DataTypeTok{origin =} \StringTok{"1970-01-01"}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(MRHNitrogenlp) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Date"}\NormalTok{, }\StringTok{"N"}\NormalTok{)}
-
-\CommentTok{# Inspect interpolated values}
-\NormalTok{MRHNinterpolated <-}
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(MRHNitrogen, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ sample_dt, }\DataTypeTok{y =}\NormalTok{ result_va)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ MRHNitrogenlp, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Date, }\DataTypeTok{y =}\NormalTok{ N), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{)}
-\KeywordTok{print}\NormalTok{(MRHNinterpolated)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-17.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Generate time series (smk.test needs ts, not data.frame)}
-\NormalTok{MRHNtimeseries <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(MRHNitrogenlp}\OperatorTok{$}\NormalTok{N, }\DataTypeTok{frequency =} \DecValTok{12}\NormalTok{,}
-                       \DataTypeTok{start =} \KeywordTok{c}\NormalTok{(}\DecValTok{1973}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{23}\NormalTok{), }\DataTypeTok{end =} \KeywordTok{c}\NormalTok{(}\DecValTok{2019}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{6}\NormalTok{))}
-\CommentTok{# Run SMK test}
-\NormalTok{MRHNtrend <-}\StringTok{ }\KeywordTok{smk.test}\NormalTok{(MRHNtimeseries)}
-
-\CommentTok{# Inspect results}
-\NormalTok{MRHNtrend}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1424,12 +912,6 @@ hydrologic flashiness.
 ##      S   varS 
 ##   1412 135330
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(MRHNtrend)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1458,48 +940,7 @@ hydrologic flashiness.
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{########################### Phosphorus Analysis ############################}
-\CommentTok{# Generate monthly values from July 1969 to August 2019}
-\NormalTok{MRHPhosphoruslp <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{approx}\NormalTok{(MRHPhosphorus, }\DataTypeTok{n =} \DecValTok{604}\NormalTok{, }\DataTypeTok{method =} \StringTok{"linear"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning in regularize.values(x, y, ties, missing(ties)): collapsing to
-## unique 'x' values
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{MRHPhosphoruslp}\OperatorTok{$}\NormalTok{x <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(MRHPhosphoruslp}\OperatorTok{$}\NormalTok{x, }\DataTypeTok{origin =} \StringTok{"1970-01-01"}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(MRHPhosphoruslp) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Date"}\NormalTok{, }\StringTok{"P"}\NormalTok{)}
-
-\CommentTok{# Inspect interpolated values}
-\NormalTok{MRHPinterpolated <-}
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(MRHPhosphorus, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ sample_dt, }\DataTypeTok{y =}\NormalTok{ result_va)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ MRHPhosphoruslp, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Date, }\DataTypeTok{y =}\NormalTok{ P), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{)}
-\KeywordTok{print}\NormalTok{(MRHPinterpolated)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-18.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Generate time series (smk.test needs ts, not data.frame)}
-\NormalTok{MRHPtimeseries <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(MRHPhosphoruslp}\OperatorTok{$}\NormalTok{P, }\DataTypeTok{frequency =} \DecValTok{12}\NormalTok{,}
-                       \DataTypeTok{start =} \KeywordTok{c}\NormalTok{(}\DecValTok{1969}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{31}\NormalTok{), }\DataTypeTok{end =} \KeywordTok{c}\NormalTok{(}\DecValTok{2019}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{6}\NormalTok{))}
-\CommentTok{# Run SMK test}
-\NormalTok{MRHPtrend <-}\StringTok{ }\KeywordTok{smk.test}\NormalTok{(MRHPtimeseries)}
-
-\CommentTok{# Inspect results}
-\NormalTok{MRHPtrend}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1512,12 +953,6 @@ hydrologic flashiness.
 ##        S     varS 
 ##   2661.0 173232.3
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(MRHPtrend)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1546,31 +981,7 @@ hydrologic flashiness.
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# 06856600 REPUBLICAN R AT CLAY CENTER, KS}
-
-\CommentTok{########################### Discharge Analysis ############################}
-\NormalTok{RRCCRegressionPlot <-}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(RRCCDischarge, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Date, }\DataTypeTok{y =}\NormalTok{ Discharge)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{"lm"}\NormalTok{, }\DataTypeTok{se =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{""}\NormalTok{, }\DataTypeTok{y =} \KeywordTok{expression}\NormalTok{(}\StringTok{"Discharge (ft"}\OperatorTok{^}\DecValTok{3}\OperatorTok{*}\StringTok{"/s)"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{margin =} \KeywordTok{margin}\NormalTok{(}\DataTypeTok{b =} \DecValTok{-10}\NormalTok{), }\DataTypeTok{size =} \DecValTok{12}\NormalTok{), }
-        \DataTypeTok{axis.title.x =} \KeywordTok{element_blank}\NormalTok{())}
-\KeywordTok{print}\NormalTok{(RRCCRegressionPlot)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-19.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{RRCCDischarge <-}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(RRCCDischarge)}
-\NormalTok{RRCC_ts <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(RRCCDischarge[[}\DecValTok{4}\NormalTok{]], }\DataTypeTok{frequency =} \DecValTok{365}\NormalTok{)}
-\KeywordTok{table}\NormalTok{(}\KeywordTok{diff}\NormalTok{(RRCCDischarge}\OperatorTok{$}\NormalTok{Date))}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1578,66 +989,9 @@ hydrologic flashiness.
 ## 37419
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Generate the decomposition}
-\NormalTok{RRCC_Decomposed <-}\StringTok{ }\KeywordTok{stl}\NormalTok{(RRCC_ts, }\DataTypeTok{s.window =} \StringTok{"periodic"}\NormalTok{)}
-
-\CommentTok{# Visualize the decomposed series. }
-\KeywordTok{plot}\NormalTok{(RRCC_Decomposed)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-20.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# We can extract the components and turn them into data frames}
-\NormalTok{RRCC_Components <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(RRCC_Decomposed}\OperatorTok{$}\NormalTok{time.series[,}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{])}
-\NormalTok{RRCC_Components <-}\StringTok{ }\KeywordTok{mutate}\NormalTok{(RRCC_Components,}
-                         \DataTypeTok{Observed =}\NormalTok{ RRCCDischarge}\OperatorTok{$}\NormalTok{Discharge,     }
-                         \DataTypeTok{Date =}\NormalTok{ RRCCDischarge}\OperatorTok{$}\NormalTok{Date)}
-
-\CommentTok{# Visualize how the trend maps onto the data}
-\KeywordTok{ggplot}\NormalTok{(RRCC_Components) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ Observed, }\DataTypeTok{x =}\NormalTok{ Date),  }\DataTypeTok{size =} \FloatTok{0.25}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ trend, }\DataTypeTok{x =}\NormalTok{ Date), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_hline}\NormalTok{(}\DataTypeTok{yintercept =} \DecValTok{0}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\KeywordTok{expression}\NormalTok{(}\StringTok{"Discharge (ft"}\OperatorTok{^}\DecValTok{3}\OperatorTok{*}\StringTok{"/s)"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-21.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Visualize how the seasonal cycle maps onto the data}
-\KeywordTok{ggplot}\NormalTok{(RRCC_Components) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ Observed, }\DataTypeTok{x =}\NormalTok{ Date),  }\DataTypeTok{size =} \FloatTok{0.25}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ seasonal, }\DataTypeTok{x =}\NormalTok{ Date), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_hline}\NormalTok{(}\DataTypeTok{yintercept =} \DecValTok{0}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\KeywordTok{expression}\NormalTok{(}\StringTok{"Discharge (ft"}\OperatorTok{^}\DecValTok{3}\OperatorTok{*}\StringTok{"/s)"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-22.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{RRCCDischarge.Monthly <-}\StringTok{ }\NormalTok{RRCCDischarge }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Year =} \KeywordTok{year}\NormalTok{(Date),}
-         \DataTypeTok{Month =} \KeywordTok{month}\NormalTok{(Date)) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(Year, Month) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{Discharge =} \KeywordTok{mean}\NormalTok{(Discharge))}
-\NormalTok{RRCCMonthly_ts <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(RRCCDischarge.Monthly[[}\DecValTok{3}\NormalTok{]], }\DataTypeTok{frequency =} \DecValTok{12}\NormalTok{)}
-\KeywordTok{adf.test}\NormalTok{(RRCCMonthly_ts, }\DataTypeTok{alternative =} \StringTok{"stationary"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning in adf.test(RRCCMonthly_ts, alternative = "stationary"): p-value
-## smaller than printed p-value
-\end{verbatim}
 
 \begin{verbatim}
 ## 
@@ -1648,28 +1002,8 @@ hydrologic flashiness.
 ## alternative hypothesis: stationary
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{acf}\NormalTok{(RRCCMonthly_ts)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-23.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{pacf}\NormalTok{(RRCCMonthly_ts)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-24.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# run the arima function and search for best fit}
-\KeywordTok{auto.arima}\NormalTok{(RRCCMonthly_ts, }\DataTypeTok{trace =} \OtherTok{TRUE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1746,53 +1080,8 @@ hydrologic flashiness.
 ## AIC=20966.66   AICc=20966.7   BIC=20992.23
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# create an object that defines the best fit model}
-\NormalTok{RRCCfit <-}\StringTok{ }\KeywordTok{arima}\NormalTok{(RRCCMonthly_ts, }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{),}\DataTypeTok{seasonal =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{order =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{), }\DataTypeTok{period =} \DecValTok{12}\NormalTok{))}
-
-\CommentTok{# make a prediction into the future}
-\NormalTok{RRCCprediction <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(RRCCfit, }\DataTypeTok{n.ahead =} \DecValTok{10}\OperatorTok{*}\DecValTok{12}\NormalTok{)}
-
-\CommentTok{# plot future predictions}
-\KeywordTok{ts.plot}\NormalTok{(RRCCMonthly_ts, RRCCprediction}\OperatorTok{$}\NormalTok{pred, }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-25.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{########################### Nitrogen Analysis ############################}
-\CommentTok{# Generate monthly values from February 1973 to September 1993}
-\NormalTok{RRCCNitrogenlp <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{approx}\NormalTok{(RRCCNitrogen, }\DataTypeTok{n =} \DecValTok{249}\NormalTok{, }\DataTypeTok{method =} \StringTok{"linear"}\NormalTok{))}
-\NormalTok{RRCCNitrogenlp}\OperatorTok{$}\NormalTok{x <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(RRCCNitrogenlp}\OperatorTok{$}\NormalTok{x, }\DataTypeTok{origin =} \StringTok{"1970-01-01"}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(RRCCNitrogenlp) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Date"}\NormalTok{, }\StringTok{"N"}\NormalTok{)}
-
-\CommentTok{# Inspect interpolated values}
-\NormalTok{RRCCNinterpolated <-}
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(RRCCNitrogen, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ sample_dt, }\DataTypeTok{y =}\NormalTok{ result_va)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ RRCCNitrogenlp, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Date, }\DataTypeTok{y =}\NormalTok{ N), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{)}
-\KeywordTok{print}\NormalTok{(RRCCNinterpolated)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-26.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Generate time series (smk.test needs ts, not data.frame)}
-\NormalTok{RRCCNtimeseries <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(RRCCNitrogenlp}\OperatorTok{$}\NormalTok{N, }\DataTypeTok{frequency =} \DecValTok{12}\NormalTok{,}
-                     \DataTypeTok{start =} \KeywordTok{c}\NormalTok{(}\DecValTok{1973}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{22}\NormalTok{), }\DataTypeTok{end =} \KeywordTok{c}\NormalTok{(}\DecValTok{1993}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{1}\NormalTok{))}
-\CommentTok{# Run SMK test}
-\NormalTok{RRCCNtrend <-}\StringTok{ }\KeywordTok{smk.test}\NormalTok{(RRCCNtimeseries)}
-
-\CommentTok{# Inspect results}
-\NormalTok{RRCCNtrend}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1805,12 +1094,6 @@ hydrologic flashiness.
 ##        S     varS 
 ##  -340.00 12573.33
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(RRCCNtrend)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1839,38 +1122,7 @@ hydrologic flashiness.
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{########################### Phosphorus Analysis ############################}
-\CommentTok{# Generate monthly values from January 1973 to September 1993}
-\NormalTok{RRCCPhosphoruslp <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{approx}\NormalTok{(RRCCPhosphorus, }\DataTypeTok{n =} \DecValTok{250}\NormalTok{, }\DataTypeTok{method =} \StringTok{"linear"}\NormalTok{))}
-\NormalTok{RRCCPhosphoruslp}\OperatorTok{$}\NormalTok{x <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(RRCCPhosphoruslp}\OperatorTok{$}\NormalTok{x, }\DataTypeTok{origin =} \StringTok{"1970-01-01"}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(RRCCPhosphoruslp) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Date"}\NormalTok{, }\StringTok{"P"}\NormalTok{)}
-
-\CommentTok{# Inspect interpolated values}
-\NormalTok{RRCCPinterpolated <-}
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(RRCCPhosphorus, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ sample_dt, }\DataTypeTok{y =}\NormalTok{ result_va)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ RRCCPhosphoruslp, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Date, }\DataTypeTok{y =}\NormalTok{ P), }\DataTypeTok{color =} \StringTok{"#c13d75ff"}\NormalTok{)}
-\KeywordTok{print}\NormalTok{(RRCCPinterpolated)}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Project_Template_files/figure-latex/unnamed-chunk-6-27.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Generate time series (smk.test needs ts, not data.frame)}
-\NormalTok{RRCCPtimeseries <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(RRCCPhosphoruslp}\OperatorTok{$}\NormalTok{P, }\DataTypeTok{frequency =} \DecValTok{12}\NormalTok{,}
-                     \DataTypeTok{start =} \KeywordTok{c}\NormalTok{(}\DecValTok{1973}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{16}\NormalTok{), }\DataTypeTok{end =} \KeywordTok{c}\NormalTok{(}\DecValTok{1993}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{1}\NormalTok{))}
-\CommentTok{# Run SMK test}
-\NormalTok{RRCCPtrend <-}\StringTok{ }\KeywordTok{smk.test}\NormalTok{(RRCCPtimeseries)}
-
-\CommentTok{# Inspect results}
-\NormalTok{RRCCPtrend}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1883,12 +1135,6 @@ hydrologic flashiness.
 ##     S  varS 
 ##  -538 12720
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(RRCCPtrend)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -1927,18 +1173,8 @@ conclusions do you draw from your findings? Make sure to apply this to a
 broader application for the research question you have
 answered.\textgreater{}
 
-\hypertarget{example-for-autoreferencing}{%
-\subsection{Example for
-autoreferencing}\label{example-for-autoreferencing}}
-
-As seen by \autoref{fig:foo}, Absorbance values are not normally
-distributed. This is expected, as we are dealing with ecological data.
-
-\begin{figure}
-\centering
-\includegraphics{Project_Template_files/figure-latex/foo-1.pdf}
-\caption{\label{fig:foo}Absorbance frequency}
-\end{figure}
+\hypertarget{references}{%
+\section{References}\label{references}}
 
 
 \end{document}

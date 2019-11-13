@@ -28,6 +28,7 @@ editor_options:
 
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, echo=FALSE)
 # Set your working directory
 
 getwd()
@@ -287,7 +288,8 @@ print(totalcoliform.time)
 \autoref{fig:tc.dis} was created to determine whether high amounts of total coliform coincided with an increase in discharge. Because there were limited total coliform measurements taken, as evidenced in \autoref{fig:tc.time}, there is not a great conclusion from this data. However, \autoref{fig:tc.dis} shows a spike in discharge events between 1972 - 1974, which also happens to be a time when total coliform was sampled. \autoref{fig:tc.dis} also shows increases in total coliform between 1972 - 1975. 
 
 \newpage
-### Time Series Analysis ###
+
+### Time Series Analysis
 
 In time series analysis, we focus on the same 3 sites chosen in the water quality analysis.
 
@@ -529,6 +531,8 @@ RRCCP <-
         title = "  06856600") 
 grid.arrange(NRHP, MRHP, RRCCP)
 ```
+
+\newpage
 
 ## High Frequency Nitrogen and Discharge
 
@@ -990,12 +994,4 @@ summary(RRCCPtrend)
 <Summarize your major findings from your analyses. What conclusions do you draw from your findings? Make sure to apply this to a broader application for the research question you have answered.>
 
 
-## Example for autoreferencing
-
-As seen by \autoref{fig:foo}, Absorbance values are not normally distributed. This is expected, as we are dealing with ecological data.
-
-```{r foo, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:foo}Absorbance frequency"}
-ggplot(cars) +
-  geom_point(aes(x=speed, y= dist)) +
-  labs(x= "Frequency", y="Absorbance value")
-```
+# References
