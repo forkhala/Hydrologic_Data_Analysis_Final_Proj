@@ -360,6 +360,32 @@ The \autoref{fig:desotos} shows Hysteresis plots for two storm events in the Mis
 
 <Include text sections to accompany these R chunks to explain the reasoning behind your workflow, rationale for your approach, and the justification of meeting or failing to meet assumptions of tests.>
 
+#### Linear Models for Water Quality ####
+
+```{r}
+
+#linear model for TN 
+tn.mod <- lm(data = bestsites.wq.skinny, total.nitrogen ~ Date)
+summary(tn.mod) #for every day increase, total nitrogen increases by 9.310e-05 mg/l. Thus there is a significant increase over the time period (p < 2e-16, F-statistic = 23.31).
+
+tn.mod.2 <- lm(data = bestsites.wq.skinny, Date ~ total.nitrogen)
+summary(tn.mod.2)
+
+#linear model of total coliform over time
+tc.mod <- lm(data = bestsites.wq.skinny, total.coliform ~ Date)
+summary(tc.mod) #for every day increase, total coliform increases by 1.046 cfu/100 ml. Thus, there is an increase over the time period (p < 0.0138, F-statistic = 0.01576).
+
+#linear model of total phosphorus over time with just 6 sites that have total coliform
+tp.mod <- lm(data = bestsites.wq.skinny, total.phosphorus ~ Date)
+summary(tp.mod) #for every day increase, total phosphorus increases by 1.887e-05 mg/L. Thus, there is a significant increase in total phosphorus over the time period (p < 2.14e-15, F-statistic = 30.92).
+
+#pH model
+ph.mod <- lm(data = bestsites.wq.skinny, pH ~ Date)
+summary(ph.mod) #for every day increase
+
+
+```
+
 
 \newpage
 

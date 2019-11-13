@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  13 NOV 2019 08:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  13 NOV 2019 08:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1012,7 +1012,7 @@ m/lmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr17.pfb
 018/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2018/texmf-
 dist/fonts/type1/public/lm/lmtt12.pfb></usr/local/texlive/2018/texmf-dist/fonts
 /type1/public/lm/lmtti10.pfb>
-Output written on Project_Template.pdf (18 pages, 720019 bytes).
+Output written on Project_Template.pdf (18 pages, 720023 bytes).
 PDF statistics:
  294 PDF objects out of 1000 (max. 8388607)
  238 compressed objects within 3 object streams
