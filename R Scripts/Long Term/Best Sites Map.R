@@ -20,19 +20,19 @@ site.list <- whatNWISdata(siteNumbers = best.sites, parameterCd = "00060") %>%
   summarise(site_nm = first(station_nm),
             huc_cd = first(huc_cd)) %>%
   arrange(huc_cd) %>%
-  mutate(huc4 = substr(huc_cd, start = 1, stop = 4))
+  mutate(huc4 = substr(huc_cd, start = 1, stop = 4),
+         site_lab = seq(1, 22, by = 1))
 
 huc4_nm <- rep(c("Platte", "Loup", "Elkhorn", "Missouri-Little Sioux", "Missouri-Nishnabotna",
                  "Republican", "Smoky Hill", "Kansas", "Chariton-Grand", "Gasconade-Osage",
                  "Lower Missouri"), each = 2)
 site.list <- cbind(site.list, huc4_nm)
 # save the list
-write.csv(site.list, file="./Data/Processed/bestsiteslists.csv")
+# write.csv(site.list, file="./Data/Processed/bestsiteslists.csv")
 
-
+##### Map Generation #####
 
 best.sites.info <- whatNWISdata(sites=best.sites)
-
 
 best.sites.lat.long <- best.sites.info %>%
   group_by(site_no) %>%
@@ -43,12 +43,57 @@ best.sites.spatial <- st_as_sf(best.sites.lat.long,
                                    coords=c("Long", "Lat"), crs = 4269)
 proj <- st_crs(best.sites.spatial) #lat and long are in 4269
 
+# all states related to missouri region
 states <- st_as_sf(map(database = "state", plot = TRUE, fill = TRUE, col = "white"))
-states.map <- states %>% filter(ID =="nebraska" | ID=="kansas" | ID=="missouri" 
-                                | ID=="iowa")
-states.map <- st_set_crs(states.map, proj) #transform to match spatial datafram
-st_crs(states.map)
+allstates.map <- states %>% 
+  filter(ID %in% c("montana","north dakota","south dakota","nebraska","iowa","kansas","missouri",
+                   "wyoming","colorado", "minnesota", "idaho"))
+allstates.map <- st_set_crs(allstates.map, proj) #set projection
 
+###### Using Watershed (HUC4) Boundary #####
+# Still need run most codes above, except waterfeature ones (starting around line 44)
+# and those producing graphs
+
+# import watershed shapefile
+AllHUC4 <- st_read("./Data/Shapefiles/WBD_10_HU2_Shape/WBDHU4.dbf")
+HUC4.SE <- AllHUC4 %>%
+  filter(HUC4 %in% seq(from = 1020, to = 1030, by = 1))
+HUC4.NW <- AllHUC4 %>%
+  filter(HUC4 %in% seq(from = 1000, to = 1019, by = 1))
+
+# import stream geometric file (NOTE shapefiles not included in repos)
+st_layers("../Untracked Proj Data/Small_Scale_Map/hydr48m010g.gdb")
+streams <- st_read("../Untracked Proj Data/Small_Scale_Map/hydr48m010g.gdb", layer = "Stream")%>%
+  st_zm(drop = T, what = "ZM") # drop z/m dimension, and only keep x, y dimensions for 2D figures
+
+streams.HU10 <- streams %>%
+  filter(Region == 10)
+
+missouri <- streams.HU10 %>%
+  filter(Name == "Missouri River")
+
+sitemap <- ggplot() +
+  geom_sf(data = allstates.map, fill = "white", size = 0.4) +
+  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.5, size = 0.45) +
+  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.5, size = 0.45) +
+  geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.3, size = 0.05) +
+  geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.8) +
+  scale_fill_brewer(palette = "Paired") +
+  geom_sf(data = best.sites.spatial, fill="red2", color="red2", 
+          alpha = 0.7, size = 1.1) +
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
+        legend.title = element_text(size = 8.5)) + 
+  labs(fill = "Watershed Name")
+
+# Caution this takes time to display, and even longer than ggsave()
+# print(sitemap)
+# save file
+ggsave("./Figures/site_map.jpg", sitemap, dpi = 300, scale = 1, units = "in")
+
+#---- site mapping ends ----
+
+
+###### Part of original codes that are not needed for the current map #####
 best.sites.map <- ggplot() +
   geom_sf(data = states.map, fill = "white") +
   geom_sf(data = best.sites.spatial,  
@@ -75,61 +120,3 @@ best.sites.map <- ggplot() +
           alpha = 0.5, size = 2)
 print(best.sites.map)
 
-###### Using Watershed (HUC4) Boundary #####
-# Still need run most codes above, except waterfeature ones (starting around line 44)
-# and those producing graphs
-
-# import watershed shapefile
-AllHUC4 <- st_read("./Data/Shapefiles/WBD_10_HU2_Shape/WBDHU4.dbf")
-HUC4.SE <- AllHUC4 %>%
-  filter(HUC4 %in% seq(from = 1020, to = 1030, by = 1))
-HUC4.NW <- AllHUC4 %>%
-  filter(HUC4 %in% seq(from = 1000, to = 1019, by = 1))
-
-# import stream geometric file (NOTE shapefiles not included in repos)
-st_layers("../Untracked Proj Data/Small_Scale_Map/hydr48m010g.gdb")
-streams <- st_read("../Untracked Proj Data/Small_Scale_Map/hydr48m010g.gdb", layer = "Stream")%>%
-  st_zm(drop = T, what = "ZM") # drop z/m dimension, and only keep x, y dimensions for 2D figures
-
-streams.HU10 <- streams %>%
-  filter(Region == 10)
-
-missouri <- streams.HU10 %>%
-  filter(Name == "Missouri River")
-
-# all states related to missouri region
-allstates.map <- states %>% 
-  filter(ID %in% c("montana","north dakota","south dakota","nebraska","iowa","kansas","missouri",
-                   "wyoming","colorado", "minnesota", "idaho"))
-allstates.map <- st_set_crs(allstates.map, proj) #set projection
-
-sitemap <- ggplot() +
-  geom_sf(data = allstates.map, fill = "white", size = 0.4) +
-  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.5, size = 0.45) +
-  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.5, size = 0.45) +
-  geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.3, size = 0.05) +
-  geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.8) +
-  scale_fill_brewer(palette = "Paired") +
-  geom_sf(data = best.sites.spatial, fill="red2", color="red2", 
-          alpha = 0.7, size = 1.1) +
-  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
-        legend.title = element_text(size = 8.5)) + 
-  labs(fill = "Watershed Name")
-
-# Caution this takes time to display, and even longer than ggsave()
-# print(sitemap)
-# save file
-ggsave("./Figures/site_map.jpg", sitemap, dpi = 300, width = 9, height = 9, units = "in")
-
-#---- site mapping ends ----
-
-
-#look for pH
-best.sites.pH <- best.sites.info %>%
-  filter(parm_cd=="00400")
-unique(best.sites.pH$site_no)
-
-#look for total coliform
-best.sites.tc <- best.sites.info %>%
-  filter(parm_cd=="31501")
-unique(best.sites.tc$site_no)
