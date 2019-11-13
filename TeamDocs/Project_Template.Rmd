@@ -42,6 +42,12 @@ theme_set(theme_classic())
 ```
 
 
+```{r}
+# Loading data
+highfreqsiteinfo <- read.csv("./Data/Raw/highfreqsiteinfo.csv")
+```
+
+
 # Research Question and Rationale
 
 <Paragraph detailing the rationale for your analysis. What is the significant application and/or interest in this topic? Connect to environmental topic(s)/challenge(s).>
