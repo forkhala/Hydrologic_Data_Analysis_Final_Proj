@@ -1,0 +1,920 @@
+---
+title: "Keqi"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+getwd()
+
+library(tidyverse)
+library(dataRetrieval)
+library(trend)
+library(forecast)
+library(tseries)
+library(lubridate)
+library(cowplot)
+library(EcoHydRology)
+library(xts)
+library(dygraphs)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+##Time Series
+###########################################################################
+################# 1 Nishnabotna River above Hamburg, IA ###################
+###########################################################################
+
+NRHSummary <- whatNWISdata(siteNumbers = "06810000")
+
+NRHDischarge <- readNWISdv(siteNumbers = "06810000",
+                           parameterCd = "00060", # discharge (ft3/s)
+                           startDate = "",
+                           endDate = "")
+names(NRHDischarge)[4:5] <-c("Discharge", "Approval.Code")
+
+NRHDischarge <- NRHDischarge %>%
+  filter(Date > "1928-01-01") %>%
+  arrange(Date)
+
+# Replot discharge over time
+NRHPlot <- 
+  ggplot(NRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(NRHPlot)
+
+########################### Nitrogen Analysis ############################
+
+NRHNitrogen <- readNWISqw(siteNumbers = "06810000",
+                          parameterCd = "00600", # nitrogen (mg/L)
+                          startDate = "",
+                          endDate = "") %>%
+  select(sample_dt, result_va)
+
+# What do these data look like?
+NRHN <-
+  ggplot(NRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point()
+print(NRHN)
+
+# Remove outliers
+NRHNitrogen <- NRHNitrogen %>%
+  filter(result_va < 20 & sample_dt > "2004-01-01") %>%
+  arrange(sample_dt)
+
+# Re-plot data
+NRHN <-
+  ggplot(NRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("nitrogen (mg/L)")) 
+print(NRHN)
+
+########################### Phosphorus Analysis ############################
+
+NRHPhosphorus <- readNWISqw(siteNumbers = "06810000",
+                            parameterCd = "00665", # phosphorus (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+
+# What do these data look like?
+NRHP <-
+  ggplot(NRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()
+print(NRHP)
+
+# Remove outliers
+NRHPhosphorus <- NRHPhosphorus %>%
+  filter(result_va < 5 & sample_dt > "2004-01-01") %>%
+  arrange(sample_dt)
+
+# Re-plot data
+NRHP <-
+  ggplot(NRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)")) 
+print(NRHP)
+
+###########################################################################
+############### 2 Missouri River at Hermann, MO ###########################
+###########################################################################
+
+MRHSummary <- whatNWISdata(siteNumbers = "06934500")
+
+MRHDischarge <- readNWISdv(siteNumbers = "06934500",
+                             parameterCd = "00060", # discharge (ft3/s)
+                             startDate = "",
+                             endDate = "")
+names(MRHDischarge)[4:5] <-c("Discharge", "Approval.Code")
+
+########################### Nitrogen Analysis ############################
+
+MRHNitrogen <- readNWISqw(siteNumbers = "06934500",
+                            parameterCd = "00600", # nitrogen (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+
+# What do these data look like?
+MRHN <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point()
+print(MRHN)
+
+# Remove outliers
+MRHNitrogen <- MRHNitrogen %>%
+  filter(result_va < 10) %>%
+  arrange(sample_dt)
+
+# Re-plot data
+MRHN <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("nitrogen (mg/L)")) 
+print(MRHN)
+
+########################### Phosphorus Analysis ############################
+
+MRHPhosphorus <- readNWISqw(siteNumbers = "06934500",
+                              parameterCd = "00665", # phosphorus (mg/L)
+                              startDate = "",
+                              endDate = "") %>%
+  select(sample_dt, result_va)
+
+# What do these data look like?
+MRHP <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()
+print(MRHP)
+
+# Remove outliers
+MRHPhosphorus <- MRHPhosphorus %>%
+  filter(result_va < 3) %>%
+  arrange(sample_dt)
+
+# Re-plot data
+MRHP <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)")) 
+print(MRHP)
+
+###########################################################################
+################ 3 REPUBLICAN R AT CLAY CENTER, KS ########################
+###########################################################################
+
+RRCCSummary <- whatNWISdata(siteNumbers = "06856600")
+
+########################### Discharge Analysis ############################
+
+RRCCDischarge <- readNWISdv(siteNumbers = "06856600",
+                           parameterCd = "00060", # discharge (ft3/s)
+                           startDate = "",
+                           endDate = "")
+names(RRCCDischarge)[4:5] <-c("Discharge", "Approval.Code")
+
+########################### Nitrogen Analysis ############################
+
+RRCCNitrogen <- readNWISqw(siteNumbers = "06856600",
+                          parameterCd = "00600", # nitrogen (mg/L)
+                          startDate = "",
+                          endDate = "") %>%
+  select(sample_dt, result_va)
+
+# What do these data look like?
+RRCCN <-
+  ggplot(RRCCNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point()
+print(RRCCN)
+
+# Remove outliers
+RRCCNitrogen <- RRCCNitrogen %>%
+  filter(result_va < 8 & sample_dt < "1994-01-01") %>%
+  arrange(sample_dt)
+
+# Re-plot data
+RRCCN <-
+  ggplot(RRCCNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("nitrogen (mg/L)")) 
+print(RRCCN)
+
+########################### Phosphorus Analysis ############################
+
+RRCCPhosphorus <- readNWISqw(siteNumbers = "06856600",
+                            parameterCd = "00665", # phosphorus (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+
+# What do these data look like?
+RRCCP <-
+  ggplot(RRCCPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()
+print(RRCCP)
+
+# Remove outliers
+RRCCPhosphorus <- RRCCPhosphorus %>%
+  filter(result_va < 2 & sample_dt < "1994-01-01") %>%
+  arrange(sample_dt)
+
+# Re-plot data
+RRCCP <-
+  ggplot(RRCCPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)")) 
+print(RRCCP)
+
+
+##High Frequency Data
+# Pull data
+highfreqsites.DN <- readNWISuv(site = c("06808500", "06817000", "06892350","06892513", "06902000", "06934500"), 
+                               parameterCd = c("00060"), 
+                               # Discharge in cfs
+                               startDate = "2019-03-01",
+                               endDate = "2019-08-01") %>%
+  renameNWISColumns()
+
+#individual sites
+Randolph <- highfreqsites.DN %>%
+  filter(site_no=="06808500")
+Randolph <- na.omit(Randolph)
+
+Clarinda <- highfreqsites.DN %>%
+  filter(site_no=="06817000")
+Clarinda <- na.omit(Clarinda)
+
+Desoto <- highfreqsites.DN %>%
+  filter(site_no=="06892350")
+Desoto <- na.omit(Desoto)
+
+Shawnee <- highfreqsites.DN %>%
+  filter(site_no=="06892513")
+Shawnee <- na.omit(Shawnee)
+
+Sumner <- highfreqsites.DN %>%
+  filter(site_no=="06902000")
+Sumner <- na.omit(Sumner)
+
+Hermann <- highfreqsites.DN %>%
+  filter(site_no=="06934500")
+Hermann <- na.omit(Hermann)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+##Time Series
+###########################################################################
+################# 1 Nishnabotna River above Hamburg, IA ###################
+###########################################################################
+
+########################### Discharge Analysis ############################
+
+NRHRegressionPlot <- 
+  ggplot(NRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE, color = "#c13d75ff") +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(NRHRegressionPlot)
+
+NRHDischarge <- na.omit(NRHDischarge)
+NRH_ts <- ts(NRHDischarge[[4]], frequency = 365)
+table(diff(NRHDischarge$Date))
+
+# Generate the decomposition
+NRH_Decomposed <- stl(NRH_ts, s.window = "periodic")
+
+# Visualize the decomposed series. 
+plot(NRH_Decomposed)
+
+# We can extract the components and turn them into data frames
+NRH_Components <- as.data.frame(NRH_Decomposed$time.series[,1:3])
+NRH_Components <- mutate(NRH_Components,
+                         Observed = NRHDischarge$Discharge,     
+                         Date = NRHDischarge$Date)
+
+# Visualize how the trend maps onto the data
+ggplot(NRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = trend, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+# Visualize how the seasonal cycle maps onto the data
+ggplot(NRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = seasonal, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+NRHDischarge.Monthly <- NRHDischarge %>%
+  mutate(Year = year(Date),
+         Month = month(Date)) %>%
+  group_by(Year, Month) %>%
+  summarise(Discharge = mean(Discharge))
+NRHMonthly_ts <- ts(NRHDischarge.Monthly[[3]], frequency = 12)
+adf.test(NRHMonthly_ts, alternative = "stationary")
+acf(NRHMonthly_ts)
+pacf(NRHMonthly_ts)
+
+# run the arima function and search for best fit
+auto.arima(NRHMonthly_ts, trace = TRUE)
+
+# create an object that defines the best fit model
+NRHfit <- arima(NRHMonthly_ts, c(1, 1, 1),seasonal = list(order = c(0, 0, 2), period = 12))
+
+# make a prediction into the future
+NRHprediction <- predict(NRHfit, n.ahead = 10*12)
+
+# plot future predictions
+ts.plot(NRHMonthly_ts, NRHprediction$pred, lty = c(1, 3))
+
+########################### Nitrogen Analysis ############################
+
+# Generate monthly values from March 2004 to September 2014
+NRHNitrogenlp <- as.data.frame(approx(NRHNitrogen, n = 128, method = "linear"))
+NRHNitrogenlp$x <- as.Date(NRHNitrogenlp$x, origin = "1970-01-01")
+names(NRHNitrogenlp) <- c("Date", "N")
+
+# Inspect interpolated values
+NRHNinterpolated <-
+  ggplot(NRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = NRHNitrogenlp, aes(x = Date, y = N), color = "#c13d75ff")
+print(NRHNinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+NRHNtimeseries <- ts(NRHNitrogenlp$N, frequency = 12,
+                     start = c(2004, 3, 11), end = c(2014, 9, 16))
+# Run SMK test
+NRHNtrend <- smk.test(NRHNtimeseries)
+
+# Inspect results
+NRHNtrend
+summary(NRHNtrend)
+
+########################### Phosphorus Analysis ############################
+
+# Generate monthly values from March 2004 to September 2014
+NRHPhosphoruslp <- as.data.frame(approx(NRHPhosphorus, n = 128, method = "linear"))
+NRHPhosphoruslp$x <- as.Date(NRHPhosphoruslp$x, origin = "1970-01-01")
+names(NRHPhosphoruslp) <- c("Date", "P")
+
+# Inspect interpolated values
+NRHPinterpolated <-
+  ggplot(NRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = NRHPhosphoruslp, aes(x = Date, y = P), color = "#c13d75ff")
+print(NRHPinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+NRHPtimeseries <- ts(NRHPhosphoruslp$P, frequency = 12,
+                     start = c(2004, 3, 11), end = c(2014, 9, 16))
+# Run SMK test
+NRHPtrend <- smk.test(NRHPtimeseries)
+
+# Inspect results
+NRHPtrend
+summary(NRHPtrend)
+
+###########################################################################
+############### 2 Missouri River at Hermann, MO ###########################
+###########################################################################
+
+########################### Discharge Analysis ############################
+
+MRHRegressionPlot <- 
+  ggplot(MRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE, color = "#c13d75ff") +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(MRHRegressionPlot)
+
+MRHDischarge <- na.omit(MRHDischarge)
+MRH_ts <- ts(MRHDischarge[[4]], frequency = 365)
+table(diff(MRHDischarge$Date))
+
+# Generate the decomposition
+MRH_Decomposed <- stl(MRH_ts, s.window = "periodic")
+
+# Visualize the decomposed series. 
+plot(MRH_Decomposed)
+
+# We can extract the components and turn them into data frames
+MRH_Components <- as.data.frame(MRH_Decomposed$time.series[,1:3])
+MRH_Components <- mutate(MRH_Components,
+                           Observed = MRHDischarge$Discharge,     
+                           Date = MRHDischarge$Date)
+
+# Visualize how the trend maps onto the data
+ggplot(MRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = trend, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+# Visualize how the seasonal cycle maps onto the data
+ggplot(MRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = seasonal, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+MRHDischarge.Monthly <- MRHDischarge %>%
+  mutate(Year = year(Date),
+         Month = month(Date)) %>%
+  group_by(Year, Month) %>%
+  summarise(Discharge = mean(Discharge))
+MRHMonthly_ts <- ts(MRHDischarge.Monthly[[3]], frequency = 12)
+adf.test(MRHMonthly_ts, alternative = "stationary")
+acf(MRHMonthly_ts)
+pacf(MRHMonthly_ts)
+
+# run the arima function and search for best fit
+auto.arima(MRHMonthly_ts, trace = TRUE)
+
+# create an object that defines the best fit model
+MRHfit <- arima(MRHMonthly_ts, c(5, 1, 0), seasonal = list(order = c(2, 0, 0), period = 12))
+
+# make a prediction into the future
+MRHprediction <- predict(MRHfit, n.ahead = 10*12)
+
+# plot future predictions
+ts.plot(MRHMonthly_ts, MRHprediction$pred, lty = c(1, 3))
+
+########################### Nitrogen Analysis ############################
+
+# Generate monthly values from July 1973 to August 2019
+MRHNitrogenlp <- as.data.frame(approx(MRHNitrogen, n = 556, method = "linear"))
+MRHNitrogenlp$x <- as.Date(MRHNitrogenlp$x, origin = "1970-01-01")
+names(MRHNitrogenlp) <- c("Date", "N")
+
+# Inspect interpolated values
+MRHNinterpolated <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = MRHNitrogenlp, aes(x = Date, y = N), color = "#c13d75ff")
+print(MRHNinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+MRHNtimeseries <- ts(MRHNitrogenlp$N, frequency = 12,
+                       start = c(1973, 7, 23), end = c(2019, 8, 6))
+# Run SMK test
+MRHNtrend <- smk.test(MRHNtimeseries)
+
+# Inspect results
+MRHNtrend
+summary(MRHNtrend)
+
+########################### Phosphorus Analysis ############################
+
+# Generate monthly values from July 1969 to August 2019
+MRHPhosphoruslp <- as.data.frame(approx(MRHPhosphorus, n = 604, method = "linear"))
+MRHPhosphoruslp$x <- as.Date(MRHPhosphoruslp$x, origin = "1970-01-01")
+names(MRHPhosphoruslp) <- c("Date", "P")
+
+# Inspect interpolated values
+MRHPinterpolated <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = MRHPhosphoruslp, aes(x = Date, y = P), color = "#c13d75ff")
+print(MRHPinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+MRHPtimeseries <- ts(MRHPhosphoruslp$P, frequency = 12,
+                       start = c(1969, 7, 31), end = c(2019, 8, 6))
+# Run SMK test
+MRHPtrend <- smk.test(MRHPtimeseries)
+
+# Inspect results
+MRHPtrend
+summary(MRHPtrend)
+
+###########################################################################
+################ 3 REPUBLICAN R AT CLAY CENTER, KS ########################
+###########################################################################
+
+########################### Discharge Analysis ############################
+
+# Plot discharge over time
+RRCCPlot <- 
+  ggplot(RRCCDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(RRCCPlot)
+
+RRCCRegressionPlot <- 
+  ggplot(RRCCDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE, color = "#c13d75ff") +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(RRCCRegressionPlot)
+
+RRCCDischarge <- na.omit(RRCCDischarge)
+RRCC_ts <- ts(RRCCDischarge[[4]], frequency = 365)
+table(diff(RRCCDischarge$Date))
+
+# Generate the decomposition
+RRCC_Decomposed <- stl(RRCC_ts, s.window = "periodic")
+
+# Visualize the decomposed series. 
+plot(RRCC_Decomposed)
+
+# We can extract the components and turn them into data frames
+RRCC_Components <- as.data.frame(RRCC_Decomposed$time.series[,1:3])
+RRCC_Components <- mutate(RRCC_Components,
+                         Observed = RRCCDischarge$Discharge,     
+                         Date = RRCCDischarge$Date)
+
+# Visualize how the trend maps onto the data
+ggplot(RRCC_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = trend, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+# Visualize how the seasonal cycle maps onto the data
+ggplot(RRCC_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = seasonal, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+RRCCDischarge.Monthly <- RRCCDischarge %>%
+  mutate(Year = year(Date),
+         Month = month(Date)) %>%
+  group_by(Year, Month) %>%
+  summarise(Discharge = mean(Discharge))
+RRCCMonthly_ts <- ts(RRCCDischarge.Monthly[[3]], frequency = 12)
+adf.test(RRCCMonthly_ts, alternative = "stationary")
+acf(RRCCMonthly_ts)
+pacf(RRCCMonthly_ts)
+
+# run the arima function and search for best fit
+auto.arima(RRCCMonthly_ts, trace = TRUE)
+
+# create an object that defines the best fit model
+RRCCfit <- arima(RRCCMonthly_ts, c(0, 1, 1),seasonal = list(order = c(0, 0, 2), period = 12))
+
+# make a prediction into the future
+RRCCprediction <- predict(RRCCfit, n.ahead = 10*12)
+
+# plot future predictions
+ts.plot(RRCCMonthly_ts, RRCCprediction$pred, lty = c(1, 3))
+
+########################### Nitrogen Analysis ############################
+
+# Generate monthly values from February 1973 to September 1993
+RRCCNitrogenlp <- as.data.frame(approx(RRCCNitrogen, n = 249, method = "linear"))
+RRCCNitrogenlp$x <- as.Date(RRCCNitrogenlp$x, origin = "1970-01-01")
+names(RRCCNitrogenlp) <- c("Date", "N")
+
+# Inspect interpolated values
+RRCCNinterpolated <-
+  ggplot(RRCCNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = RRCCNitrogenlp, aes(x = Date, y = N), color = "#c13d75ff")
+print(RRCCNinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+RRCCNtimeseries <- ts(RRCCNitrogenlp$N, frequency = 12,
+                     start = c(1973, 2, 22), end = c(1993, 9, 1))
+# Run SMK test
+RRCCNtrend <- smk.test(RRCCNtimeseries)
+
+# Inspect results
+RRCCNtrend
+summary(RRCCNtrend)
+
+########################### Phosphorus Analysis ############################
+
+# Generate monthly values from January 1973 to September 1993
+RRCCPhosphoruslp <- as.data.frame(approx(RRCCPhosphorus, n = 250, method = "linear"))
+RRCCPhosphoruslp$x <- as.Date(RRCCPhosphoruslp$x, origin = "1970-01-01")
+names(RRCCPhosphoruslp) <- c("Date", "P")
+
+# Inspect interpolated values
+RRCCPinterpolated <-
+  ggplot(RRCCPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = RRCCPhosphoruslp, aes(x = Date, y = P), color = "#c13d75ff")
+print(RRCCPinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+RRCCPtimeseries <- ts(RRCCPhosphoruslp$P, frequency = 12,
+                     start = c(1973, 1, 16), end = c(1993, 9, 1))
+# Run SMK test
+RRCCPtrend <- smk.test(RRCCPtimeseries)
+
+# Inspect results
+RRCCPtrend
+summary(RRCCPtrend)
+
+##High Frequency Data
+plot_grid(
+  ggplot(Randolph, aes(x = dateTime, y = Flow_Inst)) +
+    geom_line() + 
+    scale_y_log10() +
+    ggtitle("West Nishnabotna River at Randolph, IA"),
+  ggplot(Clarinda, aes(x = dateTime, y = Flow_Inst)) + 
+    geom_line() + 
+    scale_y_log10() +
+    ggtitle("Nodaway River at Clarinda, IA"),
+  ggplot(Desoto, aes(x = dateTime, y = Flow_Inst)) + 
+    geom_line() + 
+    scale_y_log10() +
+    ggtitle("KANSAS R AT DESOTO, KS"),
+  ggplot(Shawnee, aes(x = dateTime, y = Flow_Inst)) + 
+    geom_line() + 
+    scale_y_log10() +
+    ggtitle("MILL C AT JOHNSON DRIVE, SHAWNEE, KS"),
+  ggplot(Sumner, aes(x = dateTime, y = Flow_Inst)) + 
+    geom_line() + 
+    scale_y_log10() +
+    ggtitle("Grand River near Sumner, MO"),
+  ggplot(Hermann, aes(x = dateTime, y = Flow_Inst)) + 
+    geom_line() + 
+    scale_y_log10() +
+    ggtitle("Missouri River at Hermann, MO"),
+  ncol = 1
+)
+
+############################## Randolph ###################################
+# Hydrograph separation
+Randolphbaseflow <- BaseflowSeparation(
+  Randolph$Flow_Inst, 
+  filter_parameter = 0.925, 
+  passes = 3
+)
+
+Randolph2018 <- cbind(Randolph, Randolphbaseflow)
+
+ggplot(Randolph2018, aes(x = dateTime, y = Flow_Inst)) + 
+  geom_line() +
+  geom_line(mapping = aes(x = dateTime, y = bt), color = "darkorange4") +
+  geom_line(mapping = aes(x = dateTime, y = qft), color = "steelblue4")
+
+dygraph(
+  cbind(
+    Flow = with(Randolph2018, xts(Flow_Inst, order.by = dateTime)), 
+    Baseflow = with(Randolph2018, xts(bt, order.by = dateTime)), 
+    Quickflow = with(Randolph2018, xts(qft, order.by = dateTime))
+  )
+) %>% 
+  dyRangeSelector()
+
+RandolphExport <- Randolph2018 %>%
+  mutate(timestep = c(diff(as.numeric(dateTime)), NA_real_),
+         baseflowexport = bt * timestep,
+         quickflowexport = qft * timestep) %>%
+  summarize(BaseflowExport_cf = sum(baseflowexport, na.rm = T),
+            QuickflowExport_cf = sum(quickflowexport, na.rm = T),
+            TotalExport_cf = BaseflowExport_cf + QuickflowExport_cf)
+
+# Hydrologic Flashiness
+Randolphdata <- readNWISsite(site = "06808500")
+Randolph.catchment.size <- Randolphdata$drain_area_va #square miles
+
+RBI_Randolph2018 <- (
+  sum(abs(diff(Randolph$Flow_Inst))) / 
+    sum(Randolph$Flow_Inst[-1])
+) / Randolph.catchment.size
+
+############################## Clarinda ###################################
+# Hydrograph separation
+Clarindabaseflow <- BaseflowSeparation(
+  Clarinda$Flow_Inst, 
+  filter_parameter = 0.925, 
+  passes = 3
+)
+
+Clarinda2018 <- cbind(Clarinda, Clarindabaseflow)
+
+ggplot(Clarinda2018, aes(x = dateTime, y = Flow_Inst)) + 
+  geom_line() +
+  geom_line(mapping = aes(x = dateTime, y = bt), color = "darkorange4") +
+  geom_line(mapping = aes(x = dateTime, y = qft), color = "steelblue4")
+
+dygraph(
+  cbind(
+    Flow = with(Clarinda2018, xts(Flow_Inst, order.by = dateTime)), 
+    Baseflow = with(Clarinda2018, xts(bt, order.by = dateTime)), 
+    Quickflow = with(Clarinda2018, xts(qft, order.by = dateTime))
+  )
+) %>% 
+  dyRangeSelector()
+
+ClarindaExport <- Clarinda2018 %>%
+  mutate(timestep = c(diff(as.numeric(dateTime)), NA_real_),
+         baseflowexport = bt * timestep,
+         quickflowexport = qft * timestep) %>%
+  summarize(BaseflowExport_cf = sum(baseflowexport, na.rm = T),
+            QuickflowExport_cf = sum(quickflowexport, na.rm = T),
+            TotalExport_cf = BaseflowExport_cf + QuickflowExport_cf)
+
+# Hydrologic Flashiness
+Clarindadata <- readNWISsite(site = "06817000")
+Clarinda.catchment.size <- Clarindadata$drain_area_va #square miles
+
+RBI_Clarinda2018 <- (
+  sum(abs(diff(Clarinda$Flow_Inst))) / 
+    sum(Clarinda$Flow_Inst[-1])
+) / Clarinda.catchment.size
+
+############################## Desoto ###################################
+# Hydrograph separation
+Desotobaseflow <- BaseflowSeparation(
+  Desoto$Flow_Inst, 
+  filter_parameter = 0.925, 
+  passes = 3
+)
+
+Desoto2018 <- cbind(Desoto, Desotobaseflow)
+
+ggplot(Desoto2018, aes(x = dateTime, y = Flow_Inst)) + 
+  geom_line() +
+  geom_line(mapping = aes(x = dateTime, y = bt), color = "darkorange4") +
+  geom_line(mapping = aes(x = dateTime, y = qft), color = "steelblue4")
+
+dygraph(
+  cbind(
+    Flow = with(Desoto2018, xts(Flow_Inst, order.by = dateTime)), 
+    Baseflow = with(Desoto2018, xts(bt, order.by = dateTime)), 
+    Quickflow = with(Desoto2018, xts(qft, order.by = dateTime))
+  )
+) %>% 
+  dyRangeSelector()
+
+DesotoExport <- Desoto2018 %>%
+  mutate(timestep = c(diff(as.numeric(dateTime)), NA_real_),
+         baseflowexport = bt * timestep,
+         quickflowexport = qft * timestep) %>%
+  summarize(BaseflowExport_cf = sum(baseflowexport, na.rm = T),
+            QuickflowExport_cf = sum(quickflowexport, na.rm = T),
+            TotalExport_cf = BaseflowExport_cf + QuickflowExport_cf)
+
+# Hydrologic Flashiness
+Desotodata <- readNWISsite(site = "06892350")
+Desoto.catchment.size <- Desotodata$drain_area_va #square miles
+
+RBI_Desoto2018 <- (
+  sum(abs(diff(Desoto$Flow_Inst))) / 
+    sum(Desoto$Flow_Inst[-1])
+) / Desoto.catchment.size
+
+############################## Shawnee ###################################
+# Hydrograph separation
+Shawneebaseflow <- BaseflowSeparation(
+  Shawnee$Flow_Inst, 
+  filter_parameter = 0.925, 
+  passes = 3
+)
+
+Shawnee2018 <- cbind(Shawnee, Shawneebaseflow)
+
+ggplot(Shawnee2018, aes(x = dateTime, y = Flow_Inst)) + 
+  geom_line() +
+  geom_line(mapping = aes(x = dateTime, y = bt), color = "darkorange4") +
+  geom_line(mapping = aes(x = dateTime, y = qft), color = "steelblue4")
+
+dygraph(
+  cbind(
+    Flow = with(Shawnee2018, xts(Flow_Inst, order.by = dateTime)), 
+    Baseflow = with(Shawnee2018, xts(bt, order.by = dateTime)), 
+    Quickflow = with(Shawnee2018, xts(qft, order.by = dateTime))
+  )
+) %>% 
+  dyRangeSelector()
+
+ShawneeExport <- Shawnee2018 %>%
+  mutate(timestep = c(diff(as.numeric(dateTime)), NA_real_),
+         baseflowexport = bt * timestep,
+         quickflowexport = qft * timestep) %>%
+  summarize(BaseflowExport_cf = sum(baseflowexport, na.rm = T),
+            QuickflowExport_cf = sum(quickflowexport, na.rm = T),
+            TotalExport_cf = BaseflowExport_cf + QuickflowExport_cf)
+
+# Hydrologic Flashiness
+Shawneedata <- readNWISsite(site = "06892513")
+Shawnee.catchment.size <- Shawneedata$drain_area_va #square miles
+
+RBI_Shawnee2018 <- (
+  sum(abs(diff(Shawnee$Flow_Inst))) / 
+    sum(Shawnee$Flow_Inst[-1])
+) / Shawnee.catchment.size
+
+############################## Sumner ###################################
+# Hydrograph separation
+Sumnerbaseflow <- BaseflowSeparation(
+  Sumner$Flow_Inst, 
+  filter_parameter = 0.925, 
+  passes = 3
+)
+
+Sumner2018 <- cbind(Sumner, Sumnerbaseflow)
+
+ggplot(Sumner2018, aes(x = dateTime, y = Flow_Inst)) + 
+  geom_line() +
+  geom_line(mapping = aes(x = dateTime, y = bt), color = "darkorange4") +
+  geom_line(mapping = aes(x = dateTime, y = qft), color = "steelblue4")
+
+dygraph(
+  cbind(
+    Flow = with(Sumner2018, xts(Flow_Inst, order.by = dateTime)), 
+    Baseflow = with(Sumner2018, xts(bt, order.by = dateTime)), 
+    Quickflow = with(Sumner2018, xts(qft, order.by = dateTime))
+  )
+) %>% 
+  dyRangeSelector()
+
+SumnerExport <- Sumner2018 %>%
+  mutate(timestep = c(diff(as.numeric(dateTime)), NA_real_),
+         baseflowexport = bt * timestep,
+         quickflowexport = qft * timestep) %>%
+  summarize(BaseflowExport_cf = sum(baseflowexport, na.rm = T),
+            QuickflowExport_cf = sum(quickflowexport, na.rm = T),
+            TotalExport_cf = BaseflowExport_cf + QuickflowExport_cf)
+
+# Hydrologic Flashiness
+Sumnerdata <- readNWISsite(site = "06902000")
+Sumner.catchment.size <- Sumnerdata$drain_area_va #square miles
+
+RBI_Sumner2018 <- (
+  sum(abs(diff(Sumner$Flow_Inst))) / 
+    sum(Sumner$Flow_Inst[-1])
+) / Sumner.catchment.size
+
+############################## Hermann ###################################
+# Hydrograph separation
+Hermannbaseflow <- BaseflowSeparation(
+  Hermann$Flow_Inst, 
+  filter_parameter = 0.925, 
+  passes = 3
+)
+
+Hermann2018 <- cbind(Hermann, Hermannbaseflow)
+
+ggplot(Hermann2018, aes(x = dateTime, y = Flow_Inst)) + 
+  geom_line() +
+  geom_line(mapping = aes(x = dateTime, y = bt), color = "darkorange4") +
+  geom_line(mapping = aes(x = dateTime, y = qft), color = "steelblue4")
+
+dygraph(
+  cbind(
+    Flow = with(Hermann2018, xts(Flow_Inst, order.by = dateTime)), 
+    Baseflow = with(Hermann2018, xts(bt, order.by = dateTime)), 
+    Quickflow = with(Hermann2018, xts(qft, order.by = dateTime))
+  )
+) %>% 
+  dyRangeSelector()
+
+HermannExport <- Hermann2018 %>%
+  mutate(timestep = c(diff(as.numeric(dateTime)), NA_real_),
+         baseflowexport = bt * timestep,
+         quickflowexport = qft * timestep) %>%
+  summarize(BaseflowExport_cf = sum(baseflowexport, na.rm = T),
+            QuickflowExport_cf = sum(quickflowexport, na.rm = T),
+            TotalExport_cf = BaseflowExport_cf + QuickflowExport_cf)
+
+# Hydrologic Flashiness
+Hermanndata <- readNWISsite(site = "06934500")
+Hermann.catchment.size <- Hermanndata$drain_area_va #square miles
+
+RBI_Hermann2018 <- (
+  sum(abs(diff(Hermann$Flow_Inst))) / 
+    sum(Hermann$Flow_Inst[-1])
+) / Hermann.catchment.size
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
