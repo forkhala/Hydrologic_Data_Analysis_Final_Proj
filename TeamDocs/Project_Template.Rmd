@@ -43,6 +43,9 @@ library(lubridate)
 library(gridExtra)
 library(cowplot)
 library(dataRetrieval)
+library(trend)
+library(forecast)
+library(tseries)
 
 
 # Set your ggplot theme
@@ -279,6 +282,248 @@ print(totalcoliform.time)
 \autoref{fig:tc.dis} was created to determine whether high amounts of total coliform coincided with an increase in discharge. Because there were limited total coliform measurements taken, as evidenced in \autoref{fig:tc.time}, there is not a great conclusion from this data. However, \autoref{fig:tc.dis} shows a spike in discharge events between 1972 - 1974, which also happens to be a time when total coliform was sampled. \autoref{fig:tc.dis} also shows increases in total coliform between 1972 - 1975. 
 
 \newpage
+### Time Series Analysis ###
+
+In time series analysis, we focus on the same 3 sites chosen in the water quality analysis.
+
+```{r}
+#Discharge Data
+# 06810000 Nishnabotna River above Hamburg, IA 
+NRHDischarge <- readNWISdv(siteNumbers = "06810000",
+                           parameterCd = "00060", # discharge (ft3/s)
+                           startDate = "",
+                           endDate = "")
+names(NRHDischarge)[4:5] <-c("Discharge", "Approval.Code")
+# 06934500 Missouri River at Hermann, MO
+MRHDischarge <- readNWISdv(siteNumbers = "06934500",
+                             parameterCd = "00060", # discharge (ft3/s)
+                             startDate = "",
+                             endDate = "")
+names(MRHDischarge)[4:5] <-c("Discharge", "Approval.Code")
+# 06856600 REPUBLICAN R AT CLAY CENTER, KS
+RRCCDischarge <- readNWISdv(siteNumbers = "06856600",
+                           parameterCd = "00060", # discharge (ft3/s)
+                           startDate = "",
+                           endDate = "")
+names(RRCCDischarge)[4:5] <-c("Discharge", "Approval.Code")
+
+# Nitrogen Data
+# 06810000 Nishnabotna River above Hamburg, IA 
+NRHNitrogen <- readNWISqw(siteNumbers = "06810000",
+                          parameterCd = "00600", # nitrogen (mg/L)
+                          startDate = "",
+                          endDate = "") %>%
+  select(sample_dt, result_va)
+# 06934500 Missouri River at Hermann, MO
+MRHNitrogen <- readNWISqw(siteNumbers = "06934500",
+                            parameterCd = "00600", # nitrogen (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+# 06856600 REPUBLICAN R AT CLAY CENTER, KS
+RRCCNitrogen <- readNWISqw(siteNumbers = "06856600",
+                          parameterCd = "00600", # nitrogen (mg/L)
+                          startDate = "",
+                          endDate = "") %>%
+  select(sample_dt, result_va)
+
+#Phosphorus Data
+# 06810000 Nishnabotna River above Hamburg, IA 
+NRHPhosphorus <- readNWISqw(siteNumbers = "06810000",
+                            parameterCd = "00665", # phosphorus (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+# 06934500 Missouri River at Hermann, MO
+MRHPhosphorus <- readNWISqw(siteNumbers = "06934500",
+                              parameterCd = "00665", # phosphorus (mg/L)
+                              startDate = "",
+                              endDate = "") %>%
+  select(sample_dt, result_va)
+# 06856600 REPUBLICAN R AT CLAY CENTER, KS
+RRCCPhosphorus <- readNWISqw(siteNumbers = "06856600",
+                            parameterCd = "00665", # phosphorus (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+```
+
+```{r discharge.time, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:discharge.time}Discharge Over Time"}
+# Plot discharge over time for 3 sites
+NRHPlot <- 
+  ggplot(NRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+        title = "  06810000") + 
+  xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+
+MRHPlot <- 
+  ggplot(MRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"),title = "  06934500") + 
+    xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+
+RRCCPlot <- 
+  ggplot(RRCCDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+        title = "  06856600") + 
+    xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+grid.arrange(NRHPlot, MRHPlot, RRCCPlot)
+```
+
+As seen by \autoref{fig:discharge.time}, there is a gap of discharge data in 06810000. Therefore, we filter the discharge data by the date and only use the data available after 1928-01-01 for site 06810000.
+
+```{r dis.t3, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:dis.t3}Discharge Over Time for 3 sites"}
+NRHDischarge <- NRHDischarge %>%
+  filter(Date > "1928-01-01") %>%
+  arrange(Date)
+
+# Replot discharge over time
+NRHPlot <- 
+  ggplot(NRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+        title = "  06810000") + 
+  xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+
+MRHPlot <- 
+  ggplot(MRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"),title = "  06934500") + 
+    xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+
+RRCCPlot <- 
+  ggplot(RRCCDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+        title = "  06856600") + 
+    xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+grid.arrange(NRHPlot, MRHPlot, RRCCPlot)
+```
+
+Also, we do the same things for nitrogen and phosphorus.
+
+```{r N.t, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:N.t}Nitrogen Over Time"}
+NRHN <-
+  ggplot(NRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  labs(x = "", y = expression("Nitrogen (mg/L)"), 
+        title = "  06810000") 
+
+MRHN <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point()+
+  labs(x = "", y = expression("Nitrogen (mg/L)"), 
+        title = "  06934500") 
+
+RRCCN <-
+  ggplot(RRCCNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point()+
+  labs(x = "", y = expression("Nitrogen (mg/L)"), 
+        title = "  06856600") 
+
+grid.arrange(NRHN, MRHN, RRCCN)
+```
+
+```{r N.t3, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:N.t3}Nitrogen Over Time for 3 sites after filtering"}
+# Remove outliers
+NRHNitrogen <- NRHNitrogen %>%
+  filter(result_va < 20 & sample_dt > "2004-01-01") %>%
+  arrange(sample_dt)
+MRHNitrogen <- MRHNitrogen %>%
+  filter(result_va < 10) %>%
+  arrange(sample_dt)
+RRCCNitrogen <- RRCCNitrogen %>%
+  filter(result_va < 8 & sample_dt < "1994-01-01") %>%
+  arrange(sample_dt)
+
+# Re-plot data
+NRHN <-
+  ggplot(NRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("nitrogen (mg/L)"),title = "  06810000") 
+
+MRHN <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("nitrogen (mg/L)"), 
+        title = "  06934500") 
+
+RRCCN <-
+  ggplot(RRCCNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("nitrogen (mg/L)"), 
+        title = "  06856600") 
+
+grid.arrange(NRHN, MRHN, RRCCN)
+```
+
+```{r P.t, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:P.t}Phosphorus Over Time"}
+NRHP <-
+  ggplot(NRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()+
+  labs(x = "", y = expression("Phosphorus (mg/L)"), 
+        title = "  06810000") 
+
+MRHP <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()+
+  labs(x = "", y = expression("Phosphorus (mg/L)"), 
+        title = "  06934500") 
+
+RRCCP <-
+  ggplot(RRCCPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()+
+  labs(x = "", y = expression("Phosphorus (mg/L)"), 
+        title = "  06856600") 
+grid.arrange(NRHP, MRHP, RRCCP)
+```
+
+```{r P.t3, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:P.t3}Phosphorus Over Time for 3 sites after filtering"}
+# Remove outliers
+NRHPhosphorus <- NRHPhosphorus %>%
+  filter(result_va < 5 & sample_dt > "2004-01-01") %>%
+  arrange(sample_dt)
+MRHPhosphorus <- MRHPhosphorus %>%
+  filter(result_va < 3) %>%
+  arrange(sample_dt)
+RRCCPhosphorus <- RRCCPhosphorus %>%
+  filter(result_va < 2 & sample_dt < "1994-01-01") %>%
+  arrange(sample_dt)
+
+# Re-plot data
+NRHP <-
+  ggplot(NRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)"), 
+        title = "  06810000") 
+
+MRHP <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)"), 
+        title = "  06934500") 
+
+RRCCP <-
+  ggplot(RRCCPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)"), 
+        title = "  06856600") 
+grid.arrange(NRHP, MRHP, RRCCP)
+```
 
 ## High Frequency Nitrogen and Discharge
 
@@ -389,6 +634,350 @@ Linear models were created in order to determine whether water quality parameter
 A time series analysis will be conducted on the discharge from the chosen sies. This will include an analysis of baseflow and quickflow. A dygraph of discharge over time will be created to be able to better examine large increases in discharge.
 
 For high frequency data, a hystersis plot will be created to determine hydrologic flashiness.
+
+\newpage
+```{r}
+##Time Series
+
+# 06810000 Nishnabotna River above Hamburg, IA 
+
+########################### Discharge Analysis ############################
+NRHRegressionPlot <- 
+  ggplot(NRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE, color = "#c13d75ff") +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(NRHRegressionPlot)
+
+NRHDischarge <- na.omit(NRHDischarge)
+NRH_ts <- ts(NRHDischarge[[4]], frequency = 365)
+table(diff(NRHDischarge$Date))
+
+# Generate the decomposition
+NRH_Decomposed <- stl(NRH_ts, s.window = "periodic")
+
+# Visualize the decomposed series. 
+plot(NRH_Decomposed)
+
+# We can extract the components and turn them into data frames
+NRH_Components <- as.data.frame(NRH_Decomposed$time.series[,1:3])
+NRH_Components <- mutate(NRH_Components,
+                         Observed = NRHDischarge$Discharge,     
+                         Date = NRHDischarge$Date)
+
+# Visualize how the trend maps onto the data
+ggplot(NRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = trend, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+# Visualize how the seasonal cycle maps onto the data
+ggplot(NRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = seasonal, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+NRHDischarge.Monthly <- NRHDischarge %>%
+  mutate(Year = year(Date),
+         Month = month(Date)) %>%
+  group_by(Year, Month) %>%
+  summarise(Discharge = mean(Discharge))
+NRHMonthly_ts <- ts(NRHDischarge.Monthly[[3]], frequency = 12)
+adf.test(NRHMonthly_ts, alternative = "stationary")
+acf(NRHMonthly_ts)
+pacf(NRHMonthly_ts)
+
+# run the arima function and search for best fit
+auto.arima(NRHMonthly_ts, trace = TRUE)
+
+# create an object that defines the best fit model
+NRHfit <- arima(NRHMonthly_ts, c(1, 1, 1),seasonal = list(order = c(0, 0, 2), period = 12))
+
+# make a prediction into the future
+NRHprediction <- predict(NRHfit, n.ahead = 10*12)
+
+# plot future predictions
+ts.plot(NRHMonthly_ts, NRHprediction$pred, lty = c(1, 3))
+
+########################### Nitrogen Analysis ############################
+# Generate monthly values from March 2004 to September 2014
+NRHNitrogenlp <- as.data.frame(approx(NRHNitrogen, n = 128, method = "linear"))
+NRHNitrogenlp$x <- as.Date(NRHNitrogenlp$x, origin = "1970-01-01")
+names(NRHNitrogenlp) <- c("Date", "N")
+
+# Inspect interpolated values
+NRHNinterpolated <-
+  ggplot(NRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = NRHNitrogenlp, aes(x = Date, y = N), color = "#c13d75ff")
+print(NRHNinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+NRHNtimeseries <- ts(NRHNitrogenlp$N, frequency = 12,
+                     start = c(2004, 3, 11), end = c(2014, 9, 16))
+# Run SMK test
+NRHNtrend <- smk.test(NRHNtimeseries)
+
+# Inspect results
+NRHNtrend
+summary(NRHNtrend)
+
+########################### Phosphorus Analysis ############################
+# Generate monthly values from March 2004 to September 2014
+NRHPhosphoruslp <- as.data.frame(approx(NRHPhosphorus, n = 128, method = "linear"))
+NRHPhosphoruslp$x <- as.Date(NRHPhosphoruslp$x, origin = "1970-01-01")
+names(NRHPhosphoruslp) <- c("Date", "P")
+
+# Inspect interpolated values
+NRHPinterpolated <-
+  ggplot(NRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = NRHPhosphoruslp, aes(x = Date, y = P), color = "#c13d75ff")
+print(NRHPinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+NRHPtimeseries <- ts(NRHPhosphoruslp$P, frequency = 12,
+                     start = c(2004, 3, 11), end = c(2014, 9, 16))
+# Run SMK test
+NRHPtrend <- smk.test(NRHPtimeseries)
+
+# Inspect results
+NRHPtrend
+summary(NRHPtrend)
+
+
+# 06934500 Missouri River at Hermann, MO 
+
+########################### Discharge Analysis ############################
+
+MRHRegressionPlot <- 
+  ggplot(MRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE, color = "#c13d75ff") +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(MRHRegressionPlot)
+
+MRHDischarge <- na.omit(MRHDischarge)
+MRH_ts <- ts(MRHDischarge[[4]], frequency = 365)
+table(diff(MRHDischarge$Date))
+
+# Generate the decomposition
+MRH_Decomposed <- stl(MRH_ts, s.window = "periodic")
+
+# Visualize the decomposed series. 
+plot(MRH_Decomposed)
+
+# We can extract the components and turn them into data frames
+MRH_Components <- as.data.frame(MRH_Decomposed$time.series[,1:3])
+MRH_Components <- mutate(MRH_Components,
+                           Observed = MRHDischarge$Discharge,     
+                           Date = MRHDischarge$Date)
+
+# Visualize how the trend maps onto the data
+ggplot(MRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = trend, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+# Visualize how the seasonal cycle maps onto the data
+ggplot(MRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = seasonal, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+MRHDischarge.Monthly <- MRHDischarge %>%
+  mutate(Year = year(Date),
+         Month = month(Date)) %>%
+  group_by(Year, Month) %>%
+  summarise(Discharge = mean(Discharge))
+MRHMonthly_ts <- ts(MRHDischarge.Monthly[[3]], frequency = 12)
+adf.test(MRHMonthly_ts, alternative = "stationary")
+acf(MRHMonthly_ts)
+pacf(MRHMonthly_ts)
+
+# run the arima function and search for best fit
+auto.arima(MRHMonthly_ts, trace = TRUE)
+
+# create an object that defines the best fit model
+MRHfit <- arima(MRHMonthly_ts, c(5, 1, 0), seasonal = list(order = c(2, 0, 0), period = 12))
+
+# make a prediction into the future
+MRHprediction <- predict(MRHfit, n.ahead = 10*12)
+
+# plot future predictions
+ts.plot(MRHMonthly_ts, MRHprediction$pred, lty = c(1, 3))
+
+########################### Nitrogen Analysis ############################
+# Generate monthly values from July 1973 to August 2019
+MRHNitrogenlp <- as.data.frame(approx(MRHNitrogen, n = 556, method = "linear"))
+MRHNitrogenlp$x <- as.Date(MRHNitrogenlp$x, origin = "1970-01-01")
+names(MRHNitrogenlp) <- c("Date", "N")
+
+# Inspect interpolated values
+MRHNinterpolated <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = MRHNitrogenlp, aes(x = Date, y = N), color = "#c13d75ff")
+print(MRHNinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+MRHNtimeseries <- ts(MRHNitrogenlp$N, frequency = 12,
+                       start = c(1973, 7, 23), end = c(2019, 8, 6))
+# Run SMK test
+MRHNtrend <- smk.test(MRHNtimeseries)
+
+# Inspect results
+MRHNtrend
+summary(MRHNtrend)
+
+########################### Phosphorus Analysis ############################
+# Generate monthly values from July 1969 to August 2019
+MRHPhosphoruslp <- as.data.frame(approx(MRHPhosphorus, n = 604, method = "linear"))
+MRHPhosphoruslp$x <- as.Date(MRHPhosphoruslp$x, origin = "1970-01-01")
+names(MRHPhosphoruslp) <- c("Date", "P")
+
+# Inspect interpolated values
+MRHPinterpolated <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = MRHPhosphoruslp, aes(x = Date, y = P), color = "#c13d75ff")
+print(MRHPinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+MRHPtimeseries <- ts(MRHPhosphoruslp$P, frequency = 12,
+                       start = c(1969, 7, 31), end = c(2019, 8, 6))
+# Run SMK test
+MRHPtrend <- smk.test(MRHPtimeseries)
+
+# Inspect results
+MRHPtrend
+summary(MRHPtrend)
+
+
+# 06856600 REPUBLICAN R AT CLAY CENTER, KS
+
+########################### Discharge Analysis ############################
+RRCCRegressionPlot <- 
+  ggplot(RRCCDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE, color = "#c13d75ff") +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(RRCCRegressionPlot)
+
+RRCCDischarge <- na.omit(RRCCDischarge)
+RRCC_ts <- ts(RRCCDischarge[[4]], frequency = 365)
+table(diff(RRCCDischarge$Date))
+
+# Generate the decomposition
+RRCC_Decomposed <- stl(RRCC_ts, s.window = "periodic")
+
+# Visualize the decomposed series. 
+plot(RRCC_Decomposed)
+
+# We can extract the components and turn them into data frames
+RRCC_Components <- as.data.frame(RRCC_Decomposed$time.series[,1:3])
+RRCC_Components <- mutate(RRCC_Components,
+                         Observed = RRCCDischarge$Discharge,     
+                         Date = RRCCDischarge$Date)
+
+# Visualize how the trend maps onto the data
+ggplot(RRCC_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = trend, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+# Visualize how the seasonal cycle maps onto the data
+ggplot(RRCC_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = seasonal, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+RRCCDischarge.Monthly <- RRCCDischarge %>%
+  mutate(Year = year(Date),
+         Month = month(Date)) %>%
+  group_by(Year, Month) %>%
+  summarise(Discharge = mean(Discharge))
+RRCCMonthly_ts <- ts(RRCCDischarge.Monthly[[3]], frequency = 12)
+adf.test(RRCCMonthly_ts, alternative = "stationary")
+acf(RRCCMonthly_ts)
+pacf(RRCCMonthly_ts)
+
+# run the arima function and search for best fit
+auto.arima(RRCCMonthly_ts, trace = TRUE)
+
+# create an object that defines the best fit model
+RRCCfit <- arima(RRCCMonthly_ts, c(0, 1, 1),seasonal = list(order = c(0, 0, 2), period = 12))
+
+# make a prediction into the future
+RRCCprediction <- predict(RRCCfit, n.ahead = 10*12)
+
+# plot future predictions
+ts.plot(RRCCMonthly_ts, RRCCprediction$pred, lty = c(1, 3))
+
+########################### Nitrogen Analysis ############################
+# Generate monthly values from February 1973 to September 1993
+RRCCNitrogenlp <- as.data.frame(approx(RRCCNitrogen, n = 249, method = "linear"))
+RRCCNitrogenlp$x <- as.Date(RRCCNitrogenlp$x, origin = "1970-01-01")
+names(RRCCNitrogenlp) <- c("Date", "N")
+
+# Inspect interpolated values
+RRCCNinterpolated <-
+  ggplot(RRCCNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = RRCCNitrogenlp, aes(x = Date, y = N), color = "#c13d75ff")
+print(RRCCNinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+RRCCNtimeseries <- ts(RRCCNitrogenlp$N, frequency = 12,
+                     start = c(1973, 2, 22), end = c(1993, 9, 1))
+# Run SMK test
+RRCCNtrend <- smk.test(RRCCNtimeseries)
+
+# Inspect results
+RRCCNtrend
+summary(RRCCNtrend)
+
+########################### Phosphorus Analysis ############################
+# Generate monthly values from January 1973 to September 1993
+RRCCPhosphoruslp <- as.data.frame(approx(RRCCPhosphorus, n = 250, method = "linear"))
+RRCCPhosphoruslp$x <- as.Date(RRCCPhosphoruslp$x, origin = "1970-01-01")
+names(RRCCPhosphoruslp) <- c("Date", "P")
+
+# Inspect interpolated values
+RRCCPinterpolated <-
+  ggplot(RRCCPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = RRCCPhosphoruslp, aes(x = Date, y = P), color = "#c13d75ff")
+print(RRCCPinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+RRCCPtimeseries <- ts(RRCCPhosphoruslp$P, frequency = 12,
+                     start = c(1973, 1, 16), end = c(1993, 9, 1))
+# Run SMK test
+RRCCPtrend <- smk.test(RRCCPtimeseries)
+
+# Inspect results
+RRCCPtrend
+summary(RRCCPtrend)
+```
 
 \newpage
 
