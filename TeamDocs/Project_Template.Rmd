@@ -59,7 +59,9 @@ theme_set(theme_classic())
 bestsites.DNP <- read.csv("../Data/Raw/bestsites.DNP.csv")
 
 #reading in water quality data
-bestsites.wq <- read.csv("../Data/Raw/bestsites.WQ.csv")
+bestsites.wq <- read.csv("../Data/Raw/bestsites.WQ.csv", colClasses=c("parm_cd"="character", 
+                                                            "Date"="Date",
+                                                            "site_no"="character"))
 
 #reading in high freq data
 highfreqsiteinfo <- read.csv("../Data/Raw/highfreqsiteinfo.csv")
@@ -108,47 +110,21 @@ We have three main datasets:
 <C will do data table for water quality and daily values, R will do for high freq>
 
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=FALSE, eval=TRUE, tbls="Summary of Data for Missouri River Basin Analysis", results="asis"}
 
-#reading in daily value data
-bestsites.DNP <- read.csv("../Data/Raw/bestsites.DNP.csv")
+Variable <- c("discharge", "time", "nitrogen", "pH", "total coliform", 
+              "O2 Concentration", "Phosphorus")
 
-#reading in water quality data
-bestsites.wq <- read.csv("../Data/Raw/bestsites.WQ.csv", colClasses=c("parm_cd"="character", 
-                                                            "Date"="Date",
-                                                            "site_no"="character"))
+Units <- c("cfs or m3/s", "UTC", "mg/L", "1", "cfu/100mL", "mg/L", "mg/L")
 
-```
+TypeOfVariable <- c("both", "independent", "dependent", "dependent", "dependent", 
+                    "dependent", "dependent")
 
+Hypothesis <- c("all", "all", "2 and 3", "2 and 3", "2", "2 and 3", "2 and 3")
 
-```{r, echo=FALSE, eval=TRUE, tbls="Summary of Daily Value Data at 22 sites in the Missouri River Basin", results="asis"}
+Table <- cbind(Variable, Units, TypeOfVariable, Hypothesis)
 
-#structure of daily value dataframe
-dailyvalue.summary <- summary(bestsites.DNP)
-
-#summary of data structure
-kable(dailyvalue.summary, 
-      caption = "Summary of Daily Value Data at 22 sites in the
-      Missouri River Basin") %>% 
-  kable_styling(latex_options = c("hold_position", "striped", 
-                                  "scale_down")) %>% 
-  kableExtra::landscape()
-
-```
-
-```{r, echo=FALSE, eval=TRUE, tbls="Summary of Water Quality Data at 22 sites in the Missouri River Basin", results="asis"}
-
-#structure of water quality dataframe
-waterquality.summary <- summary(bestsites.wq)
-
-#summary of data structure
-kable(waterquality.summary, 
-      caption = "Summary of Water Quality Data in the
-      Missouri River Basin") %>% 
-  kable_styling(latex_options = c("hold_position", "striped", 
-                                  "scale_down")) %>% 
-  kableExtra::landscape() 
-
+knitr::kable(Table)
 ```
 
 \newpage
