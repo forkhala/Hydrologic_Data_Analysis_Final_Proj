@@ -39,6 +39,7 @@ highfreqsites.DN <- readNWISuv(site = c("06808500", "06817000", "06892350", "069
                                endDate = "2019-11-01") %>%
                                renameNWISColumns() %>%
                                rename(Nitrate_mgl = 6)
+
 #individual sites
 Hermann <- highfreqsites.DN %>%
            filter(site_no=="06934500")
@@ -48,6 +49,7 @@ Clarinda <- highfreqsites.DN %>%
             filter(site_no=="06817000")
 Randolph <- highfreqsites.DN %>%
             filter(site_no=="06808500")
+Randolph$dateTime <- as.Date(Randolph$dateTime, format = "%Y-%m-%d")
 
 
 #--------plotting C-Q plots--------------#
@@ -132,7 +134,9 @@ DesotoStorm <- Desoto %>%
 
 
 ggplot(DesotoStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
-  geom_point() 
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="Kansas River in Desoto, KS")
 #very loose counter clockwise motion - loose positive slope for flushing storm
 
 #Clarinda storm
@@ -141,7 +145,8 @@ ClarindaStorm <- Clarinda %>%
 
 
 ggplot(ClarindaStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
-  geom_point() 
+  geom_point() +
+  
 
 #Randolph storm
 RandolphStorm <- Randolph %>%
@@ -149,7 +154,10 @@ RandolphStorm <- Randolph %>%
 
 
 ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
-  geom_point()
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="West Nishnabotna River in Randolph, IA")
+#semi-clockwise motion, negative slope, so diluting
 
 #----------baseflow separation--------------#
 

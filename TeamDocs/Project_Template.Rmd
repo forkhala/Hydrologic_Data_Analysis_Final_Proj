@@ -29,22 +29,35 @@ editor_options:
 
 <Note: set up autoreferencing for figures and tables in your document>
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 # Set your working directory
+
 getwd()
 
 # Load your packages
 library(tidyverse)
 library(kableExtra)
+library(cowplot)
+library(dataRetrieval)
 
 # Set your ggplot theme
 theme_set(theme_classic())
 ```
 
 
-```{r}
-# Loading data
-highfreqsiteinfo <- read.csv("./Data/Raw/highfreqsiteinfo.csv")
+```{r, echo=FALSE}
+# Loading in data
+
+#reading in daily value data
+bestsites.DNP <- read.csv("../Data/Raw/bestsites.DNP.csv")
+
+#reading in water quality data
+bestsites.wq <- read.csv("../Data/Raw/bestsites.WQ.csv")
+
+#reading in high freq data
+highfreqsiteinfo <- read.csv("../Data/Raw/highfreqsiteinfo.csv")
+
+
 ```
 
 
@@ -68,21 +81,16 @@ After doing initial data wrangling and analysis on our 22 "best sites", we decid
 
 We have three main datasets:
 
-    1. The daily values dataset with our 22 "best sites"
-    2. The water quality dataset with our 22 "best sites", with only six sites that had total coliform data.
-    3. The high freqency dataset with 7 sites that contain both high freqency discharge and high frequency nitrogen data.
+- The daily values dataset with our 22 "best sites"
+
+- The water quality dataset with our 22 "best sites", with only six sites that had total coliform data.
+
+- The high freqency dataset with 7 sites that contain both high freqency discharge and high frequency nitrogen data.
 
 <Add a table that summarizes your data structure. This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.>
 
 <C will do data table for water quality and daily values, R will do for high freq>
 
-```{r, echo=FALSE, eval=TRUE}
-#reading in daily value data
-bestsites.DNP <- read.csv("../Data/Raw/bestsites.DNP.csv")
-
-#reading in water quality data
-bestsites.wq <- read.csv("../Data/Raw/bestsites.WQ.csv")
-```
 
 ```{r, echo=FALSE, eval=TRUE, tbls="Summary of Daily Value Data at 22 sites in the Missouri River Basin", results="asis"}
 
@@ -122,6 +130,78 @@ kable(waterquality.summary,
 
 <Include text sections to accompany these R chunks to explain the reasoning behind your workflow, and the rationale for your approach.>
 
+```{r}
+#high frequency data wrangling
+highfreqsite2019 <- highfreqsiteinfo %>%
+  filter(end_date > "2019-03-31"); head(highfreqsite2019)
+
+highfreqsites.DN <- readNWISuv(site = c("06808500", "06817000", "06892350", "06934500"), 
+                               parameterCd = c("00060", "99133"), 
+                               # Discharge in cfs & Nitrate in mg/l NO3-N
+                               startDate = "2019-01-01",
+                               endDate = "2019-11-01") %>%
+                               renameNWISColumns() %>%
+                               rename(Nitrate_mgl = 6)
+
+#individual sites
+Hermann <- highfreqsites.DN %>%
+           filter(site_no=="06934500")
+Desoto <- highfreqsites.DN %>%
+          filter(site_no=="06892350")
+Clarinda <- highfreqsites.DN %>%
+            filter(site_no=="06817000")
+Randolph <- highfreqsites.DN %>%
+            filter(site_no=="06808500")
+```
+
+
+### High Frequency Nitrogen and Discharge
+
+There were 7 sites in our region of interest that had high freq N data, and only 4 sites had high freq N data during the floods of 2019. The sites looked at in depth are:
+
+    - West Nishnabotna River in Randolph, IA
+    - Nodaway River at Clarinda, IA
+    - Kansas River in Desoto, KS
+    - Missouri River at Hermann, MO
+
+The Missouri River is the biggest river, with an average of 214693 cfs discharge rate during the year 2019, and the Nodaway River is the smallest river, with an average of 1185 cfs discharge rate for 2019.
+
+In March of 2019, a [bomb cyclone](https://www.kansascity.com/news/state/missouri/article228237519.html) hit the midwest. Our initial research question, what effect did the March 2019 storm have on water quality, attempted to look into the behavior of nitrogen in the discharge of the rivers. Unfortunately, instantaneous Nitrogen values stopped recording during the peak of the storm events in March, so it was hard to create hysteresis plots that exhibited the type of storm and its effects on nitrogen concentration. 
+
+Even though Nitrogen concentrations were not recorded in March, they were recorded in other times of the year. 2019 was a wet year and many large storm events occurred. 
+
+```{r randolphs, echo=FALSE}
+#Randolph storm
+RandolphStorm <- Randolph %>%
+  filter(dateTime > "2019-06-24" & dateTime < "2019-07-08") 
+
+
+RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="West Nishnabotna River in Randolph, IA")
+
+#semi-clockwise motion, negative slope, so diluting
+```
+
+```{r desotos, fig.cap="\\label{fig:desotos} Hysteresis plots", echo=FALSE}
+#desoto storm
+
+DesotoStorm <- Desoto %>%
+  filter(dateTime > "2019-02-22" & dateTime < "2019-02-28") 
+
+
+DesotoStorm.plot <- ggplot(DesotoStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="Kansas River in Desoto, KS")
+
+
+plot_grid(RandolphStorm.plot, DesotoStorm.plot, ncol=1)
+#very loose counter clockwise motion - loose positive slope for flushing storm
+```
+
+The \autoref{fig:desotos} shows Hysteresis plots for two storm events in the Missouri River Basin. The storm event on the West Nishnabotna River exhibits an oddly-shaped plot that has a negative slope, indicating it is a diluting storm. The Kansas River experienced a storm in late February that has a counter-clockwise motion and a positive slope, indicating a flushing storm. These two plots illustrate that two rivers near each other can have very different behaviors.
 
 \newpage
 
