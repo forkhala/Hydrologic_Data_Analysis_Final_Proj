@@ -1,5 +1,11 @@
+########## Generate Map of Selected Sites ##########
+
+#### Setup###
 pacman::p_load(tidyverse, dataRetrieval, sf, maps)
+devtools::install_github("yutannihilation/ggsflabel")
+library(ggsflabel)
 theme_set(theme_classic())
+
 ##### Map sites selected, water bodies, and watersheds in the study region ####
 # Gathering site nos from scripts
 bestsites1021.1026.1027.1030 <- 
@@ -28,7 +34,7 @@ huc4_nm <- rep(c("Platte", "Loup", "Elkhorn", "Missouri-Little Sioux", "Missouri
                  "Lower Missouri"), each = 2)
 site.list <- cbind(site.list, huc4_nm)
 # save the list
-# write.csv(site.list, file="./Data/Processed/bestsiteslists.csv")
+write.csv(site.list, file="./Data/Processed/bestsiteslist.csv")
 
 ##### Map Generation #####
 
@@ -36,7 +42,8 @@ best.sites.info <- whatNWISdata(sites=best.sites)
 
 best.sites.lat.long <- best.sites.info %>%
   group_by(site_no) %>%
-  summarise(Lat = mean(dec_lat_va), Long=mean(dec_long_va))
+  summarise(Lat = mean(dec_lat_va), Long=mean(dec_long_va)) %>%
+  left_join(., site.list, by = "site_no")
 
 #creating spatial dataframe and map
 best.sites.spatial <- st_as_sf(best.sites.lat.long,
@@ -54,10 +61,11 @@ allstates.map <- st_set_crs(allstates.map, proj) #set projection
 # Still need run most codes above, except waterfeature ones (starting around line 44)
 # and those producing graphs
 
-# import watershed shapefile
+# import watershed shapefile; DO NOT open this shapefile in R
 AllHUC4 <- st_read("./Data/Shapefiles/WBD_10_HU2_Shape/WBDHU4.dbf")
 HUC4.SE <- AllHUC4 %>%
-  filter(HUC4 %in% seq(from = 1020, to = 1030, by = 1))
+  filter(HUC4 %in% seq(from = 1020, to = 1030, by = 1)) %>%
+  mutate(Name = paste(HUC4, Name, sep = " "))
 HUC4.NW <- AllHUC4 %>%
   filter(HUC4 %in% seq(from = 1000, to = 1019, by = 1))
 
@@ -67,7 +75,7 @@ streams <- st_read("../Untracked Proj Data/Small_Scale_Map/hydr48m010g.gdb", lay
   st_zm(drop = T, what = "ZM") # drop z/m dimension, and only keep x, y dimensions for 2D figures
 
 streams.HU10 <- streams %>%
-  filter(Region == 10)
+  filter(Region == 10 & Strahler > 2)
 
 missouri <- streams.HU10 %>%
   filter(Name == "Missouri River")
@@ -76,19 +84,21 @@ sitemap <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.5, size = 0.45) +
   geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.5, size = 0.45) +
-  geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.3, size = 0.05) +
-  geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.8) +
+  geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
+  geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.7) +
   scale_fill_brewer(palette = "Paired") +
   geom_sf(data = best.sites.spatial, fill="red2", color="red2", 
           alpha = 0.7, size = 1.1) +
   theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
-        legend.title = element_text(size = 8.5)) + 
-  labs(fill = "Watershed Name")
+        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) + 
+  labs(fill = "Watershed Name",x = element_blank(), y = element_blank())+
+  geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab), 
+                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4)
 
 # Caution this takes time to display, and even longer than ggsave()
 # print(sitemap)
 # save file
-ggsave("./Figures/site_map.jpg", sitemap, dpi = 300, scale = 1, units = "in")
+ggsave("./Figures/site_map.jpg", sitemap, dpi = 300, width = 9, height = 5.3, units = "in")
 
 #---- site mapping ends ----
 
