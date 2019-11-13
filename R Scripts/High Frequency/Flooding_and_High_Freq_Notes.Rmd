@@ -11,6 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Sites
 
+ < Setup the global options for the R chunks in your document >
+
+<Note: set up autoreferencing for figures and tables in your document.>
+
+
 There were 7 sites in our region of interest that had high freq N data, and only 4 sites had high freq N data during the floods of 2019. The sites looked at in depth are:
 
     - West Nishnabotna River in Randolph, IA
