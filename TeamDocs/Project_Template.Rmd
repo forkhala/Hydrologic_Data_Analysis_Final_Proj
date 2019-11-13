@@ -37,8 +37,15 @@ getwd()
 # Load your packages
 library(tidyverse)
 library(kableExtra)
+library(dataRetrieval)
+library(dplyr)
+library(xts)
+library(dygraphs)
+library(lubridate)
+library(gridExtra)
 library(cowplot)
 library(dataRetrieval)
+
 
 # Set your ggplot theme
 theme_set(theme_classic())
@@ -101,6 +108,19 @@ We have three main datasets:
 <C will do data table for water quality and daily values, R will do for high freq>
 
 
+```{r, echo=FALSE, eval=TRUE}
+
+#reading in daily value data
+bestsites.DNP <- read.csv("../Data/Raw/bestsites.DNP.csv")
+
+#reading in water quality data
+bestsites.wq <- read.csv("../Data/Raw/bestsites.WQ.csv", colClasses=c("parm_cd"="character", 
+                                                            "Date"="Date",
+                                                            "site_no"="character"))
+
+```
+
+
 ```{r, echo=FALSE, eval=TRUE, tbls="Summary of Daily Value Data at 22 sites in the Missouri River Basin", results="asis"}
 
 #structure of daily value dataframe
@@ -138,6 +158,151 @@ kable(waterquality.summary,
 <Include R chunks for 5+ lines of summary code (display code and output), 3+ exploratory graphs (display graphs only), and any wrangling you do to your dataset(s).> 
 
 <Include text sections to accompany these R chunks to explain the reasoning behind your workflow, and the rationale for your approach.>
+
+#### Water Quality Data ####
+    
+There were 6 sites in the Missiour River Basin that had total coliform data in addition to total nitrogen, total phosphorus, pH, and discharge data. Out of the 6 sites, only *3* of the sites were chosen for water quality analysis because they had the most data for all of the parameters for water quality. The water quality data was wrangeled to include certain columns necessary for the analysis. The sites that were looked at in depth for water quality analysis are: 
+
+    - 06810000
+    - 06856600
+    - 06934500
+
+```{r}
+
+#filtering water quality dataset to include only 3 sites
+bestsites.wq.skinny <- bestsites.wq %>%
+    select(Site = site_no,
+              Date = Date,
+              Parameter = parm_cd,
+              Value = result_va,
+              Discharge = X_00060_00003) %>%
+    group_by(Date, Parameter, Site) %>%
+    summarize(Value = mean(Value),
+              Discharge = mean(Discharge)) %>%
+    spread(key = Parameter, value = Value) %>% 
+    rename(pH = '00400', total.coliform = '31501', 
+           Discharge2 = '00060', total.nitrogen = '00600', 
+           total.phosphorus = '00665') %>%
+    mutate(Year = year(Date)) %>%
+    select(-Discharge2) %>%     
+    filter(Site == "06810000" | Site == "06856600" |
+           Site == "06934500")
+```
+
+Graphs were made to look at total phosphorus, total nitrogen, pH, and total coliform over time. These figures were also faceted by site to see whether there were trends in specific sites. 
+
+```{r tp.time, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:tp.time}Total Phosphorus Over Time"}
+
+#plot of TP with 3 sites that have total coliform, facet by site
+TP.plot.2 <- ggplot(bestsites.wq.skinny, aes(x = Date, y = total.phosphorus)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~Site) +
+  xlim(as.Date(c("1969-01-01", "1980-01-01"))) +
+  theme_bw() +
+  labs(x = "Date", y = "Total Phosphorus (mg/L)")
+
+#plot of TP over time with 3 sites that have total coliform
+TP.plot <- ggplot(bestsites.wq.skinny, 
+                       aes(x = Date, y = total.phosphorus)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Date", y = "Total Phosphorus (mg/L)") +
+  xlim(as.Date(c("1969-01-01", "2020-01-01"))) +
+  theme(axis.title.x=element_blank())
+
+#grid arrange for TP graphs
+grid.arrange(TP.plot, TP.plot.2)
+```
+
+As seen by \autoref{fig:tp.time}, total phosphorus values have a slight positive trend. From \autoref{fig:tp.time}, site 06934500 has the most total phosphorus data.
+
+```{r tn.time, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:tn.time}Total Nitrogen Over Time" }
+#plot of TN with 3 sites that have total coliform data
+TN.plot.2 <- ggplot(bestsites.wq.skinny, aes(x = Date, y = total.nitrogen)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Date", y = "Total Nitrogen (mg/L)") +
+  xlim(as.Date(c("1969-01-01", "2020-01-01"))) +
+  theme(axis.title.x=element_blank())
+
+#TN over time facet by site
+TN.plot.site <- ggplot(bestsites.wq.skinny, 
+                       aes(x = Date, y = total.nitrogen)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~Site) +
+  labs(x = "Date", y = "Total Nitrogen (mg/L)") +
+  xlim(as.Date(c("1969-01-01", "2020-01-01"))) +
+  theme_bw()
+
+#grid arrange for TN over time
+grid.arrange(TN.plot.2, TN.plot.site)
+```
+
+From \autoref{fig:tn.time}, total nitrogen looks as though there is a slight positive trend from 1980 to 2019. Again, site 06934500 has the most total nitrogen data, as evidenced in \autoref{fig:tn.time}.
+
+```{r ph, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:ph}pH Over Time"}
+
+#plot of pH with 3 sites that have total coliform
+ph.plot.2 <- ggplot(bestsites.wq.skinny, aes(x = Date, y = pH)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~Site) +
+  xlim(as.Date(c("1960-01-01", "2020-01-01")))
+
+#plot of pH in 3 sites with total coliform data over time
+ph.plot <- ggplot(bestsites.wq.skinny, aes(x = Date, y = pH)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  xlim(as.Date(c("1960-01-01", "2020-01-01"))) +
+  theme(axis.title.x=element_blank())
+
+#grid arrange for pH plot
+grid.arrange(ph.plot, ph.plot.2)
+```
+
+As seen in \autoref{fig:ph}, pH values range from below pH of 7 to above pH of 9 from 1970 - 2019. From \autoref{fig:ph}, site 06810000 has a positive increase in pH over time, whereas site 06934500 has a decreasing trend in pH over time.
+
+```{r tc.time, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:tc.time}Total Coliform Over Time"}
+#plot of total coliform over time
+TC.plot.time <- ggplot(bestsites.wq.skinny,
+                  aes(x = Date, y = total.coliform)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Date", y = "Total Coliform (cfu/100 ml)") +
+  xlim(as.Date(c("1969-01-01"," 1975-12-31"))) +
+  facet_wrap(~Site) +
+  theme_set(theme_bw())
+
+#plot of total coliform over time
+tc.time <- ggplot(bestsites.wq.skinny, aes(x = Date, y = total.coliform)) +
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  xlim(as.Date(c("1969-01-01", "1975-01-01"))) +
+  labs(x = "Date", y = "Total Coliform (cfu/100 ml)") +
+  theme(axis.title.x=element_blank())
+
+#grid arrange to put the plots on one figure
+grid.arrange(tc.time, TC.plot.time, nrow = 2)
+```
+
+\autoref{fig:tc.time} shows the total coliform measurements in the 3 chosen sites over time. From \autoref{fig:tc.time}, it is evident that there is not much data on total coliform in the Missouri River Basin and monitoring for total coliform occured at these 3 sites from late 1960s through 1975.
+
+```{r tc.dis, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:tc.dis}Total Coliform over time and Discharge over time" }
+
+#plot of total coliform over time
+totalcoliform.time <- ggplot(bestsites.wq.skinny, aes(x = Date)) +
+  geom_line(aes(y = Discharge, alpha = 0.5), color = "black") +
+  geom_point(aes(y = total.coliform, alpha = 0.5), color = "red") +
+  scale_y_continuous(sec.axis = sec_axis(~ . * 1.20, name = "Discharge (cfs)")) +
+  xlim(as.Date(c("1969-01-01", "1980-01-01"))) +
+  labs(x = "Date", y = "Total Coliform (cfu/100 ml)")
+print(totalcoliform.time)
+
+```
+
+\autoref{fig:tc.dis} was created to determine whether high amounts of total coliform coincided with an increase in discharge. Because there were limited total coliform measurements taken, as evidenced in \autoref{fig:tc.time}, there is not a great conclusion from this data. However, \autoref{fig:tc.dis} shows a spike in discharge events between 1972 - 1974, which also happens to be a time when total coliform was sampled. \autoref{fig:tc.dis} also shows increases in total coliform between 1972 - 1975. 
 
 ```{r}
 #high frequency data wrangling
