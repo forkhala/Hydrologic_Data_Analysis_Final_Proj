@@ -15,3 +15,16 @@ https://water.usgs.gov/GIS/huc_name.html
 
 NWIS parameter code
 https://nwis.waterdata.usgs.gov/usa/nwis/pmcodes
+
+Background Information on Missouri River Basin:
+https://www.nap.edu/read/10277/chapter/3
+https://pubs.usgs.gov/of/1987/ofr87-242/
+https://www.usbr.gov/climate/secure/docs/2016secure/2016SECUREReport-chapter6.pdf
+https://www.britannica.com/place/Missouri-River
+http://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1070&context=usarmyceomaha
+
+Nutrient Loading etc
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307633/
+
+The Assessment, Total Maximum Daily Load (TMDL) Tracking and Implementation System (ATTAINS) 
+https://www.epa.gov/waterdata/attains

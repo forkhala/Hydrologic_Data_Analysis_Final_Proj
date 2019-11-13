@@ -119,7 +119,7 @@ sitemap <- ggplot() +
 # Caution this takes time to display, and even longer than ggsave()
 # print(sitemap)
 # save file
-ggsave("site_map.jpg", sitemap, dpi = 300, width = 9, height = 9, units = "in")
+ggsave("./Figures/site_map.jpg", sitemap, dpi = 300, width = 9, height = 9, units = "in")
 
 #---- site mapping ends ----
 

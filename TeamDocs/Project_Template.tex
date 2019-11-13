@@ -147,14 +147,22 @@ The Missouri River provides critical water resources that drives the
 region's agriculture, industry, and ecosystems. This is a region that
 experiences surface water variability, characterized by damaging floods
 and severe droughts, greatly impacting the agricultural production of
-the area. This project highlights the changes in streamflow and water
-quality over time, and identifies key characteristics of the
-river\ldots{}.Twenty six sites across the lower Missouri River Basin
-were examined in order to get a fuller picture of the Missouri River and
-its tributaries over time.
+the area. It is reported that a serious flood disaster occurred in the
+lower Missouri River in the spring of 2019 and the Missouri River
+experienced severe drought in 2012-2013. This project highlights the
+changes in stream flow and water quality over time, and identifies key
+characteristics of the river. Twenty two sites across the lower Missouri
+River Basin were examined in order to get a fuller picture of the
+Missouri River and its tributaries over time. By analyzing the trend of
+the Missouri River discharge, we can predict future changes in the
+Missouri River flow to provide a reference for water resources
+management. In addition, we focus on the stream flow and water quality
+of Missouri River during March to July, 2019 to see how discharge
+influence the water quality and what can be done to keep the water in
+the Missouri River in good quality.
 \end{abstract}
 
-\textless{}Information in these brackets are used for annotating the
+\textless Information in these brackets are used for annotating the
 RMarkdown file. They will not appear in the final version of the PDF
 document\textgreater{}
 
@@ -166,28 +174,84 @@ document\textgreater{}
 \listoffigures 
 \newpage
 
-\textless{}Note: set up autoreferencing for figures and tables in your
+\textless Note: set up autoreferencing for figures and tables in your
 document\textgreater{}
 
 \hypertarget{research-question-and-rationale}{%
 \section{Research Question and
 Rationale}\label{research-question-and-rationale}}
 
-\textless{}Paragraph detailing the rationale for your analysis. What is
+\textless Paragraph detailing the rationale for your analysis. What is
 the significant application and/or interest in this topic? Connect to
 environmental topic(s)/challenge(s).\textgreater{}
 
-\textless{}Paragraph detailing your research question(s) and goals. What
+\textless Paragraph detailing your research question(s) and goals. What
 do you want to find out? Include a sentence (or a few) on the dataset
 you are using to answer this question - just enough to give your reader
 an idea of where you are going with the analysis.\textgreater{}
+
+The Missouri River is the largest river in North America (2,540 miles)
+and has the second largest watershed (529,000 mi\textsuperscript{2}/339
+acres, U.S.-Canada). Its watershed covers portions of ten states, which
+account for approximately one-sixth of the continental United States, as
+well as a small part of Canada. The headwater is located in the
+Bitterroot Mountains River of northwestern Wyoming and southwestern
+Montana. The watershed is home to around 12 million people in 1990, and
+has been inhabited by indigenous people for millennia. Demands for
+managing the river for the benefit of human livelihood has resulted in
+drastic modification in the river and the floodplains. Numerous
+reservoirs and dams have been constructed, of which six major dams were
+built on the mainstream, following the Pick-Sloan Plan in 1944. Now, the
+river is used intensively in multiple ways, including municipal,
+agricultural, hydropower, recreation, flood control etc. \newline Within
+the 328 million acres of the basin's total area in the United States,
+95\% is related to agricultural uses, while the rest dedicated for
+recreation, fish and wildlife, and urban. More than half of the total is
+pasture and range grassland primarily for grazing, and cropland consists
+of almost 104 million acres, which is 32\% of the whole basin. Irrigated
+land comprises 7.4 million acres, and 6.9 million acres are intensively
+cropped. Water bodies, on the other hand, cover 3.9 million acres. In
+spite of the low proportion of water areas (1.2\%), they are the pivotal
+foundation for agricultural or other usages, and thus critical to the
+whole region's economy. \newline Along with the agricultural, urban, and
+industrial development in the region is nutrient loading and enrichment
+in water bodies, especially for nitrogen (N) and phosphorus (P). Unlike
+other regions, agricultural input through fertilizer is the predominant
+anthropogenic source for nutrient in water bodies in the whole basin.
+Regardless of the major anthropogenic source, nutrient enrichment is
+considered nationally as one of the leading factors for water quality
+impairment. According to USEPA 303(d) lists, more than 160 stream
+reaches, lakes, or reservoirs were reported by USEPA to be
+nutrient-related impaired in 2006. \newline In addition to change in
+nutrient concentration, discharge appears to be highly variable in the
+basin, and both severe drought and flooding events occurred in the basin
+in the past. For example, in the spring and summer of 2011, an
+unprecedented flooding event caused over \$2 billion damage FEMA
+disaster declaration was made in all states along the Missouri River.
+Subsequently, in 2012, a drought even struck the Central Great Plain,
+including the basin, and inflicted at least \$12 billion of loss before
+July, 2012. Recently, another flooding event occurred in the spring of
+2019. Given all the background information above, we would like to know
+the current state of Missouri River and its tributaries, with a focus on
+the changing pattern in discharge and nutrient. We are interested in how
+the dramatic change in discharge (i.e.~water quantity) could potentially
+interact with nutrient enrichment (i.e.~water quality). Also, we
+examined a few specific flooding events, during which changes in both
+water quality and quantity were well recorded, so that we could make
+concrete inference on the interplay between quantity and quality.
+Finally, based on the pattern in the past and the best model we could
+fit, we attempted to predict the likely future conditions and trends in
+the Missouri River Basin. To achieve these goals, we retrieved data on
+water quantity, water quality (N, P concentrations), pH, coliform
+concentrations from USGS National Water Information System, using the
+package \texttt{dataRetrieval}.
 
 \newpage
 
 \hypertarget{dataset-information}{%
 \section{Dataset Information}\label{dataset-information}}
 
-\textless{}Information on how the dataset for this analysis were
+\textless Information on how the dataset for this analysis were
 collected, the data contained in the dataset, and any important pieces
 of information that are relevant to your analyses. This section should
 contain much of same information as the README file for the dataset but
@@ -230,12 +294,12 @@ We have three main datasets:
   discharge and high frequency nitrogen data.
 \end{itemize}
 
-\textless{}Add a table that summarizes your data structure. This table
+\textless Add a table that summarizes your data structure. This table
 can be made in markdown text or inserted as a \texttt{kable} function in
 an R chunk. If the latter, do not include the code used to generate your
 table.\textgreater{}
 
-\textless{}C will do data table for water quality and daily values, R
+\textless C will do data table for water quality and daily values, R
 will do for high freq\textgreater{}
 
 \begin{landscape}\begin{table}[!h]
@@ -244,7 +308,7 @@ will do for high freq\textgreater{}
       Missouri River Basin}
 \centering
 \resizebox{\linewidth}{!}{
-\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l}
+\begin{tabular}[t]{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l}
 \hline
   &       X & agency\_cd &    site\_no &         Date &   Discharge & Approval.Code &    parm\_cd &   sample\_tm & sample\_end\_dt & sample\_end\_tm & sample\_start\_time\_datum\_cd & tm\_datum\_rlbty\_cd &   coll\_ent\_cd & medium\_cd &     project\_cd & aqfr\_cd &  tu\_id & body\_part\_id &  hyd\_cond\_cd &  samp\_type\_cd &  hyd\_event\_cd &                              sample\_lab\_cm\_tx & remark\_cd &   result\_va &  val\_qual\_tx &    meth\_cd &  dqi\_cd &   rpt\_lev\_va &  rpt\_lev\_cd & lab\_std\_va & prep\_set\_no & prep\_dt &    anl\_set\_no &     anl\_dt &                                                                                                                               result\_lab\_cm\_tx &    anl\_ent\_cd &             startDateTime &            parameter\\
 \hline
@@ -272,7 +336,7 @@ will do for high freq\textgreater{}
       Missouri River Basin}
 \centering
 \resizebox{\linewidth}{!}{
-\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l}
+\begin{tabular}[t]{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l}
 \hline
   &       X & agency\_cd &    site\_no &         Date & X\_00060\_00003 & X\_00060\_00003\_cd &    parm\_cd &   sample\_tm & sample\_end\_dt & sample\_end\_tm & sample\_start\_time\_datum\_cd & tm\_datum\_rlbty\_cd &   coll\_ent\_cd & medium\_cd &     project\_cd & aqfr\_cd &     tu\_id &  body\_part\_id &  hyd\_cond\_cd &  samp\_type\_cd &  hyd\_event\_cd &                              sample\_lab\_cm\_tx & remark\_cd &   result\_va &  val\_qual\_tx &    meth\_cd &  dqi\_cd &   rpt\_lev\_va &  rpt\_lev\_cd & lab\_std\_va & prep\_set\_no & prep\_dt &    anl\_set\_no &     anl\_dt &                                                                                                                               result\_lab\_cm\_tx &    anl\_ent\_cd &             startDateTime\\
 \hline
@@ -300,11 +364,11 @@ will do for high freq\textgreater{}
 \section{Exploratory Data Analysis and
 Wrangling}\label{exploratory-data-analysis-and-wrangling}}
 
-\textless{}Include R chunks for 5+ lines of summary code (display code
+\textless Include R chunks for 5+ lines of summary code (display code
 and output), 3+ exploratory graphs (display graphs only), and any
 wrangling you do to your dataset(s).\textgreater{}
 
-\textless{}Include text sections to accompany these R chunks to explain
+\textless Include text sections to accompany these R chunks to explain
 the reasoning behind your workflow, and the rationale for your
 approach.\textgreater{}
 
@@ -411,11 +475,11 @@ near each other can have very different behaviors.
 \hypertarget{analysis}{%
 \section{Analysis}\label{analysis}}
 
-\textless{}Include R chunks for 3+ statistical tests (display code and
+\textless Include R chunks for 3+ statistical tests (display code and
 output) and 3+ final visualization graphs (display graphs
 only).\textgreater{}
 
-\textless{}Include text sections to accompany these R chunks to explain
+\textless Include text sections to accompany these R chunks to explain
 the reasoning behind your workflow, rationale for your approach, and the
 justification of meeting or failing to meet assumptions of
 tests.\textgreater{}
@@ -425,7 +489,7 @@ tests.\textgreater{}
 \hypertarget{summary-and-conclusions}{%
 \section{Summary and Conclusions}\label{summary-and-conclusions}}
 
-\textless{}Summarize your major findings from your analyses. What
+\textless Summarize your major findings from your analyses. What
 conclusions do you draw from your findings? Make sure to apply this to a
 broader application for the research question you have
 answered.\textgreater{}
