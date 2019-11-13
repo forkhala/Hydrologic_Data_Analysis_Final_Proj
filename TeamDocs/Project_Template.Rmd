@@ -82,13 +82,13 @@ Along with the agricultural, urban, and industrial development in the region is 
 In addition to change in nutrient concentration, discharge appears to be highly variable in the basin, and both severe drought and flooding events occurred in the basin in the past. For example, in the spring and summer of 2011, an unprecedented flooding event caused over \$2 billion damage FEMA disaster declaration was made in all states along the Missouri River. Subsequently, in 2012, a drought even struck the Central Great Plain, including the basin, and inflicted at least \$12 billion of loss before July, 2012. Recently, another flooding event occurred in the spring of 2019.
 
 
-Given all the background information above, we would like to know the current state of Missouri River and its tributaries, with a focus on the changing pattern in discharge and nutrient. We are interested in how the dramatic change in discharge (i.e. water quantity) could potentially interact with nutrient enrichment (i.e. water quality). Also, we examined a few specific flooding events, during which changes in both water quality and quantity were well recorded, so that we could make concrete inference on the interplay between quantity and quality. Finally, based on the pattern in the past and the best model we could fit, we attempted to predict the likely future conditions and trends in the Missouri River Basin. To achieve these goals, we retrieved data on water quantity, water quality (N, P concentrations), pH, coliform concentrations from USGS National Water Information System, using the package `dataRetrieval`.
+Given all the background information above, we would like to know the current state of Missouri River and its tributaries, with a focus on the changing pattern in discharge and nutrient. We are interested in how the dramatic change in discharge (i.e. water quantity) could potentially interact with nutrient enrichment (i.e. water quality). Also, we examined a few specific flooding events, during which changes in both water quality and quantity were well recorded, so that we could make concrete inference on the interplay between quantity and quality. Finally, based on the pattern in the past and the best model we could fit, we attempted to predict the likely future conditions and trends in the Missouri River Basin.
 
 \newpage
 
 # Dataset Information
 
-The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the lower Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030 (see Figure below). We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, and we wanted a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that had discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin as our 22 "best sites". Our best sites had the overall best time period range for all of our "must have" variables. \autoref{fig:table} illustrates the variables we examined and the number of sites in our area of interest that had quality data for each.
+The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the lower Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030 (see Figure below). We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, and we wanted a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that had discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin as our 22 "best sites". Our best sites had the overall best time period range for all of our "must have" variables. We retrieved data on water quantity, water quality (N, P concentrations), pH, and coliform concentrations. \@ref{tab:table} illustrates the variables we examined and the number of sites in our area of interest that had quality data for each.
 
 Only seven sites within our HUC subbasin boundary contained any high frequency discharge and nitrogen data. Therefore, we also looked at these 7 sites in order to do analyses and answer our research question about flooding.
 
@@ -103,7 +103,7 @@ We have three main datasets:
 - The high freqency dataset with 7 sites that contain both high frequency discharge and high frequency nitrogen data.
 
 
-```{r table, echo=FALSE, eval=TRUE, tbls="Summary of Data for Missouri River Basin Analysis", results="asis"}
+```{r table, echo=FALSE, eval=TRUE, caption="\\label{tab:table}Summary of Data for Missouri River Basin Analysis", results="asis"}
 
 Variables <- c("discharge", "time", "nitrogen", "pH", "total coliform", 
               "phosphorus")
@@ -126,7 +126,7 @@ knitr::kable(Table) %>%
 # Exploratory Data Analysis and Wrangling
 
 
-#### Water Quality Data 
+## Water Quality Data 
     
 There were 6 sites in the Missouri River Basin that had total coliform data in addition to total nitrogen, total phosphorus, pH, and discharge data. Out of the 6 sites, only *3* of the sites were chosen for water quality analysis because they had the most data for all of the parameters for water quality. The water quality data was wrangled to include certain columns necessary for the analysis. The sites that were looked at in depth for water quality analysis are: 
 
@@ -273,7 +273,7 @@ print(totalcoliform.time)
 
 \newpage
 
-#### High Frequency Nitrogen and Discharge
+## High Frequency Nitrogen and Discharge
 
 ```{r}
 #high frequency data wrangling
@@ -351,7 +351,7 @@ The \autoref{fig:desotos} shows Hysteresis plots for two storm events in the Mis
 # Analysis
 
 
-#### Linear Models for Water Quality
+## Linear Models for Water Quality
 
 ```{r}
 
@@ -375,6 +375,7 @@ summary(ph.mod) #for every day increase
 
 ```
 
+Linear models were created in order to determine whether water quality parameters have changed over time. When nitrogen was evaluated for all sites over the time period, it was found that nitrogen has significantly increased over time (p< 2e-16, F_{1,992} = 23.31). At the six sites that total coliform was recorded, total coliform significantly increased over the time period (p < 0.0138, F_{1,46} = 0.01576). However, this result should be critically analyzed, because total coliform has not been measured since the 1980s. Total coliform levels should be measured more closely in this region, given the lack of data. A linear model was also performed on total phosphorus over time, and it was found that phosphorus levels have also increased over the time period for all sites of interest (p < 2.14e-15, F_{1,1048} = 30.92). Lastly, pH was analyzed in a linear model and it was found that pH had no significant increase or decrease over time in all of the sites of interest (p = 0.392). 
 
 \newpage
 
