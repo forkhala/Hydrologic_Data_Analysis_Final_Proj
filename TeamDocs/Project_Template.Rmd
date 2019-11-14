@@ -98,25 +98,24 @@ Given the interesting hydrologic history of this region, we are interested in th
     a) Rivers will exhibit a flushing behavior due to the land use and type of flow during storms
     b) Discharge will decrease during drought, causing nutrient levels to also decrease due to decreased overland flow.
 
-4. Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
+3. Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
     a) Total flow in the Missouri River Basin is decreasing (non-stationary) over time
     b) The future situation of the river basin will see the continuation of current trends of decreasing overall volume of flow.
+    
 =======
 ```{r sitemap, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:sitemap} Map of USGS sites used for long term analysis."}
 knitr::include_graphics("../Figures/site_map.jpg")
 ```
->>>>>>> 5ab62c023baf8e131005e69332c5a2422a01aa04
+
 
 \newpage
 
 # Dataset Information
 
-<<<<<<< HEAD
+
 The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the lower Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030 (see Figure below). We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, representing a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that had discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin as our 22 "best sites". Our best sites had the overall best time period range for all of our "must have" variables. We retrieved data on water quantity, water quality (N, P concentrations), pH, and coliform concentrations. \@ref{tab:table} illustrates the variables we examined and the number of sites in our area of interest that had quality data for each.
-=======
-The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the lower Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030. We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, and we wanted a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that had discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin as our 22 "best sites". Our best sites had the overall best time period range for all of our "must have" variables. We retrieved data on water quantity, water quality (N, P concentrations), pH, and coliform concentrations. \ref{tab:table} illustrates the variables we examined and the number of sites in our area of interest that had quality data for each.
->>>>>>> 5ab62c023baf8e131005e69332c5a2422a01aa04
+
 
 Only seven sites within our HUC subbasin boundary contained any high frequency discharge and nitrogen data. Therefore, we also looked at these 7 sites in order to do analyses and answer our research question about flooding.
 
