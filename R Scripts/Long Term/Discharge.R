@@ -9,14 +9,14 @@ theme_set(theme_classic())
 
 # Import site info ####
 
-site.list <- read_csv("./Data/Processed/bestsiteslists.csv", col_types = cols(
-  X1 = "d", site_no = "c", site_nm = "c", huc_cd = "c", huc4 = "c", huc4_nm = "c"))%>%
+site.list <- read_csv("./Data/Processed/bestsiteslist.csv", col_types = cols(
+  X1 = "d", site_no = "c",site_nm = "c", huc_cd = "c", huc4 = "c", huc4_nm = "c", site_lab = "c"))%>%
   arrange(huc4, huc_cd)
 
 site.nos <- site.list$site_no
 #----setup end ----
 
-########## Discharge Pattern in a Year ##########
+######################### Part I Discharge Pattern in a Year #########################
 
 # Following codes for specific watersheds are only for validation; use loop to analyze all
 
@@ -64,17 +64,6 @@ fig10200202.1 <- ggplot(hu10200202.pattern, aes(x = DOY)) +
 print(fig10200202.1)
 
 #---- 10200202 end ----
-
-fig1020 <- ggplot(hu10200101.pattern, mapping = aes(x = DOY)) +
-  geom_line(aes(y = Median.Discharge), color = "lightskyblue4", size = 0.73) +
-  geom_line(aes(y = Max.Discharge), color = "lightskyblue3") +
-  geom_line(aes(y = Min.Discharge), color = "lightskyblue3") +  
-  geom_line(aes(y = Median.Discharge), hu10200202.pattern, color = "darkseagreen4", size = 0.73)+
-  geom_line(aes(y = Max.Discharge), hu10200202.pattern, color = "darkseagreen3") +
-  geom_line(aes(y = Min.Discharge), hu10200202.pattern, color = "darkseagreen3") +  
-  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) +
-  annotate("text", x = -Inf, y = Inf, label = "1020", hjust = 0, vjust = 1, size = 4.5)
-print(fig1020)
 
 ######## HU 1020 Platte ########
 
@@ -194,8 +183,7 @@ ggsave("./Figures/discharge.jpg", annotated.DisChargePlot,
 
 #---- end ----
 
-
-########## Recurrence Interval ##########
+######################### Part II Recurrence Interval #########################
 
 ######## HU 1020 Platte (for validation) ########
 
@@ -248,12 +236,16 @@ ggplot()+
 
 ######## for loop ########
 
-for (i in 1:11) {
-  site1 <- readNWISdv(siteNumbers = site.nos[2*i-1], 
+for (i in 1:22) {
+  site.full <- readNWISdv(siteNumbers = site.nos[i], 
                       parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
     rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
   
-  Recurrence.site1 <- site1 %>%
+  site.latest <- site.full %>%
+    mutate(Year = year(Date))%>%
+    filter(Year > 1980)
+  
+  Recurrence.full <- site.full %>%
     mutate(Year = year(Date))%>%
     group_by(Year) %>%
     summarise(PeakDischarge = max(Discharge)) %>% 
@@ -261,11 +253,7 @@ for (i in 1:11) {
            RecurrenceInterval = (length(Year) + 1)/Rank, 
            Probability = 1/RecurrenceInterval)
   
-  site2 <- readNWISdv(siteNumbers = site.nos[2*i], 
-                      parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
-    rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
-  
-  Recurrence.site2 <- site2 %>%
+  Recurrence.latest <- site.latest %>%
     mutate(Year = year(Date))%>%
     group_by(Year) %>%
     summarise(PeakDischarge = max(Discharge)) %>% 
@@ -273,42 +261,70 @@ for (i in 1:11) {
            RecurrenceInterval = (length(Year) + 1)/Rank, 
            Probability = 1/RecurrenceInterval)
   
-  model.1 <- lm(data = Recurrence.site1, PeakDischarge ~ log(RecurrenceInterval))
-  model.2 <- lm(data = Recurrence.site1, PeakDischarge ~ log(RecurrenceInterval))
-  model.1.sum <- summary(model.1)
-  model.2.sum <- summary(model.2)
+  model.full <- lm(data = Recurrence.full, PeakDischarge ~ log(RecurrenceInterval))
+  model.latest <- lm(data = Recurrence.latest, PeakDischarge ~ log(RecurrenceInterval))
+  model.full.sum <- summary(model.full)
+  model.latest.sum <- summary(model.latest)
   
-  fig <- ggplot() +
-    geom_point(data = Recurrence.site1, aes(x = RecurrenceInterval, y = PeakDischarge),
-               color = "lightskyblue4", size = 1, alpha = 0.7)+
-    stat_smooth(data = Recurrence.site1, aes(x = RecurrenceInterval, y = PeakDischarge),
-                method = "lm" , formula = y ~ log(x), 
-                level = 0.95, alpha = 0.3, size = 0.75, 
-                color = "lightskyblue4", fill = "lightskyblue3") +
-    geom_point(data = Recurrence.site2, aes(x = RecurrenceInterval, y = PeakDischarge), 
-               color = "darkseagreen4", size = 1, alpha = 0.7)+
-    stat_smooth(data = Recurrence.site2, aes(x = RecurrenceInterval, y = PeakDischarge),
-                method = "lm" , formula = y ~ log(x), 
-                level = 0.95, alpha = 0.4, size = 0.75, 
-                color = "darkseagreen4", fill = "darkseagreen3")+
-    annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1, size = 3,
-             label = paste(site.list$huc4[2*i], site.list$huc4_nm[2*i], sep = " "))+
-    labs(x = element_blank(), y = element_blank())
+  # fig <- ggplot() +
+  #   geom_point(data = Recurrence.full, aes(x = RecurrenceInterval, y = PeakDischarge),
+  #              color = "lightskyblue4", size = 1, alpha = 0.7)+
+  #   stat_smooth(data = Recurrence.full, aes(x = RecurrenceInterval, y = PeakDischarge),
+  #               method = "lm" , formula = y ~ log(x), 
+  #               level = 0.95, alpha = 0.3, size = 0.75, 
+  #               color = "lightskyblue4", fill = "lightskyblue3") +
+  #   geom_point(data = Recurrence.latest, aes(x = RecurrenceInterval, y = PeakDischarge), 
+  #              color = "darkseagreen4", size = 1, alpha = 0.7)+
+  #   stat_smooth(data = Recurrence.latest, aes(x = RecurrenceInterval, y = PeakDischarge),
+  #               method = "lm" , formula = y ~ log(x), 
+  #               level = 0.95, alpha = 0.4, size = 0.75, 
+  #               color = "darkseagreen4", fill = "darkseagreen3")+
+  #   annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1, size = 3,
+  #            label = paste(site.list$huc_8[i], sep = " "))+
+  #   labs(x = element_blank(), y = element_blank())
     
-  assign(paste0("RecPlot", site.list$huc4[2*i-1]), fig)
-  assign(paste0("mod.", site.list$huc_cd[2*i-1]), model.1)
-  assign(paste0("mod.", site.list$huc_cd[2*i]), model.2)
-  assign(paste0("mod.", site.list$huc_cd[2*i-1]), model.1.sum)
-  assign(paste0("mod.", site.list$huc_cd[2*i]), model.2.sum)
-  rm(site1, site2, Recurrence.site1, Recurrence.site2,
-     fig, model.1, model.2, model.1.sum, model.2.sum)
+  #assign(paste0("RecPlot", site.list$huc4[i]), fig)
+  assign(paste("mod", formatC(i, width = 2, flag = "0"), "full", sep = "."), model.full)
+  assign(paste("mod", formatC(i, width = 2, flag = "0"), "latest", sep = "."), model.latest)
+  assign(paste("sum", formatC(i, width = 2, flag = "0"), "full", sep = "."), model.full.sum)
+  assign(paste("sum", formatC(i, width = 2, flag = "0"), "latest", sep = "."), model.latest.sum)
+  rm(site.full, site.latest, Recurrence.full, Recurrence.latest,
+     fig, model.full, model.latest, model.full.sum, model.latest.sum)
 }
+
+##### Put results in a data frame
+models.full <- mget(x = ls(pattern = "^mod.\\d\\d.full$"))
+sums.full <- mget(x = ls(pattern = "^sum.\\d\\d.full$"))
+models.latest <- mget(x = ls(pattern = "^mod.\\d\\d.latest$"))
+sums.latest <- mget(x = ls(pattern = "^sum.\\d\\d.latest$"))
+
+pred.peakdischarge <- site.list %>%
+  select(site_lab, site_nm, huc4) %>%
+  mutate(RecurrenceInterval = 50,
+         full = NA, latest = NA,diff = NA)
+
+for (i in 1:22) {
+  pred.peakdischarge$full[[i]] <- 
+    predict.lm(models.full[[i]], 
+               data.frame(RecurrenceInterval = pred.peakdischarge$RecurrenceInterval[[i]]))
+  pred.peakdischarge$latest[[i]] <- 
+    predict.lm(models.latest[[i]], 
+               data.frame(RecurrenceInterval = pred.peakdischarge$RecurrenceInterval[[i]]))
+}
+
+pred.peakdischarge <- pred.peakdischarge %>%
+  mutate(diff = latest - full)
+View(pred.peakdischarge)
+#write.csv(pred.peakdischarge, file = "./Data/Processed/recurrence_int.csv", row.names = F)
+pred.peakdischarge <- read.csv("./Data/Processed/recurrenceint.csv")
+#---- loop end ----
 
 ##### Combine all discharge plots #####
 
+# blue is full; green is latest
 RecPlot <- ggarrange(RecPlot1020, RecPlot1021, RecPlot1022, RecPlot1023, RecPlot1024, RecPlot1025, 
-                    RecPlot1026, RecPlot1027, RecPlot1028, RecPlot1029, 
-                    RecPlot1030 + font("x.text", size = 10), ncol = 4, nrow = 3)
+                     RecPlot1026, RecPlot1027, RecPlot1028, RecPlot1029, 
+                     RecPlot1030 + font("x.text", size = 10), ncol = 5, nrow = 5)
 annotated.RecPlot <- 
   annotate_figure(RecPlot, bottom=text_grob("Recurrence",color = "black",hjust = 0.5,size = 13),
                   left = text_grob(expression("Discharge ft"^3*" s"^-1), color = "black",
@@ -316,3 +332,67 @@ annotated.RecPlot <-
 
 ggsave("./Figures/recurrence.jpg", annotated.RecPlot,
        dpi = 300, width = 14, height = 9, units = "in")
+#---- Plot end ----
+
+######################### Part III Variation over Years #########################
+
+######## for loop ######## 
+
+for (i in 1:22) {
+  site <- readNWISdv(siteNumbers = site.nos[i], 
+                          parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
+    rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
+  
+  std <- site %>%
+    mutate(Year = year(Date))%>%
+    group_by(Year) %>%
+    summarise(SD = sd(Discharge))
+
+  model <- lm(data = std, SD ~ Year)
+  model.sum <- summary(model)
+  
+  # fig <- ggplot() +
+  #   geom_point(data = site, aes(x = Year, y = SD),
+  #              color = "lightskyblue4", size = 1, alpha = 0.7)+
+  #   stat_smooth(data = site, aes(x = Year, y = SD),
+  #               method = "lm" , formula = y ~ x, 
+  #               level = 0.95, alpha = 0.3, size = 0.75, 
+  #               color = "lightskyblue4", fill = "lightskyblue3") +
+  #   annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1, size = 3,
+  #            label = paste(site.list$huc_8[i], sep = " "))+
+  #   labs(x = element_blank(), y = element_blank())
+  
+  #assign(paste0("RecPlot", site.list$huc4[i]), fig)
+  assign(paste("mod", formatC(i, width = 2, flag = "0"), "sd", sep = "."), model)
+  assign(paste("sum", formatC(i, width = 2, flag = "0"), "sd", sep = "."), model.sum)
+  rm(site, std, model, model.sum)
+}
+
+##### Put results in data frame #####
+models.sd <- mget(x = ls(pattern = "^mod.\\d\\d.sd$"))
+sums.sd <- mget(x = ls(pattern = "^sum.\\d\\d.sd$"))
+
+# Check assumptions
+for (i in 1:22) {
+  par(mfrow = c(2,2), mai = c(0.7,0.7,0.7,0.7))
+  plot(models.sd[[i]])
+}
+
+sd.year <- site.list %>%
+  select(site_lab, site_nm, huc4) %>%
+  mutate(slope = NA, p = NA)
+
+for (i in 1:22) {
+  sd.year$slope[[i]] <- coef(models.sd[[i]])[[2]]
+  sd.year$p[[i]] <- sums.sd[[i]]$coefficients[2,4] %>%
+    round(., digits = 4) %>%
+    format(nsmall = 4)
+}
+sd.year <- arrange(sd.year, slope)
+View(sd.year)
+
+#write.csv(sd.year, file = "./Data/Processed/sd_year.csv", row.names = F)
+sd.year <- read.csv("./Data/Processed/sd_year.csv")
+
+#---- loop end ----
+
