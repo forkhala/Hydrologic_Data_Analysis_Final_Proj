@@ -306,7 +306,7 @@ print(totalcoliform.time)
 
 ```
 
-\autoref{fig:tc.dis} was created to determine whether high amounts of total coliform coincided with an increase in discharge. Because there were limited total coliform measurements taken, as evidenced in \autoref{fig:tc.time}, there is not a great conclusion from this data. However, \autoref{fig:tc.dis} shows a spike in discharge events between 1972 - 1974, which also happens to be a time when total coliform was sampled. \autoref{fig:tc.dis} also shows increases in total coliform between 1972 - 1975. 
+High amounts of total coliform coincided with an increase in discharge (\autoref{fig:tc.dis}). Because there were limited total coliform measurements taken, as evidenced in \autoref{fig:tc.time}, there is not a great conclusion from this data. However, \autoref{fig:tc.dis} shows a spike in discharge events between 1972 - 1974, which also happens to be a time when total coliform was sampled. \autoref{fig:tc.dis} also shows increases in total coliform between 1972 - 1975. 
 
 \newpage
 
