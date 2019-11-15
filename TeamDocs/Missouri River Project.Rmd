@@ -48,6 +48,7 @@ library(trend)
 library(forecast)
 library(tseries)
 library(jpeg)
+require(pander)
 
 # Set your ggplot theme
 theme_set(theme_classic())
@@ -158,6 +159,22 @@ Typical discharge patterns within a year for each HUC4 watershed from 1020 to 10
 
 ```{r dispattern, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:dispattern}Yearly discharge pattern for 11 HUC4 watersheds. Thick, dark lines are the median of all discharge records on a day of year, while light, thin lines are the maximum and minimum discharge on that day."}
 knitr::include_graphics('../Figures/discharge.jpg')
+```
+
+## Change in Discharge Variation over Years
+
+```{r variation, echo=FALSE, eval=TRUE, caption="\\label{tab:variation}", results="asis"}
+var.table <- read.csv("./Data/Processed/sd_year.csv")
+
+panderOptions("digits", c(1, 0, 4, 3, 3))
+panderOptions("table.split.table", 300)
+emphasize.strong.rows(which(var.table$p < 0.05, arr.ind = TRUE))
+set.alignment(c("right", "centre", "center", "center", "center"))
+
+pandoc.table(var.table, style = 'rmarkdown', 
+             col.names = c("","Site Name", "HUC4","$\\beta_1$","*P*"),
+             caption = "Slopes of linear regression between year and standard deviation of discharge at 22 sites.")
+
 ```
 
 
