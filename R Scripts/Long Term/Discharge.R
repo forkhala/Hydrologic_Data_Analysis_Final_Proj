@@ -361,15 +361,19 @@ for (i in 1:22) {
                color = "lightskyblue4", size = 1, alpha = 0.7)+
     stat_smooth(data = std, aes(x = Year, y = SD),
                 method = "lm" , formula = y ~ x,
-                level = 0.95, alpha = 0.3, size = 0.75,
-                color = if_else(model$coefficients[[2]] > 0, "brown2", "mediumseagreen"), 
-                fill = if_else(model$coefficients[[2]] > 0, "brown2", "mediumseagreen")) +
+                geom = "line", size = 0.8,
+                color = if_else(model$coefficients[[2]] > 0, "coral2", "cornflowerblue"),
+                alpha = if_else(model.sum$coefficients[2,4] < 0.05, 1, 0.3)) +
+    stat_smooth(data = std, aes(x = Year, y = SD),
+                method = "lm" , formula = y ~ x, level = 0.95, 
+                linetype = 0,
+                color = if_else(model$coefficients[[2]] > 0, "coral2", "cornflowerblue"), 
+                fill = if_else(model$coefficients[[2]] > 0, "coral2", "cornflowerblue"),
+                alpha = if_else(model.sum$coefficients[2,4] < 0.05, 0.3, 0.1)) +
     annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1, size = 3,
              label = paste("Site", site.list$site_lab[i], site.list$huc_cd[i], sep = " "),
-             color = if_else(model.sum$coefficients[2,4] < 0.05, "tomato2", "black"))+
+             fontface = if_else(model.sum$coefficients[2,4] < 0.05, "bold", "plain"))+
     labs(x = element_blank(), y = element_blank())
-  
-  #color = "lightskyblue4", fill = "lightskyblue3"
   
   assign(paste0("SdPlot", formatC(i, width = 2, flag = "0")), fig)
   assign(paste("mod", formatC(i, width = 2, flag = "0"), "sd", sep = "."), model)
