@@ -12,19 +12,6 @@ highfreqsiteinfo <- read.csv("./Data/Raw/highfreqsiteinfo.csv")
 
 str(highfreqsiteinfo)
 
-table <- data.frame(unclass(summary(highfreqsiteinfo)), check.names = FALSE, stringsAsFactors = FALSE)
-summary <- summary(highfreqsiteinfo)
-summary.df <- as.data.frame(summary)
-
-table <- summary.df %>% spread(Var2, Freq)
-summary.df <- do.call(cbind, lapply(highfreqsiteinfo, summary))
-summary.df <- as.data.frame(summary.df)
-
-table <- table %>%
-  dplyr::select(site_no, site_tp_cd, dec_lat_va, dec_long_va, dec_coord_datum_cd,
-                  alt_va, alt_datum_cd, huc_cd, begin_date, end_date, count_nu)
-                  
-  names(c"")
 highfreqsiteinfo$end_date <-  as.Date(highfreqsiteinfo$end_date)
 highfreqsiteinfo$begin_date <-  as.Date(highfreqsiteinfo$begin_date)
 

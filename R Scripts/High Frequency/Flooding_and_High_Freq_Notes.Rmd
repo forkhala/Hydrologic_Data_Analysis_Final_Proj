@@ -10,9 +10,11 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+pacman::p_load(tidyverse, dataRetrieval, dygraphs, maps, sf, xts)
+
 getwd()
 highfreqsiteinfo <- 
-  read.csv("./Data/Raw/highfreqsiteinfo.csv")
+  read.csv("./Data/Raw/highfreqsiteinfo.csv", as.is=TRUE)
 
 highfreqsite2019 <- highfreqsiteinfo %>%
   filter(end_date > "2019-03-31") #4 sites have high freq N data in 2019
@@ -25,6 +27,7 @@ highfreqsites.DN <- readNWISuv(site = c("06808500", "06817000", "06892350", "069
                                endDate = "2019-11-01") %>%
                                renameNWISColumns() %>%
                                rename(Nitrate_mgl = 6)
+highfreqsites2019 <- write.csv(highfreqsites.DN, "./Data/Raw/highfreqsite2019.csv")
 
 #individual sites
 Hermann <- highfreqsites.DN %>%
@@ -110,3 +113,24 @@ The percent of discharge coming from baseflow correlates with the general size o
 Because I was disappointed in my lack of results, I chose to also look at the 2018 flood in October. This wasn't as big as the one in March.
 
 There were clearer hysteresis plots that were able to be produced. Clarinda, Randolph, and Shawnee had counterclockwise, diluting storms with negative slope. Meaning the quickflow had low concentration of Nitrate. 
+
+
+#Questions
+- Land use: how do use?
+- Can I look at a storm event in a river and assume that nitrogen will behave the same way every time during that storm event?
+- Look at definition of drought to see if there have been more frequent occurances of drought over time?
+7Q10 look at 10 years of data. what is average min 7 day flow. Avg low flowPath. 
+- if discharge is below 
+- look at daily values for C-Q plots to see whether systems are flushing versus diluting
+
+```{r}
+library(sf)
+getwd()
+
+CDL2018<- foreign::read.dbf("C:/Users/19524/Downloads/polygonclip_20191115123758_91314621/CDL_2018_clip.tif.vat.dbf", as.is=TRUE)
+
+
+
+
+```
+
