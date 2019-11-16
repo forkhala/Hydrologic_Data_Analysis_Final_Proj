@@ -1,8 +1,8 @@
 ########## Generate Map of Selected Sites ##########
 
 #### Setup###
-pacman::p_load(tidyverse, dataRetrieval, sf, maps)
-devtools::install_github("yutannihilation/ggsflabel")
+pacman::p_load(tidyverse, dataRetrieval, sf, maps, foreign, raster)
+# devtools::install_github("yutannihilation/ggsflabel")
 library(ggsflabel)
 theme_set(theme_classic())
 
@@ -34,10 +34,12 @@ huc4_nm <- rep(c("Platte", "Loup", "Elkhorn", "Missouri-Little Sioux", "Missouri
                  "Lower Missouri"), each = 2)
 site.list <- cbind(site.list, huc4_nm)
 # save the list
-write.csv(site.list, file="./Data/Processed/bestsiteslist.csv")
+# write.csv(site.list, file="./Data/Processed/bestsiteslist.csv")
+# ---- site selection end ----
 
-##### Map Generation #####
+########## Mapping Best Sites ##########
 
+#### Basic layers ####
 best.sites.info <- whatNWISdata(sites=best.sites)
 
 best.sites.lat.long <- best.sites.info %>%
@@ -56,6 +58,7 @@ allstates.map <- states %>%
   filter(ID %in% c("montana","north dakota","south dakota","nebraska","iowa","kansas","missouri",
                    "wyoming","colorado", "minnesota", "idaho"))
 allstates.map <- st_set_crs(allstates.map, proj) #set projection
+#---- basic layers end----
 
 ###### Using Watershed (HUC4) Boundary #####
 # Still need run most codes above, except waterfeature ones (starting around line 44)
@@ -73,6 +76,7 @@ HUC4.NW <- AllHUC4 %>%
 st_layers("../Untracked Proj Data/Small_Scale_Map/hydr48m010g.gdb")
 streams <- st_read("../Untracked Proj Data/Small_Scale_Map/hydr48m010g.gdb", layer = "Stream")%>%
   st_zm(drop = T, what = "ZM") # drop z/m dimension, and only keep x, y dimensions for 2D figures
+st_crs(streams)
 
 streams.HU10 <- streams %>%
   filter(Region == 10 & Strahler > 2)
@@ -82,13 +86,13 @@ missouri <- streams.HU10 %>%
 
 sitemap <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
-  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.5, size = 0.45) +
-  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.5, size = 0.45) +
+  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
+  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
   geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.7) +
   scale_fill_brewer(palette = "Paired") +
-  geom_sf(data = best.sites.spatial, fill="red2", color="red2", 
-          alpha = 0.7, size = 1.1) +
+  geom_sf(data = best.sites.spatial, fill="black", color="black", 
+          alpha = 0.7, size = 1.15) +
   theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
         legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) + 
   labs(fill = "Watershed Name",x = element_blank(), y = element_blank())+
@@ -129,4 +133,173 @@ best.sites.map <- ggplot() +
   geom_sf(data = best.sites.spatial, fill="magenta", color="magenta", 
           alpha = 0.5, size = 2)
 print(best.sites.map)
+#---- end ----
 
+########## Mapping Impaired Water (cause: nutrient) ##########
+
+# Import shapefile for all impaired rivers
+impaired <- st_read("../Untracked Proj Data/303d_201505/rad_303d_20150501/rad_303d_a.dbf")
+# head(impaired)
+impaired.hu10 <- impaired %>% 
+  filter(str_detect(HUC12, "10..........")) %>%
+  drop_na(HUC12)
+
+# Import data frame of impaired rivers and the causes; filter for nutrient impairment
+impaired.cause <- read.dbf("../Untracked Proj Data/303d_201505/rad_303d_20150501/attgeo_303dcaussrce.dbf")
+head(impaired.cause)
+
+impaired.nutrient <- impaired.cause %>%
+  filter(str_detect(LW_PARC_NM, "NUTRIENT"))
+# unique(impaired.nutrient$LW_DETC_NM)
+
+# Generate sf object for rivers imparied by nutrient
+impaired.map <- inner_join(impaired.hu10, impaired.nutrient)
+
+# Plot map w/ sites and impaired waters
+impairedplot <- ggplot() +
+  geom_sf(data = allstates.map, fill = "white", size = 0.4) +
+  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
+  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
+  geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
+  geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.7) +
+  geom_sf(data = impaired.map, color = "Red")+
+  scale_fill_brewer(palette = "Paired") +
+  geom_sf(data = best.sites.spatial, fill="black", color="black", 
+          alpha = 0.7, size = 1.15) +
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
+        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) + 
+  labs(fill = "Watershed Name",x = element_blank(), y = element_blank()) +
+  geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab), 
+                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4)
+
+ggsave("./Figures/impaired.jpg", impairedplot, dpi = 300, width = 9, height = 5.3, units = "in")
+#---- Impaired map end ----
+
+########## Land Cover Map ########## 
+
+landcover.raster <- raster("../Untracked Proj Data/gaplf2011lc_v30_lcc_13/gaplf2011lc_v30_lcc_13.tif")
+structure(landcover.raster)
+levels(landcover.raster)
+
+crop.raster <- landcover.raster == 556
+structure(crop.raster)
+plot(crop.raster)
+
+# crop.raster.low <- aggregate(crop.raster, fact = 10)
+writeRaster(crop.raster, f <- tempfile(fileext='.tif'), datatype='INT1U')
+system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
+                                      r='mode', multi=TRUE, tr=res(crop.raster)*100))
+crop.raster.low <- raster("../Untracked Proj Data/temp.tif")
+plot(crop.raster.low)
+
+
+(crs <- crs(allstates.map))
+crop.raster.map <- projectRaster(crop.raster.low, crs = crs)
+structure(crop.raster.map)
+
+# pol <- rasterToPolygons(temp, dissolve = T)
+# pol <- rasterToPolygons(landcover.raster, fun = function(ID){ID==556}, dissolve = T)
+
+# Using the fantastic function written by John Baumgartner
+# https://johnbaumgartner.wordpress.com/2012/07/26/getting-rasters-into-shape-from-r/ 
+# https://gist.github.com/johnbaums/26e8091f082f2b3dd279 
+
+Sys.which("gdal_polygonize.py")
+
+## Define the function
+polygonizer <- function(x, outshape=NULL, pypath=NULL, readpoly=TRUE, 
+                        fillholes=FALSE, aggregate=FALSE, 
+                        quietish=TRUE) {
+  # x: an R Raster layer, or the file path to a raster file recognised by GDAL 
+  # outshape: the path to the output shapefile (if NULL, a temporary file will 
+  #           be created) 
+  # pypath: the path to gdal_polygonize.py or OSGeo4W.bat (if NULL, the function 
+  #         will attempt to determine the location)
+  # readpoly: should the polygon shapefile be read back into R, and returned by
+  #           this function? (logical) 
+  # fillholes: should holes be deleted (i.e., their area added to the containing
+  #            polygon)
+  # aggregate: should polygons be aggregated by their associated raster value?
+  # quietish: should (some) messages be suppressed? (logical)
+  if (isTRUE(readpoly) || isTRUE(fillholes)) require(rgdal)
+  if (isTRUE(aggregate)) require(rgeos)
+  if (is.null(pypath)) {
+    cmd <- Sys.which('OSGeo4W.bat')
+    pypath <- 'gdal_polygonize'
+    if(cmd=='') {
+      cmd <- 'python'
+      pypath <- Sys.which('gdal_polygonize.py')
+      if (!file.exists(pypath)) 
+        stop("Could not find gdal_polygonize.py or OSGeo4W on your system.") 
+    }
+  }
+  if (!is.null(outshape)) {
+    outshape <- sub('\\.shp$', '', outshape)
+    f.exists <- file.exists(paste(outshape, c('shp', 'shx', 'dbf'), sep='.'))
+    if (any(f.exists)) 
+      stop(sprintf('File already exists: %s', 
+                   toString(paste(outshape, c('shp', 'shx', 'dbf'), 
+                                  sep='.')[f.exists])), call.=FALSE)
+  } else outshape <- tempfile()
+  if (is(x, 'Raster')) {
+    require(raster)
+    writeRaster(x, {f <- tempfile(fileext='.tif')})
+    rastpath <- normalizePath(f)
+  } else if (is.character(x)) {
+    rastpath <- normalizePath(x)
+  } else stop('x must be a file path (character string), or a Raster object.')
+  
+  system2(cmd, args=(
+    sprintf('"%s" "%s" %s -f "ESRI Shapefile" "%s.shp"', 
+            pypath, rastpath, ifelse(quietish, '-q ', ''), outshape)))
+  
+  if(isTRUE(aggregate)||isTRUE(readpoly)||isTRUE(fillholes)) {
+    shp <- readOGR(dirname(outshape), layer=basename(outshape), 
+                   verbose=!quietish)    
+  } else return(NULL)
+  
+  if (isTRUE(fillholes)) {
+    poly_noholes <- lapply(shp@polygons, function(x) {
+      Filter(function(p) p@ringDir==1, x@Polygons)[[1]]
+    })
+    pp <- SpatialPolygons(mapply(function(x, id) {
+      list(Polygons(list(x), ID=id))
+    }, poly_noholes, row.names(shp)), proj4string=CRS(proj4string(shp)))
+    shp <- SpatialPolygonsDataFrame(pp, shp@data)
+    if(isTRUE(aggregate)) shp <- aggregate(shp, names(shp))
+    writeOGR(shp, dirname(outshape), basename(outshape), 
+             'ESRI Shapefile', overwrite=TRUE)
+  }
+  if(isTRUE(aggregate) & !isTRUE(fillholes)) {
+    shp <- aggregate(shp, names(shp))
+    writeOGR(shp, dirname(outshape), basename(outshape), 
+             'ESRI Shapefile', overwrite=TRUE)
+  }
+  ifelse(isTRUE(readpoly), return(shp), return(NULL))
+}
+# Testing ####
+library(rasterVis)
+download.file('https://www.dropbox.com/s/tk3kg2oce4h2snd/NEcountries.asc.zip?dl=1',
+              destfile={f <- tempfile()}, quiet=TRUE, cacheOK=FALSE,
+              mode='wb')
+unzip(f, exdir = d <- tempdir() )
+r <- raster(file.path(d, 'NEcountries.asc'), crs='+proj=longlat')
+p <- polygonizer(r)
+spplot(p, col.regions=rainbow(200))
+#---testing end----
+
+system.time(landcover.poly <- polygonizer(crop.raster.map, 
+                                          outshape = "../Untracked Proj Data/landcover.shp",
+                                          aggregate = T))
+temp <- st_read("../Untracked Proj Data/landcover.dbf") %>% filter(DN == 1)
+st_crs(temp)
+
+cropplot <- ggplot() +
+  geom_sf(data = allstates.map, fill = "white", size = 0.4) +
+  geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
+  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
+  geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
+  geom_sf(data = temp, color = "yellow", fill = "yellow", alpha = 0.6) +
+  scale_fill_brewer(palette = "Paired")
+  
+ggsave("./Figures/cropland.jpg", cropplot, dpi = 300, width = 9, height = 5.3, units = "in")
