@@ -1,11 +1,12 @@
 ####counties and population####
 
 library(noncensus); library(tidyverse); library(sf); library(dataRetrieval);
-library(sp)
+library(sp); library(lubridate); library(lme4)
 
 #database with population by county
 data("counties")
 countypop <- counties %>% filter(state %in% c("KS", "NE", "MO", "IA"))
+countypop$county_name <- gsub("St. Louis city", "St. Louis City County", countypop$county_name)
 
 #creating maps by county with polygon data
 KS.county <- st_as_sf(map(database = "county",'kansas', plot=TRUE, fill = TRUE, col = "white"))
@@ -41,10 +42,20 @@ MO.county$ID <- stringr::str_to_title(MO.county$ID) %>%
 colnames(MO.county)[2] <- "county_name"
 
 all.counties <- rbind(KS.county, NE.county, IA.county, MO.county)
+#add in the . and the ' and the lower case letters
+all.counties$county_name <- gsub("St ", "St. ", all.counties$county_name)
+all.counties$county_name <- gsub("Ste ", "Ste. ", all.counties$county_name)
+all.counties$county_name <- gsub("Obrien", "O'Brien", all.counties$county_name)
+all.counties$county_name <- gsub("De Kalb", "DeKalb", all.counties$county_name)
+all.counties$county_name <- gsub("Mcpherson", "McPherson", all.counties$county_name)
+all.counties$county_name <- gsub("Mcdonald", "McDonald", all.counties$county_name)
+
+st_crs(all.counties)
 
 #combining database with population data and database with geometry data
-county.pop.spatial <- 
-  left_join(countypop, all.counties, by=c("state", "county_name"))
+county.pop.spatial <- merge(all.counties, countypop)
+st_crs(county.pop.spatial)
+
 
 #read in best sites with spatial
 best.sites.list <- read.csv("./Data/Processed/bestsiteslist.csv", as.is=TRUE)
@@ -60,7 +71,67 @@ best.sites.lat.long <- best.sites.info %>%
 #creating spatial dataframe and map
 best.sites.spatial <- st_as_sf(best.sites.lat.long,
                                coords=c("Long", "Lat"), crs = 4269)
-proj <- st_crs(best.sites.spatial)
+st_crs(best.sites.spatial)
 
-new_crs <- sp::sptransform(best.sites.spatial, crs(all.counties))
-crs(all.counties)
+county.pop.spatial <- st_transform(county.pop.spatial, 4269)
+st_crs(county.pop.spatial)
+
+sites.county <- st_intersection(best.sites.spatial, county.pop.spatial)
+length(unique(sites.county$county_name))
+
+bestsites.countypop.info <- full_join(sites.county, best.sites.list)
+bestsites.countypop.info <- bestsites.countypop.info %>%
+  select(site_no, site_nm, huc_cd, huc4, huc4_nm, state, county_name, county_fips, 
+         population, geometry, site_lab)
+
+#full list with site no, site name, population and county info
+write.csv(bestsites.countypop.info, file = "./Data/Processed/bestsites.countypop.info.csv")
+
+bestsites.WQ <- read.csv("./Data/Raw/bestsites.WQ.csv")
+unique(bestsites.WQ$parm_cd)
+
+#caroline's wrangling of water quality data. I took out total coliform
+bestsites.WQ.skinny <- bestsites.WQ %>%
+  select(Site = site_no,
+         Date = Date,
+         Parameter = parm_cd,
+         Value = result_va,
+         Discharge = X_00060_00003) %>%
+  group_by(Date, Parameter, Site) %>%
+  summarize(Value = mean(Value),
+            Discharge = mean(Discharge)) %>%
+  spread(key = Parameter, value = Value) %>% 
+  rename(pH = '400', total.coliform = '31501', 
+         Discharge2 = '60', total.nitrogen = '600', 
+         total.phosphorus = '665') %>%
+  mutate(Year = year(Date)) %>%
+  select(-Discharge2, -total.coliform) 
+
+#wrangle so they can be joined
+bestsites.WQ.skinny$Site <- paste0("0", bestsites.WQ.skinny$Site)
+bestsites.countypop.info <- bestsites.countypop.info %>% rename_at("site_no",~"Site")
+
+#join WQ info with site, population, and county df
+WQ.countypop.joined <- left_join(bestsites.WQ.skinny, bestsites.countypop.info, 
+                                 by = "Site")
+
+##prep for making lm
+hist(log(WQ.countypop.joined$total.nitrogen)) 
+#nitrogen should be logged so it is normally distributed
+str(WQ.countypop.joined)
+WQ.countypop.joined$Site <- as.factor(WQ.countypop.joined$Site)
+WQ.countypop.joined$Date <- as.Date(WQ.countypop.joined$Date, format = "%y-%m-%d")
+
+#lm1
+mod1 <- lm(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population + 
+             factor(huc4))
+summary(mod1)
+#Year p = 9.21e-08, population p=2.22e-09, and 10/11 huc4 regions are statistically significant
+
+#lm2
+mod2 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ population + 
+               (1|Site))
+summary(mod2)
+anova(mod2)
+
+
