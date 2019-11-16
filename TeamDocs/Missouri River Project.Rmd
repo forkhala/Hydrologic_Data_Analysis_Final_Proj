@@ -86,13 +86,14 @@ In addition to change in nutrient concentration, discharge appears to be highly 
 
 Given all the background information above, we would like to know the current state of Missouri River and its tributaries, with a focus on the changing pattern in discharge and nutrient. Since regions along the downstream are more likely to be impaired by nutrient loaded and accumulating upstream, in this project study sites were concentrated in the southeast of the whole basin (\autoref{fig:sitemap}).  We are interested in how the dramatic change in discharge (i.e. water quantity) could potentially interact with nutrient enrichment (i.e. water quality). Also, we examined a few specific flooding events, during which changes in both water quality and quantity were well recorded, so that we could make concrete inference on the interplay between quantity and quality. Finally, based on the pattern in the past and the best model we could fit, we attempted to predict the likely future conditions and trends in the Missouri River Basin.
 
-<<<<<<< HEAD
+
 Given the interesting hydrologic history of this region, we are interested in the past, present, and future conditions of the Missouri River and its tributaries. Our research questions and acccompanying hypotheses are below:
 
 1.How have changes in discharge (i.e. water quantity) interacted with nutrient enrichment (i.e. water quality) in the Missouri River Basin?
 
     a) Nutrient levels have increased over time
     b) Discharge has become more variable over time
+    c) Nutrient levels increase with discharge
  
 2. What effects do specific flood and drought events have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
 
@@ -576,25 +577,17 @@ grid.arrange(NRHP, MRHP, RRCCP)
 
 ```{r}
 #high frequency data wrangling
-highfreqsite2019 <- highfreqsiteinfo %>%
-  filter(end_date > "2019-03-31"); head(highfreqsite2019)
-
-highfreqsites.DN <- readNWISuv(site = c("06808500", "06817000", "06892350", "06934500"), 
-                               parameterCd = c("00060", "99133"), 
-                               # Discharge in cfs & Nitrate in mg/l NO3-N
-                               startDate = "2019-01-01",
-                               endDate = "2019-11-01") %>%
-                               renameNWISColumns() %>%
-                               rename(Nitrate_mgl = 6)
+highfreqsites2019 <- read.csv("./Data/Raw/highfreqsite2019.csv", as.is=TRUE)
+highfreqsites2019 <- highfreqsites2019 %>% select(-X)
 
 #individual sites
-Hermann <- highfreqsites.DN %>%
+Hermann <- highfreqsites2019 %>%
            filter(site_no=="06934500")
-Desoto <- highfreqsites.DN %>%
+Desoto <- highfreqsites2019 %>%
           filter(site_no=="06892350")
-Clarinda <- highfreqsites.DN %>%
+Clarinda <- highfreqsites2019 %>%
             filter(site_no=="06817000")
-Randolph <- highfreqsites.DN %>%
+Randolph <- highfreqsites2019 %>%
             filter(site_no=="06808500")
 ```
 
