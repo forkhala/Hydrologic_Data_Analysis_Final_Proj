@@ -3,7 +3,7 @@
 #### Setup###
 pacman::p_load(tidyverse, dataRetrieval, sf, maps, foreign)
 # devtools::install_github("yutannihilation/ggsflabel")
-# library(ggsflabel)
+library(ggsflabel)
 theme_set(theme_classic())
 
 ##### Map sites selected, water bodies, and watersheds in the study region ####
@@ -208,11 +208,7 @@ crop.raster.co <- landcover.raster.co == 556:557
 structure(crop.raster.co)
 plot(crop.raster)
 
-# Reduce resolution; original 30m x 30m too detailed
-# crop.raster.low <- aggregate(crop.raster, fact = 10) NOTE pixel values may not be binary
-writeRaster(crop.raster.co, f <- tempfile(fileext='.tif'), datatype='INT1U')
-system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
-                                      r='mode', multi=TRUE, tr=res(crop.raster)*100))
+# Reduce resolution; original 30m x 30m too detailed; change to 300m x 300m
 crop.raster.low.co <- raster("../Untracked Proj Data/temp.tif")
 plot(crop.raster.low)
 
@@ -221,21 +217,25 @@ plot(crop.raster.low)
 crop.raster.map.co <- projectRaster(crop.raster.low.co, crs = crs)
 structure(crop.raster.map.co)
 
-# Use loop to perform the procedure above for all states
+# Use loop to perform the procedure above for all states **CAUTION DO NOT RUN THE LOOP ON A LAPTOP**
 library(progress)
-# Generate progress bar for loop
+# Generate progress bar for loop 
 pb <- winProgressBar(title="Extracting pixels of agricultural lands", label="0% done", 
                      min=0, max=100, initial=0)
 for (i in 1:10) {
   crop.raster.temp <- landcover.raster.list[[i]] == 556:557
+  crop.raster.low.temp <- aggregate(crop.raster.temp, fact = 10)
   
-  writeRaster(crop.raster.temp, f <- tempfile(fileext='.tif'), datatype='INT1U')
-  system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
-                                      r='mode', multi=TRUE, tr=res(crop.raster)*100))
-  crop.raster.low.temp <- raster("../Untracked Proj Data/temp.tif")
+  # Use gdalUtilities::gdalwarp; much faster than raster function aggregate(), but results may not be
+  # good (?)
+  # writeRaster(crop.raster.temp, f <- tempfile(fileext='.tif'), datatype='INT1U')
+  # system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
+  #                                     r='mode', multi=TRUE, tr=res(crop.raster)*100))
+  # crop.raster.low.temp <- raster("../Untracked Proj Data/temp.tif")
   
   (crs <- crs(allstates.map))
-  crop.raster.map.temp <- projectRaster(crop.raster.low.temp, crs = crs)
+  crop.raster.map.temp <- projectRaster(crop.raster.low.temp, crs = crs, method = "ngb")
+  # projection method for categorical variables
   
   assign(paste0("crop.raster.", raster.list.nm[[i]]), crop.raster.temp)
   assign(paste0("crop.raster.low.", raster.list.nm[[i]]), crop.raster.low.temp)
@@ -250,12 +250,31 @@ for (i in 1:10) {
 close(pb)
 
 # Merge raster objects for all states
+structure(crop.raster.map.co); structure(crop.raster.map.ia);structure(crop.raster.map.ks)
+structure(crop.raster.map.mn); structure(crop.raster.map.mo);structure(crop.raster.map.mt)
+structure(crop.raster.map.nd);structure(crop.raster.map.ne);structure(crop.raster.map.sd)
+structure(crop.raster.map.wy)
+origin(crop.raster.map.co); origin(crop.raster.map.ia);origin(crop.raster.map.ks)
+origin(crop.raster.map.mn); origin(crop.raster.map.mo);origin(crop.raster.map.mt)
+origin(crop.raster.map.nd);origin(crop.raster.map.ne);origin(crop.raster.map.sd)
+origin(crop.raster.map.wy)
+
 crop.raster.map.allstates <- raster::merge(crop.raster.map.co,crop.raster.map.ia,crop.raster.map.ks,
                                        crop.raster.map.mn,crop.raster.map.mo,crop.raster.map.mt,
                                        crop.raster.map.nd,crop.raster.map.ne,crop.raster.map.sd,
-                                       crop.raster.map.wy)
+                                       crop.raster.map.wy, tolerance = 0.5)
 
-### Convert raster object to polygon/shapefiles CAUTION TAKE LOTS OF TIME
+
+# Output cropland map as geotiff
+writeRaster(crop.raster.map.allstates,
+            filename = paste("../Untracked Proj Data/Land_Cover/cropmap_allstates"),
+            format = "GTiff")
+writeRaster(crop.raster.map.allstates,
+            filename = paste("../Untracked Proj Data/Land_Cover/cropmap_allstates"),
+            format = "raster")
+
+
+### Convert raster object to polygon/shapefiles NOTE MAY TAKE SOME TIME
 # pol <- rasterToPolygons(crop.raster.map, dissolve = T)
 
 # Using the fantastic function written by John Baumgartner
@@ -347,6 +366,7 @@ p <- polygonizer(r)
 spplot(p, col.regions=rainbow(200))
 #---testing end----
 
+crop.raster.map.allstates <- raster("../Untracked Proj Data/Land_Cover/cropmap_allstates.grd")
 system.time(crop.raster.allstates <- polygonizer(crop.raster.map.allstates, 
                                           outshape = "../Untracked Proj Data/landcover.shp",
                                           aggregate = T))
@@ -358,15 +378,18 @@ cropplot <- ggplot() +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
   geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
-  geom_sf(data = crop.sf.allstates, color="yellowgreen", fill="yellowgreen", alpha=0.5) +
+  geom_sf(data = impaired.map, aes(fill = "LW_PARC_NM"))+
+  # geom_sf(data = crop.sf.allstates, color="yellowgreen", fill="yellowgreen", alpha=0.5) +
   scale_fill_brewer(palette = "Paired") +
   geom_sf(data = best.sites.spatial, fill="black", color="black", 
-          alpha = 0.7, size = 1.15) #+
-  # theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
-  #       legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) + 
-  # labs(fill = "Watershed Name",x = element_blank(), y = element_blank())+
+          alpha = 0.7, size = 1.15) +
+  scale_color_manual(values = c("NUTRIENTS"="red"))
   # geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab), 
   #                    force = 1.5, box.padding = 0.30, min.segment.length = 0.4)
+  # theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
+  #       legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) + 
+  # labs(fill = "Watershed Name",x = element_blank(), y = element_blank())
+
 
   
 ggsave("./Figures/cropland.jpg", cropplot, dpi = 300, width = 9, height = 5.3, units = "in")
