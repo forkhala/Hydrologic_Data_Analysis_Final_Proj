@@ -1,9 +1,9 @@
 ########## Generate Map of Selected Sites ##########
 
 #### Setup###
-pacman::p_load(tidyverse, dataRetrieval, sf, maps, foreign, raster)
+pacman::p_load(tidyverse, dataRetrieval, sf, maps, foreign)
 # devtools::install_github("yutannihilation/ggsflabel")
-library(ggsflabel)
+# library(ggsflabel)
 theme_set(theme_classic())
 
 ##### Map sites selected, water bodies, and watersheds in the study region ####
@@ -175,30 +175,88 @@ impairedplot <- ggplot() +
 ggsave("./Figures/impaired.jpg", impairedplot, dpi = 300, width = 9, height = 5.3, units = "in")
 #---- Impaired map end ----
 
-########## Land Cover Map ########## 
+########## Agricultural Use Map ##########
 
-landcover.raster <- raster("../Untracked Proj Data/gaplf2011lc_v30_lcc_13/gaplf2011lc_v30_lcc_13.tif")
-structure(landcover.raster)
-levels(landcover.raster)
+# import geotiff file using raster
+require(raster)
+require(gdalUtilities)
+#landcover.raster <- raster("../Untracked Proj Data/Land_Cover/lc_13/gaplf2011lc_v30_lcc_13.tif")
+landcover.raster.co <- raster("../Untracked Proj Data/Land_Cover/lc_CO/gaplf2011lc_v30_co.tif")
+landcover.raster.ia <- raster("../Untracked Proj Data/Land_Cover/lc_IA/gaplf2011lc_v30_ia.tif")
+landcover.raster.ks <- raster("../Untracked Proj Data/Land_Cover/lc_KS/gaplf2011lc_v30_ks.tif")
+landcover.raster.mn <- raster("../Untracked Proj Data/Land_Cover/lc_MN/gaplf2011lc_v30_mn.tif")
+landcover.raster.mo <- raster("../Untracked Proj Data/Land_Cover/lc_MO/gaplf2011lc_v30_mo.tif")
+landcover.raster.mt <- raster("../Untracked Proj Data/Land_Cover/lc_MT/gaplf2011lc_v30_mt.tif")
+landcover.raster.nd <- raster("../Untracked Proj Data/Land_Cover/lc_ND/gaplf2011lc_v30_nd.tif")
+landcover.raster.ne <- raster("../Untracked Proj Data/Land_Cover/lc_NE/gaplf2011lc_v30_ne.tif")
+landcover.raster.sd <- raster("../Untracked Proj Data/Land_Cover/lc_SD/gaplf2011lc_v30_sd.tif")
+landcover.raster.wy <- raster("../Untracked Proj Data/Land_Cover/lc_WY/gaplf2011lc_v30_wy.tif")
+landcover.raster.list <- list(landcover.raster.co,landcover.raster.ia, landcover.raster.ks, 
+                              landcover.raster.mn,landcover.raster.mo, landcover.raster.mt, 
+                              landcover.raster.nd,landcover.raster.ne, landcover.raster.sd, 
+                              landcover.raster.wy)
+raster.list.nm <- c("co", "ia", "ks", "mn", "mo", "mt", "nd", "ne", "sd","wy")
 
-crop.raster <- landcover.raster == 556
-structure(crop.raster)
+# Check basic info and fiel structure
+structure(landcover.raster.ia)
+levels(landcover.raster.ia)
+
+### Select pixels for agricultural lands
+# 556: Herbaceous Agricultural Vegetation	-	Row & Close Grain Crop Cultural Formation
+# 557: Herbaceous Agricultural Vegetation	-	Pasture & Hay Field Crop
+crop.raster.co <- landcover.raster.co == 556:557
+structure(crop.raster.co)
 plot(crop.raster)
 
-# crop.raster.low <- aggregate(crop.raster, fact = 10)
-writeRaster(crop.raster, f <- tempfile(fileext='.tif'), datatype='INT1U')
+# Reduce resolution; original 30m x 30m too detailed
+# crop.raster.low <- aggregate(crop.raster, fact = 10) NOTE pixel values may not be binary
+writeRaster(crop.raster.co, f <- tempfile(fileext='.tif'), datatype='INT1U')
 system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
                                       r='mode', multi=TRUE, tr=res(crop.raster)*100))
-crop.raster.low <- raster("../Untracked Proj Data/temp.tif")
+crop.raster.low.co <- raster("../Untracked Proj Data/temp.tif")
 plot(crop.raster.low)
 
-
+# Set projection and change raster extent to longitude and latitude
 (crs <- crs(allstates.map))
-crop.raster.map <- projectRaster(crop.raster.low, crs = crs)
-structure(crop.raster.map)
+crop.raster.map.co <- projectRaster(crop.raster.low.co, crs = crs)
+structure(crop.raster.map.co)
 
-# pol <- rasterToPolygons(temp, dissolve = T)
-# pol <- rasterToPolygons(landcover.raster, fun = function(ID){ID==556}, dissolve = T)
+# Use loop to perform the procedure above for all states
+library(progress)
+# Generate progress bar for loop
+pb <- winProgressBar(title="Extracting pixels of agricultural lands", label="0% done", 
+                     min=0, max=100, initial=0)
+for (i in 1:10) {
+  crop.raster.temp <- landcover.raster.list[[i]] == 556:557
+  
+  writeRaster(crop.raster.temp, f <- tempfile(fileext='.tif'), datatype='INT1U')
+  system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
+                                      r='mode', multi=TRUE, tr=res(crop.raster)*100))
+  crop.raster.low.temp <- raster("../Untracked Proj Data/temp.tif")
+  
+  (crs <- crs(allstates.map))
+  crop.raster.map.temp <- projectRaster(crop.raster.low.temp, crs = crs)
+  
+  assign(paste0("crop.raster.", raster.list.nm[[i]]), crop.raster.temp)
+  assign(paste0("crop.raster.low.", raster.list.nm[[i]]), crop.raster.low.temp)
+  assign(paste0("crop.raster.map.", raster.list.nm[[i]]), crop.raster.map.temp)
+  
+  rm(crop.raster.temp, crop.raster.low.temp, crop.raster.map.temp)
+  
+  # output info on progress
+  prog <- sprintf("%d%% done", round((i/10)*100))
+  setWinProgressBar(pb, i/(10)*100, label=prog)
+}
+close(pb)
+
+# Merge raster objects for all states
+crop.raster.map.allstates <- raster::merge(crop.raster.map.co,crop.raster.map.ia,crop.raster.map.ks,
+                                       crop.raster.map.mn,crop.raster.map.mo,crop.raster.map.mt,
+                                       crop.raster.map.nd,crop.raster.map.ne,crop.raster.map.sd,
+                                       crop.raster.map.wy)
+
+### Convert raster object to polygon/shapefiles CAUTION TAKE LOTS OF TIME
+# pol <- rasterToPolygons(crop.raster.map, dissolve = T)
 
 # Using the fantastic function written by John Baumgartner
 # https://johnbaumgartner.wordpress.com/2012/07/26/getting-rasters-into-shape-from-r/ 
@@ -277,6 +335,7 @@ polygonizer <- function(x, outshape=NULL, pypath=NULL, readpoly=TRUE,
   }
   ifelse(isTRUE(readpoly), return(shp), return(NULL))
 }
+
 # Testing ####
 library(rasterVis)
 download.file('https://www.dropbox.com/s/tk3kg2oce4h2snd/NEcountries.asc.zip?dl=1',
@@ -288,18 +347,26 @@ p <- polygonizer(r)
 spplot(p, col.regions=rainbow(200))
 #---testing end----
 
-system.time(landcover.poly <- polygonizer(crop.raster.map, 
+system.time(crop.raster.allstates <- polygonizer(crop.raster.map.allstates, 
                                           outshape = "../Untracked Proj Data/landcover.shp",
                                           aggregate = T))
-temp <- st_read("../Untracked Proj Data/landcover.dbf") %>% filter(DN == 1)
-st_crs(temp)
+crop.sf.allstates <- st_read("../Untracked Proj Data/landcover.dbf") %>% filter(DN == 1)
+st_crs(crop.sf.allstates)
 
 cropplot <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
   geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
-  geom_sf(data = temp, color = "yellow", fill = "yellow", alpha = 0.6) +
-  scale_fill_brewer(palette = "Paired")
+  geom_sf(data = crop.sf.allstates, color="yellowgreen", fill="yellowgreen", alpha=0.5) +
+  scale_fill_brewer(palette = "Paired") +
+  geom_sf(data = best.sites.spatial, fill="black", color="black", 
+          alpha = 0.7, size = 1.15) #+
+  # theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
+  #       legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) + 
+  # labs(fill = "Watershed Name",x = element_blank(), y = element_blank())+
+  # geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab), 
+  #                    force = 1.5, box.padding = 0.30, min.segment.length = 0.4)
+
   
 ggsave("./Figures/cropland.jpg", cropplot, dpi = 300, width = 9, height = 5.3, units = "in")
