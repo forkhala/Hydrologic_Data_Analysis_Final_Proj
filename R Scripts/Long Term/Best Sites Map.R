@@ -425,7 +425,7 @@ ggsave("./Figures/cropland1.jpg", cropplot1, dpi = 300, width = 9, height = 5.3,
 cropplot2 <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
   geom_sf(data = cropland.map, aes(fill = land), alpha=0.4, linetype = 0) +
-  geom_sf(data = HUC4.SE, color = "gray20", alpha = 0.7, size = 0.45) +
+  geom_sf(data = HUC4.SE, fill = "gray85", alpha = 0.1, size = 0.45) +
   geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
   geom_sf(data = impaired.map, aes(fill = LW_PARC_NM), color = "red", alpha = 0.8)+
