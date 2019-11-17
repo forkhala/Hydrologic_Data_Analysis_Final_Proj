@@ -1,7 +1,8 @@
 ####counties and population####
 
 library(noncensus); library(tidyverse); library(sf); library(dataRetrieval);
-library(sp); library(lubridate); library(lme4)
+library(sp); library(lubridate); library(lme4); library(stats); library(MASS);
+library(car); library(GGally)
 
 #database with population by county
 data("counties")
@@ -105,7 +106,7 @@ bestsites.WQ.skinny <- bestsites.WQ %>%
          Discharge2 = '60', total.nitrogen = '600', 
          total.phosphorus = '665') %>%
   mutate(Year = year(Date)) %>%
-  select(-Discharge2, -total.coliform) 
+  select(-total.coliform) 
 
 #wrangle so they can be joined
 bestsites.WQ.skinny$Site <- paste0("0", bestsites.WQ.skinny$Site)
@@ -120,18 +121,39 @@ hist(log(WQ.countypop.joined$total.nitrogen))
 #nitrogen should be logged so it is normally distributed
 str(WQ.countypop.joined)
 WQ.countypop.joined$Site <- as.factor(WQ.countypop.joined$Site)
+WQ.countypop.joined$state <- as.factor(WQ.countypop.joined$state)
+WQ.countypop.joined$county_name <- as.factor(WQ.countypop.joined$county_name)
 WQ.countypop.joined$Date <- as.Date(WQ.countypop.joined$Date, format = "%y-%m-%d")
 
 #lm1
 mod1 <- lm(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population + 
-             factor(huc4))
+             factor(huc4) + total.phosphorus + factor(state))
 summary(mod1)
-#Year p = 9.21e-08, population p=2.22e-09, and 10/11 huc4 regions are statistically significant
+plot(mod1)
+step.mod <- stepAIC(mod1) #review what this means (negative values??)
+formula(step.mod)
+avPlots(step.mod)
 
 #lm2
-mod2 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ population + 
-               (1|Site))
+mod2 <- lm(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population + 
+             factor(huc4))
 summary(mod2)
-anova(mod2)
+#Year, population, and 10/11 huc4 regions are statistically significant
+
+#lm2
+mod3 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population + huc4 +
+               (1|Site))
+summary(mod3) #not working with site as a random effect. consider rescaling??
+anova(mod3)
+interaction.plot(total.nitrogen, Site, population)
+
+#lm4
+hist(log(WQ.countypop.joined$total.phosphorus))
+hist(log(WQ.countypop.joined$Discharge))
+mod4 <- lm(data=WQ.countypop.joined, total.nitrogen ~ Discharge)
+#what do I do with discharge?
+
+plot(WQ.countypop.joined$Discharge, WQ.countypop.joined$total.nitrogen)
+plot(log(WQ.countypop.joined$total.nitrogen), log(WQ.countypop.joined$total.phosphorus))
 
 

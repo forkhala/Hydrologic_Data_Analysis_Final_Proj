@@ -134,3 +134,28 @@ CDL2018<- foreign::read.dbf("C:/Users/19524/Downloads/polygonclip_20191115123758
 
 ```
 
+
+# C-Q with daily values
+
+```{r}
+bestsites.DNP <- read.csv("./Data/Raw/bestsites.DNP.csv")
+unique(bestsites.DNP$parm_cd)
+
+bestsites.DNP.skinny <- bestsites.DNP %>%
+  dplyr::select(Site = site_no,
+         Date = Date,
+         Parameter = parm_cd,
+         Value = result_va,
+         Discharge = Discharge) %>%
+  group_by(Date, Parameter, Site) %>%
+  summarize(Value = mean(Value),
+            Discharge = mean(Discharge)) %>%
+  spread(key = Parameter, value = Value) %>% 
+  rename(Discharge2 = '60', total.nitrogen = '600', 
+         total.phosphorus = '665') %>%
+  mutate(Year = year(Date))
+
+ggplot(bestsites.DNP.skinny, aes(x=Discharge2, y= total.nitrogen)) +
+  geom_point()
+```
+
