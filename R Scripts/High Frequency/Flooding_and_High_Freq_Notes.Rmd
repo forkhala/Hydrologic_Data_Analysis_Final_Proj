@@ -42,6 +42,91 @@ Randolph <- highfreqsites.DN %>%
 library(cowplot)
 ```
 
+
+```{r}
+highfreqsites1718 <- readNWISuv(site = c("06808500", "06817000", "06892350", 
+                                         "06934500", "06892513", "06902000"), 
+                               parameterCd = c("00060", "99133"), 
+                               # Discharge in cfs & Nitrate in mg/l NO3-N
+                               startDate = "2017-01-01",
+                               endDate = "2019-01-01") %>%
+                               renameNWISColumns() %>%
+                               rename(Nitrate_mgl = 6)
+
+ggplot(highfreqsites1718, aes(x=dateTime, y=Nitrate_mgl, color = site_no)) +
+  geom_line()
+
+Hermann <- highfreqsites1718 %>%
+           filter(site_no=="06934500")
+Desoto <- highfreqsites1718 %>%
+          filter(site_no=="06892350")
+Clarinda <- highfreqsites1718 %>%
+            filter(site_no=="06817000")
+Randolph <- highfreqsites1718 %>%
+            filter(site_no=="06808500")
+Sumner <- highfreqsites1718 %>%
+            filter(site_no=="06902000")
+Shawnee <- highfreqsites1718 %>%
+            filter(site_no == "6892513")
+```
+
+
+```{r}
+dygraph(
+  cbind(
+    Flow = xts(Hermann$Flow_Inst, order.by = Hermann$dateTime), 
+    Nitrate = xts(Hermann$Nitrate_mgl, order.by = Hermann$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector() #Oct
+
+dygraph(
+  cbind(
+    Flow = xts(Desoto$Flow_Inst, order.by = Desoto$dateTime), 
+    Nitrate = xts(Desoto$Nitrate_mgl, order.by = Desoto$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector() #Dec
+
+dygraph(
+  cbind(
+    Flow = xts(Clarinda$Flow_Inst, order.by = Clarinda$dateTime), 
+    Nitrate = xts(Clarinda$Nitrate_mgl, order.by = Clarinda$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector() #mid Oct
+
+dygraph(
+  cbind(
+    Flow = xts(Randolph$Flow_Inst, order.by = Randolph$dateTime), 
+    Nitrate = xts(Randolph$Nitrate_mgl, order.by = Randolph$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector() #mid Oct
+
+dygraph(
+  cbind(
+    Flow = xts(Sumner$Flow_Inst, order.by = Sumner$dateTime), 
+    Nitrate = xts(Sumner$Nitrate_mgl, order.by = Sumner$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector() #beg sept
+
+dygraph(
+  cbind(
+    Flow = xts(Shawnee$Flow_Inst, order.by = Shawnee$dateTime), 
+    Nitrate = xts(Shawnee$Nitrate_mgl, order.by = Shawnee$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector()
+```
+
 ## Sites
 
 There were 7 sites in our region of interest that had high freq N data, and only 4 sites had high freq N data during the floods of 2019. The sites looked at in depth are:
@@ -69,7 +154,7 @@ RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, 
   geom_point() +
   labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
        title="West Nishnabotna River in Randolph, IA")
-
+print(RandolphStorm.plot)
 #semi-clockwise motion, negative slope, so diluting
 ```
 

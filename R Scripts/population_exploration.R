@@ -93,7 +93,7 @@ unique(bestsites.WQ$parm_cd)
 
 #caroline's wrangling of water quality data. I took out total coliform
 bestsites.WQ.skinny <- bestsites.WQ %>%
-  select(Site = site_no,
+  dplyr::select(Site = site_no,
          Date = Date,
          Parameter = parm_cd,
          Value = result_va,
@@ -107,6 +107,7 @@ bestsites.WQ.skinny <- bestsites.WQ %>%
          total.phosphorus = '665') %>%
   mutate(Year = year(Date)) %>%
   select(-total.coliform) 
+
 
 #wrangle so they can be joined
 bestsites.WQ.skinny$Site <- paste0("0", bestsites.WQ.skinny$Site)
