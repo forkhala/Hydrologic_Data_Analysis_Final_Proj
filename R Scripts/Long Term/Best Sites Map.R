@@ -209,7 +209,10 @@ structure(crop.raster.co)
 plot(crop.raster)
 
 # Reduce resolution; original 30m x 30m too detailed; change to 300m x 300m
-crop.raster.low.co <- raster("../Untracked Proj Data/temp.tif")
+writeRaster(crop.raster, f <- tempfile(fileext='.tif'), datatype='INT1U')
+system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
+                                    r='near', multi=TRUE, tr=res(crop.raster)*100))
+crop.raster.low <- raster("../Untracked Proj Data/temp.tif")
 plot(crop.raster.low)
 
 # Set projection and change raster extent to longitude and latitude
@@ -217,29 +220,30 @@ plot(crop.raster.low)
 crop.raster.map.co <- projectRaster(crop.raster.low.co, crs = crs)
 structure(crop.raster.map.co)
 
-# Use loop to perform the procedure above for all states **CAUTION DO NOT RUN THE LOOP ON A LAPTOP**
-library(progress)
+##### THIS SECTION NOT WORKING #####
+# Use loop to perform most of the procedure above for all states 
+# **CAUTION DO NOT RUN THE LOOP ON A LAPTOP**
+
 # Generate progress bar for loop 
 pb <- winProgressBar(title="Extracting pixels of agricultural lands", label="0% done", 
                      min=0, max=100, initial=0)
 for (i in 1:10) {
-  crop.raster.temp <- landcover.raster.list[[i]] == 556:557
-  crop.raster.low.temp <- aggregate(crop.raster.temp, fact = 10)
+  crop.raster.temp <- landcover.raster.list[[i]] == 556
+  # crop.raster.low.temp <- aggregate(crop.raster.temp, fact = 10)
   
-  # Use gdalUtilities::gdalwarp; much faster than raster function aggregate(), but results may not be
-  # good (?)
-  # writeRaster(crop.raster.temp, f <- tempfile(fileext='.tif'), datatype='INT1U')
-  # system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
-  #                                     r='mode', multi=TRUE, tr=res(crop.raster)*100))
-  # crop.raster.low.temp <- raster("../Untracked Proj Data/temp.tif")
+  # Use gdalUtilities::gdalwarp; much faster than raster function aggregate())
+  writeRaster(crop.raster.temp, f <- tempfile(fileext='.tif'), datatype='INT1U')
+  system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
+                                      r='mode', multi=TRUE, tr=res(crop.raster)*100))
+  crop.raster.low.temp <- raster("../Untracked Proj Data/temp.tif")
   
   (crs <- crs(allstates.map))
-  crop.raster.map.temp <- projectRaster(crop.raster.low.temp, crs = crs, method = "ngb")
+  # crop.raster.map.temp <- projectRaster(crop.raster.low.temp, crs = crs, method = "ngb")
   # projection method for categorical variables
   
   assign(paste0("crop.raster.", raster.list.nm[[i]]), crop.raster.temp)
   assign(paste0("crop.raster.low.", raster.list.nm[[i]]), crop.raster.low.temp)
-  assign(paste0("crop.raster.map.", raster.list.nm[[i]]), crop.raster.map.temp)
+  # assign(paste0("crop.raster.map.", raster.list.nm[[i]]), crop.raster.map.temp)
   
   rm(crop.raster.temp, crop.raster.low.temp, crop.raster.map.temp)
   
@@ -262,17 +266,60 @@ origin(crop.raster.map.wy)
 crop.raster.map.allstates <- raster::merge(crop.raster.map.co,crop.raster.map.ia,crop.raster.map.ks,
                                        crop.raster.map.mn,crop.raster.map.mo,crop.raster.map.mt,
                                        crop.raster.map.nd,crop.raster.map.ne,crop.raster.map.sd,
-                                       crop.raster.map.wy, tolerance = 0.5)
+                                       crop.raster.map.wy, tolerance = 0.1)
 
 
-# Output cropland map as geotiff
-writeRaster(crop.raster.map.allstates,
-            filename = paste("../Untracked Proj Data/Land_Cover/cropmap_allstates"),
-            format = "GTiff")
-writeRaster(crop.raster.map.allstates,
-            filename = paste("../Untracked Proj Data/Land_Cover/cropmap_allstates"),
-            format = "raster")
+structure(crop.raster.low.co); structure(crop.raster.low.ia);structure(crop.raster.low.ks)
+structure(crop.raster.low.mn); structure(crop.raster.low.mo);structure(crop.raster.low.mt)
+structure(crop.raster.low.nd);structure(crop.raster.low.ne);structure(crop.raster.low.sd)
+structure(crop.raster.low.wy)
 
+crop.raster.low.allstates <- raster::merge(crop.raster.low.co,crop.raster.low.ia,crop.raster.low.ks,
+                                           crop.raster.low.mn,crop.raster.low.mo,crop.raster.low.mt,
+                                           crop.raster.low.nd,crop.raster.low.ne,crop.raster.low.sd,
+                                           crop.raster.low.wy)
+for (i in 10) {
+  writeRaster(crop.raster.map.allstates[[i]],
+              filename = paste("../Untracked Proj Data/Land_Cover/cropmap.", raster.list.nm[[i]]),
+              format = "raster")
+}
+#---- END ----
+
+##### Merge before processing it (origin issue otherwise)  #####
+pb <- winProgressBar(title="Extracting pixels of agricultural lands", label="0% done", 
+                     min=0, max=100, initial=0)
+for (i in 1:10) {
+  crop.raster.temp <- landcover.raster.list[[i]] == 556
+  assign(paste0("crop.raster.", raster.list.nm[[i]]), crop.raster.temp)
+  rm(crop.raster.temp)
+  
+  # output info on progress
+  prog <- sprintf("%d%% done", round((i/10)*100))
+  setWinProgressBar(pb, i/(10)*100, label=prog)
+}
+
+# Merging is **COMPUTATIONALLY INTENSIVE & SLOW**
+crop.raster.allstates <- 
+  raster::merge(crop.raster.co,crop.raster.ia,crop.raster.ks,crop.raster.mn,
+                crop.raster.mo,crop.raster.mt,crop.raster.nd,crop.raster.ne,
+                crop.raster.sd,crop.raster.wy, overlap = TRUE,
+                filename = "../Untracked Proj Data/Land_Cover/cropmap_allstates_high.tif")
+plot(crop.raster.allstates)
+
+# Reduce resolution
+
+# temp <- raster::aggregate(crop.raster.allstates, fact = 10, dissolve = T)
+writeRaster(crop.raster.allstates, f <- tempfile(fileext='.tif'), datatype='INT1U')
+gdalUtilities::gdalwarp(f, "../Untracked Proj Data/Land_Cover/cropmap_allstates_low.tif",
+                        r='mode', multi=TRUE, tr=res(crop.raster)*100)
+crop.raster.low.allstates <- raster("../Untracked Proj Data/Land_Cover/cropmap_allstates_low.tif")
+plot(crop.raster.low.allstates)
+
+# Project & adjust extent
+(crs <- crs(allstates.map))
+crop.raster.map.allstates <- projectRaster(crop.raster.low.allstates, 
+                                           crs = crs, method = "ngb")
+structure(crop.raster.map.allstates)
 
 ### Convert raster object to polygon/shapefiles NOTE MAY TAKE SOME TIME
 # pol <- rasterToPolygons(crop.raster.map, dissolve = T)
@@ -367,9 +414,8 @@ spplot(p, col.regions=rainbow(200))
 #---testing end----
 
 crop.raster.map.allstates <- raster("../Untracked Proj Data/Land_Cover/cropmap_allstates.grd")
-system.time(crop.raster.allstates <- polygonizer(crop.raster.map.allstates, 
-                                          outshape = "../Untracked Proj Data/landcover.shp",
-                                          aggregate = T))
+system.time(polygonizer(crop.raster.map.allstates, aggregate = T,
+                        outshape = "../Untracked Proj Data/landcover.shp"))
 crop.sf.allstates <- st_read("../Untracked Proj Data/landcover.dbf") %>% filter(DN == 1)
 st_crs(crop.sf.allstates)
 
