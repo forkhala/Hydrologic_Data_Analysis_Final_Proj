@@ -87,7 +87,7 @@ missouri <- streams.HU10 %>%
 sitemap <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
-  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
+  geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
   geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.7) +
   scale_fill_brewer(palette = "Paired") +
@@ -131,7 +131,7 @@ impaired.map <- inner_join(impaired.hu10, impaired.nutrient)
 impairedplot <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
-  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
+  geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
   geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.7) +
   geom_sf(data = impaired.map, color = "Red")+
@@ -398,17 +398,17 @@ cropland.map <- crop.sf.allstates %>%
   select(-DN)
 
 ### Manually set colors
-colornames <- c(brewer.pal(11, "Paired"), "red", "yellowgreen")
+colornames <- c(brewer.pal(11, "Paired"), "red", "burlywood3")
 variables <- c(HUC4.SE$Name, "Impaired Waters", "Cropland")
 names(colornames) <- variables
 
-cropplot <- ggplot() +
+cropplot1 <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
-  geom_sf(data = cropland.map, aes(fill = land), alpha=0.25, linetype = 0) +
+  geom_sf(data = cropland.map, aes(fill = land), alpha=0.4, linetype = 0) +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
-  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
+  geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
-  geom_sf(data = impaired.map, aes(fill = LW_PARC_NM), color = "red")+
+  geom_sf(data = impaired.map, aes(fill = LW_PARC_NM), color = "red", alpha = 0.8)+
   geom_sf(data = best.sites.spatial, fill="black", color="black", 
           alpha = 0.8, size = 1.15) +
   scale_fill_manual(values = colornames, name = "Watershed Names and \n Landscape Features") +
@@ -417,8 +417,28 @@ cropplot <- ggplot() +
   theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5),
         legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) +
   labs(x = element_blank(), y = element_blank())+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.2, color = NA)))
+
+
+ggsave("./Figures/cropland1.jpg", cropplot1, dpi = 300, width = 9, height = 5.3, units = "in")
+
+cropplot2 <- ggplot() +
+  geom_sf(data = allstates.map, fill = "white", size = 0.4) +
+  geom_sf(data = cropland.map, aes(fill = land), alpha=0.4, linetype = 0) +
+  geom_sf(data = HUC4.SE, color = "gray20", alpha = 0.7, size = 0.45) +
+  geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
+  geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
+  geom_sf(data = impaired.map, aes(fill = LW_PARC_NM), color = "red", alpha = 0.8)+
+  geom_sf(data = best.sites.spatial, fill="black", color="black", 
+          alpha = 0.8, size = 1.15) +
+  scale_fill_manual(values = colornames[12:13], name = "") +
+  geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab),
+                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4) +
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5),
+        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) +
+  labs(x = element_blank(), y = element_blank())+
   guides(fill = guide_legend(override.aes = list(alpha = 0.3, color = NA)))
 
 
-ggsave("./Figures/cropland.jpg", cropplot, dpi = 300, width = 9, height = 5.3, units = "in")
+ggsave("./Figures/cropland2.jpg", cropplot2, dpi = 300, width = 9, height = 5.3, units = "in")
 
