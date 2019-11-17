@@ -1,7 +1,7 @@
 ########## Generate Map of Selected Sites ##########
 
 #### Setup###
-pacman::p_load(tidyverse, dataRetrieval, sf, maps, foreign)
+pacman::p_load(tidyverse, dataRetrieval, sf, maps, foreign, RColorBrewer)
 # devtools::install_github("yutannihilation/ggsflabel")
 library(ggsflabel)
 theme_set(theme_classic())
@@ -87,7 +87,7 @@ missouri <- streams.HU10 %>%
 sitemap <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
-  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
+  geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
   geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.7) +
   scale_fill_brewer(palette = "Paired") +
@@ -102,38 +102,9 @@ sitemap <- ggplot() +
 # Caution this takes time to display, and even longer than ggsave()
 # print(sitemap)
 # save file
-ggsave("./Figures/site_map.jpg", sitemap, dpi = 300, width = 9, height = 5.3, units = "in")
+ggsave("./Figures/site_map.png", sitemap, dpi = 300, width = 9, height = 5.3, units = "in")
 
 #---- site mapping ends ----
-
-
-###### Part of original codes that are not needed for the current map #####
-best.sites.map <- ggplot() +
-  geom_sf(data = states.map, fill = "white") +
-  geom_sf(data = best.sites.spatial,  
-          alpha = 0.5, size = 1)
-print(best.sites.map)
-
-waterfeatures <- st_read("./Data/Shapefiles/CopyOfhydrogl020.dbf")
-waterfeatures <- waterfeatures %>% filter(STATE == "MO" | STATE == "NE" | 
-                                            STATE == "IA" | STATE == "KS")
-waterfeatures <- filter(waterfeatures, FEATURE != "Apparent Limit" & FEATURE != "Closure Line")
-
-Waterfeaturesplot <- 
-  ggplot(waterfeatures) +
-  geom_sf(aes(fill = FEATURE, color = FEATURE)) +
-  scale_color_viridis_d(option = "magma", end = 0.9) +
-  scale_fill_viridis_d(option = "magma", end = 0.9)
-print(Waterfeaturesplot)
-waterfeatures <- st_set_crs(waterfeatures, 4269)
-
-best.sites.map <- ggplot() +
-  geom_sf(data = states.map, fill = "white") +
-  geom_sf(data = waterfeatures, size = 0.4, color="lightgrey") +
-  geom_sf(data = best.sites.spatial, fill="magenta", color="magenta", 
-          alpha = 0.5, size = 2)
-print(best.sites.map)
-#---- end ----
 
 ########## Mapping Impaired Water (cause: nutrient) ##########
 
@@ -149,7 +120,8 @@ impaired.cause <- read.dbf("../Untracked Proj Data/303d_201505/rad_303d_20150501
 head(impaired.cause)
 
 impaired.nutrient <- impaired.cause %>%
-  filter(str_detect(LW_PARC_NM, "NUTRIENT"))
+  filter(str_detect(LW_PARC_NM, "NUTRIENT"))%>%
+  mutate(LW_PARC_NM = if_else(LW_PARC_NM == "NUTRIENTS", "Impaired Waters", as.character(LW_PARC_NM)))
 # unique(impaired.nutrient$LW_DETC_NM)
 
 # Generate sf object for rivers imparied by nutrient
@@ -159,7 +131,7 @@ impaired.map <- inner_join(impaired.hu10, impaired.nutrient)
 impairedplot <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
-  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
+  geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
   geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.7) +
   geom_sf(data = impaired.map, color = "Red")+
@@ -172,7 +144,7 @@ impairedplot <- ggplot() +
   geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab), 
                      force = 1.5, box.padding = 0.30, min.segment.length = 0.4)
 
-ggsave("./Figures/impaired.jpg", impairedplot, dpi = 300, width = 9, height = 5.3, units = "in")
+ggsave("./Figures/impaired.png", impairedplot, dpi = 300, width = 9, height = 5.3, units = "in")
 #---- Impaired map end ----
 
 ########## Agricultural Use Map ##########
@@ -204,12 +176,15 @@ levels(landcover.raster.ia)
 ### Select pixels for agricultural lands
 # 556: Herbaceous Agricultural Vegetation	-	Row & Close Grain Crop Cultural Formation
 # 557: Herbaceous Agricultural Vegetation	-	Pasture & Hay Field Crop
-crop.raster.co <- landcover.raster.co == 556:557
+crop.raster.co <- landcover.raster.co == 556
 structure(crop.raster.co)
 plot(crop.raster)
 
 # Reduce resolution; original 30m x 30m too detailed; change to 300m x 300m
-crop.raster.low.co <- raster("../Untracked Proj Data/temp.tif")
+writeRaster(crop.raster, f <- tempfile(fileext='.tif'), datatype='INT1U')
+system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
+                                    r='near', multi=TRUE, tr=res(crop.raster)*100))
+crop.raster.low <- raster("../Untracked Proj Data/temp.tif")
 plot(crop.raster.low)
 
 # Set projection and change raster extent to longitude and latitude
@@ -217,29 +192,30 @@ plot(crop.raster.low)
 crop.raster.map.co <- projectRaster(crop.raster.low.co, crs = crs)
 structure(crop.raster.map.co)
 
-# Use loop to perform the procedure above for all states **CAUTION DO NOT RUN THE LOOP ON A LAPTOP**
-library(progress)
+##### THIS SECTION NOT WORKING #####
+# Use loop to perform most of the procedure above for all states 
+# **CAUTION DO NOT RUN THE LOOP ON A LAPTOP**
+
 # Generate progress bar for loop 
 pb <- winProgressBar(title="Extracting pixels of agricultural lands", label="0% done", 
                      min=0, max=100, initial=0)
 for (i in 1:10) {
-  crop.raster.temp <- landcover.raster.list[[i]] == 556:557
-  crop.raster.low.temp <- aggregate(crop.raster.temp, fact = 10)
+  crop.raster.temp <- landcover.raster.list[[i]] == 556
+  # crop.raster.low.temp <- aggregate(crop.raster.temp, fact = 10)
   
-  # Use gdalUtilities::gdalwarp; much faster than raster function aggregate(), but results may not be
-  # good (?)
-  # writeRaster(crop.raster.temp, f <- tempfile(fileext='.tif'), datatype='INT1U')
-  # system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
-  #                                     r='mode', multi=TRUE, tr=res(crop.raster)*100))
-  # crop.raster.low.temp <- raster("../Untracked Proj Data/temp.tif")
+  # Use gdalUtilities::gdalwarp; much faster than raster function aggregate())
+  writeRaster(crop.raster.temp, f <- tempfile(fileext='.tif'), datatype='INT1U')
+  system.time(gdalUtilities::gdalwarp(f, "../Untracked Proj Data/temp.tif",
+                                      r='mode', multi=TRUE, tr=res(crop.raster)*100))
+  crop.raster.low.temp <- raster("../Untracked Proj Data/temp.tif")
   
   (crs <- crs(allstates.map))
-  crop.raster.map.temp <- projectRaster(crop.raster.low.temp, crs = crs, method = "ngb")
+  # crop.raster.map.temp <- projectRaster(crop.raster.low.temp, crs = crs, method = "ngb")
   # projection method for categorical variables
   
   assign(paste0("crop.raster.", raster.list.nm[[i]]), crop.raster.temp)
   assign(paste0("crop.raster.low.", raster.list.nm[[i]]), crop.raster.low.temp)
-  assign(paste0("crop.raster.map.", raster.list.nm[[i]]), crop.raster.map.temp)
+  # assign(paste0("crop.raster.map.", raster.list.nm[[i]]), crop.raster.map.temp)
   
   rm(crop.raster.temp, crop.raster.low.temp, crop.raster.map.temp)
   
@@ -262,17 +238,61 @@ origin(crop.raster.map.wy)
 crop.raster.map.allstates <- raster::merge(crop.raster.map.co,crop.raster.map.ia,crop.raster.map.ks,
                                        crop.raster.map.mn,crop.raster.map.mo,crop.raster.map.mt,
                                        crop.raster.map.nd,crop.raster.map.ne,crop.raster.map.sd,
-                                       crop.raster.map.wy, tolerance = 0.5)
+                                       crop.raster.map.wy, tolerance = 0.1)
 
 
-# Output cropland map as geotiff
-writeRaster(crop.raster.map.allstates,
-            filename = paste("../Untracked Proj Data/Land_Cover/cropmap_allstates"),
-            format = "GTiff")
-writeRaster(crop.raster.map.allstates,
-            filename = paste("../Untracked Proj Data/Land_Cover/cropmap_allstates"),
-            format = "raster")
+structure(crop.raster.low.co); structure(crop.raster.low.ia);structure(crop.raster.low.ks)
+structure(crop.raster.low.mn); structure(crop.raster.low.mo);structure(crop.raster.low.mt)
+structure(crop.raster.low.nd);structure(crop.raster.low.ne);structure(crop.raster.low.sd)
+structure(crop.raster.low.wy)
 
+crop.raster.low.allstates <- raster::merge(crop.raster.low.co,crop.raster.low.ia,crop.raster.low.ks,
+                                           crop.raster.low.mn,crop.raster.low.mo,crop.raster.low.mt,
+                                           crop.raster.low.nd,crop.raster.low.ne,crop.raster.low.sd,
+                                           crop.raster.low.wy)
+for (i in 10) {
+  writeRaster(crop.raster.map.allstates[[i]],
+              filename = paste("../Untracked Proj Data/Land_Cover/cropmap.", raster.list.nm[[i]]),
+              format = "raster")
+}
+#---- END ----
+
+##### Merge before processing it (origin issue otherwise)  #####
+pb <- winProgressBar(title="Extracting pixels of agricultural lands", label="0% done", 
+                     min=0, max=100, initial=0)
+for (i in 1:10) {
+  crop.raster.temp <- landcover.raster.list[[i]] == 556
+  assign(paste0("crop.raster.", raster.list.nm[[i]]), crop.raster.temp)
+  rm(crop.raster.temp)
+  
+  # output info on progress
+  prog <- sprintf("%d%% done", round((i/10)*100))
+  setWinProgressBar(pb, i/(10)*100, label=prog)
+}
+close(pb)
+# Merging is **COMPUTATIONALLY INTENSIVE & SLOW**
+crop.raster.allstates <- 
+  raster::merge(crop.raster.co,crop.raster.ia,crop.raster.ks,crop.raster.mn,
+                crop.raster.mo,crop.raster.mt,crop.raster.nd,crop.raster.ne,
+                crop.raster.sd,crop.raster.wy, overlap = TRUE,
+                filename = "../Untracked Proj Data/Land_Cover/cropmap_allstates_high.tif")
+plot(crop.raster.allstates)
+
+# Reduce resolution
+
+# temp <- raster::aggregate(crop.raster.allstates, fact = 10, dissolve = T)
+writeRaster(crop.raster.allstates, f <- tempfile(fileext='.tif'), datatype='INT1U')
+gdalUtilities::gdalwarp(f, "../Untracked Proj Data/Land_Cover/cropmap_allstates_low.tif",
+                        r='mode', multi=TRUE, tr=res(crop.raster)*100)
+
+crop.raster.low.allstates <- raster("../Untracked Proj Data/Land_Cover/cropmap_allstates_low.tif")
+plot(crop.raster.low.allstates)
+
+# Project & adjust extent
+(crs <- crs(allstates.map))
+crop.raster.map.allstates <- projectRaster(crop.raster.low.allstates, 
+                                           crs = crs, method = "ngb")
+structure(crop.raster.map.allstates)
 
 ### Convert raster object to polygon/shapefiles NOTE MAY TAKE SOME TIME
 # pol <- rasterToPolygons(crop.raster.map, dissolve = T)
@@ -355,41 +375,70 @@ polygonizer <- function(x, outshape=NULL, pypath=NULL, readpoly=TRUE,
   ifelse(isTRUE(readpoly), return(shp), return(NULL))
 }
 
-# Testing ####
-library(rasterVis)
-download.file('https://www.dropbox.com/s/tk3kg2oce4h2snd/NEcountries.asc.zip?dl=1',
-              destfile={f <- tempfile()}, quiet=TRUE, cacheOK=FALSE,
-              mode='wb')
-unzip(f, exdir = d <- tempdir() )
-r <- raster(file.path(d, 'NEcountries.asc'), crs='+proj=longlat')
-p <- polygonizer(r)
-spplot(p, col.regions=rainbow(200))
-#---testing end----
+# # Testing ####
+# library(rasterVis)
+# download.file('https://www.dropbox.com/s/tk3kg2oce4h2snd/NEcountries.asc.zip?dl=1',
+#               destfile={f <- tempfile()}, quiet=TRUE, cacheOK=FALSE,
+#               mode='wb')
+# unzip(f, exdir = d <- tempdir() )
+# r <- raster(file.path(d, 'NEcountries.asc'), crs='+proj=longlat')
+# p <- polygonizer(r)
+# spplot(p, col.regions=rainbow(200))
+# #---testing end----
 
-crop.raster.map.allstates <- raster("../Untracked Proj Data/Land_Cover/cropmap_allstates.grd")
-system.time(crop.raster.allstates <- polygonizer(crop.raster.map.allstates, 
-                                          outshape = "../Untracked Proj Data/landcover.shp",
-                                          aggregate = T))
-crop.sf.allstates <- st_read("../Untracked Proj Data/landcover.dbf") %>% filter(DN == 1)
+system.time(polygonizer(crop.raster.map.allstates, aggregate = T, readpoly = F,
+                        outshape = "./Data/Shapefiles/Land_Cover/cropland"))
+
+crop.sf.allstates <- st_read("../Untracked Proj Data/Land_Cover/cropland.shp")
 st_crs(crop.sf.allstates)
 
-cropplot <- ggplot() +
+cropland.map <- crop.sf.allstates %>%
+  filter(DN == 1) %>%
+  mutate(land = if_else(DN == 1, "Cropland", "NA")) %>%
+  select(-DN)
+
+### Manually set colors
+colornames <- c(brewer.pal(11, "Paired"), "red", "burlywood3")
+variables <- c(HUC4.SE$Name, "Impaired Waters", "Cropland")
+names(colornames) <- variables
+
+cropplot1 <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
+  geom_sf(data = cropland.map, aes(fill = land), alpha=0.4, linetype = 0) +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
-  geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
+  geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
-  geom_sf(data = impaired.map, aes(fill = "LW_PARC_NM"))+
-  # geom_sf(data = crop.sf.allstates, color="yellowgreen", fill="yellowgreen", alpha=0.5) +
-  scale_fill_brewer(palette = "Paired") +
+  geom_sf(data = impaired.map, aes(fill = LW_PARC_NM), color = "red", alpha = 0.8)+
   geom_sf(data = best.sites.spatial, fill="black", color="black", 
-          alpha = 0.7, size = 1.15) +
-  scale_color_manual(values = c("NUTRIENTS"="red"))
-  # geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab), 
-  #                    force = 1.5, box.padding = 0.30, min.segment.length = 0.4)
-  # theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
-  #       legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) + 
-  # labs(fill = "Watershed Name",x = element_blank(), y = element_blank())
+          alpha = 0.8, size = 1.15) +
+  scale_fill_manual(values = colornames, name = "Watershed Names and \n Landscape Features") +
+  geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab),
+                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4) +
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5),
+        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) +
+  labs(x = element_blank(), y = element_blank())+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.2, color = NA)))
 
 
-  
-ggsave("./Figures/cropland.jpg", cropplot, dpi = 300, width = 9, height = 5.3, units = "in")
+ggsave("./Figures/cropland1.png", cropplot1, dpi = 300, width = 9, height = 5.3, units = "in")
+
+cropplot2 <- ggplot() +
+  geom_sf(data = allstates.map, fill = "white", size = 0.4) +
+  geom_sf(data = cropland.map, aes(fill = land), alpha=0.4, linetype = 0) +
+  geom_sf(data = HUC4.SE, fill = "gray85", alpha = 0.1, size = 0.45) +
+  geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
+  geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
+  geom_sf(data = impaired.map, aes(fill = LW_PARC_NM), color = "red", alpha = 0.8)+
+  geom_sf(data = best.sites.spatial, fill="black", color="black", 
+          alpha = 0.8, size = 1.15) +
+  scale_fill_manual(values = colornames[12:13], name = "") +
+  geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab),
+                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4) +
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5),
+        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) +
+  labs(x = element_blank(), y = element_blank())+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.3, color = NA)))
+
+
+ggsave("./Figures/cropland2.png", cropplot2, dpi = 300, width = 9, height = 5.3, units = "in")
+

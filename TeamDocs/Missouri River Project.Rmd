@@ -43,7 +43,6 @@ library(dygraphs)
 library(lubridate)
 library(gridExtra)
 library(cowplot)
-library(dataRetrieval)
 library(trend)
 library(forecast)
 library(tseries)
@@ -99,6 +98,8 @@ Given the interesting hydrologic history of this region, we are interested in th
 
     a) Rivers will exhibit a flushing behavior due to the land use and type of flow during storms
     b) Discharge will decrease during drought, causing nutrient levels to also decrease due to decreased overland flow.
+    
+2. What factors contribute to the variability of total nitrogen in the rivers?
 
 3. Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
