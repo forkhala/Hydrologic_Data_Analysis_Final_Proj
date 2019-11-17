@@ -126,7 +126,8 @@ print(fig1020)
 
 ######## for loop ########
 ##### The codes above are only for validation; use loop below to generate all figures
-
+pb <- winProgressBar(title="Loop in progress", label="0% done", 
+                     min=0, max=100, initial=0)
 for(i in 1:11){
   site1 <- readNWISdv(siteNumbers = site.nos[2*i-1], 
                            parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
@@ -161,13 +162,17 @@ for(i in 1:11){
              label = paste(site.list$huc4[2*i], site.list$huc4_nm[2*i], sep = " "))+
     labs(x = element_blank(), y = element_blank())
   # Rename outputs
-  assign(paste0("figure", site.list$huc4[2*i]), fig)
+  assign(paste0("DischargePlot", site.list$huc4[2*i]), fig)
   #assign(paste0("dat", site.list$huc4[2*i-1], ".1"), site1)
   #assign(paste0("dat", site.list$huc4[2*i], ".2"), site2)
   
   rm(site1, site1.pattern, site2, site2.pattern, fig)
+  
+  # output info on progress
+  prog <- sprintf("%d%% done", round((i/11)*100))
+  setWinProgressBar(pb, i/(11)*100, label=prog)
 }
-
+close(pb)
 ##### Combine all discharge plots #####
 
 DischargePlot <- ggarrange(DischargePlot1020,DischargePlot1021,DischargePlot1022,DischargePlot1023,
@@ -178,7 +183,7 @@ annotated.DisChargePlot <-
   annotate_figure(DischargePlot,bottom=text_grob("Day of Year",color="black",hjust=0.5, size=13),
                 left = text_grob(expression("Discharge ft"^3*" s"^-1), 
                                  color = "black", rot = 90, size = 13))
-ggsave("./Figures/discharge.jpg", annotated.DisChargePlot, 
+ggsave("./Figures/discharge.png", annotated.DisChargePlot, 
        dpi = 300, width = 14, height = 9, units = "in")
 
 #---- end ----
@@ -186,7 +191,6 @@ ggsave("./Figures/discharge.jpg", annotated.DisChargePlot,
 ######################### Part II Recurrence Interval #########################
 
 ######## HU 1020 Platte (for validation) ########
-
 
 Recurrence1020.1 <- 
   dat1020.1 %>%
@@ -235,7 +239,8 @@ ggplot()+
 #----1020 end----
 
 ######## for loop ########
-
+pb <- winProgressBar(title="Loop in progress", label="0% done", 
+                     min=0, max=100, initial=0)
 for (i in 1:22) {
   site.full <- readNWISdv(siteNumbers = site.nos[i], 
                       parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
@@ -290,8 +295,12 @@ for (i in 1:22) {
   assign(paste("sum", formatC(i, width = 2, flag = "0"), "latest", sep = "."), model.latest.sum)
   rm(site.full, site.latest, Recurrence.full, Recurrence.latest,
      fig, model.full, model.latest, model.full.sum, model.latest.sum)
+  
+  # output info on progress
+  prog <- sprintf("%d%% done", round((i/22)*100))
+  setWinProgressBar(pb, i/(22)*100, label=prog)
 }
-
+close(pb)
 ##### Put results in a data frame
 models.full <- mget(x = ls(pattern = "^mod.\\d\\d.full$"))
 sums.full <- mget(x = ls(pattern = "^sum.\\d\\d.full$"))
@@ -335,14 +344,15 @@ annotated.RecPlot <-
                   left = text_grob(expression("Discharge ft"^3*" s"^-1), color = "black",
                                    rot = 90, size = 13))
 
-ggsave("./Figures/recurrence.jpg", annotated.RecPlot,
+ggsave("./Figures/recurrence.png", annotated.RecPlot,
        dpi = 300, width = 14, height = 9, units = "in")
 #---- Plot end ----
 
 ######################### Part III Variation over Years #########################
 
 ######## for loop ######## 
-
+pb <- winProgressBar(title="Loop in progress", label="0% done", 
+                     min=0, max=100, initial=0)
 for (i in 1:22) {
   site <- readNWISdv(siteNumbers = site.nos[i], 
                           parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
@@ -379,17 +389,21 @@ for (i in 1:22) {
   assign(paste("mod", formatC(i, width = 2, flag = "0"), "sd", sep = "."), model)
   assign(paste("sum", formatC(i, width = 2, flag = "0"), "sd", sep = "."), model.sum)
   rm(site, std, model, model.sum, fig)
+  
+  # output info on progress
+  prog <- sprintf("%d%% done", round((i/22)*100))
+  setWinProgressBar(pb, i/(22)*100, label=prog)
 }
-
+close(pb)
 ##### Put results in data frame
 models.sd <- mget(x = ls(pattern = "^mod.\\d\\d.sd$"))
 sums.sd <- mget(x = ls(pattern = "^sum.\\d\\d.sd$"))
 
 # Check assumptions
-for (i in 1:22) {
-  par(mfrow = c(2,2), mai = c(0.7,0.7,0.7,0.7))
-  plot(models.sd[[i]])
-}
+# for (i in 1:22) {
+#   par(mfrow = c(2,2), mai = c(0.7,0.7,0.7,0.7))
+#   plot(models.sd[[i]])
+# }
 
 sd.year <- site.list %>%
   select(site_lab, site_nm, huc4) %>%
@@ -403,11 +417,17 @@ for (i in 1:22) {
     round(., digits = 4) %>%
     format(nsmall = 4)
 }
-sd.year <- arrange(sd.year, slope)
+
+# Adjust letter case; make state abbreviation constant
+sd.year$site_nm <- gsub(sd.year$site_nm, pattern = "Nebr.", replacement = "NE")
+sd.year <- sd.year %>%
+  mutate(site_nm = paste0(str_to_title(str_extract(site_nm, pattern = ".*,")), 
+                         str_extract(site_nm, pattern = "[:blank:][:upper:]{2}$")))
 View(sd.year)
 
-#write.csv(sd.year, file = "./Data/Processed/sd_year.csv", row.names = F)
+# write.csv(sd.year, file = "./Data/Processed/sd_year.csv", row.names = F)
 sd.year <- read.csv("./Data/Processed/sd_year.csv")
+sd.year <- arrange(sd.year, slope)
 
 #---- loop end ----
 
@@ -423,7 +443,7 @@ annotated.SdPlot <-
                   left = text_grob(expression("Standard Deviation within a Year"), color = "black",
                                    rot = 90, size = 13))
 
-ggsave("./Figures/sd_year.jpg", annotated.SdPlot,
+ggsave("./Figures/sd_year.png", annotated.SdPlot,
        dpi = 300, width = 14, height = 9, units = "in")
 #---- Plot end ----
 

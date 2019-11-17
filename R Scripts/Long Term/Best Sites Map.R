@@ -102,7 +102,7 @@ sitemap <- ggplot() +
 # Caution this takes time to display, and even longer than ggsave()
 # print(sitemap)
 # save file
-ggsave("./Figures/site_map.jpg", sitemap, dpi = 300, width = 9, height = 5.3, units = "in")
+ggsave("./Figures/site_map.png", sitemap, dpi = 300, width = 9, height = 5.3, units = "in")
 
 #---- site mapping ends ----
 
@@ -144,7 +144,7 @@ impairedplot <- ggplot() +
   geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab), 
                      force = 1.5, box.padding = 0.30, min.segment.length = 0.4)
 
-ggsave("./Figures/impaired.jpg", impairedplot, dpi = 300, width = 9, height = 5.3, units = "in")
+ggsave("./Figures/impaired.png", impairedplot, dpi = 300, width = 9, height = 5.3, units = "in")
 #---- Impaired map end ----
 
 ########## Agricultural Use Map ##########
@@ -420,7 +420,7 @@ cropplot1 <- ggplot() +
   guides(fill = guide_legend(override.aes = list(alpha = 0.2, color = NA)))
 
 
-ggsave("./Figures/cropland1.jpg", cropplot1, dpi = 300, width = 9, height = 5.3, units = "in")
+ggsave("./Figures/cropland1.png", cropplot1, dpi = 300, width = 9, height = 5.3, units = "in")
 
 cropplot2 <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
@@ -440,5 +440,5 @@ cropplot2 <- ggplot() +
   guides(fill = guide_legend(override.aes = list(alpha = 0.3, color = NA)))
 
 
-ggsave("./Figures/cropland2.jpg", cropplot2, dpi = 300, width = 9, height = 5.3, units = "in")
+ggsave("./Figures/cropland2.png", cropplot2, dpi = 300, width = 9, height = 5.3, units = "in")
 
