@@ -1,7 +1,7 @@
 ########## Generate Map of Selected Sites ##########
 
 #### Setup###
-pacman::p_load(tidyverse, dataRetrieval, sf, maps, foreign)
+pacman::p_load(tidyverse, dataRetrieval, sf, maps, foreign, RColorBrewer)
 # devtools::install_github("yutannihilation/ggsflabel")
 library(ggsflabel)
 theme_set(theme_classic())
@@ -106,35 +106,6 @@ ggsave("./Figures/site_map.jpg", sitemap, dpi = 300, width = 9, height = 5.3, un
 
 #---- site mapping ends ----
 
-
-###### Part of original codes that are not needed for the current map #####
-best.sites.map <- ggplot() +
-  geom_sf(data = states.map, fill = "white") +
-  geom_sf(data = best.sites.spatial,  
-          alpha = 0.5, size = 1)
-print(best.sites.map)
-
-waterfeatures <- st_read("./Data/Shapefiles/CopyOfhydrogl020.dbf")
-waterfeatures <- waterfeatures %>% filter(STATE == "MO" | STATE == "NE" | 
-                                            STATE == "IA" | STATE == "KS")
-waterfeatures <- filter(waterfeatures, FEATURE != "Apparent Limit" & FEATURE != "Closure Line")
-
-Waterfeaturesplot <- 
-  ggplot(waterfeatures) +
-  geom_sf(aes(fill = FEATURE, color = FEATURE)) +
-  scale_color_viridis_d(option = "magma", end = 0.9) +
-  scale_fill_viridis_d(option = "magma", end = 0.9)
-print(Waterfeaturesplot)
-waterfeatures <- st_set_crs(waterfeatures, 4269)
-
-best.sites.map <- ggplot() +
-  geom_sf(data = states.map, fill = "white") +
-  geom_sf(data = waterfeatures, size = 0.4, color="lightgrey") +
-  geom_sf(data = best.sites.spatial, fill="magenta", color="magenta", 
-          alpha = 0.5, size = 2)
-print(best.sites.map)
-#---- end ----
-
 ########## Mapping Impaired Water (cause: nutrient) ##########
 
 # Import shapefile for all impaired rivers
@@ -149,7 +120,8 @@ impaired.cause <- read.dbf("../Untracked Proj Data/303d_201505/rad_303d_20150501
 head(impaired.cause)
 
 impaired.nutrient <- impaired.cause %>%
-  filter(str_detect(LW_PARC_NM, "NUTRIENT"))
+  filter(str_detect(LW_PARC_NM, "NUTRIENT"))%>%
+  mutate(LW_PARC_NM = if_else(LW_PARC_NM == "NUTRIENTS", "Impaired Waters", as.character(LW_PARC_NM)))
 # unique(impaired.nutrient$LW_DETC_NM)
 
 # Generate sf object for rivers imparied by nutrient
@@ -204,7 +176,7 @@ levels(landcover.raster.ia)
 ### Select pixels for agricultural lands
 # 556: Herbaceous Agricultural Vegetation	-	Row & Close Grain Crop Cultural Formation
 # 557: Herbaceous Agricultural Vegetation	-	Pasture & Hay Field Crop
-crop.raster.co <- landcover.raster.co == 556:557
+crop.raster.co <- landcover.raster.co == 556
 structure(crop.raster.co)
 plot(crop.raster)
 
@@ -297,7 +269,7 @@ for (i in 1:10) {
   prog <- sprintf("%d%% done", round((i/10)*100))
   setWinProgressBar(pb, i/(10)*100, label=prog)
 }
-
+close(pb)
 # Merging is **COMPUTATIONALLY INTENSIVE & SLOW**
 crop.raster.allstates <- 
   raster::merge(crop.raster.co,crop.raster.ia,crop.raster.ks,crop.raster.mn,
@@ -312,6 +284,7 @@ plot(crop.raster.allstates)
 writeRaster(crop.raster.allstates, f <- tempfile(fileext='.tif'), datatype='INT1U')
 gdalUtilities::gdalwarp(f, "../Untracked Proj Data/Land_Cover/cropmap_allstates_low.tif",
                         r='mode', multi=TRUE, tr=res(crop.raster)*100)
+
 crop.raster.low.allstates <- raster("../Untracked Proj Data/Land_Cover/cropmap_allstates_low.tif")
 plot(crop.raster.low.allstates)
 
@@ -402,40 +375,50 @@ polygonizer <- function(x, outshape=NULL, pypath=NULL, readpoly=TRUE,
   ifelse(isTRUE(readpoly), return(shp), return(NULL))
 }
 
-# Testing ####
-library(rasterVis)
-download.file('https://www.dropbox.com/s/tk3kg2oce4h2snd/NEcountries.asc.zip?dl=1',
-              destfile={f <- tempfile()}, quiet=TRUE, cacheOK=FALSE,
-              mode='wb')
-unzip(f, exdir = d <- tempdir() )
-r <- raster(file.path(d, 'NEcountries.asc'), crs='+proj=longlat')
-p <- polygonizer(r)
-spplot(p, col.regions=rainbow(200))
-#---testing end----
+# # Testing ####
+# library(rasterVis)
+# download.file('https://www.dropbox.com/s/tk3kg2oce4h2snd/NEcountries.asc.zip?dl=1',
+#               destfile={f <- tempfile()}, quiet=TRUE, cacheOK=FALSE,
+#               mode='wb')
+# unzip(f, exdir = d <- tempdir() )
+# r <- raster(file.path(d, 'NEcountries.asc'), crs='+proj=longlat')
+# p <- polygonizer(r)
+# spplot(p, col.regions=rainbow(200))
+# #---testing end----
 
-crop.raster.map.allstates <- raster("../Untracked Proj Data/Land_Cover/cropmap_allstates.grd")
-system.time(polygonizer(crop.raster.map.allstates, aggregate = T,
-                        outshape = "../Untracked Proj Data/landcover.shp"))
-crop.sf.allstates <- st_read("../Untracked Proj Data/landcover.dbf") %>% filter(DN == 1)
+system.time(polygonizer(crop.raster.map.allstates, aggregate = T, readpoly = F,
+                        outshape = "./Data/Shapefiles/Land_Cover/cropland"))
+
+crop.sf.allstates <- st_read("../Untracked Proj Data/Land_Cover/cropland.shp")
 st_crs(crop.sf.allstates)
+
+cropland.map <- crop.sf.allstates %>%
+  filter(DN == 1) %>%
+  mutate(land = if_else(DN == 1, "Cropland", "NA")) %>%
+  select(-DN)
+
+### Manually set colors
+colornames <- c(brewer.pal(11, "Paired"), "red", "yellowgreen")
+variables <- c(HUC4.SE$Name, "Impaired Waters", "Cropland")
+names(colornames) <- variables
 
 cropplot <- ggplot() +
   geom_sf(data = allstates.map, fill = "white", size = 0.4) +
+  geom_sf(data = cropland.map, aes(fill = land), alpha=0.25, linetype = 0) +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
   geom_sf(data = HUC4.NW, color = "gray30", alpha = 0.3, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
-  geom_sf(data = impaired.map, aes(fill = "LW_PARC_NM"))+
-  # geom_sf(data = crop.sf.allstates, color="yellowgreen", fill="yellowgreen", alpha=0.5) +
-  scale_fill_brewer(palette = "Paired") +
+  geom_sf(data = impaired.map, aes(fill = LW_PARC_NM), color = "red")+
   geom_sf(data = best.sites.spatial, fill="black", color="black", 
-          alpha = 0.7, size = 1.15) +
-  scale_color_manual(values = c("NUTRIENTS"="red"))
-  # geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab), 
-  #                    force = 1.5, box.padding = 0.30, min.segment.length = 0.4)
-  # theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
-  #       legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) + 
-  # labs(fill = "Watershed Name",x = element_blank(), y = element_blank())
+          alpha = 0.8, size = 1.15) +
+  scale_fill_manual(values = colornames, name = "Watershed Names and \n Landscape Features") +
+  geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab),
+                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4) +
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5),
+        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) +
+  labs(x = element_blank(), y = element_blank())+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.3, color = NA)))
 
 
-  
 ggsave("./Figures/cropland.jpg", cropplot, dpi = 300, width = 9, height = 5.3, units = "in")
+
