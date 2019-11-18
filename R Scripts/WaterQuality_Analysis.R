@@ -7,9 +7,19 @@ library(dygraphs)
 library(lubridate)
 library(kableExtra)
 library(gridExtra)
+library(tidyr)
+#install.packages("data.table")
+library(data.table)
+#install.packages("dtplyr")
+library(dtplyr)
+library(dplyr, warn.conflicts = FALSE)
+library(trend)
+library(TTR)
 
 #setting theme
 theme_set(theme_classic())
+
+#### Reading in data and data wrangling ####
 
 #all bestsites for the hucs
 bestsites1021.1026.1027.1030 <- 
@@ -25,185 +35,141 @@ best.sites <- c(bestsites1021.1026.1027.1030, bestsites1024.1025,
                 bestsites1020.1023, bestsites1028.1029)
 best.sites <- unique(best.sites)
 
-#read in data
-bestsites.data <- read.csv("./Data/Raw/bestsites.DNP.csv", colClasses=c("parm_cd"="character"))
-
-#class of Date column
-class(bestsites.data$Date)
-
-#changing Date column to class of date
-bestsites.data$Date <- as.Date(bestsites.data$Date, "%Y/%m/%d")
-
-class(bestsites.data$Date)
-
-#changing class type for site_no column
-bestsites.data$site_no <- as.character(bestsites.data$site_no)
-class(bestsites.data$site_no)
+#reading in file with site list and names
+site.list <- read.csv("./Data/Processed/bestsiteslist.csv", 
+                      colClasses=c("site_no"="character"))
 
 #reading in daily discharge values for best sites in each huc
 bestsites.discharge <- readNWISdv(siteNumbers = c(best.sites),
                                   parameterCd = "00060", #discharge
                                   startDate = "",
                                   endDate = "")
-#names(bestsites.discharge)[4:5] <- c("Discharge", "Approval Code")
 
 #adding column with parameter code for discharge
 bestsites.discharge$parm_cd <- "00060"
 
-#Nitrogen, Phosphorus, pH, and total coliform for best sites in each site
-bestsites.wq <- readNWISqw(siteNumbers = c(best.sites),
-                           parameterCd = c("00600", #TN
-                                           "00665", #TP 
-                                           "00400", #pH
-                                           "31501"), #total coliform
-                           startDate = "",
-                           endDate = "")
+#reading in all bacteria data
+bestsites.bacteria <- readNWISqw(siteNumbers = c(best.sites),
+                                 parameterCd = c("95200",  #Total cell count
+                                                 "31501",  #Total coliforms
+                                                 "31625",  #Fecal coliforms (0.7 um filter)
+                                                 "31616",  #Fecal coliforms (0.45 um filter)
+                                                  "31673",  #Fecal streptocci KF streptocaccus
+                                                  "31679",  #Fecal streptocci m-Enterococcus
+                                                 "00600", #TN
+                                                 "00665", #TP 
+                                                 "00400"), #pH
+                                 startDate = "",
+                                 endDate = "")
 
-names(bestsites.wq)[3] <- c("Date")
+names(bestsites.bacteria)[3] <- c("Date")
 
-#joinining datatables for water quality and discharge data
-bestsites.WQ <- full_join(bestsites.discharge, bestsites.wq,
-                           by = c("site_no", "agency_cd", "Date", "parm_cd"))
+#joining bestsites and bacteria data
+bestsites.bac.dis <- bestsites.discharge %>%
+   full_join(., bestsites.bacteria,
+                  by = c("site_no", "agency_cd", "Date", "parm_cd"))
 
-#saving best site waterquality data as a .csv
-write.csv(bestsites.WQ, "./Data/Raw/bestsites.WQ.csv")
-
-#reading in csv file with water quality data
-sites.wq <- read.csv("./Data/Raw/bestsites.WQ.csv", colClasses=c("parm_cd"="character", 
-                                                            "Date"="Date",
-                                                            "site_no"="character"))
-
-#looking at the class of the Date column
-class(sites.wq$Date)
-
-#structure of water quality dataframe
-waterquality.summary <- summary(bestsites.wq)
-
-#summary of data structure
-kable(waterquality.summary,
-      caption = "Summary of Water Quality Data in the
-      Missouri River Basin") %>% 
-  kable_styling(latex_options = c("hold_position", "striped", 
-                                  "scale_down")) %>% 
-  kableExtra::landscape() 
+bestsites.bac.dis.names <- left_join(bestsites.bac.dis, site.list,
+                                     by = c("site_no"))
 
 # ---Exploratory data analysis ----
 
-#filtering dataset 
-bestsites.wq.skinny <- sites.wq %>%
-    select(Site = site_no,
-              Date = Date,
-              Parameter = parm_cd,
-              Value = result_va,
-              Discharge = X_00060_00003) %>%
-    group_by(Date, Parameter, Site) %>%
-    summarize(Value = mean(Value),
-              Discharge = mean(Discharge)) %>%
-    spread(key = Parameter, value = Value) %>% 
-    rename(pH = '00400', total.coliform = '31501', 
-           Discharge2 = '00060', total.nitrogen = '00600', 
-           total.phosphorus = '00665') %>%
-    mutate(Year = year(Date)) %>%
-    select(-Discharge2) %>%     
-    filter(Site == "06810000" | Site == "06856600" |
-           Site == "06934500")
+#writing processed data file for water quality
+write.csv(bestsites.wq.skinny, "./Data/Processed/waterquality_processed.csv")
+
+#bestsites dis and bacteria
+bestsites.bac.dis.skinny <- bestsites.bac.dis.names %>%
+  select(Site = site_no,
+         Date = Date,
+         Parameter = parm_cd,
+         Value = result_va,
+         Discharge = X_00060_00003,
+         Site.Name = site_nm,
+         Huc.Name = huc4_nm) %>%
+  group_by(Date, Parameter, Site, Site.Name) %>%
+  summarize(Value = mean(Value),
+            Discharge = mean(Discharge)) %>%
+  spread(key = Parameter, value = Value) %>% 
+  rename(pH = '00400', total.coliform = '31501', 
+         Discharge2 = '00060', total.nitrogen = '00600', 
+         total.phosphorus = '00665', total.cell = '95200',
+         total.coli = '31501', F.coli.7 = '31625', F.coli.45 = '31616',
+         F.strep.strep = '31673', F.strep.ente = '31679') %>%
+  mutate(Year = year(Date), 
+         Month = month(Date)) %>%
+  select(-Discharge2) 
+
 
 #plotting pH of different sites; color by site
-pH.plot <- ggplot(bestsites.wq.skinny, aes(x = Year, y = pH, color = Site)) +
+pH.plot <- ggplot(bestsites.bac.dis.skinny, aes(x = Date, y = pH, color = Site.Name)) +
   geom_point(alpha = 0.5) +
   ggtitle("pH of Sites in Missiouri River Basin") +
-  labs(x = "Year", y = "pH") +
+  labs(x = "Date", y = "pH") +
   ylim(c(5.0, 10))
-print(pH.plot)
+print(pH.plot) #pH disappears when I just do it by month
 
-#violin plot of ph; should we take out the pH that is 0.1 because that is not a possible value?
-ph.violin.plot <- ggplot(bestsites.wq.skinny, aes(x = Date, y = pH)) +
+#coliform plots
+coli.plot <- ggplot(bestsites.bac.dis.skinny, aes(x = Date, y = F.coli.7,
+                                                  color = Site.Name)) +
+  geom_point()
+print(coli.plot)
+
+coli.plot.violin.7 <- ggplot(bestsites.bac.dis.skinny, aes(x = Year, y = F.coli.7)) +
   geom_violin() +
-  facet_wrap(~Site) +
-  labs(x = "Date", y = "pH")
-print(ph.violin.plot)
+  facet_wrap(~Site.Name)
+print(coli.plot.violin.7) #only 8 out of 22 sites have this data for 2019
 
-#plot of TN over time
-TN.plot <- ggplot(bestsites.wq.skinny, 
-                  aes(x = Date, y = total.nitrogen)) +
-  geom_point() +
-  geom_smooth() +
-  labs(x = "Date", y = "Total Nitrogen (mg/L)")
-print(TN.plot)
-
-#plot of TN over time facet by site
-TN.plot.site <- ggplot(bestsites.wq.skinny, 
-                       aes(x = Date, y = total.nitrogen)) +
+coli.plot.strep <- ggplot(bestsites.bac.dis.skinny, aes(x = Date, y = F.strep.strep)) +
   geom_violin() +
-  facet_wrap(~Site) +
-  labs(x = "Date", y = "Total Nitrogen (mg/L)")
-print(TN.plot.site)
+  facet_wrap(~Site.Name)
+print(coli.plot.strep) #not many data over time
 
-#plot of TP over time facet by site
-TP.plot.site <- ggplot(bestsites.wq.skinny %>% filter(Date > 1988-01-01), 
-                                   aes(x = Date, y = total.phosphorus)) +
+coli.plot.45 <- ggplot(bestsites.bac.dis.skinny, aes(x = Date, y = F.coli.45)) +
   geom_violin() +
-  facet_wrap(~Site) +
-  labs(x = "Date", y = "Total Phosphorus (mg/L)")
-print(TP.plot.site)
+  facet_wrap(~Site.Name)
+print(coli.plot.45) #not much data over time
 
-#selecting sites with only total coliform data
-bestsites.tc <- bestsites.wq.skinny %>%
-   filter(Site == "06775900" | Site == "06810000" | Site == "06856600" |
-            Site == "06902000" | Site == "06934500" | Site == "06905500")
+coli.plot.ente <- ggplot(bestsites.bac.dis.skinny, aes(x = Date, y = F.strep.ente)) +
+                                                      
+  geom_violin() +
+  facet_wrap(~Site.Name)
+print(coli.plot.ente) #not much over time; sampling stops in 1978
+
+#selecting sites with F.Coli 0.7 data overtime 
+bestsites.coli <- bestsites.bac.dis.skinny %>%
+   filter(Site == "06921070" | Site == "06926510" | Site == "06902000" | 
+            Site == "06934500" | Site == "06905500")
   
 #plot of total coliform by date
-TC.plot <- ggplot(bestsites.wq.skinny, aes(x = Date, y = total.coliform)) +
+F.coli.7.plot <- ggplot(bestsites.coli, aes(x = Date, y = F.coli.7)) +
   geom_violin() +
-  facet_wrap(~Site) +
-  labs(x = "Date", y = "Total Coliform (cfu/100 ml)")
-print(TC.plot)
+  facet_wrap(~Site.Name) +
+  labs(x = "Date",
+       y = expression("Fecal coliforms filtered to 0.7 " * mu *m *  " (cfu / 100 ml)"))
+print(F.coli.7.plot)
 
-#plot of TP with 3 sites that have total coliform, facet by site
-TP.plot.2 <- ggplot(bestsites.wq.skinny, aes(x = Date, y = total.phosphorus)) +
+#plot of F.coli.7 over time 
+F.coli.7.time.plot <- ggplot(bestsites.coli, 
+                       aes(x = Date, y = F.coli.7)) +
   geom_point() +
-  geom_smooth(method = "lm") +
-  facet_wrap(~Site) +
-  xlim(as.Date(c("1969-01-01", "1980-01-01"))) +
-  theme_bw() +
-  labs(x = "Date", y = "Total Phosphorus (mg/L)")
-print(TP.plot.2)
+  labs(x = "Date", 
+       y = expression("Fecal coliforms filtered to 0.7 " * mu *m *  " (cfu / 100 ml)")) +
+  xlim(as.Date(c("1975-01-01", "2020-01-01")))
+print(F.coli.7.time.plot)
 
-#plot of TP over time with 3 sites that have total coliform
-TP.plot <- ggplot(bestsites.wq.skinny, 
-                       aes(x = Date, y = total.phosphorus)) +
+#plot of fecal coliform 0.7 facet by site
+F.coli.7.site.plot <- ggplot(bestsites.coli,
+                             aes(x = Date, y = F.coli.7)) +
   geom_point() +
-  geom_smooth(method = "lm") +
-  labs(x = "Date", y = "Total Phosphorus (mg/L)") +
-  xlim(as.Date(c("1969-01-01", "2020-01-01"))) +
-  theme(axis.title.x=element_blank())
-print(TP.plot)
+  labs(x = "Date", 
+       y = expression("Fecal coliforms filtered to 0.7 "* mu *m *" (cfu / 100 ml)")) +
+  xlim(as.Date(c("1975-01-01", "2020-01-01"))) +
+  facet_wrap(~Site.Name)
+print(F.coli.7.site.plot)
 
-#grid arrange for TP graphs
-grid.arrange(TP.plot, TP.plot.2)
 
-#plot of TN with 3 sites that have total coliform
-TN.plot.2 <- ggplot(bestsites.wq.skinny, aes(x = Date, y = total.nitrogen)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  labs(x = "Date", y = "Total Nitrogen (mg/L)") +
-  xlim(as.Date(c("1969-01-01", "2020-01-01"))) +
-  theme(axis.title.x=element_blank())
-print(TN.plot.2)
-
-#TN over time facet by site
-TN.plot.site <- ggplot(bestsites.wq.skinny, 
-                       aes(x = Date, y = total.nitrogen)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  facet_wrap(~Site) +
-  labs(x = "Date", y = "Total Nitrogen (mg/L)") +
-  xlim(as.Date(c("1969-01-01", "2020-01-01"))) +
-  theme_bw()
-print(TN.plot.site) 
-
-#grid arrange for TN over time
-grid.arrange(TN.plot.2, TN.plot.site)
+#grid arrange for F.coli.7  over time
+grid.arrange(F.coli.7.time.plot, F.coli.7.site.plot)
 
 #plot of pH with 3 sites that have total coliform
 ph.plot.2 <- ggplot(bestsites.wq.skinny, aes(x = Date, y = pH)) +
@@ -224,138 +190,80 @@ print(ph.plot)
 #grid arrange for pH plot
 grid.arrange(ph.plot, ph.plot.2)
 
-#plot of total coliform over time
-TC.plot.time <- ggplot(bestsites.wq.skinny,
-                  aes(x = Date, y = total.coliform)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  labs(x = "Date", y = "Total Coliform (cfu/100 ml)") +
-  xlim(as.Date(c("1969-01-01"," 1975-12-31"))) +
-  facet_wrap(~Site) +
-  theme_set(theme_bw())
-print(TC.plot.time)
+#### seasonal trend plot for fecal coliform ####
 
-#plot of total coliform over time
-tc.time <- ggplot(bestsites.wq.skinny, aes(x = Date, y = total.coliform)) +
-  geom_point() + 
-  geom_smooth(method = "lm") +
-  xlim(as.Date(c("1969-01-01", "1975-01-01"))) +
-  labs(x = "Date", y = "Total Coliform (cfu/100 ml)") +
-  theme(axis.title.x=element_blank())
-print(tc.time) 
-
-#grid arrange to put the plots on one figure
-grid.arrange(tc.time, TC.plot.time, nrow = 2)
-
-
-#### seasonal trend plot for total coliform ####
-
-#monthly observations of nutrients, discharge, pH and total coliform
-monthly.obs <- bestsites.wq.skinny %>%
+#monthly observations Fecal coliform (0.7)
+monthly.obs <- bestsites.coli %>%
   mutate(month = month(Date)) %>%
   group_by(month) %>%
   select(-Date) %>%
   summarize_all(funs(sum(!is.na(.))))
 
-#monthly summary of total coliform data
-totalcoli.monthly.summaries <- bestsites.tc %>%
+#monthly summary of Fecal Coliform (0.7)
+F.coli.7.monthly.summaries <- bestsites.coli %>%
   mutate(month = month(Date)) %>%
   group_by(month) %>%
-  select(month, total.coliform) %>%
+  select(month, F.coli.7) %>%
   summarize_all(funs(Median = median(., na.rm = T),
                      quant25 = quantile(., .25, na.rm = T),
                      quant75 = quantile(., .75, na.rm = T)))
 
 
-#total coliform season plot
-totalcoli.seasons.plot <- ggplot(totalcoli.monthly.summaries, aes(x = month)) +
+#Fecal Coliform (0.7) season plot
+F.coli.7.seasons.plot <- ggplot(F.coli.7.monthly.summaries, aes(x = month)) +
   geom_ribbon(aes(ymin = quant25, ymax = quant75), alpha = 0.3) +
   geom_line(aes(y = Median)) +
   scale_x_continuous(name = "Month",
                      breaks = c(1,2,3,4,5,6,7,8,9,10,11,12)) +
-  labs(y = "Total coliforms (cfu / 100 ml)") 
-print(totalcoli.seasons.plot) #high total coliform amounts in June, a spike in April, and a spike in October; overlay with discharge?
+  labs(y = expression("Fecal coliforms filtered to 0.7 " * mu *m *  " (cfu / 100 ml)")) 
+print(F.coli.7.seasons.plot) #high total coliform amounts in June, a spike in April, and a spike in October; overlay with discharge?
 
 #daily summary of total coliform data; daily summary of total coliform for day of year for all years
-totalcoli.daily.summaries <- bestsites.wq.skinny %>%
+F.coli.7.daily.summaries <- bestsites.coli %>%
   mutate(daynum = day(Date)) %>%
   group_by(daynum) %>%
-  select(daynum, total.coliform) %>%
+  select(daynum, F.coli.7) %>%
   summarize_all(funs(Median = median(., na.rm = T),
                      quant25 = quantile(., .25, na.rm = T),
                      quant75 = quantile(., .75, na.rm = T)))
 
-#daily total coliform plot
-totalcoli.daily.plot <- ggplot(totalcoli.daily.summaries, aes(x = daynum)) +
+#daily fecal coliform 0.7 plot
+F.coli.7.daily.plot <- ggplot(F.coli.7.daily.summaries, aes(x = daynum)) +
   geom_ribbon(aes(ymin = quant25, ymax = quant75), alpha = 0.3) +
   geom_line(aes(y = Median)) +
   scale_x_continuous(name = "Day of Year") + 
-  labs(y = "Total coliforms (cfu / 100 ml)")
-print(totalcoli.daily.plot)
+  labs(y = expression("Fecal coliforms filtered to 0.7 " * mu *m *  " (cfu / 100 ml)"))
+print(F.coli.7.daily.plot)
 
+#### Time Series Analysis ####
 
-#### TN, TP, pH, TC graphs ####
+###Grand River Time Series###
 
-#discharge and TN plot over time
-#plot of discharge and TN over time (dygraph)
-Total_Nitrogen <- with(bestsites.wq.skinny, xts(x = total.nitrogen, order.by = Date))
-Discharge <- with(bestsites.wq.skinny, xts(x = Discharge, order.by = Date))
+#filter to only get Grand River site
+grand.river.data <- bestsites.coli %>%
+  select(Date, Site, Site.Name, F.coli.7, 
+         Year, Month) %>%
+  filter(Site == '06902000') %>%
+  na.omit()
 
-DyData.TN <- cbind(Total_Nitrogen, Discharge)
+#seeing if linear regression makes sense for this timeseries
+GrandRiverRegressionPlot <-
+  ggplot(grand.river.data, aes(x = Date, y = F.coli.7)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "#c13d75ff") +
+  labs(x = "Date", y = expression("Fecal coliforms filtered to 0.7 " * mu *m *  " (cfu / 100 ml)")) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12)) +
+  xlim(as.Date(c("1975-01-01", "2020-01-01")))
+print(GrandRiverRegressionPlot) #looks like a negative trend
 
-#filtering to include only data from 
+#creating time series of data
+grand.river_ts <- ts(grand.river.data[[4]], frequency = 24)
 
-dygraph(DyData.TN) %>% 
-  dySeries("Total_Nitrogen", axis = "y2") %>% 
-  dyAxis(name = "y", label = "Discharge (cfs)") %>%
-  dyAxis(name = "y2", label = "Total Nitrogen (mg/l)") %>%
-  dyRangeSelector()
+#decomposing timeseries data using 'stl'
+grand.river_decomposed <- stl(grand.river_ts, s.window = "periodic")
 
-#discharge and TP plot over time
-Total_Phosphorus <- with(bestsites.wq.skinny, xts(x = total.phosphorus, order.by = Date))
-Discharge <- with(bestsites.wq.skinny, xts(x = Discharge, order.by = Date))
-
-DyData.TP <- cbind(Total_Phosphorus, Discharge)
-
-#plotting dygraph with discharge and TP over time
-dygraph(DyData.TP) %>% 
-  dySeries("Total_Phosphorus", axis = "y2") %>% 
-  dyAxis(name = "y", label = "Discharge (cfs)") %>%
-  dyAxis(name = "y2", label = "Total Phosphorus (mg/l)") %>%
-  dyRangeSelector()
-
-#ggplot of discharge and TN
-discharge.TN <- ggplot(bestsites.wq.skinny, aes(x = Date)) +
-  geom_line(aes(y = Discharge, color = "blue")) +
-  geom_line(aes(y = total.nitrogen, color = "black")) +
-  scale_y_continuous(sec.axis = sec_axis(name = "Total N (mg/l)")) +
-  xlim(c("1970-01-01", "2010-01-01"))
-print(discharge.TN)
-
-#discharge and pH plot over time
-pH <- with(bestsites.wq.skinny, xts(x = pH, order.by = Date))
-Discharge <- with(bestsites.wq.skinny, xts(x = Discharge, order.by = Date))
-
-DyData.ph <- cbind(pH, Discharge)
-
-#plotting dygraph with discharge and TP over time
-dygraph(DyData.ph) %>% 
-  dySeries("pH", axis = "y2") %>% 
-  dyAxis(name = "y", label = "Discharge (cfs)") %>%
-  dyAxis(name = "y2", label = "pH") %>%
-  dyRangeSelector()
-
-#plot of discharge and TC over time (dygraph)
-Total_Coliform <- with(bestsites.tc, xts(x = total.coliform, order.by = Date))
-Discharge <- with(bestsites.wq.skinny, xts(x = Discharge, order.by = Date))
-
-DyData <- cbind(Total_Coliform, Discharge)
-
-dygraph(DyData) %>% 
-  dySeries("Total_Coliform", axis = "y2") %>% 
-  dyAxis(name = "y", label = "Discharge (cfs)") %>%
-  dyAxis(name = "y2", label = "Total Coliform (cfu per 100 ml)", valueRange = c(0, 600000)) %>%
-  dyRangeSelector()
+#plotting decomposed time series
+plot(grand.river.data)
 
 #### Linear Models ####
 
@@ -432,3 +340,249 @@ ph.mod <- lm(data = bestsites.wq.skinny, pH ~ Date)
 summary(ph.mod) #for every day increase
 
 #Linear models were run for total nitrogen, total phosphorus, total coliform, and pH to determine if there were significant patterns in the data.
+
+
+####Exploratory data analysis (droughts)####
+
+#reading in file with site list and names
+site.list <- read.csv("./Data/Processed/bestsiteslist.csv", 
+                      colClasses=c("site_no"="character"))
+
+#all bestsites for the hucs
+bestsites1021.1026.1027.1030 <- 
+  c("06775900", "06794000", "06877600", "06874000", "06892350", 
+    "06887500", "06934500", "06894000")
+bestsites1024.1025 <- c("06844500", "06856600", "06818000", "06810000")
+bestsites1020.1023 <- c("06768000", "06805500", "06775900", "06794000", 
+                        "06800000", "06800500", "06609500", "06610000")
+bestsites1028.1029 <- c("06902000", "06905500", "06921070", "06926510")
+
+#putting all best sites into one vector
+best.sites <- c(bestsites1021.1026.1027.1030, bestsites1024.1025, 
+                bestsites1020.1023, bestsites1028.1029)
+best.sites <- unique(best.sites)
+
+#reading in daily discharge values for best sites in each huc
+bestsites.discharge <- readNWISdv(siteNumbers = c(best.sites),
+                                  parameterCd = "00060", #discharge
+                                  startDate = "",
+                                  endDate = "")
+
+#renaming columns
+bestsites.discharge <- renameNWISColumns(bestsites.discharge)
+
+#reading in site info for 06921070
+stationInfo <- readNWISsite(siteNumber = "06921070")
+
+#filtering for just one site 
+site.1.dis <- bestsites.discharge %>%
+  filter(site_no == "06921070") %>%
+
+#Check for missing days, if so, add NA rows:
+if(as.numeric(diff(range(site.1.dis$Date))) != (nrow(site.1.dis)+1)){
+  fullDates.dis <- seq(from=min(site.1.dis$Date),
+                   to = max(site.1.dis$Date), by="1 day")
+  fullDates.dis <- data.frame(Date = fullDates.dis, 
+                          agency_cd = site.1.dis$agency_cd[1],
+                          site_no = site.1.dis$site_no[1],
+                          stringsAsFactors = FALSE)
+  dailyQ <- full_join(site.1.dis, fullDates.dis,
+                      by=c("Date","agency_cd","site_no")) %>%
+    arrange(Date)
+}
+
+if(as.numeric(diff(range(bestsites.discharge$Date))) != (nrow(bestsites.discharge)+1)){
+  fullDates <- seq(from=min(bestsites.discharge$Date),
+                   to = max(bestsites.discharge$Date), by="1 day")
+  fullDates <- data.frame(Date = fullDates, 
+                          agency_cd = bestsites.discharge$agency_cd[1],
+                          site_no = bestsites.discharge$site_no[1],
+                          stringsAsFactors = FALSE)
+  dailyQ <- full_join(bestsites.discharge, fullDates,
+                      by=c("Date","agency_cd","site_no")) %>%
+    arrange(Date)
+}
+
+#calculate a moving average to determine 7 day average 
+ma <- function(x, n=7){stats::filter(x, rep(1/n, n), sides=1)}
+
+
+dailyQ.7.avg <- dailyQ %>%
+  mutate(rollMean = as.numeric(ma(Flow)),
+         day.of.year = as.numeric(strftime(Date, 
+                                           format = "%j")))
+
+#summarizing historical data
+summaryQ <- dailyQ.7.avg %>%
+  group_by(day.of.year) %>%
+  summarize(p75 = quantile(rollMean, probs = .75, na.rm = TRUE),
+            p25 = quantile(rollMean, probs = .25, na.rm = TRUE),
+            p10 = quantile(rollMean, probs = 0.1, na.rm = TRUE),
+            p05 = quantile(rollMean, probs = 0.05, na.rm = TRUE),
+            p00 = quantile(rollMean, probs = 0, na.rm = TRUE)) 
+
+#looking at current year (2019) data
+current.year <- as.numeric(strftime(Sys.Date(), format = "%Y"))
+
+#summarizing data for 2017
+summary.0 <- summaryQ %>%
+  mutate(Date = as.Date(day.of.year - 1, 
+                        origin = paste0(current.year-2,"-01-01")),
+         day.of.year = day.of.year - 365)
+
+#summarizing data for 2018
+summary.1 <- summaryQ %>%
+  mutate(Date = as.Date(day.of.year - 1, 
+                        origin = paste0(current.year-1,"-01-01")))
+
+#summarizing data for 2019
+summary.2 <- summaryQ %>%
+  mutate(Date = as.Date(day.of.year - 1, 
+                        origin = paste0(current.year,"-01-01")),
+         day.of.year = day.of.year + 365)
+
+#putting data for 2017, 2018, and 2019 in one table
+summaryQ <- bind_rows(summary.0, summary.1, summary.2) 
+
+smooth.span <- 0.3
+
+#predicting percentiles for 2017 -2019 low flow data
+summaryQ$sm.75 <- predict(loess(p75~day.of.year, data = summaryQ, span = smooth.span))
+summaryQ$sm.25 <- predict(loess(p25~day.of.year, data = summaryQ, span = smooth.span))
+summaryQ$sm.10 <- predict(loess(p10~day.of.year, data = summaryQ, span = smooth.span))
+summaryQ$sm.05 <- predict(loess(p05~day.of.year, data = summaryQ, span = smooth.span))
+summaryQ$sm.00 <- predict(loess(p00~day.of.year, data = summaryQ, span = smooth.span))
+
+#filtering to only have certain columns in the data table for 2018 - 2020 discharge
+summaryQ <- select(summaryQ, Date, day.of.year,
+                   sm.75, sm.25, sm.10, sm.05, sm.00) %>%
+  filter(Date >= as.Date(paste0(current.year-1,"-01-01")))
+
+#filtering to only have latest years in one dataframe (2018 - 2019 data)
+latest.years <- dailyQ.7.avg %>%
+  filter(Date >= as.Date(paste0(current.year-1,"-01-01"))) %>%
+  mutate(day.of.year = 1:nrow(.))
+
+#plotting low flow data and intervals 
+
+drought.plot <- ggplot(data = summaryQ, aes(x = day.of.year)) +
+  geom_ribbon(aes(ymin = sm.25, ymax = sm.75, fill = "Normal")) +
+  geom_ribbon(aes(ymin = sm.10, ymax = sm.25, fill = "Drought Watch")) +
+  geom_ribbon(aes(ymin = sm.05, ymax = sm.10, fill = "Drought Warning")) +
+  geom_ribbon(aes(ymin = sm.00, ymax = sm.05, fill = "Drought Emergency")) +
+  scale_y_log10(limits = c(1,1000)) +
+  geom_line(data = latest.years, aes(x=day.of.year, 
+                                     y=rollMean, color = "7-Day Mean"),size=2) +
+  geom_vline(xintercept = 365) 
+
+print(drought.plot)
+
+#info for plotting 
+mid.month.days <- c(15, 45, 74, 105, 135, 166, 196, 227, 258, 288, 319, 349)
+month.letters <- c("J","F","M","A","M","J","J","A","S","O","N","D")
+start.month.days <- c(1, 32, 61, 92, 121, 152, 182, 214, 245, 274, 305, 335)
+label.text <- c("Normal","Drought Watch","Drought Warning","Drought Emergency")
+
+title.text <- paste0(stationInfo$station_nm,"\n",
+                     "Record Start = ", min(dailyQ$Date),
+                     "  Number of years = ",
+                     as.integer(as.numeric(difftime(time1 = max(dailyQ$Date), 
+                                                    time2 = min(dailyQ$Date),
+                                                    units = "weeks"))/52.25),
+                     "\nDate of plot = ",Sys.Date(),
+                     "  Drainage Area = ",stationInfo$drain_area_va, "mi^2")
+
+#plotting a better plot for 06921070
+styled.plot <- drought.plot +
+  scale_x_continuous(breaks = c(mid.month.days, 365+mid.month.days),
+                     labels = rep(month.letters, 2),
+                     expand = c(0, 0),
+                     limits = c(0,730)) +
+  annotation_logticks(sides = "l") +
+  expand_limits(x = 0) +
+  annotate(geom = "text", 
+           x = c(182,547), 
+           y = 1, 
+           label = c(current.year-1, current.year), size = 4) +
+  theme_bw() + 
+  theme(axis.ticks.x = element_blank(),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()) +
+  labs(list(title = title.text,
+            y = "7-day moving average", x = "Month")) +
+  scale_fill_manual(name = "", breaks = label.text,
+                    values = c("red","orange","yellow","darkgreen")) +
+  scale_color_manual(name = "", values = "black") +
+  theme(legend.position="bottom")
+
+print(styled.plot)
+
+#filtering dataframe to get 7 day average
+avg.dis <- bestsites.discharge %>%
+  select(site_no, Date, Flow) %>%
+  mutate(Year = year(Date),
+         Month = month(Date), 
+         Day = day(Date)) %>%
+  group_by(site_no, Year) %>%
+  arrange(Date) %>%
+  mutate(rM = rollmean(Flow, 7, na.pad = TRUE, align = "right")) %>%
+  na.omit()
+
+#creating a dataframe with just flow data and   
+Q.7.avg <- avg.dis %>%
+  select(site_no, Date, Flow, Year, Month, Day) %>%
+  mutate(sv.avg = rollmean(Flow, 7, na.pad = TRUE, align = "right"))
+
+#calculate recurrance interval(first add rank column and order from least to greatest)
+
+#calculate probability
+
+#calculating 7-day average for discharge then will group by year
+avg.dis$seven.day.avg <- runMean(avg.dis$Flow, 7, cumulative = TRUE)
+
+n = 7
+n <- 7
+avg.dis$sevenday.avg <- rowMeans(avg.dis[seq(1, nrow(avg.dis$Flow), n),])
+
+svMean <- matrix(0, nrow = length(avg.dis$Flow)/7, ncol = 1)
+
+discharge <- avg.dis$Flow
+count = 1
+i = 1
+for(i in 1:(length(discharge)/7)){
+  svMean[count,1] <-
+    mean(discharge[i:i+7], na.rm = TRUE)
+  count = count + 1
+  i = i + 8
+}
+  
+avg.dis$SV.avg <- NA
+
+dis <- avg.dis$Flow
+seq <- seq(1, length(dis), 7)
+dis_seven_mean <- sapply(seq, function(i) {mean(dis[i:(i+7)])})
+
+
+#group by year and summarize to get min Flow for each year
+min.avg.dis <- avg.dis %>%
+  select(Date, Year, Flow, Month, Day, site_no, 
+         seven.day.avg) %>%
+  group_by(Year, site_no) %>%
+  summarise(min(seven.day.avg))
+
+#adding rank column to rank min discharge amounts
+min.avg.dis$rank <- seq.int(nrow(min.avg.dis))
+
+#ordering data to be by minimum flow amount
+min.avg.dis <- sort(min.avg.dis$`min(seven.day.avg)`)
+         
+#calculating the mean 
+n.colmeans = function(avg.dis, n = 7){
+    aggregate(x = avg.dis,
+              by = list(gl(ceiling(nrow(avg.dis)/n), n)[1:nrow(avg.dis)]),
+              FUN = mean)
+  }  
+
+  
+  
+  
