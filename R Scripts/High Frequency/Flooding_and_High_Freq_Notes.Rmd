@@ -10,9 +10,11 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+pacman::p_load(tidyverse, dataRetrieval, dygraphs, maps, sf, xts)
+
 getwd()
 highfreqsiteinfo <- 
-  read.csv("./Data/Raw/highfreqsiteinfo.csv")
+  read.csv("./Data/Raw/highfreqsiteinfo.csv", as.is=TRUE)
 
 highfreqsite2019 <- highfreqsiteinfo %>%
   filter(end_date > "2019-03-31") #4 sites have high freq N data in 2019
@@ -25,6 +27,7 @@ highfreqsites.DN <- readNWISuv(site = c("06808500", "06817000", "06892350", "069
                                endDate = "2019-11-01") %>%
                                renameNWISColumns() %>%
                                rename(Nitrate_mgl = 6)
+highfreqsites2019 <- write.csv(highfreqsites.DN, "./Data/Raw/highfreqsite2019.csv")
 
 #individual sites
 Hermann <- highfreqsites.DN %>%
@@ -39,6 +42,7 @@ Randolph <- highfreqsites.DN %>%
 library(cowplot)
 ```
 
+<<<<<<< HEAD
 All directions from Kateri in <>
 < Setup the global options for the R chunks in your document >
 
@@ -62,6 +66,92 @@ All directions from Kateri in <>
 
 <Include text sections to accompany these R chunks to explain the reasoning behind your workflow, rationale for your approach, and the justification of meeting or failing to meet assumptions of tests.>
 
+=======
+
+```{r}
+highfreqsites1718 <- readNWISuv(site = c("06808500", "06817000", "06892350", 
+                                         "06934500", "06892513", "06902000"), 
+                               parameterCd = c("00060", "99133"), 
+                               # Discharge in cfs & Nitrate in mg/l NO3-N
+                               startDate = "2017-01-01",
+                               endDate = "2019-01-01") %>%
+                               renameNWISColumns() %>%
+                               rename(Nitrate_mgl = 6)
+
+ggplot(highfreqsites1718, aes(x=dateTime, y=Nitrate_mgl, color = site_no)) +
+  geom_line()
+
+Hermann <- highfreqsites1718 %>%
+           filter(site_no=="06934500")
+Desoto <- highfreqsites1718 %>%
+          filter(site_no=="06892350")
+Clarinda <- highfreqsites1718 %>%
+            filter(site_no=="06817000")
+Randolph <- highfreqsites1718 %>%
+            filter(site_no=="06808500")
+Sumner <- highfreqsites1718 %>%
+            filter(site_no=="06902000")
+Shawnee <- highfreqsites1718 %>%
+            filter(site_no == "6892513")
+```
+
+
+```{r}
+dygraph(
+  cbind(
+    Flow = xts(Hermann$Flow_Inst, order.by = Hermann$dateTime), 
+    Nitrate = xts(Hermann$Nitrate_mgl, order.by = Hermann$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector() #Oct
+
+dygraph(
+  cbind(
+    Flow = xts(Desoto$Flow_Inst, order.by = Desoto$dateTime), 
+    Nitrate = xts(Desoto$Nitrate_mgl, order.by = Desoto$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector() #Dec
+
+dygraph(
+  cbind(
+    Flow = xts(Clarinda$Flow_Inst, order.by = Clarinda$dateTime), 
+    Nitrate = xts(Clarinda$Nitrate_mgl, order.by = Clarinda$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector() #mid Oct
+
+dygraph(
+  cbind(
+    Flow = xts(Randolph$Flow_Inst, order.by = Randolph$dateTime), 
+    Nitrate = xts(Randolph$Nitrate_mgl, order.by = Randolph$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector() #mid Oct
+
+dygraph(
+  cbind(
+    Flow = xts(Sumner$Flow_Inst, order.by = Sumner$dateTime), 
+    Nitrate = xts(Sumner$Nitrate_mgl, order.by = Sumner$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector() #beg sept
+
+dygraph(
+  cbind(
+    Flow = xts(Shawnee$Flow_Inst, order.by = Shawnee$dateTime), 
+    Nitrate = xts(Shawnee$Nitrate_mgl, order.by = Shawnee$dateTime)
+  )
+) %>% 
+  dySeries("Nitrate", axis = "y2") %>%
+  dyRangeSelector()
+```
+>>>>>>> f971452bbc172a905cf2296de78d7c94481e471d
 
 ## Sites
 
@@ -91,7 +181,7 @@ RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, 
   geom_point() +
   labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
        title="West Nishnabotna River in Randolph, IA")
-
+print(RandolphStorm.plot)
 #semi-clockwise motion, negative slope, so diluting
 ```
 
@@ -135,3 +225,49 @@ The percent of discharge coming from baseflow correlates with the general size o
 Because I was disappointed in my lack of results, I chose to also look at the 2018 flood in October. This wasn't as big as the one in March.
 
 There were clearer hysteresis plots that were able to be produced. Clarinda, Randolph, and Shawnee had counterclockwise, diluting storms with negative slope. Meaning the quickflow had low concentration of Nitrate. 
+
+
+#Questions
+- Land use: how do use?
+- Can I look at a storm event in a river and assume that nitrogen will behave the same way every time during that storm event?
+- Look at definition of drought to see if there have been more frequent occurances of drought over time?
+7Q10 look at 10 years of data. what is average min 7 day flow. Avg low flowPath. 
+- if discharge is below 
+- look at daily values for C-Q plots to see whether systems are flushing versus diluting
+
+```{r}
+library(sf)
+getwd()
+
+CDL2018<- foreign::read.dbf("C:/Users/19524/Downloads/polygonclip_20191115123758_91314621/CDL_2018_clip.tif.vat.dbf", as.is=TRUE)
+
+
+
+
+```
+
+
+# C-Q with daily values
+
+```{r}
+bestsites.DNP <- read.csv("./Data/Raw/bestsites.DNP.csv")
+unique(bestsites.DNP$parm_cd)
+
+bestsites.DNP.skinny <- bestsites.DNP %>%
+  dplyr::select(Site = site_no,
+         Date = Date,
+         Parameter = parm_cd,
+         Value = result_va,
+         Discharge = Discharge) %>%
+  group_by(Date, Parameter, Site) %>%
+  summarize(Value = mean(Value),
+            Discharge = mean(Discharge)) %>%
+  spread(key = Parameter, value = Value) %>% 
+  rename(Discharge2 = '60', total.nitrogen = '600', 
+         total.phosphorus = '665') %>%
+  mutate(Year = year(Date))
+
+ggplot(bestsites.DNP.skinny, aes(x=Discharge2, y= total.nitrogen)) +
+  geom_point()
+```
+
