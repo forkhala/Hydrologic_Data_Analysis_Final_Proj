@@ -57,6 +57,7 @@ st_crs(all.counties)
 county.pop.spatial <- merge(all.counties, countypop)
 st_crs(county.pop.spatial)
 
+write.csv(county.pop.spatial, "./Data/Processed/countypop.spatial.csv")
 
 #read in best sites with spatial
 best.sites.list <- read.csv("./Data/Processed/bestsiteslist.csv", as.is=TRUE)
@@ -87,6 +88,8 @@ bestsites.countypop.info <- bestsites.countypop.info %>%
 
 #full list with site no, site name, population and county info
 write.csv(bestsites.countypop.info, file = "./Data/Processed/bestsites.countypop.info.csv")
+
+bestsites.countypop.info <- read.csv("./Data/Processed/bestsites.countypop.info.csv", as.is=TRUE)
 
 bestsites.WQ <- read.csv("./Data/Raw/bestsites.WQ.csv")
 unique(bestsites.WQ$parm_cd)
@@ -136,6 +139,9 @@ formula(step.mod)
 avPlots(step.mod)
 
 #lm2
+WQ.countypop.joined$Year.c <- WQ.countypop.joined$Year - mean(WQ.countypop.joined$Year)
+WQ.countypop.joined$population.c <- WQ.countypop.joined$popultion - mean(WQ.countypop.joined$population)
+
 mod2 <- lm(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population + 
              factor(huc4))
 summary(mod2)
@@ -157,4 +163,6 @@ mod4 <- lm(data=WQ.countypop.joined, total.nitrogen ~ Discharge)
 plot(WQ.countypop.joined$Discharge, WQ.countypop.joined$total.nitrogen)
 plot(log(WQ.countypop.joined$total.nitrogen), log(WQ.countypop.joined$total.phosphorus))
 
-
+#centering number makes them smaller
+#divide people by 10 or 100 so that it is your effect for every 100 people or something
+#leave site out, huc as random effect
