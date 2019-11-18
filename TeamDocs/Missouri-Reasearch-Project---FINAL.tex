@@ -30,6 +30,7 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -104,19 +105,6 @@
 \maketitle
 
 \newpage
-
-\textless{}Arrow brackets are used for annotating the RMarkdown files.
-Text within these brackets should not appear in the final version of the
-PDF document\textgreater{}
-
-\textless{}\textbf{General Guidelines}\textgreater{} \textless{}1. Write
-in scientific style\textgreater{} \textless{}2.
-\href{https://rmarkdown.rstudio.com/lesson-3.html}{Global options for R
-chunks} should be set so that only relevant output is
-displayed\textgreater{} \textless{}3. Make sure your final knitted PDF
-looks professional. Format tables appropriately, size figures
-appropriately, make sure bulleted and numbered lists appear as such,
-avoid awkwardly placed page breaks, etc.\textgreater{}
 
 \hypertarget{rationale-and-research-questions}{%
 \section{Rationale and Research
@@ -335,6 +323,147 @@ Basin?}\label{question-1-how-have-changes-in-discharge-interacted-with-nutrient-
 events have on the water quality and quantity of rivers in the Missouri
 River Basin areas of
 interest?}\label{question-2-what-effects-do-specific-flood-and-drought-events-have-on-the-water-quality-and-quantity-of-rivers-in-the-missouri-river-basin-areas-of-interest}}
+
+\hypertarget{flooding}{%
+\subsubsection{Flooding}\label{flooding}}
+
+Population of each county (from the 2010 census) in the four states that
+make up our region area of interest (Kansas, Nebraska, Missouri, and
+Iowa) were found using the ``counties'' database from R's
+\texttt{noncensus} package. We decided that population could be used as
+a proxy for land cover, as a greater population would indicate more
+development and fewer agricultural fields or open spaces.
+
+Baseflow and quickflow from each site were determined with the
+\texttt{EcoHydRology} package. After linearly interpolating the
+instantaneous discharge data in order to account for gaps, total
+baseflow volume was found and the percent of discharge exported as
+baseflow was calculated. We predicted that a site within a county with a
+large population would have a lower percent of its discharge exported as
+baseflow, because quickflow would be more common in areas with a lot of
+development. Similarly, we also predicted that a site within a county
+with a small population would have a greater percentage of its discharge
+coming from baseflow. More developed areas often have flashier floods,
+and so we were curious to see whether we can relate population to an
+element of flashiness - the percentage of discharge exported as
+quickflow.
+
+Contrary to our hypotheses, greater county population does not
+contribute to a decrease in percent of discharge as baseflow (p =
+0.4199, F = 0.8067) in our sites of interest. This may be due to our
+small sample size of sites, or perhaps the size of the rivers in our
+study.
+
+High frequency nitrogen data was only available for seven sites within
+our region. In order to better understand the behavior of rivers during
+floods, we examined dygraph plots of discharge and nitrogen, and created
+hysteresis plots. Storms from the fall of 2018 (September - December)
+were examined for each river site with data from that time period. We
+chose to only look at storms that occurred in the second half of the
+year in order to avoid conflating snowpack melt and precipitation
+affects.
+
+We predicted that most rivers in the area would behave the same way, and
+that rivers would exhibit flushing behavior. We thought that flushing
+rivers would be more prevalent because of the many agricultural fields
+in our region of study, and any overland flow to the rivers would bring
+with it a high concentration of nutrients (nitrogen being one of them)
+from the fertilized fields. Our results say otherwise (Table 2). Our
+sites of interest had both positive and negative slopes in the
+hysteresis plots, and also exhibited both clockwise and counter
+clockwise directions of flow (Figure xx). The same river was analyzed
+multiple times throughout the year, and even the same river showed
+different slopes and directions in the hysteresis plots.
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule
+\begin{minipage}[b]{0.15\columnwidth}\raggedright
+Site Name\strut
+\end{minipage} & \begin{minipage}[b]{0.20\columnwidth}\raggedright
+Site Number\strut
+\end{minipage} & \begin{minipage}[b]{0.20\columnwidth}\raggedright
+Time Period\strut
+\end{minipage} & \begin{minipage}[b]{0.18\columnwidth}\raggedright
+Direction\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+Slope\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+West Nishnabotna River in Randolph, IA\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+06808500\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+Oct 7 - 13, 2018\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+counter clockwise\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+negative (Figure xx)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+Nodaway River at Clarinda, IA\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+06817000\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+Oct 8 - 12, 2018\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+clockwise\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+negative\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+Kansas River in Desoto, KS\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+06892350\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+Nov 30 - Dec 5, 2018\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+counter clockwise\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+positive\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+Missouri River at Hermann, MO\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+06934500\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+Oct 7 - 20, 2018\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+counter clockwise\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+negative\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+Mill C at Johnson Drive, Shawnee, KS\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+06892513\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+Nov 27 - Dec 4, 2018\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+clockwise\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+negative\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+Grand River, Sumner MO\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+06902000\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+Sep 6 - 10, 2018\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+clockwise\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+positive\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{figure}
+\centering
+\includegraphics{Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-1-1.pdf}
+\caption{write fig caption for this hysteresis plot}
+\end{figure}
 
 \hypertarget{question-3-what-factors-contribute-to-the-variability-of-total-nitrogen-in-the-rivers}{%
 \subsection{Question 3: What factors contribute to the variability of
