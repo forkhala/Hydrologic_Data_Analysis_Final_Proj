@@ -8,19 +8,26 @@ theme_set(theme_classic())
 
 ##### Map sites selected, water bodies, and watersheds in the study region ####
 # Gathering site nos from scripts
-bestsites1021.1026.1027.1030 <- 
-  c("06775900", "06794000", "06877600", "06874000", "06892350", 
-    "06887500", "06934500", "06894000")
-bestsites1024.1025 <- c("06844500", "06856600", "06818000", "06810000")
-bestsites1020.1023 <- c("06768000", "06805500", "06775900", "06794000", 
-                        "06800000", "06800500", "06609500", "06610000")
-bestsites1028.1029 <- c("06902000", "06905500", "06921070", "06926510")
+# bestsites1021.1026.1027.1030 <- 
+#   c("06775900", "06794000", "06877600", "06874000", "06892350", 
+#     "06887500", "06934500", "06894000")
+# bestsites1024.1025 <- c("06844500", "06856600", "06818000", "06810000")
+# bestsites1020.1023 <- c("06768000", "06805500", "06775900", "06794000", 
+#                         "06800000", "06800500", "06609500", "06610000")
+# bestsites1028.1029 <- c("06902000", "06905500", "06921070", "06926510")
+# 
+# best.sites <- c(bestsites1020.1023, bestsites1021.1026.1027.1030, 
+#                 bestsites1024.1025, bestsites1028.1029)
+# best.sites <- unique(best.sites)
 
-best.sites <- c(bestsites1020.1023, bestsites1021.1026.1027.1030, 
-                bestsites1024.1025, bestsites1028.1029)
-best.sites <- unique(best.sites)
+site.list <- read_csv("./Data/Processed/bestsiteslist.csv", col_types = cols(
+  X1 = "d", site_no = "c",site_nm = "c", huc_cd = "c", huc4 = "c", huc4_nm = "c", site_lab = "c"))%>%
+  arrange(huc4, huc_cd)
+
+site.nos <- site.list$site_no
+
 # Generate a list of selected sites with info on huc and names
-site.list <- whatNWISdata(siteNumbers = best.sites, parameterCd = "00060") %>%
+site.list <- whatNWISdata(siteNumbers = site.nos, parameterCd = "00060") %>%
   select(site_no, station_nm, huc_cd) %>%
   group_by(site_no) %>%
   summarise(site_nm = first(station_nm),
@@ -40,7 +47,7 @@ site.list <- cbind(site.list, huc4_nm)
 ########## Mapping Best Sites ##########
 
 #### Basic layers ####
-best.sites.info <- whatNWISdata(sites=best.sites)
+best.sites.info <- whatNWISdata(sites=site.nos)
 
 best.sites.lat.long <- best.sites.info %>%
   group_by(site_no) %>%
@@ -93,11 +100,11 @@ sitemap <- ggplot() +
   scale_fill_brewer(palette = "Paired") +
   geom_sf(data = best.sites.spatial, fill="black", color="black", 
           alpha = 0.7, size = 1.15) +
-  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
-        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) + 
   labs(fill = "Watershed Name",x = element_blank(), y = element_blank())+
   geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab), 
-                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4)
+                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4)+
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
+        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in"))
 
 # Caution this takes time to display, and even longer than ggsave()
 # print(sitemap)
@@ -137,12 +144,12 @@ impairedplot <- ggplot() +
   geom_sf(data = impaired.map, color = "Red")+
   scale_fill_brewer(palette = "Paired") +
   geom_sf(data = best.sites.spatial, fill="black", color="black", 
-          alpha = 0.7, size = 1.15) +
-  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
-        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) + 
+          alpha = 0.7, size = 1.15) + 
   labs(fill = "Watershed Name",x = element_blank(), y = element_blank()) +
   geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab), 
-                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4)
+                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4)+
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5), 
+        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in"))
 
 ggsave("./Figures/impaired.png", impairedplot, dpi = 300, width = 9, height = 5.3, units = "in")
 #---- Impaired map end ----
@@ -408,17 +415,17 @@ cropplot1 <- ggplot() +
   geom_sf(data = HUC4.SE, aes(fill = Name), alpha = 0.3, size = 0.45) +
   geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
+  geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.7) +
   geom_sf(data = impaired.map, aes(fill = LW_PARC_NM), color = "red", alpha = 0.8)+
   geom_sf(data = best.sites.spatial, fill="black", color="black", 
           alpha = 0.8, size = 1.15) +
   scale_fill_manual(values = colornames, name = "Watershed Names and \n Landscape Features") +
+  labs(x = element_blank(), y = element_blank())+
   geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab),
-                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4) +
+                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4)+
   theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5),
         legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) +
-  labs(x = element_blank(), y = element_blank())+
   guides(fill = guide_legend(override.aes = list(alpha = 0.2, color = NA)))
-
 
 ggsave("./Figures/cropland1.png", cropplot1, dpi = 300, width = 9, height = 5.3, units = "in")
 
@@ -428,17 +435,35 @@ cropplot2 <- ggplot() +
   geom_sf(data = HUC4.SE, fill = "gray85", alpha = 0.1, size = 0.45) +
   geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
   geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
+  geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.7) +
   geom_sf(data = impaired.map, aes(fill = LW_PARC_NM), color = "red", alpha = 0.8)+
   geom_sf(data = best.sites.spatial, fill="black", color="black", 
           alpha = 0.8, size = 1.15) +
   scale_fill_manual(values = colornames[12:13], name = "") +
-  geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab),
-                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4) +
-  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5),
-        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in")) +
   labs(x = element_blank(), y = element_blank())+
+  geom_sf_text_repel(data = best.sites.spatial, aes(label = site_lab),
+                     force = 1.5, box.padding = 0.30, min.segment.length = 0.4)+
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5),
+        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in"))+
   guides(fill = guide_legend(override.aes = list(alpha = 0.3, color = NA)))
 
 
 ggsave("./Figures/cropland2.png", cropplot2, dpi = 300, width = 9, height = 5.3, units = "in")
+
+cropplot3 <- ggplot() +
+  geom_sf(data = allstates.map, fill = "white", size = 0.4) +
+  geom_sf(data = cropland.map, aes(fill = land), alpha=0.4, linetype = 0) +
+  geom_sf(data = HUC4.SE, fill = "gray85", alpha = 0.1, size = 0.45) +
+  geom_sf(data = HUC4.NW, fill = "grey85", alpha = 0.1, size = 0.45) +
+  geom_sf(data = streams.HU10, color = "lightskyblue2", alpha = 0.8, size = 0.4) +
+  geom_sf(data = missouri, color = "dodgerblue2", alpha = 0.75, size = 0.7) +
+  geom_sf(data = impaired.map, aes(fill = LW_PARC_NM), color = "red", alpha = 0.8)+
+  scale_fill_manual(values = colornames[12:13], name = "") +
+  labs(x = element_blank(), y = element_blank())+
+  theme(legend.margin = margin(0,0,0,0, "pt"), legend.text = element_text(size = 7.5),
+        legend.title = element_text(size = 8.5), plot.margin=unit(c(0.2,0.2,0.2,0.2),"in"))+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.3, color = NA)))
+
+
+ggsave("./Figures/cropland3.png", cropplot3, dpi = 300, width = 9, height = 5.3, units = "in")
 
