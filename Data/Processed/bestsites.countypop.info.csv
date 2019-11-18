@@ -1,0 +1,23 @@
+"","site_no","site_nm","huc_cd","huc4","huc4_nm","state","county_name","county_fips","population","geometry","site_lab"
+"1","06810000","Nishnabotna River above Hamburg, IA",10240004,1024,"Missouri-Nishnabotna","MO","Atchison County","005",5685,c(-95.645, 40.60166667),9
+"2","06818000","Missouri River at St. Joseph, MO",10240011,1024,"Missouri-Nishnabotna","MO","Buchanan County","021",89201,c(-94.8568333, 39.75325),10
+"3","06905500","Chariton River near Prairie Hill, MO",10280202,1028,"Chariton-Grand","MO","Chariton County","041",7831,c(-92.79075, 39.53994444),18
+"4","06856600","REPUBLICAN R AT CLAY CENTER, KS",10250017,1025,"Republican","KS","Clay County","027",8535,c(-97.1275203, 39.3555515),12
+"5","06926510","Osage River below St. Thomas, MO",10290111,1029,"Gasconade-Osage","MO","Cole County","051",75990,c(-92.20825, 38.42144444),20
+"6","06768000","Platte River near Overton, Nebr.",10200101,1020,"Platte","NE","Dawson County","047",24326,c(-99.5405556, 40.6825),1
+"7","06877600","SMOKY HILL R AT ENTERPRISE, KS",10260008,1026,"Smoky Hill","KS","Dickinson County","041",19754,c(-97.1177952, 38.90638906),13
+"8","06800000","Maple Creek near Nickerson, Nebr.",10220003,1022,"Elkhorn","NE","Dodge County","053",36691,c(-96.5408333, 41.56116667),5
+"9","06610000","Missouri River at Omaha, NE",10230006,1023,"Missouri-Little Sioux","NE","Douglas County","055",517110,c(-95.9225138, 41.25888735),7
+"10","06800500","Elkhorn River at Waterloo, Nebr.",10220003,1022,"Elkhorn","NE","Douglas County","055",517110,c(-96.2838889, 41.2933333),6
+"11","06934500","Missouri River at Hermann, MO",10300200,1030,"Lower Missouri","MO","Gasconade County","073",15222,c(-91.4385, 38.70980556),22
+"12","06844500","Republican River near Orleans, Nebr.",10250009,1025,"Republican","NE","Harlan County","083",3423,c(-99.5025, 40.13166667),11
+"13","06609500","Boyer River at Logan, IA",10230007,1023,"Missouri-Little Sioux","IA","Harrison County","085",14928,c(-95.7822222, 41.6416111),8
+"14","06894000","Little Blue River near Lake City, MO",10300101,1030,"Lower Missouri","MO","Jackson County","095",674158,c(-94.3005038, 39.1005609),21
+"15","06892350","KANSAS R AT DESOTO, KS",10270104,1027,"Kansas","KS","Johnson County","091",544179,c(-94.9646893, 38.9833375),16
+"16","06902000","Grand River near Sumner, MO",10280103,1028,"Chariton-Grand","MO","Livingston County","117",15195,c(-93.2736944, 39.64002778),17
+"17","06794000","Beaver Creek at Genoa, Nebr.",10210009,1021,"Loup","NE","Nance County","125",3735,c(-97.7347745, 41.4414021),4
+"18","06874000","SF SOLOMON R AT OSBORNE, KS",10260014,1026,"Smoky Hill","KS","Osborne County","141",3858,c(-98.6942395, 39.42778826),14
+"19","06921070","Pomme de Terre River near Polk, MO",10290107,1029,"Gasconade-Osage","MO","Polk County","167",31137,c(-93.3703333, 37.68266667),19
+"20","06887500","KANSAS R AT WAMEGO, KS",10270102,1027,"Kansas","KS","Pottawatomie County","149",21604,c(-96.3055532, 39.19833014),15
+"21","06805500","Platte River at Louisville, Nebr.",10200202,1020,"Platte","NE","Sarpy County","153",158840,c(-96.1577778, 41.01527778),2
+"22","06775900","Dismal River near Thedford, Nebr.",10210002,1021,"Loup","NE","Thomas County","171",647,c(-100.5252778, 41.7786111),3
