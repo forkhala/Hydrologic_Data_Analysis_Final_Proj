@@ -53,6 +53,15 @@ highfreqsites1718 <- readNWISuv(site = c("06808500", "06817000", "06892350",
                                renameNWISColumns() %>%
                                rename(Nitrate_mgl = 6)
 
+Randolph <- readNWISuv(site = "06808500", parameterCd = c("00060", "99133"), 
+                               # Discharge in cfs & Nitrate in mg/l NO3-N
+                               startDate = "2017-01-01",
+                               endDate = "2019-01-01") %>%
+                               renameNWISColumns() %>%
+                               rename(Nitrate_mgl = 6)
+
+write.csv(Randolph, "./Data/Processed/Randolph.csv")
+
 ggplot(highfreqsites1718, aes(x=dateTime, y=Nitrate_mgl, color = site_no)) +
   geom_line()
 
@@ -67,7 +76,7 @@ Randolph <- highfreqsites1718 %>%
 Sumner <- highfreqsites1718 %>%
             filter(site_no=="06902000")
 Shawnee <- highfreqsites1718 %>%
-            filter(site_no == "6892513")
+            filter(site_no == "06892513")
 ```
 
 
@@ -80,6 +89,15 @@ dygraph(
 ) %>% 
   dySeries("Nitrate", axis = "y2") %>%
   dyRangeSelector() #Oct
+HermannStorm <- Hermann %>%
+  filter(dateTime > "2018-10-06" & dateTime < "2018-10-21") 
+
+
+ggplot(HermannStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="")
+
 
 dygraph(
   cbind(
@@ -88,7 +106,16 @@ dygraph(
   )
 ) %>% 
   dySeries("Nitrate", axis = "y2") %>%
-  dyRangeSelector() #Dec
+  dyRangeSelector() #
+
+DesotoStorm <- Desoto %>%
+  filter(dateTime > "2018-11-30" & dateTime < "2018-12-05") 
+
+
+ggplot(DesotoStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="")
 
 dygraph(
   cbind(
@@ -99,6 +126,15 @@ dygraph(
   dySeries("Nitrate", axis = "y2") %>%
   dyRangeSelector() #mid Oct
 
+ClarindaStorm <- Clarinda %>%
+  filter(dateTime > "2018-10-08" & dateTime < "2018-10-12") 
+
+
+ggplot(ClarindaStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="")
+
 dygraph(
   cbind(
     Flow = xts(Randolph$Flow_Inst, order.by = Randolph$dateTime), 
@@ -107,6 +143,16 @@ dygraph(
 ) %>% 
   dySeries("Nitrate", axis = "y2") %>%
   dyRangeSelector() #mid Oct
+
+RandolphStorm <- Randolph %>%
+  filter(dateTime > "2018-10-07" & dateTime < "2018-10-13") 
+
+
+RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="West Nishnabotna River in Randolph, IA")
+print(RandolphStorm.plot)
 
 dygraph(
   cbind(
@@ -117,6 +163,15 @@ dygraph(
   dySeries("Nitrate", axis = "y2") %>%
   dyRangeSelector() #beg sept
 
+SumnerStorm <- Sumner %>%
+  filter(dateTime > "2018-09-06" & dateTime < "2018-09-10") 
+
+
+ggplot(SumnerStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="")
+
 dygraph(
   cbind(
     Flow = xts(Shawnee$Flow_Inst, order.by = Shawnee$dateTime), 
@@ -125,16 +180,61 @@ dygraph(
 ) %>% 
   dySeries("Nitrate", axis = "y2") %>%
   dyRangeSelector()
+
+ShawneeStorm <- Shawnee %>%
+  filter(dateTime > "2018-11-27" & dateTime < "2018-12-04") 
+
+
+ggplot(ShawneeStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="")
+```
+
+
+```{r}
+highfreq.sitelist <- unique(highfreqsites1718$site_no)
+site.info <- whatNWISdata(sites=highfreq.sitelist)
+
+site.info.lat.long <- site.info %>%
+  group_by(site_no) %>%
+  summarise(Lat = mean(dec_lat_va), Long=mean(dec_long_va))
+
+site.info.spatial <- st_as_sf(site.info.lat.long,
+                               coords=c("Long", "Lat"), crs = 4269)
+st_crs(best.sites.spatial)
+
+county.pop.spatial <- st_transform(county.pop.spatial, 4269)
+st_crs(county.pop.spatial)
+
+highfreq.pop <- st_intersection(site.info.spatial, county.pop.spatial)
+
+station.nm <- unique(site.info$station_nm)
+
+highfreq.pop$station_nm <- c("Randolph", "Hermann", "Desoto", "Shawnee", "Sumner", "Clarinda")
+
+#Desoto and Shawnee sites are in Johnson County, KS, with pop over 540,000. Other sites are in places with population of counties with less than 16,000.
+highfreq.pop$percentfrombf <- c("97.6", "99.5", "98.2", "97.6", "92.0", "91.7")
+
+plot(highfreq.pop$percentfrombf, highfreq.pop$population)
+
+mod <- lm(data=highfreq.pop, percentfrombf ~ population)
+summary(mod)
 ```
 
 ## Sites
 
-There were 7 sites in our region of interest that had high freq N data, and only 4 sites had high freq N data during the floods of 2019. The sites looked at in depth are:
+There were 7 sites in our region of interest that had high freq N data, and 6 sites had high freq N data during the 2017 and 2018. The sites looked at in depth are:
 
     - West Nishnabotna River in Randolph, IA
     - Nodaway River at Clarinda, IA
     - Kansas River in Desoto, KS
     - Missouri River at Hermann, MO
+    - Mill C at Johnson Drive, Shawnee, KS
+    - Grand River, Sumner MO
+    
+    
+    
 
 The Missouri River is the biggest river, with an average of 214693 cfs discharge rate during the year 2019, and the Nodaway River is the smallest river, with an average of 1185 cfs discharge rate for 2019.
 
@@ -242,5 +342,40 @@ bestsites.DNP.skinny <- bestsites.DNP %>%
 
 ggplot(bestsites.DNP.skinny, aes(x=Discharge2, y= total.nitrogen)) +
   geom_point()
+```
+
+## Worthwhile Notes
+
+Population of each county (from the 2010 census) in the four states that make up our region area of interest (Kansas, Nebraska, Missouri, and Iowa) were found using the "counties" database from R's `noncensus` package. We decided that population could be used as a proxy for land cover, as a greater population would indicate more development and fewer agricultural fields or open spaces. 
+
+Baseflow and quickflow from each site were determined with the `EcoHydRology` package. After linearly interpolating the instantaneous discharge data in order to account for gaps, total baseflow volume was found and the percent of discharge exported as baseflow was calculated. We predicted that a site within a county with a large population would have a lower percent of its discharge exported as baseflow, because quickflow would be more common in areas with a lot of development. Similarly, we also predicted that a site within a county with a small population would have a greater percentage of its discharge coming from baseflow. More developed areas often have flashier floods, and so we were curious to see whether we can relate population to an element of flashiness - the percentage of discharge exported as quickflow.
+
+Contrary to our hypotheses, greater county population does not contribute to a decrease in percent of discharge as baseflow (p = 0.4199, F = 0.8067) in our sites of interest. This may be due to our small sample size of sites, or perhaps the size of the rivers in our study.
+
+
+High frequency nitrogen data was only available for seven sites within our region. In order to better understand the behavior of rivers during floods, we examined dygraph plots of discharge and nitrogen, and created hysteresis plots. Storms from the fall of 2018 (September - December)  were examined for each river site with data from that time period. We chose to only look at storms that occurred in the second half of the year in order to avoid conflating snowpack melt and precipitation affects. 
+
+We predicted that most rivers in the area would behave the same way, and that rivers would exhibit flushing behavior. We thought that flushing rivers would be more prevalent because of the many agricultural fields in our region of study, and any overland flow to the rivers would bring with it a high concentration of nutrients (nitrogen being one of them) from the fertilized fields. Our results say otherwise (Table 2). Our sites of interest had both positive and negative slopes in the hysteresis plots, and also exhibited both clockwise and counter clockwise directions of flow (Figure xx). The same river was analyzed multiple times throughout the year, and even the same river showed different slopes and directions in the hysteresis plots. 
+
+Site Name   |   Site Number   |   Time Period   |   Direction   |  Slope
+----------- | --------------- | --------------- | ------------- | ---------
+West Nishnabotna River in Randolph, IA | 06808500  | Oct 7 - 13, 2018 | counter clockwise | negative (Figure xx)
+Nodaway River at Clarinda, IA  | 06817000 | Oct 8 - 12, 2018 | clockwise | negative
+Kansas River in Desoto, KS  | 06892350 |   Nov 30 - Dec 5, 2018 | counter clockwise | positive
+Missouri River at Hermann, MO  | 06934500  |  Oct 7 - 20, 2018  | counter clockwise | negative
+Mill C at Johnson Drive, Shawnee, KS  | 06892513 | Nov 27 - Dec 4, 2018 | clockwise | negative
+Grand River, Sumner MO  | 06902000 |  Sep 6 - 10, 2018 | clockwise | positive
+
+
+```{r, fig.cap = "write fig caption for this hysteresis plot"}
+RandolphStorm <- Randolph %>%
+  filter(dateTime > "2018-10-07" & dateTime < "2018-10-13") 
+
+
+RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="West Nishnabotna River in Randolph, IA")
+print(RandolphStorm.plot)
 ```
 

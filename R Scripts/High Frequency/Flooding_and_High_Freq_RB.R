@@ -132,7 +132,7 @@ ClarindaStorm <- Clarinda %>%
 
 
 ggplot(ClarindaStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
-  geom_point() +
+  geom_point() 
   
 
 #Randolph storm
@@ -152,11 +152,11 @@ ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
 #first, interpolate missing flow values
 Hermann.skinny <- Hermann %>% select(dateTime, Flow_Inst)
 table(diff(Hermann.skinny$dateTime))
-as.Date("2019-01-01")-as.Date("2019-11-01")
-#so timestep = 304 days*96 (number time steps in a day (4*24)) = 29184
+as.Date("2019-01-01")-as.Date("2017-01-01")
+#so timestep = 730 days*96 (number time steps in a day (4*24)) = 70080
 
 #interpolate by number of days in time period
-linearinterpolation <- as.data.frame(approx(Hermann.skinny, n = 29184, method = "linear"))
+linearinterpolation <- as.data.frame(approx(Hermann.skinny, n = 70080, method = "linear"))
 linearinterpolation$x <- as.POSIXct(linearinterpolation$x, origin = "1970-01-01")
 names(linearinterpolation) <- c("dateTime", "Flow_Inst")
 
@@ -210,7 +210,7 @@ as.Date("2019-01-01")-as.Date("2019-11-01")
 #so timestep = 304 days*96 (number time steps in a day (4*24)) = 29184
 
 #interpolate by number of days in time period
-linearinterpolation <- as.data.frame(approx(Clarinda.skinny, n = 29184, method = "linear"))
+linearinterpolation <- as.data.frame(approx(Clarinda.skinny, n = 70080, method = "linear"))
 linearinterpolation$x <- as.POSIXct(linearinterpolation$x, origin = "1970-01-01")
 names(linearinterpolation) <- c("dateTime", "Flow_Inst")
 
@@ -264,7 +264,7 @@ as.Date("2019-01-01")-as.Date("2019-11-01")
 #so timestep = 304 days*96 (number time steps in a day (4*24)) = 29184
 
 #interpolate by number of days in time period
-linearinterpolation <- as.data.frame(approx(Desoto.skinny, n = 29184, method = "linear"))
+linearinterpolation <- as.data.frame(approx(Desoto.skinny, n = 70080, method = "linear"))
 linearinterpolation$x <- as.POSIXct(linearinterpolation$x, origin = "1970-01-01")
 names(linearinterpolation) <- c("dateTime", "Flow_Inst")
 
@@ -318,7 +318,7 @@ as.Date("2019-01-01")-as.Date("2019-11-01")
 #so timestep = 304 days*96 (number time steps in a day (4*24)) = 29184
 
 #interpolate by number of days in time period
-linearinterpolation <- as.data.frame(approx(Randolph.skinny, n = 29184, method = "linear"))
+linearinterpolation <- as.data.frame(approx(Randolph.skinny, n = 70080, method = "linear"))
 linearinterpolation$x <- as.POSIXct(linearinterpolation$x, origin = "1970-01-01")
 names(linearinterpolation) <- c("dateTime", "Flow_Inst")
 
@@ -361,6 +361,115 @@ Randolph.Export <- Randolph.full %>%
 Randolph.Export$BaseflowExport_cf/Randolph.Export$TotalExport_cf
 #94.9% as baseflow
 1-(Randolph.Export$BaseflowExport_cf/Randolph.Export$TotalExport_cf)
+#5.1% as quickflow
+
+
+#-------Shawnee------#
+
+#first, interpolate missing flow values
+Shawnee.skinny <- Shawnee %>% select(dateTime, Flow_Inst)
+table(diff(Shawnee.skinny$dateTime))
+as.Date("2019-01-01")-as.Date("2019-11-01")
+#so timestep = 304 days*96 (number time steps in a day (4*24)) = 29184
+
+#interpolate by number of days in time period
+linearinterpolation <- as.data.frame(approx(Shawnee.skinny, n = 70080, method = "linear"))
+linearinterpolation$x <- as.POSIXct(linearinterpolation$x, origin = "1970-01-01")
+names(linearinterpolation) <- c("dateTime", "Flow_Inst")
+
+#plot interpolated data onto full data to see if it looks right
+Shawnee.interpolate.plot <- 
+  ggplot(Shawnee.skinny, aes(x = dateTime, y = Flow_Inst)) +
+  geom_line() +
+  geom_point(data = linearinterpolation, aes(x = dateTime, y = Flow_Inst), color = "#c13d75ff") 
+print(Shawnee.interpolate.plot)
+
+Shawnee.baseflow <- EcoHydRology::BaseflowSeparation(
+  linearinterpolation$Flow_Inst, 
+  filter_parameter = 0.925, #default parameter
+  passes = 3 #default parameter
+)
+#gives us two columns: bt(baseflow time series) and qft (quickflow time series)
+
+Shawnee.full <- cbind(linearinterpolation, Shawnee.baseflow)
+
+Shawnee.full.plot <- ggplot(Shawnee.full, aes(x = dateTime)) + 
+  geom_line(aes(y = Flow_Inst, color="Total"), size=1.1) +
+  geom_line(mapping = aes(y = bt, color = "Baseflow"), size = 1.01) +
+  geom_line(mapping = aes(y = qft, color="Quickflow"), size = 1.01) +
+  labs(x="Date", y=expression("Discharge (m"^3*"/s)"), color="Flow type") +
+  scale_colour_manual(values = c(
+    'Total' = 'black',
+    'Baseflow' = 'darkcyan',
+    'Quickflow' = 'coral'))
+
+print(Shawnee.full.plot)
+
+Shawnee.Export <- Shawnee.full %>%
+  mutate(timestep = c(diff(as.numeric(dateTime)), NA_real_), #what is time difference in between each of these time stamps? dateTime is in POSIXct format. as.numeric changes it to the number of seconds between two time stamps. added NA value added at end because a difference gives us one less point.
+         baseflowexport = bt * timestep, #volume = rate (bt) x time
+         quickflowexport = qft * timestep) %>%
+  summarize(BaseflowExport_cf = sum(baseflowexport, na.rm = T), #sum of all volume over the year
+            QuickflowExport_cf = sum(quickflowexport, na.rm = T),
+            TotalExport_cf = BaseflowExport_cf + QuickflowExport_cf)
+
+Shawnee.Export$BaseflowExport_cf/Shawnee.Export$TotalExport_cf
+#94.9% as baseflow
+1-(Shawnee.Export$BaseflowExport_cf/Shawnee.Export$TotalExport_cf)
+#5.1% as quickflow
+
+#-------Sumner------#
+
+#first, interpolate missing flow values
+Sumner.skinny <- Sumner %>% dplyr::select(dateTime, Flow_Inst)
+table(diff(Sumner.skinny$dateTime))
+as.Date("2019-01-01")-as.Date("2019-11-01")
+#so timestep = 304 days*96 (number time steps in a day (4*24)) = 29184
+
+#interpolate by number of days in time period
+linearinterpolation <- as.data.frame(approx(Sumner.skinny, n = 70080, method = "linear"))
+linearinterpolation$x <- as.POSIXct(linearinterpolation$x, origin = "1970-01-01")
+names(linearinterpolation) <- c("dateTime", "Flow_Inst")
+
+#plot interpolated data onto full data to see if it looks right
+Sumner.interpolate.plot <- 
+  ggplot(Sumner.skinny, aes(x = dateTime, y = Flow_Inst)) +
+  geom_line() +
+  geom_point(data = linearinterpolation, aes(x = dateTime, y = Flow_Inst), color = "#c13d75ff") 
+print(Sumner.interpolate.plot)
+
+Sumner.baseflow <- EcoHydRology::BaseflowSeparation(
+  linearinterpolation$Flow_Inst, 
+  filter_parameter = 0.925, #default parameter
+  passes = 3 #default parameter
+)
+#gives us two columns: bt(baseflow time series) and qft (quickflow time series)
+
+Sumner.full <- cbind(linearinterpolation, Sumner.baseflow)
+
+Sumner.full.plot <- ggplot(Sumner.full, aes(x = dateTime)) + 
+  geom_line(aes(y = Flow_Inst, color="Total"), size=1.1) +
+  geom_line(mapping = aes(y = bt, color = "Baseflow"), size = 1.01) +
+  geom_line(mapping = aes(y = qft, color="Quickflow"), size = 1.01) +
+  labs(x="Date", y=expression("Discharge (m"^3*"/s)"), color="Flow type") +
+  scale_colour_manual(values = c(
+    'Total' = 'black',
+    'Baseflow' = 'darkcyan',
+    'Quickflow' = 'coral'))
+
+print(Sumner.full.plot)
+
+Sumner.Export <- Sumner.full %>%
+  mutate(timestep = c(diff(as.numeric(dateTime)), NA_real_), #what is time difference in between each of these time stamps? dateTime is in POSIXct format. as.numeric changes it to the number of seconds between two time stamps. added NA value added at end because a difference gives us one less point.
+         baseflowexport = bt * timestep, #volume = rate (bt) x time
+         quickflowexport = qft * timestep) %>%
+  summarize(BaseflowExport_cf = sum(baseflowexport, na.rm = T), #sum of all volume over the year
+            QuickflowExport_cf = sum(quickflowexport, na.rm = T),
+            TotalExport_cf = BaseflowExport_cf + QuickflowExport_cf)
+
+Sumner.Export$BaseflowExport_cf/Sumner.Export$TotalExport_cf
+#94.9% as baseflow
+1-(Sumner.Export$BaseflowExport_cf/Sumner.Export$TotalExport_cf)
 #5.1% as quickflow
 
 #---try where Randolph is shorted to only look at storm month---#

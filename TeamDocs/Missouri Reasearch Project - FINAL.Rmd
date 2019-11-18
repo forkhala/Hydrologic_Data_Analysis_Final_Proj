@@ -63,24 +63,24 @@ Given all the background information above, we would like to know the current st
 
 1. How have changes in discharge (i.e. water quantity) interacted with nutrient enrichment (i.e. water quality) in the Missouri River Basin?
 
-    a) Nutrient levels have increased over time
-    b) Discharge has become more variable over time
-    c) Nutrient levels increase with discharge
+    a) Nutrient levels have increased over time - Keqi
+    b) Discharge has become more variable over time - Hubert
+    c) Nutrient levels increase with discharge - Rachel
   
  
 2. What effects do specific flood and drought events have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
 
-    a) Rivers will exhibit a flushing behavior due to the land use and type of flow during storms
-    b) Discharge will decrease during drought, causing nutrient levels to also decrease due to decreased overland flow.
+    a) Rivers will exhibit a flushing behavior due to the land use and type of flow during storms - Rachel
+    b) Discharge will decrease during drought, causing nutrient levels to also decrease due to decreased overland flow. - Caroline
     
 3. What factors contribute to the variability of total nitrogen in the rivers?
 
-    a) Land use, year, discharge, phosphorus, and HUC region will contribute to the variability of total nitrogen across sites
+    a) Land use, year, discharge, phosphorus, and HUC region will contribute to the variability of total nitrogen across sites - Rachel
 
 4. Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
-    a) Total flow in the Missouri River Basin is decreasing (non-stationary) over time
-    b) The future situation of the river basin will see the continuation of current trends of decreasing overall volume of flow.
+    a) Total flow in the Missouri River Basin is decreasing (non-stationary) over time - Keqi
+    b) The future situation of the river basin will see the continuation of current trends of decreasing overall volume of flow. - Keqi
 
 \newpage
 
@@ -138,8 +138,8 @@ High frequency nitrogen data was only available for seven sites within our regio
 
 We predicted that most rivers in the area would behave the same way, and that rivers would exhibit flushing behavior. We thought that flushing rivers would be more prevalent because of the many agricultural fields in our region of study, and any overland flow to the rivers would bring with it a high concentration of nutrients (nitrogen being one of them) from the fertilized fields. Our results say otherwise (Table 2). Our sites of interest had both positive and negative slopes in the hysteresis plots, and also exhibited both clockwise and counter clockwise directions of flow (Figure xx). The same river was analyzed multiple times throughout the year, and even the same river showed different slopes and directions in the hysteresis plots. 
 
-Site Name   |   Site Number   |   Time Period   |   Direction   |  Slope
------------ | --------------- | --------------- | ------------- | ---------
+Site Name   |   Site Number   |   Time Period   |   Direction   |  **Slope**
+----------- | :---------------: | --------------- | ------------- | ---------
 West Nishnabotna River in Randolph, IA | 06808500  | Oct 7 - 13, 2018 | counter clockwise | negative (Figure xx)
 Nodaway River at Clarinda, IA  | 06817000 | Oct 8 - 12, 2018 | clockwise | negative
 Kansas River in Desoto, KS  | 06892350 |   Nov 30 - Dec 5, 2018 | counter clockwise | positive
