@@ -138,7 +138,9 @@ for(i in 1:11){
     group_by(DOY) %>%
     summarise(Median.Discharge = median(Discharge), 
               Max.Discharge = max(Discharge),
-              Min.Discharge = min(Discharge))
+              Min.Discharge = min(Discharge),
+              Discharge75 = quantile(Discharge, probs = 0.75, na.rm = T),
+              Discharge25 = quantile(Discharge, probs = 0.25, na.rm = T))
 
   site2 <- readNWISdv(siteNumbers = site.nos[2*i], 
                            parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
@@ -149,15 +151,17 @@ for(i in 1:11){
     group_by(DOY) %>%
     summarise(Median.Discharge = median(Discharge), 
               Max.Discharge = max(Discharge),
-              Min.Discharge = min(Discharge))
+              Min.Discharge = min(Discharge),
+              Discharge75 = quantile(Discharge, probs = 0.75, na.rm = T),
+              Discharge25 = quantile(Discharge, probs = 0.25, na.rm = T))
 
   fig <- ggplot(site1.pattern, mapping = aes(x = DOY)) +
     geom_line(aes(y = Median.Discharge), color = "lightskyblue4", size = 0.73) +
-    geom_line(aes(y = Max.Discharge), color = "lightskyblue3", alpha = 0.8) +
-    geom_line(aes(y = Min.Discharge), color = "lightskyblue3", alpha = 0.8) +  
+    geom_line(aes(y = Discharge75), color = "lightskyblue3", alpha = 0.8) +
+    geom_line(aes(y = Discharge25), color = "lightskyblue3", alpha = 0.8) +  
     geom_line(aes(y = Median.Discharge),site2.pattern, color = "darkseagreen4",size = 0.73)+
-    geom_line(aes(y = Max.Discharge), site2.pattern, color = "darkseagreen3", alpha = 0.8) +
-    geom_line(aes(y = Min.Discharge), site2.pattern, color = "darkseagreen3", alpha = 0.8) + 
+    geom_line(aes(y = Discharge75), site2.pattern, color = "darkseagreen3", alpha = 0.8) +
+    geom_line(aes(y = Discharge25), site2.pattern, color = "darkseagreen3", alpha = 0.8) + 
     annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1, size = 3,
              label = paste(site.list$huc4[2*i], site.list$huc4_nm[2*i], sep = " "))+
     labs(x = element_blank(), y = element_blank())
