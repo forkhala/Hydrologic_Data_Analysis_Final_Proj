@@ -1,0 +1,1018 @@
+---
+output: 
+  pdf_document:
+    keep_tex: yes
+    fig_caption: yes
+    number_sections: yes
+geometry: margin=2.54cm
+title: Examining the Hydrologic Properties of the Missouri River Basin
+subtitle: https://github.com/cwatson1013/Hydrologic_Data_Analysis_Final_Proj
+author: Rachel Bash, Keqi He, Caroline Watson, and Haoyu Zhang
+abstract: "The Missouri River provides critical water resources that drives the region's agriculture, industry, and ecosystems. This is a region that experiences surface water variability, characterized by damaging floods and severe droughts, greatly impacting the agricultural production of the area. It is reported that a serious flood disaster occurred in the lower Missouri River in the spring of 2019 and the Missouri River experienced severe drought in 2012-2013. This project highlights the changes in stream flow and water quality over time, and identifies key characteristics of the river. Twenty two sites across the lower Missouri River Basin were examined in order to get a fuller picture of the Missouri River and its tributaries over time. By analyzing the trend of the Missouri River discharge, we can predict future changes in the Missouri River flow to provide a reference for water resources management. In addition, we focus on the stream flow and water quality of Missouri River during March to July, 2019 to see how discharge influence the water quality and what can be done to keep the water in the Missouri River in good quality."
+fontsize: 12pt
+mainfont: Times New Roman
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+\newpage
+\tableofcontents 
+\newpage
+\listoftables 
+\newpage
+\listoffigures 
+\newpage
+
+
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, echo=FALSE)
+# Set your working directory
+
+getwd()
+
+# Load your packages
+library(tidyverse)
+library(kableExtra)
+library(dataRetrieval)
+library(dplyr)
+library(xts)
+library(dygraphs)
+library(lubridate)
+library(gridExtra)
+library(cowplot)
+library(dataRetrieval)
+library(trend)
+library(forecast)
+library(tseries)
+library(jpeg)
+
+# Set your ggplot theme
+theme_set(theme_classic())
+```
+
+
+```{r, echo=FALSE}
+# Loading in data
+
+#reading in daily value data
+bestsites.DNP <- read.csv("../Data/Raw/bestsites.DNP.csv")
+
+#reading in water quality data
+bestsites.wq <- read.csv("../Data/Raw/bestsites.WQ.csv", colClasses=c("parm_cd"="character", 
+                                                            "Date"="Date",
+                                                            "site_no"="character"))
+
+#reading in high freq data
+highfreqsiteinfo <- read.csv("../Data/Raw/highfreqsiteinfo.csv")
+
+
+```
+
+
+# Research Question and Rationale
+
+
+The Missouri River is the largest river in North America (2,540 miles) and has the second largest watershed (529,000 mi^2^/339 acres, U.S.-Canada). Its watershed covers portions of ten states, which account for approximately one-sixth of the continental United States, as well as a small part of Canada. The headwater is located in the Bitterroot Mountains River of northwestern Wyoming and southwestern Montana. The watershed is home to around 12 million people in 1990, and has been inhabited by indigenous people for millennia. Demands for managing the river for the benefit of human livelihood has resulted in drastic modification in the river and the floodplains. Numerous reservoirs and dams have been constructed, of which six major dams were built on the mainstream, following the Pick-Sloan Plan in 1944. Now, the river is used intensively in multiple ways, including municipal, agricultural, hydropower, recreation, flood control etc.
+
+Within the 328 million acres of the basin’s total area in the United States, 95% is related to agricultural uses, while the rest dedicated for recreation, fish and wildlife, and urban. More than half of the total is pasture and range grassland primarily for grazing, and cropland consists of almost 104 million acres, which is 32% of the whole basin. Irrigated land comprises 7.4 million acres, and 6.9 million acres are intensively cropped. Water bodies, on the other hand, cover 3.9 million acres. In spite of the low proportion of water areas (1.2%), they are the pivotal foundation for agricultural or other usages, and thus critical to the whole region’s economy. 
+
+Along with the agricultural, urban, and industrial development in the region is nutrient loading and enrichment in water bodies, especially for nitrogen (N) and phosphorus (P). Unlike other regions, agricultural input through fertilizer is the predominant anthropogenic source for nutrient in water bodies in the whole basin. Regardless of the major anthropogenic source, nutrient enrichment is considered nationally as one of the leading factors for water quality impairment. According to USEPA 303(d) lists, more than 160 stream reaches, lakes, or reservoirs were reported by USEPA to suffer nutrient-related impairment in 2006.
+
+In addition to change in nutrient concentration, discharge appears to be highly variable in the basin, and both severe drought and flooding events occurred in the basin in the past. For example, in the spring and summer of 2011, an unprecedented flooding event caused over \$2 billion damage FEMA disaster declaration was made in all states along the Missouri River. Subsequently, in 2012, a drought even struck the Central Great Plain, including the basin, and inflicted at least \$12 billion of loss before July, 2012. Recently, another flooding event occurred in the spring of 2019. 
+
+Given all the background information above, we would like to know the current state of Missouri River and its tributaries, with a focus on the changing pattern in discharge and nutrient. Since regions along the downstream are more likely to be impaired by nutrient loaded and accumulating upstream, in this project study sites were concentrated in the southeast of the whole basin (\autoref{fig:sitemap}).  We are interested in how the dramatic change in discharge (i.e. water quantity) could potentially interact with nutrient enrichment (i.e. water quality). Also, we examined a few specific flooding events, during which changes in both water quality and quantity were well recorded, so that we could make concrete inference on the interplay between quantity and quality. Finally, based on the pattern in the past and the best model we could fit, we attempted to predict the likely future conditions and trends in the Missouri River Basin.
+
+<<<<<<< HEAD
+Given the interesting hydrologic history of this region, we are interested in the past, present, and future conditions of the Missouri River and its tributaries. Our research questions and acccompanying hypotheses are below:
+
+1.How have changes in discharge (i.e. water quantity) interacted with nutrient enrichment (i.e. water quality) in the Missouri River Basin?
+
+    a) Nutrient levels have increased over time
+    b) Rivers have experienced more extreme flood events over time, due to a decreasing recurrence interval
+ 
+2. What effects do specific flood and drought events have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
+
+    a) Rivers will exhibit a flushing behavior due to the land use and type of flow during storms
+    b) Discharge will decrease during drought, causing nutrient levels to also decrease due to decreased overland flow.
+
+3. Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
+
+    a) Total flow in the Missouri River Basin is decreasing (non-stationary) over time
+    b) The future situation of the river basin will see the continuation of current trends of decreasing overall volume of flow.
+    
+=======
+```{r sitemap, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:sitemap} Map of USGS sites used for long term analysis."}
+knitr::include_graphics("../Figures/site_map.jpg")
+```
+
+
+\newpage
+
+# Dataset Information
+
+
+The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the lower Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030 (see Figure below). We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, representing a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that had discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin as our 22 "best sites". Our best sites had the overall best time period range for all of our "must have" variables. We retrieved data on water quantity, water quality (N, P concentrations), pH, and coliform concentrations. \@ref{tab:table} illustrates the variables we examined and the number of sites in our area of interest that had quality data for each.
+
+
+Only seven sites within our HUC subbasin boundary contained any high frequency discharge and nitrogen data. Therefore, we also looked at these 7 sites in order to do analyses and answer our research question about flooding.
+
+After doing initial data wrangling and analysis on our 22 "best sites", we decided to pare it down further and only do subsequent analyses on **10** sites. While we initially wanted to look at many sites that were varied in size and location, we determined that it was too many to look at and draw relevant conclusions from. 
+
+We have three main datasets:
+
+- The daily values dataset with our 22 "best sites"
+
+- The water quality dataset with our 22 "best sites", with only six sites that had total coliform data.
+
+- The high freqency dataset with 7 sites that contain both high frequency discharge and high frequency nitrogen data.
+
+
+```{r table, echo=FALSE, eval=TRUE, caption="\\label{tab:table}Summary of Data for Missouri River Basin Analysis", results="asis"}
+
+Variables <- c("discharge", "time", "nitrogen", "pH", "total coliform", 
+              "phosphorus")
+
+Units <- c("cfs or m3/s", "UTC", "mg/L", "1", "cfu/100mL", "mg/L")
+
+NumOfSites <- c("22", "22", "22 daily values, 7 high frequency", "22", "6", 
+                    "22")
+
+
+Table <- cbind(Variables, Units, NumOfSites)
+names(Table) <- c("Variables", "Units", "Number of Sites")
+
+knitr::kable(Table) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position="center")
+```
+
+\newpage
+
+# Exploratory Data Analysis and Wrangling
+
+## Yearly Discharge Pattern
+
+Typical discharge patterns within a year for each HUC4 watershed from 1020 to 1030 were generated by compiling all available discharge data at each USGS site, and two sites in the same HUC4 watershed were plotted in the same panel with different colors (\autoref{fig:dispattern}). Generally, discharge reaches its peak during the summer and falls to minima during the winter. Most of basins exhibit rather high variations across years, as indicated the large difference between the medians and maxima or minima. Furthermore, highest variations in discharge appear to occur in the summer, whereas discharge in the winter varies less across years. 
+
+```{r dispattern, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:dispattern}Yearly discharge pattern for 11 HUC4 watersheds. Thick, dark lines are the median of all discharge records on a day of year, while light, thin lines are the maximum and minimum discharge on that day."}
+knitr::include_graphics('../Figures/discharge.jpg')
+```
+
+
+## Water Quality Data 
+    
+There were 6 sites in the Missouri River Basin that had total coliform data in addition to total nitrogen, total phosphorus, pH, and discharge data. Out of the 6 sites, only *3* of the sites were chosen for water quality analysis because they had the most data for all of the parameters for water quality. The water quality data was wrangled to include certain columns necessary for the analysis. The sites that were looked at in depth for water quality analysis are: 
+
+    - 06810000
+    - 06856600
+    - 06934500
+    
+Water quality parameters were analyzed to determine the quality of river water in the Missouri River Basin. TN and TP were analyzed because the area in the Southern Missouri River Basin we were looking at is largely agricultural land. Total coliform was analyzed because it is known to indicate poor water quality standards in rivers. TC concentrations can be elevated, especially if near agricultural land. However, our data does not supply enough information to draw conclusions on total coliform levels in the rivers of our chosen sites.
+
+```{r}
+
+#filtering water quality dataset to include only 3 sites
+bestsites.wq.skinny <- bestsites.wq %>%
+    select(Site = site_no,
+              Date = Date,
+              Parameter = parm_cd,
+              Value = result_va,
+              Discharge = X_00060_00003) %>%
+    group_by(Date, Parameter, Site) %>%
+    summarize(Value = mean(Value),
+              Discharge = mean(Discharge)) %>%
+    spread(key = Parameter, value = Value) %>% 
+    rename(pH = '00400', total.coliform = '31501', 
+           Discharge2 = '00060', total.nitrogen = '00600', 
+           total.phosphorus = '00665') %>%
+    mutate(Year = year(Date)) %>%
+    select(-Discharge2) %>%     
+    filter(Site == "06810000" | Site == "06856600" |
+           Site == "06934500")
+```
+
+Graphs were made to look at total phosphorus, total nitrogen, pH, and total coliform over time. These figures were also faceted by site to see whether there were trends in specific sites. 
+
+```{r tp.time, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:tp.time}Total Phosphorus Over Time"}
+
+#plot of TP with 3 sites that have total coliform, facet by site
+TP.plot.2 <- ggplot(bestsites.wq.skinny, aes(x = Date, y = total.phosphorus)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~Site) +
+  xlim(as.Date(c("1969-01-01", "1980-01-01"))) +
+  theme_bw() +
+  labs(x = "Date", y = "Total Phosphorus (mg/L)")
+
+#plot of TP over time with 3 sites that have total coliform
+TP.plot <- ggplot(bestsites.wq.skinny, 
+                       aes(x = Date, y = total.phosphorus)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Date", y = "Total Phosphorus (mg/L)") +
+  xlim(as.Date(c("1969-01-01", "2020-01-01"))) +
+  theme(axis.title.x=element_blank())
+
+#grid arrange for TP graphs
+grid.arrange(TP.plot, TP.plot.2)
+```
+
+As seen by \autoref{fig:tp.time}, total phosphorus values have a slight positive trend. From \autoref{fig:tp.time}, site 06934500 has the most total phosphorus data.
+
+```{r tn.time, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:tn.time}Total Nitrogen Over Time" }
+#plot of TN with 3 sites that have total coliform data
+TN.plot.2 <- ggplot(bestsites.wq.skinny, aes(x = Date, y = total.nitrogen)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Date", y = "Total Nitrogen (mg/L)") +
+  xlim(as.Date(c("1969-01-01", "2020-01-01"))) +
+  theme(axis.title.x=element_blank())
+
+#TN over time facet by site
+TN.plot.site <- ggplot(bestsites.wq.skinny, 
+                       aes(x = Date, y = total.nitrogen)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~Site) +
+  labs(x = "Date", y = "Total Nitrogen (mg/L)") +
+  xlim(as.Date(c("1969-01-01", "2020-01-01"))) +
+  theme_bw()
+
+#grid arrange for TN over time
+grid.arrange(TN.plot.2, TN.plot.site)
+```
+
+From \autoref{fig:tn.time}, total nitrogen looks as though there is a slight positive trend from 1980 to 2019. Again, site 06934500 has the most total nitrogen data, as evidenced in \autoref{fig:tn.time}.
+
+```{r ph, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:ph}pH Over Time"}
+
+#plot of pH with 3 sites that have total coliform
+ph.plot.2 <- ggplot(bestsites.wq.skinny, aes(x = Date, y = pH)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~Site) +
+  xlim(as.Date(c("1960-01-01", "2020-01-01")))
+
+#plot of pH in 3 sites with total coliform data over time
+ph.plot <- ggplot(bestsites.wq.skinny, aes(x = Date, y = pH)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  xlim(as.Date(c("1960-01-01", "2020-01-01"))) +
+  theme(axis.title.x=element_blank())
+
+#grid arrange for pH plot
+grid.arrange(ph.plot, ph.plot.2)
+```
+
+As seen in \autoref{fig:ph}, pH values range from below pH of 7 to above pH of 9 from 1970 - 2019. From \autoref{fig:ph}, site 06810000 has a positive increase in pH over time, whereas site 06934500 has a decreasing trend in pH over time.
+
+```{r tc.time, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:tc.time}Total Coliform Over Time"}
+#plot of total coliform over time
+TC.plot.time <- ggplot(bestsites.wq.skinny,
+                  aes(x = Date, y = total.coliform)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Date", y = "Total Coliform (cfu/100 ml)") +
+  xlim(as.Date(c("1969-01-01"," 1975-12-31"))) +
+  facet_wrap(~Site) +
+  theme_set(theme_bw())
+
+#plot of total coliform over time
+tc.time <- ggplot(bestsites.wq.skinny, aes(x = Date, y = total.coliform)) +
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  xlim(as.Date(c("1969-01-01", "1975-01-01"))) +
+  labs(x = "Date", y = "Total Coliform (cfu/100 ml)") +
+  theme(axis.title.x=element_blank())
+
+#grid arrange to put the plots on one figure
+grid.arrange(tc.time, TC.plot.time, nrow = 2)
+```
+
+\autoref{fig:tc.time} shows the total coliform measurements in the 3 chosen sites over time. From \autoref{fig:tc.time}, it is evident that there is not much data on total coliform in the Missouri River Basin and monitoring for total coliform occured at these 3 sites from late 1960s through 1975.
+
+```{r tc.dis, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:tc.dis}Total Coliform over time and Discharge over time" }
+
+#plot of total coliform over time
+totalcoliform.time <- ggplot(bestsites.wq.skinny, aes(x = Date)) +
+  geom_line(aes(y = Discharge, alpha = 0.5), color = "black") +
+  geom_point(aes(y = total.coliform, alpha = 0.5), color = "red") +
+  scale_y_continuous(sec.axis = sec_axis(~ . * 1.20, name = "Discharge (cfs)")) +
+  xlim(as.Date(c("1969-01-01", "1980-01-01"))) +
+  labs(x = "Date", y = "Total Coliform (cfu/100 ml)")
+print(totalcoliform.time)
+
+```
+
+\autoref{fig:tc.dis} was created to determine whether high amounts of total coliform coincided with an increase in discharge. Because there were limited total coliform measurements taken, as evidenced in \autoref{fig:tc.time}, there is not a great conclusion from this data. However, \autoref{fig:tc.dis} shows a spike in discharge events between 1972 - 1974, which also happens to be a time when total coliform was sampled. \autoref{fig:tc.dis} also shows increases in total coliform between 1972 - 1975. 
+
+\newpage
+
+### Time Series Analysis
+
+In time series analysis, we focus on the same 3 sites chosen in the water quality analysis.
+
+```{r}
+#Discharge Data
+# 06810000 Nishnabotna River above Hamburg, IA 
+NRHDischarge <- readNWISdv(siteNumbers = "06810000",
+                           parameterCd = "00060", # discharge (ft3/s)
+                           startDate = "",
+                           endDate = "")
+names(NRHDischarge)[4:5] <-c("Discharge", "Approval.Code")
+# 06934500 Missouri River at Hermann, MO
+MRHDischarge <- readNWISdv(siteNumbers = "06934500",
+                             parameterCd = "00060", # discharge (ft3/s)
+                             startDate = "",
+                             endDate = "")
+names(MRHDischarge)[4:5] <-c("Discharge", "Approval.Code")
+# 06856600 REPUBLICAN R AT CLAY CENTER, KS
+RRCCDischarge <- readNWISdv(siteNumbers = "06856600",
+                           parameterCd = "00060", # discharge (ft3/s)
+                           startDate = "",
+                           endDate = "")
+names(RRCCDischarge)[4:5] <-c("Discharge", "Approval.Code")
+
+# Nitrogen Data
+# 06810000 Nishnabotna River above Hamburg, IA 
+NRHNitrogen <- readNWISqw(siteNumbers = "06810000",
+                          parameterCd = "00600", # nitrogen (mg/L)
+                          startDate = "",
+                          endDate = "") %>%
+  select(sample_dt, result_va)
+# 06934500 Missouri River at Hermann, MO
+MRHNitrogen <- readNWISqw(siteNumbers = "06934500",
+                            parameterCd = "00600", # nitrogen (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+# 06856600 REPUBLICAN R AT CLAY CENTER, KS
+RRCCNitrogen <- readNWISqw(siteNumbers = "06856600",
+                          parameterCd = "00600", # nitrogen (mg/L)
+                          startDate = "",
+                          endDate = "") %>%
+  select(sample_dt, result_va)
+
+#Phosphorus Data
+# 06810000 Nishnabotna River above Hamburg, IA 
+NRHPhosphorus <- readNWISqw(siteNumbers = "06810000",
+                            parameterCd = "00665", # phosphorus (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+# 06934500 Missouri River at Hermann, MO
+MRHPhosphorus <- readNWISqw(siteNumbers = "06934500",
+                              parameterCd = "00665", # phosphorus (mg/L)
+                              startDate = "",
+                              endDate = "") %>%
+  select(sample_dt, result_va)
+# 06856600 REPUBLICAN R AT CLAY CENTER, KS
+RRCCPhosphorus <- readNWISqw(siteNumbers = "06856600",
+                            parameterCd = "00665", # phosphorus (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+```
+
+```{r discharge.time, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:discharge.time}Discharge Over Time"}
+# Plot discharge over time for 3 sites
+NRHPlot <- 
+  ggplot(NRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+        title = "  06810000") + 
+  xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+
+MRHPlot <- 
+  ggplot(MRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"),title = "  06934500") + 
+    xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+
+RRCCPlot <- 
+  ggplot(RRCCDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+        title = "  06856600") + 
+    xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+grid.arrange(NRHPlot, MRHPlot, RRCCPlot)
+```
+
+As seen by \autoref{fig:discharge.time}, there is a gap of discharge data in 06810000. Therefore, we filter the discharge data by the date and only use the data available after 1928-01-01 for site 06810000.
+
+```{r dis.t3, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:dis.t3}Discharge Over Time for 3 sites"}
+NRHDischarge <- NRHDischarge %>%
+  filter(Date > "1928-01-01") %>%
+  arrange(Date)
+
+# Replot discharge over time
+NRHPlot <- 
+  ggplot(NRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+        title = "  06810000") + 
+  xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+
+MRHPlot <- 
+  ggplot(MRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"),title = "  06934500") + 
+    xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+
+RRCCPlot <- 
+  ggplot(RRCCDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+        title = "  06856600") + 
+    xlim(as.Date(c("1915-01-01", "2020-01-01"))) +
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12))
+grid.arrange(NRHPlot, MRHPlot, RRCCPlot)
+```
+
+Also, we do the same things for nitrogen and phosphorus.
+
+```{r N.t, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:N.t}Nitrogen Over Time"}
+NRHN <-
+  ggplot(NRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  labs(x = "", y = expression("Nitrogen (mg/L)"), 
+        title = "  06810000") 
+
+MRHN <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point()+
+  labs(x = "", y = expression("Nitrogen (mg/L)"), 
+        title = "  06934500") 
+
+RRCCN <-
+  ggplot(RRCCNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point()+
+  labs(x = "", y = expression("Nitrogen (mg/L)"), 
+        title = "  06856600") 
+
+grid.arrange(NRHN, MRHN, RRCCN)
+```
+
+```{r N.t3, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:N.t3}Nitrogen Over Time for 3 sites after filtering"}
+# Remove outliers
+NRHNitrogen <- NRHNitrogen %>%
+  filter(result_va < 20 & sample_dt > "2004-01-01") %>%
+  arrange(sample_dt)
+MRHNitrogen <- MRHNitrogen %>%
+  filter(result_va < 10) %>%
+  arrange(sample_dt)
+RRCCNitrogen <- RRCCNitrogen %>%
+  filter(result_va < 8 & sample_dt < "1994-01-01") %>%
+  arrange(sample_dt)
+
+# Re-plot data
+NRHN <-
+  ggplot(NRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("nitrogen (mg/L)"),title = "  06810000") 
+
+MRHN <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("nitrogen (mg/L)"), 
+        title = "  06934500") 
+
+RRCCN <-
+  ggplot(RRCCNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("nitrogen (mg/L)"), 
+        title = "  06856600") 
+
+grid.arrange(NRHN, MRHN, RRCCN)
+```
+
+```{r P.t, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:P.t}Phosphorus Over Time"}
+NRHP <-
+  ggplot(NRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()+
+  labs(x = "", y = expression("Phosphorus (mg/L)"), 
+        title = "  06810000") 
+
+MRHP <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()+
+  labs(x = "", y = expression("Phosphorus (mg/L)"), 
+        title = "  06934500") 
+
+RRCCP <-
+  ggplot(RRCCPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()+
+  labs(x = "", y = expression("Phosphorus (mg/L)"), 
+        title = "  06856600") 
+grid.arrange(NRHP, MRHP, RRCCP)
+```
+
+```{r P.t3, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:P.t3}Phosphorus Over Time for 3 sites after filtering"}
+# Remove outliers
+NRHPhosphorus <- NRHPhosphorus %>%
+  filter(result_va < 5 & sample_dt > "2004-01-01") %>%
+  arrange(sample_dt)
+MRHPhosphorus <- MRHPhosphorus %>%
+  filter(result_va < 3) %>%
+  arrange(sample_dt)
+RRCCPhosphorus <- RRCCPhosphorus %>%
+  filter(result_va < 2 & sample_dt < "1994-01-01") %>%
+  arrange(sample_dt)
+
+# Re-plot data
+NRHP <-
+  ggplot(NRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)"), 
+        title = "  06810000") 
+
+MRHP <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)"), 
+        title = "  06934500") 
+
+RRCCP <-
+  ggplot(RRCCPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)"), 
+        title = "  06856600") 
+grid.arrange(NRHP, MRHP, RRCCP)
+```
+
+\newpage
+
+## High Frequency Nitrogen and Discharge
+
+```{r}
+#high frequency data wrangling
+highfreqsite2019 <- highfreqsiteinfo %>%
+  filter(end_date > "2019-03-31"); head(highfreqsite2019)
+
+highfreqsites.DN <- readNWISuv(site = c("06808500", "06817000", "06892350", "06934500"), 
+                               parameterCd = c("00060", "99133"), 
+                               # Discharge in cfs & Nitrate in mg/l NO3-N
+                               startDate = "2019-01-01",
+                               endDate = "2019-11-01") %>%
+                               renameNWISColumns() %>%
+                               rename(Nitrate_mgl = 6)
+
+#individual sites
+Hermann <- highfreqsites.DN %>%
+           filter(site_no=="06934500")
+Desoto <- highfreqsites.DN %>%
+          filter(site_no=="06892350")
+Clarinda <- highfreqsites.DN %>%
+            filter(site_no=="06817000")
+Randolph <- highfreqsites.DN %>%
+            filter(site_no=="06808500")
+```
+
+
+There were 7 sites in our region of interest that had high freq N data, and only 4 sites had high freq N data during the floods of 2019. The sites looked at in depth are:
+
+    - West Nishnabotna River in Randolph, IA
+    - Nodaway River at Clarinda, IA
+    - Kansas River in Desoto, KS
+    - Missouri River at Hermann, MO
+
+The Missouri River is the biggest river, with an average of 214693 cfs discharge rate during the year 2019, and the Nodaway River is the smallest river, with an average of 1185 cfs discharge rate for 2019.
+
+In March of 2019, a [bomb cyclone](https://www.kansascity.com/news/state/missouri/article228237519.html) hit the midwest. Our initial research question, what effect did the March 2019 storm have on water quality, attempted to look into the behavior of nitrogen in the discharge of the rivers. Unfortunately, instantaneous Nitrogen values stopped recording during the peak of the storm events in March, so it was hard to create hysteresis plots that exhibited the type of storm and its effects on nitrogen concentration. 
+
+Even though Nitrogen concentrations were not recorded in March, they were recorded in other times of the year. 2019 was a wet year and many large storm events occurred. 
+
+```{r randolphs, echo=FALSE}
+#Randolph storm
+RandolphStorm <- Randolph %>%
+  filter(dateTime > "2019-06-24" & dateTime < "2019-07-08") 
+
+
+RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="West Nishnabotna River in Randolph, IA")
+
+#semi-clockwise motion, negative slope, so diluting
+```
+
+```{r desotos, fig.cap="\\label{fig:desotos} Hysteresis plots", echo=FALSE}
+#desoto storm
+
+DesotoStorm <- Desoto %>%
+  filter(dateTime > "2019-02-22" & dateTime < "2019-02-28") 
+
+
+DesotoStorm.plot <- ggplot(DesotoStorm, aes(x = Flow_Inst, y = Nitrate_mgl, color = dateTime)) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y= "Nitrogen mg/l)", color="Date", 
+       title="Kansas River in Desoto, KS")
+
+
+plot_grid(RandolphStorm.plot, DesotoStorm.plot, ncol=1)
+#very loose counter clockwise motion - loose positive slope for flushing storm
+```
+
+The \autoref{fig:desotos} shows Hysteresis plots for two storm events in the Missouri River Basin. The storm event on the West Nishnabotna River exhibits an oddly-shaped plot that has a negative slope, indicating it is a diluting storm. The Kansas River experienced a storm in late February that has a counter-clockwise motion and a positive slope, indicating a flushing storm. These two plots illustrate that two rivers near each other can have very different behaviors.
+
+\newpage
+
+# Analysis
+
+
+## Linear Models for Water Quality
+
+Linear models were run for total nitrogen, total phosphorus, total coliform, and pH to determine if there were significant patterns in the data.
+
+```{r, echo=FALSE}
+
+#linear model for TN 
+tn.mod <- lm(data = bestsites.wq.skinny, total.nitrogen ~ Date) #note: this linear model is only with 3 sites 
+summary(tn.mod) #for every day increase, total nitrogen increases by 9.310e-05 mg/l. Thus there is a significant increase over the time period (p < 2e-16, F-statistic = 23.31).
+
+
+#linear model of total coliform over time
+tc.mod <- lm(data = bestsites.wq.skinny, total.coliform ~ Date)
+summary(tc.mod) #for every day increase, total coliform increases by 1.046 cfu/100 ml. Thus, there is an increase over the time period (p < 0.0138, F-statistic = 0.01576).
+
+#linear model of total phosphorus over time with just 6 sites that have total coliform
+tp.mod <- lm(data = bestsites.wq.skinny, total.phosphorus ~ Date)
+summary(tp.mod) #for every day increase, total phosphorus increases by 1.887e-05 mg/L. Thus, there is a significant increase in total phosphorus over the time period (p < 2.14e-15, F-statistic = 30.92).
+
+#pH model
+ph.mod <- lm(data = bestsites.wq.skinny, pH ~ Date)
+summary(ph.mod) #for every day increase
+
+
+```
+
+Linear models were created in order to determine whether water quality parameters have changed over time. When nitrogen was evaluated for all sites over the time period, it was found that nitrogen has significantly increased over time (p< 2e-16, F_{1,992} = 23.31). At the six sites that total coliform was recorded, total coliform significantly increased over the time period (p < 0.0138, F_{1,46} = 0.01576). However, this result should be critically analyzed, because total coliform has not been measured since the 1980s. Total coliform levels should be measured more closely in this region, given the lack of data. A linear model was also performed on total phosphorus over time, and it was found that phosphorus levels have also increased over the time period for all sites of interest (p < 2.14e-15, F_{1,1048} = 30.92). Lastly, pH was analyzed in a linear model and it was found that pH had no significant increase or decrease over time in all of the sites of interest (p = 0.392). 
+
+A time series analysis will be conducted on the discharge from the chosen sies. This will include an analysis of baseflow and quickflow. A dygraph of discharge over time will be created to be able to better examine large increases in discharge.
+
+For high frequency data, a hystersis plot will be created to determine hydrologic flashiness.
+
+\newpage
+```{r}
+##Time Series
+
+# 06810000 Nishnabotna River above Hamburg, IA 
+
+########################### Discharge Analysis ############################
+NRHRegressionPlot <- 
+  ggplot(NRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE, color = "#c13d75ff") +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(NRHRegressionPlot)
+
+NRHDischarge <- na.omit(NRHDischarge)
+NRH_ts <- ts(NRHDischarge[[4]], frequency = 365)
+table(diff(NRHDischarge$Date))
+
+# Generate the decomposition
+NRH_Decomposed <- stl(NRH_ts, s.window = "periodic")
+
+# Visualize the decomposed series. 
+plot(NRH_Decomposed)
+
+# We can extract the components and turn them into data frames
+NRH_Components <- as.data.frame(NRH_Decomposed$time.series[,1:3])
+NRH_Components <- mutate(NRH_Components,
+                         Observed = NRHDischarge$Discharge,     
+                         Date = NRHDischarge$Date)
+
+# Visualize how the trend maps onto the data
+ggplot(NRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = trend, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+# Visualize how the seasonal cycle maps onto the data
+ggplot(NRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = seasonal, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+NRHDischarge.Monthly <- NRHDischarge %>%
+  mutate(Year = year(Date),
+         Month = month(Date)) %>%
+  group_by(Year, Month) %>%
+  summarise(Discharge = mean(Discharge))
+NRHMonthly_ts <- ts(NRHDischarge.Monthly[[3]], frequency = 12)
+adf.test(NRHMonthly_ts, alternative = "stationary")
+acf(NRHMonthly_ts)
+pacf(NRHMonthly_ts)
+
+# run the arima function and search for best fit
+auto.arima(NRHMonthly_ts, trace = TRUE)
+
+# create an object that defines the best fit model
+NRHfit <- arima(NRHMonthly_ts, c(1, 1, 1),seasonal = list(order = c(0, 0, 2), period = 12))
+
+# make a prediction into the future
+NRHprediction <- predict(NRHfit, n.ahead = 10*12)
+
+# plot future predictions
+ts.plot(NRHMonthly_ts, NRHprediction$pred, lty = c(1, 3))
+
+########################### Nitrogen Analysis ############################
+# Generate monthly values from March 2004 to September 2014
+NRHNitrogenlp <- as.data.frame(approx(NRHNitrogen, n = 128, method = "linear"))
+NRHNitrogenlp$x <- as.Date(NRHNitrogenlp$x, origin = "1970-01-01")
+names(NRHNitrogenlp) <- c("Date", "N")
+
+# Inspect interpolated values
+NRHNinterpolated <-
+  ggplot(NRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = NRHNitrogenlp, aes(x = Date, y = N), color = "#c13d75ff")
+print(NRHNinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+NRHNtimeseries <- ts(NRHNitrogenlp$N, frequency = 12,
+                     start = c(2004, 3, 11), end = c(2014, 9, 16))
+# Run SMK test
+NRHNtrend <- smk.test(NRHNtimeseries)
+
+# Inspect results
+NRHNtrend
+summary(NRHNtrend)
+
+########################### Phosphorus Analysis ############################
+# Generate monthly values from March 2004 to September 2014
+NRHPhosphoruslp <- as.data.frame(approx(NRHPhosphorus, n = 128, method = "linear"))
+NRHPhosphoruslp$x <- as.Date(NRHPhosphoruslp$x, origin = "1970-01-01")
+names(NRHPhosphoruslp) <- c("Date", "P")
+
+# Inspect interpolated values
+NRHPinterpolated <-
+  ggplot(NRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = NRHPhosphoruslp, aes(x = Date, y = P), color = "#c13d75ff")
+print(NRHPinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+NRHPtimeseries <- ts(NRHPhosphoruslp$P, frequency = 12,
+                     start = c(2004, 3, 11), end = c(2014, 9, 16))
+# Run SMK test
+NRHPtrend <- smk.test(NRHPtimeseries)
+
+# Inspect results
+NRHPtrend
+summary(NRHPtrend)
+
+
+# 06934500 Missouri River at Hermann, MO 
+
+########################### Discharge Analysis ############################
+
+MRHRegressionPlot <- 
+  ggplot(MRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE, color = "#c13d75ff") +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(MRHRegressionPlot)
+
+MRHDischarge <- na.omit(MRHDischarge)
+MRH_ts <- ts(MRHDischarge[[4]], frequency = 365)
+table(diff(MRHDischarge$Date))
+
+# Generate the decomposition
+MRH_Decomposed <- stl(MRH_ts, s.window = "periodic")
+
+# Visualize the decomposed series. 
+plot(MRH_Decomposed)
+
+# We can extract the components and turn them into data frames
+MRH_Components <- as.data.frame(MRH_Decomposed$time.series[,1:3])
+MRH_Components <- mutate(MRH_Components,
+                           Observed = MRHDischarge$Discharge,     
+                           Date = MRHDischarge$Date)
+
+# Visualize how the trend maps onto the data
+ggplot(MRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = trend, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+# Visualize how the seasonal cycle maps onto the data
+ggplot(MRH_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = seasonal, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+MRHDischarge.Monthly <- MRHDischarge %>%
+  mutate(Year = year(Date),
+         Month = month(Date)) %>%
+  group_by(Year, Month) %>%
+  summarise(Discharge = mean(Discharge))
+MRHMonthly_ts <- ts(MRHDischarge.Monthly[[3]], frequency = 12)
+adf.test(MRHMonthly_ts, alternative = "stationary")
+acf(MRHMonthly_ts)
+pacf(MRHMonthly_ts)
+
+# run the arima function and search for best fit
+auto.arima(MRHMonthly_ts, trace = TRUE)
+
+# create an object that defines the best fit model
+MRHfit <- arima(MRHMonthly_ts, c(5, 1, 0), seasonal = list(order = c(2, 0, 0), period = 12))
+
+# make a prediction into the future
+MRHprediction <- predict(MRHfit, n.ahead = 10*12)
+
+# plot future predictions
+ts.plot(MRHMonthly_ts, MRHprediction$pred, lty = c(1, 3))
+
+########################### Nitrogen Analysis ############################
+# Generate monthly values from July 1973 to August 2019
+MRHNitrogenlp <- as.data.frame(approx(MRHNitrogen, n = 556, method = "linear"))
+MRHNitrogenlp$x <- as.Date(MRHNitrogenlp$x, origin = "1970-01-01")
+names(MRHNitrogenlp) <- c("Date", "N")
+
+# Inspect interpolated values
+MRHNinterpolated <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = MRHNitrogenlp, aes(x = Date, y = N), color = "#c13d75ff")
+print(MRHNinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+MRHNtimeseries <- ts(MRHNitrogenlp$N, frequency = 12,
+                       start = c(1973, 7, 23), end = c(2019, 8, 6))
+# Run SMK test
+MRHNtrend <- smk.test(MRHNtimeseries)
+
+# Inspect results
+MRHNtrend
+summary(MRHNtrend)
+
+########################### Phosphorus Analysis ############################
+# Generate monthly values from July 1969 to August 2019
+MRHPhosphoruslp <- as.data.frame(approx(MRHPhosphorus, n = 604, method = "linear"))
+MRHPhosphoruslp$x <- as.Date(MRHPhosphoruslp$x, origin = "1970-01-01")
+names(MRHPhosphoruslp) <- c("Date", "P")
+
+# Inspect interpolated values
+MRHPinterpolated <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = MRHPhosphoruslp, aes(x = Date, y = P), color = "#c13d75ff")
+print(MRHPinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+MRHPtimeseries <- ts(MRHPhosphoruslp$P, frequency = 12,
+                       start = c(1969, 7, 31), end = c(2019, 8, 6))
+# Run SMK test
+MRHPtrend <- smk.test(MRHPtimeseries)
+
+# Inspect results
+MRHPtrend
+summary(MRHPtrend)
+
+
+# 06856600 REPUBLICAN R AT CLAY CENTER, KS
+
+########################### Discharge Analysis ############################
+RRCCRegressionPlot <- 
+  ggplot(RRCCDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE, color = "#c13d75ff") +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)")) + 
+  theme(plot.title = element_text(margin = margin(b = -10), size = 12), 
+        axis.title.x = element_blank())
+print(RRCCRegressionPlot)
+
+RRCCDischarge <- na.omit(RRCCDischarge)
+RRCC_ts <- ts(RRCCDischarge[[4]], frequency = 365)
+table(diff(RRCCDischarge$Date))
+
+# Generate the decomposition
+RRCC_Decomposed <- stl(RRCC_ts, s.window = "periodic")
+
+# Visualize the decomposed series. 
+plot(RRCC_Decomposed)
+
+# We can extract the components and turn them into data frames
+RRCC_Components <- as.data.frame(RRCC_Decomposed$time.series[,1:3])
+RRCC_Components <- mutate(RRCC_Components,
+                         Observed = RRCCDischarge$Discharge,     
+                         Date = RRCCDischarge$Date)
+
+# Visualize how the trend maps onto the data
+ggplot(RRCC_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = trend, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+# Visualize how the seasonal cycle maps onto the data
+ggplot(RRCC_Components) +
+  geom_line(aes(y = Observed, x = Date),  size = 0.25) +
+  geom_line(aes(y = seasonal, x = Date), color = "#c13d75ff") +
+  geom_hline(yintercept = 0, lty = 2) +
+  ylab(expression("Discharge (ft"^3*"/s)"))
+
+RRCCDischarge.Monthly <- RRCCDischarge %>%
+  mutate(Year = year(Date),
+         Month = month(Date)) %>%
+  group_by(Year, Month) %>%
+  summarise(Discharge = mean(Discharge))
+RRCCMonthly_ts <- ts(RRCCDischarge.Monthly[[3]], frequency = 12)
+adf.test(RRCCMonthly_ts, alternative = "stationary")
+acf(RRCCMonthly_ts)
+pacf(RRCCMonthly_ts)
+
+# run the arima function and search for best fit
+auto.arima(RRCCMonthly_ts, trace = TRUE)
+
+# create an object that defines the best fit model
+RRCCfit <- arima(RRCCMonthly_ts, c(0, 1, 1),seasonal = list(order = c(0, 0, 2), period = 12))
+
+# make a prediction into the future
+RRCCprediction <- predict(RRCCfit, n.ahead = 10*12)
+
+# plot future predictions
+ts.plot(RRCCMonthly_ts, RRCCprediction$pred, lty = c(1, 3))
+
+########################### Nitrogen Analysis ############################
+# Generate monthly values from February 1973 to September 1993
+RRCCNitrogenlp <- as.data.frame(approx(RRCCNitrogen, n = 249, method = "linear"))
+RRCCNitrogenlp$x <- as.Date(RRCCNitrogenlp$x, origin = "1970-01-01")
+names(RRCCNitrogenlp) <- c("Date", "N")
+
+# Inspect interpolated values
+RRCCNinterpolated <-
+  ggplot(RRCCNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = RRCCNitrogenlp, aes(x = Date, y = N), color = "#c13d75ff")
+print(RRCCNinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+RRCCNtimeseries <- ts(RRCCNitrogenlp$N, frequency = 12,
+                     start = c(1973, 2, 22), end = c(1993, 9, 1))
+# Run SMK test
+RRCCNtrend <- smk.test(RRCCNtimeseries)
+
+# Inspect results
+RRCCNtrend
+summary(RRCCNtrend)
+
+########################### Phosphorus Analysis ############################
+# Generate monthly values from January 1973 to September 1993
+RRCCPhosphoruslp <- as.data.frame(approx(RRCCPhosphorus, n = 250, method = "linear"))
+RRCCPhosphoruslp$x <- as.Date(RRCCPhosphoruslp$x, origin = "1970-01-01")
+names(RRCCPhosphoruslp) <- c("Date", "P")
+
+# Inspect interpolated values
+RRCCPinterpolated <-
+  ggplot(RRCCPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  geom_point(data = RRCCPhosphoruslp, aes(x = Date, y = P), color = "#c13d75ff")
+print(RRCCPinterpolated)
+
+# Generate time series (smk.test needs ts, not data.frame)
+RRCCPtimeseries <- ts(RRCCPhosphoruslp$P, frequency = 12,
+                     start = c(1973, 1, 16), end = c(1993, 9, 1))
+# Run SMK test
+RRCCPtrend <- smk.test(RRCCPtimeseries)
+
+# Inspect results
+RRCCPtrend
+summary(RRCCPtrend)
+```
+
+\newpage
+
+# Summary and Conclusions
+<Summarize your major findings from your analyses. What conclusions do you draw from your findings? Make sure to apply this to a broader application for the research question you have answered.>
+
+
+# References
