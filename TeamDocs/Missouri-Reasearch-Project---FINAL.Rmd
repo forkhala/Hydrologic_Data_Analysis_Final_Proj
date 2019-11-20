@@ -43,7 +43,6 @@ library(grid)
 library(gridExtra)
 library(ggpubr)
 require(pander)
-library(scales)
 
 # Set your ggplot theme
 
@@ -64,14 +63,11 @@ Along with the agricultural, urban, and industrial development in the region is 
 
 In addition to change in nutrient concentration, discharge appears to be highly variable in the basin, and both severe drought and flooding events occurred in the basin in the past. For example, in the spring and summer of 2011, an unprecedented flooding event caused over \$2 billion damage and 5 fatalities, leading to FEMA disaster declaration made in all states along the Missouri River [@noaa2012]. During the flooding event, around 11,000 people evacuated Minot, North Dakota owing to high water level in Souris River, which flooded 4,000 homes [@noaa2012]. In 2012, a drought even struck the Central Great Plain, including the basin, and inflicted at least \$12 billion of loss before July, 2012 [@noaa2013]. Recently, another flooding event occurred in the spring of 2019. 
 
-Given all the background information above, we would like to know the current state of Missouri River and its tributaries, with a focus on the changing patterns in discharge and nutrient levels. Water bodies along the downstream are more likely to be impaired by nutrients accumulated from the upstream, and more croplands and pastures which can further load nutrients into streams are distributed in the lower basins (\autoref{fig:cropland}). Therefore, in the present project, study sites were concentrated in the southeast of the whole Missouri Basin. By analyzing data retrieved from these sites, we first revealed the general yearly discharge pattern and changes in variability over years. Then we investigated how the dramatic change in discharge (i.e. water quantity) could potentially interact with nutrient enrichment (i.e. water quality). We examined a few specific flooding and drought events, during which changes in both water quality and quantity were well recorded, so that we could make inference on the interplay between quantity and quality. The effect of population on nutrient enrichment was also examined to illustrate potential non-agricultural impact from human activities. Finally, based on the pattern in the past and the best model we could fit, we attempted to predict the likely future conditions and trends in the Missouri River Basin. 
+Given all the background information above, we would like to know the current state of Missouri River and its tributaries, with a focus on the changing patterns in discharge and nutrient levels. Water bodies along the downstream are more likely to be impaired by nutrients accumulated from the upstream, and more croplands and pastures which can further load nutrients into streams are distributed in the lower basins (\autoref{fig:cropland}). Therefore, in the present project, study sites were concentrated in the southeast of the whole Missouri Basin. By analyzing data retrieved from these sites, we first revealed the general yearly discharge pattern and changes in variability over years. Then we investigated how the dramatic change in discharge (i.e. water quantity) could potentially interact with nutrient enrichment (i.e. water quality). We examined a few specific flooding and drought events, during which changes in both water quality and quantity were well recorded, so that we could make inference on the interplay between quantity and quality. The effect of population on nutrient enrichment was also examined to illustrate potential non-agricultural impact from human activities. Finally, based on the pattern in the past and the best model we could fit, we attempted to predict the likely future conditions and trends in the Missouri River Basin. Our research questions and acccompanying hypotheses are below:
 
 ```{r cropland, out.width="\\maxwidth", fig.cap="\\label{fig:cropland} Map of agricultural lands and impaired waters in the Missouri River Basin. Row and Close Grain Crop Cultural Formation shown by tan-colored areas, pasture and hay field shown by yellowgreen areas, imparied water bodies according to Clean Water Act Section 303(d) (EPA 2015) denoted by red areas, and all HUC4 watersheds in the Missouri River Basin (1001-1030) delineated by gray polygons. The thin light-blue lines outline all streams of a Strahler order higher than 2, and the thick blue line represents the mainstem of Missouri River."}
 knitr::include_graphics('../Figures/cropland3.png')
 ```
-
-Our research questions and acccompanying hypotheses are below.
-
 1. How have changes in discharge (i.e. water quantity) interacted with nutrient enrichment (i.e. water quality) in the Missouri River Basin?
 
     a) Nutrient levels have increased over time - Keqi
@@ -242,12 +238,40 @@ pandoc.table(var.table, style = 'rmarkdown',
 
 ## Question 1:  How have changes in discharge interacted with nutrient enrichment in the Missouri River Basin?
 
-In order to determine whether nutrient levels increase with discharge, C-Q (concentration - discharge) plots were created for each site (\autoref{fig:CQplot}). At sites with high frequency nitrogen data, high frequency nitrogen and discharge values were used. When sites did not have high frequency nitrogen data, daily values were used. A linear model with total nitrogen as the response variable and discharge as the independent variable was created for every site to determine if there was a linear relationship between the two. In 18 out of 22 total sites, there was a significant relationship where as discharge increased, nitrogen also increased.
+We analyzed discharge, nitrogen and phosphorus trends at 22 sites using daily value data. The results are listed in the following table. In our analysis, discharge of 18 sites increase while 4 sites show the decreasing trend of discharge. However, these four sites all locate in HUC 1025 and 1026, away from the main stem of the Missouri River. Therefore, overall, the discharge in Missouri River is increasing.
+The trend of nitrogen and phosphorus concentration of 22 sites are quite different. But generally, the trend of nitrogen and the trend of phosphorus are similar, which indicates that there is high possiblity that nitrogen and phosphorus come from the same sources. If we focus on the sites located at the main stem of the Missouri River (06610000 Missouri River at Omaha, NE; 06818000 Missouri River at St. Joseph, MO; 06934500 Missouri River at Hermann, MO), we can see significant increasing trend of nitrogen and phosphorus. The water quality in Missouri River is still deteriorating and protection is urgently needed.
 
-```{r CQplot, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:CQplot} C-Q plots of two sites in the Missouri River Basin. High frequency (left) and daily values (right) shown for two different sites. Nitrogen values are log transformed."}  
-knitr::include_graphics('../Figures/CQplots.png')
-```
+Site Name    |   Site Number   |  Discharge Trend  |  Discharge Trend Significance  |   Nitrogen Trend  |  Nitrogen Trend Significance  |   Phosphorus Trend    |  Phosphorus Trend Significance   |
+:-------------:|:-----------------:|:-------------------:|:--------------------------------:|:-------------------:|:------------------------------------------:|:---------------------:|:--------------------------------:|
+Platte River near Overton, Nebr.  |  06768000  |  Increase  |    |  Decrease  |  *  |  Decrease  |  ***  |
+Platte River at Louisville, Nebr.  |  06805500  |  Increase  |  ***  |  Increase  |  ***  |  Increase  |  ***  |
+Dismal River near Thedford, Nebr.  |  06775900  |  Increase  |  ***  |  Decrease  |  ***  |  Decrease  |    |
+Beaver Creek at Genoa, Nebr.  |  06794000  |  Increase  |    |  Increase  |    |  Increase  |    |
+Maple Creek near Nickerson, Nebr.  |  06800000  |  Increase  |  ***  |  Increase  |  ***  |  Increase  |  ***  |
+Elkhorn River at Waterloo, Nebr.  |  06800500  |  Increase  |  ***  |  Increase  |  *  |  Increase  |    |
+Missouri River at Omaha, NE  |  06610000  |  Increase  |  ***  |  Increase  |  **  |  Increase  |  ***  |
+Boyer River at Logan, IA  |  06609500  |  Increase  |  ***  |  Decrease  |    |  Increase  |    |
+Nishnabotna River above Hamburg, IA  |  06810000  |  Increase  |  ***  |  Decrease  |    |  Increase  |    |
+Missouri River at St. Joseph, MO  |  06818000  |  Increase  |  ***  |  Increase  |  .  |  Increase  |    |
+Republican River near Orleans, Nebr.  |  06844500  |  Decrease  |  ***  |  Increase  |  .  |  Decrease  |  **  |
+REPUBLICAN R AT CLAY CENTER, KS  |  06856600  |  Decrease  |  **  |  Decrease  |  **  |  Decrease  |  ***  |
+SMOKY HILL R AT ENTERPRISE, KS  |  06877600  |  Decrease  |    |  Decrease  |  .  |  Increase  |    |
+SF SOLOMON R AT OSBORNE, KS  |  06874000  |  Decrease  |  .  |  Decrease  |  ***  |  Decrease  |  ***  |
+KANSAS R AT WAMEGO, KS  |  06887500  |  Increase  |    |  Increase  |  ***  |  Increase  |  ***  |
+KANSAS R AT DESOTO, KS  |  06892350  |  Increase  |  .  |  Increase  |  **  |  Increase  |  ***  |
+Grand River near Sumner, MO  |  06902000  |  Increase  |  *  |  Decrease  |  ***  |  Increase  |    |
+Chariton River near Prairie Hill, MO  |  06905500  |  Increase  |  *  |  Decrease  |    |  Increase  |    |
+Pomme de Terre River near Polk, MO  |  06921070  |  Increase  |    |  Decrease  |  .  |  Decrease  |    |
+Osage River below St. Thomas, MO  |  06926510  |  Increase  |    |  Decrease  |  ***  |  Increase  |  ***  |
+Little Blue River near Lake City, MO  |  06894000  |  Increase  |  **  |  Decrease  |  ***  |  Decrease  |  ***  |
+Missouri River at Hermann, MO  |  06934500  |  Increase  |  ***  |  Increase  |  ***  |  Increase  |  ***  |
 
+Note:
+*** p-value < 0.001 
+** 0.001 <= p-value < 0.01
+* 0.01 <= p-value < 0.05 
+. 0.05 <= p-value < 0.1 
+otherwise  0.1 <= p-value < 1 
 
 ## Question 2: What effects do specific flood and drought events have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
 
@@ -295,38 +319,32 @@ print(RandolphStorm.plot)
 
 ## Question 3: What factors contribute to the variability of total nitrogen in the rivers?
 
-In order to better understand what contributes to the variability of nitrogen concentration in our study area of interest, we created a linear model with fixed effects. By considering the huc4 region each site is in as a fixed effect, we can estimate the amount of variation of nitrogen between each huc4. 
-
 ## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
 Site Name    |   Site Number   |  Dec. 2019  | Jan. 2020  |  Feb. 2020  |  Mar. 2020  |  Apr. 2020  |  May 2020  |  June 2020  |   July 2020  |  Aug. 2020  |  Sept. 2020  | Oct. 2020  | Nov. 2020  |
--------------|-----------------|-------------|------------|-------------|-------------|-------------|------------|---------------|--------------|-------------|--------------|------------|------------|
-Platte River near Overton, Nebr.
-Platte River at Louisville, Nebr.
-Dismal River near Thedford, Nebr.
-Beaver Creek at Genoa, Nebr.
-Maple Creek near Nickerson, Nebr.
-Elkhorn River at Waterloo, Nebr.
-Missouri River at Omaha, NE
-Boyer River at Logan, IA
-Nishnabotna River above Hamburg, IA
-Missouri River at St. Joseph, MO
-Republican River near Orleans, Nebr.
-REPUBLICAN R AT CLAY CENTER, KS
-SMOKY HILL R AT ENTERPRISE, KS
-SF SOLOMON R AT OSBORNE, KS
-KANSAS R AT WAMEGO, KS
-KANSAS R AT DESOTO, KS
-Grand River near Sumner, MO
-Chariton River near Prairie Hill, MO
-Pomme de Terre River near Polk, MO
-Osage River below St. Thomas, MO
-Little Blue River near Lake City, MO
-Missouri River at Hermann, MO
-
-
-
-
+:-------------:|:-----------------:|:-------------:|:------------:|:-------------:|:-------------:|:-------------:|:------------:|:---------------:|:--------------:|:-------------:|:--------------:|:------------:|:------------:|
+Platte River near Overton, Nebr.  |  06768000  |  2019.992	 |  1942.129	 |  1929.816 	|  2040.176	 |  2032.186	 |  1990.873	 |  2023.824	 |  2008.55	 |  1928.585	 |  1996.895	 |  1979.38	 |  2026.699  |
+Platte River at Louisville, Nebr.  |  06805500  |  14060.7	 |  12802.25	 |  12845.87	 |  23729.49	 |  15056.78	 |  16585.16	 |  18430.86	 |  15168.09	 |  15216.99	 |  14719.46	 |  13635.78	 |  12780.16  |
+Dismal River near Thedford, Nebr.  |  06775900  |  239.2089	 |  238.9801	 |  238.3116	 |  239.5916	 |  240.5232	 |  242.5456	 |  242.0369	 |  241.6409	 |  242.0486	 |  242.2389	 |  241.9548	 |  240.2764  |
+Beaver Creek at Genoa, Nebr.  |  06794000  |  148.0349	 |  129.4563	 |  129.6965	 |  327.3795	 |   165.0577	 |  190.15	 |  189.022	 |  172.7318	 |   157.0474	 |  146.7917	 |  151.0374	 |  136.0562  |
+Maple Creek near Nickerson, Nebr.  |  06800000  |  173.1581	 |  150.6924	 |  141.7451 	|  313.545	 |  159.0779	 |  199.5598 	|  187.1167	 |  149.6114	 |  148.6135	 |  149.6721	 |  146.2639	 |  136.3859  |
+Elkhorn River at Waterloo, Nebr.  |  06800500  |  2607.337	 |  2598.611	 |  2672.196	 |  3208.066	 |  3341.665	 |  3977.717	 |  3785.948	 |  2912.286	 |  2434.121	 |  3091.355	 |  2733.932	 |  2520.393  |
+Missouri River at Omaha, NE  |  06610000  |  70976.66	 |  60591.76	 |  55874.04	 |  73723.59	 |  81113.53	 |  83595.71	 |  90800.91	 |  85219.7	 |  78593.88	 |  80467.92	 |  78227.7	 |  70854.33  |
+Boyer River at Logan, IA  |  06609500  |  708.6843	 |  691.4817	 |  645.5966	 |  1176.8041	 |  714.8702	 |  814.9989	 |  800.516	 |  733.6069	 |  650.3337	 |  655.3034	 |  724.2999	 |  689.9273  |
+Nishnabotna River above Hamburg, IA  |  06810000  |  2422.32	 |  2391.721	 |  2377.854	 |  3204.073	 |  2417.139	 |  2731.861	 |  3004.86	 |  2650.792	 |  2460.292	 |  2777.403	 |  3156.369	 |  2595.649  |
+Missouri River at St. Joseph, MO  |  06818000  |  90011.3	 |  77760.16	 |  70549.03	 |   116938.26	 |  110927.07	 |  130362.46	 | 131671.16	 |  110560.74	 |  99105.45	 |  103960.49	 |  121688.94	 |  96803.96 |
+Republican River near Orleans, Nebr.  |  06844500  |  154.9544	 |  145.2851	 |  147.9408	 |  228.2876	 |  171.8784	 |  166.0301	 |  184.0507	 |  321.3987	 |  164.3744	 |  150.4602	 |  149.7053	 |  158.701  |
+REPUBLICAN R AT CLAY CENTER, KS  |  06856600  |  2212.686	 |  2012.946	 |  1966.35	 |  2354.776	 |  2052.399	 |  2615.569	 |  2571.786	 |  2483.559	 |  2404.832	 |  2283.906	 |  2196.924	 |  2058.036  |
+SMOKY HILL R AT ENTERPRISE, KS  |  06877600  |  1999.598	 |  1814.097	 |  1688.58	 |  1807.765	 |  1634.919	 |  2308.793	 |  2034.465 	|  1885.749	 |  1831.551	 |  1777.794	 |  1663.053	 |  1556.348  |
+SF SOLOMON R AT OSBORNE, KS  |  06874000  |  174.3205	 |  140.6582	 |  123.4546	 |  114.6624	 |  110.1691	 |  107.8727	 |  106.6991	 |  106.0993	 |  105.7928	 |  105.6361	 |  105.556	 |  105.5151  |
+KANSAS R AT WAMEGO, KS  |  06887500  |  14398.77	 |  10484.501	 |  7784.95	 |  6938.432	 |  5800.966	 |  7571.298	 |  8326.411	 |  9052.989	 |  6796.397	 |  6676.547	 |  6316.088	 |  7646.2  |
+KANSAS R AT DESOTO, KS  |  06892350  |  17433.744	 |  13064.978 	|  10272.795	 |  9334.909	 |  7730.841	 |  11531.101	 |  11710.275	 |  12100.027	 |  10099.463	 |  9499.502	 |  8509.621	 |  9945.916  |
+Grand River near Sumner, MO  |  06902000  |  9634.729	 |  9456.489	 |  10440.135	 |  10753.103	 |  9392.489	 |  12326.771	 |  11756.818 	|  9390.933	 |  9517.493	 |  10274.174	 |  12340.875	 |  9446.777  |
+Chariton River near Prairie Hill, MO  |  06905500  |  1946.371	 |  2523.677	 |  2663.863	 |  2701.267	 |  2556.851	 |  3142.349	 |  2904.042	 |  2597.213	 |  2511.393	 |  2678.037	 |  2898.101	 |  2629.494  |
+Pomme de Terre River near Polk, MO  |  06921070  |  302.1977	 |  290.1968	 |  335.3464	 |  317.8665	 |  267.6631	 |  404.104	 |  262.339	 |  255.1629	 |  247.3837	 |  250.4061	 |  269.6108	 |  277.8386  |
+Osage River below St. Thomas, MO  |  06926510  |  12184.39	 |  13730.31	 |  13039.62	 |  12564.56	 |  14026.34	 |  14174.23	 |  16191.64	 |  16801.49	 |  15671.6	 |  14122.26	 |  13155.48	 |  12236.42  |
+Little Blue River near Lake City, MO  |  06894000  |  181.6666	 |  206.4976	 |  203.7249 	|  206.7256	 |  214.5459	 |  320.4555	 |  220.6817	 |  228.4371	 |  209.8449	 |  231.759	 |  198.792	 |  190.647  |
+Missouri River at Hermann, MO  |  06934500  |  189461.2	 |  194893.2	 |  194212.8	 |  215398.5	 |  212735.9	 |  230589.3	 |  240828.8	 |  227848.5 	|  213285.9	 |  216789.6	 |  230480	 |  210515  |
 
 ### Droughts
 Droughts in the Missouri River Basin were known to occur throughout the years. 
