@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.1)  20 NOV 2019 00:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.1)  20 NOV 2019 01:36
 entering extended mode
 **./Missouri-Reasearch-Project---FINAL.tex
 (Missouri-Reasearch-Project---FINAL.tex
@@ -819,9 +819,8 @@ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.205     D
-           ischarge has become more variable over time - Hubert <../Figures/cro
-pland3.png>] [4]
+l.198 
+       <../Figures/cropland3.png>] [4]
 LaTeX Font Info:    Try loading font information for T1+lmtt on input line 260.
 
 ("D:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd"
@@ -1021,13 +1020,13 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 738.
  ) 
 Here is how much of TeX's memory you used:
- 14512 strings out of 492895
- 210797 string characters out of 3133477
- 341784 words of memory out of 3000000
+ 14510 strings out of 492895
+ 210777 string characters out of 3133477
+ 341907 words of memory out of 3000000
  18014 multiletter control sequences out of 15000+200000
- 67185 words of font info for 111 fonts, out of 3000000 for 9000
+ 67094 words of font info for 110 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,7n,38p,999b,480s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 32i,7n,38p,999b,437s stack positions out of 5000i,500n,10000p,200000b,50000s
 {D:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{D:/Program Files/M
 iKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{D:/Program Files/MiKTeX 2.9/fonts/e
 nc/dvips/lm/lm-ts1.enc}{D:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.en
@@ -1037,7 +1036,7 @@ ts/type1/public/lm/lmr12.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm
 /lmr17.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr8.pfb><D:/Prog
 ram Files/MiKTeX 2.9/fonts/type1/public/lm/lmri12.pfb><D:/Program Files/MiKTeX 
 2.9/fonts/type1/public/lm/lmtt12.pfb>
-Output written on Missouri-Reasearch-Project---FINAL.pdf (16 pages, 1013872 byt
+Output written on Missouri-Reasearch-Project---FINAL.pdf (16 pages, 1022860 byt
 es).
 PDF statistics:
  264 PDF objects out of 1000 (max. 8388607)
