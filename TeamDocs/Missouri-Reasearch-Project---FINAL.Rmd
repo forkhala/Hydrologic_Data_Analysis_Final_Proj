@@ -140,9 +140,9 @@ names(MRHDischarge)[4:5] <-c("Discharge", "Approval.Code")
 
 # Plot discharge over time
 MRHPlot <- 
-  ggplot(MRHDischarge, aes(x = Date, y = Discharge)) +
+  ggplot(MRHDischarge, aes(x = Date, y = Discharge/10^5)) +
   geom_line() +
-  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+  labs(x = "", y = expression("Discharge (10"^5*" ft"^3*"/s)"), 
         title = "  22 Missouri River At Hermann, MO") + 
   xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
   par(pin = c(50,40))
