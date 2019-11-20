@@ -85,8 +85,8 @@ knitr::include_graphics('../Figures/cropland3.png')
 
 4. Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
-    a) Total flow in the Missouri River Basin is decreasing (non-stationary) over time - Keqi
-    b) The future situation of the river basin will see the continuation of current trends of decreasing overall volume of flow. - Keqi
+    a) Total flow in the Missouri River Basin is increasing (non-stationary) over time - Keqi
+    b) The future situation of the river basin will see the continuation of current trends of increasing overall volume of flow. - Keqi
 
 \newpage
 
