@@ -197,12 +197,6 @@ RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, 
 print(RandolphStorm.plot)
 ```
 
-
-
-## Question 3: What factors contribute to the variability of total nitrogen in the rivers?
-
-## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
-
 ### Droughts
 Droughts in the Missouri River Basin were known to occur throughout the years. 
 
@@ -217,6 +211,13 @@ Kansas River in Desoto, KS  | 06892350 | 562
 Missouri River at Hermann, MO  | 06934500  | 12414
 Mill C at Johnson Drive, Shawnee, KS  | 06892513 | 1.47
 Grand River, Sumner MO  | 06902000 | 39.1  
+
+
+
+## Question 3: What factors contribute to the variability of total nitrogen in the rivers?
+
+## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
+
 
 
 \newpage
