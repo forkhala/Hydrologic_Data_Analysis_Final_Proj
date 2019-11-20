@@ -107,7 +107,7 @@ Variable   |   Unit  |   Number of Sites   |
 ----------- | :---------------: | --------------- |
 Discharge  | cfs or $m^{3}$/s | 22 
 Time | UTC | 22
-Nitrogen | mg/L | 22 daily values, 6 high frequency
+Nitrogen | mg/L | 22 with daily values, 6 with high frequency values
 Phosphorus | mg/L | 22
 
 <Add a table that summarizes your data structure (variables, units, ranges and/or central tendencies, data source if multiple are used, etc.). This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.>
@@ -348,7 +348,7 @@ Missouri River at Hermann, MO  | 06934500  | 12414
 Mill C at Johnson Drive, Shawnee, KS  | 06892513 | 1.47
 Grand River, Sumner MO  | 06902000 | 39.1  
 
-In addition to calculating the 7Q10 values for the 6 sites, the sites were analyzed to determine the 7-day moving average flow over a period of years. The 25th, 50th, and 75th quantiles were calculated to determine the minimum, median, and maximum values for discharge in a given year. The 7-day moving average flow over a period of years was then plotted with the 25th, 50th, and 75th quantiles representing normal drought conditions, drought watch, drought warning, and drought emergency (Figure ____). This information about droughts and whether the river is expected to be in a drought, or whether it is a drought watch or warning, is extremely useful for water managers. 
+In addition to calculating the 7Q10 values for the 6 sites, the sites were analyzed to determine the 7-day moving average flow over a period of years. The 25th, 50th, and 75th quantiles were calculated to determine the minimum, median, and maximum values for discharge in a given year. The 7-day moving average flow over a period of years was then plotted with the 25th, 50th, and 75th quantiles representing normal drought conditions, drought watch, drought warning, and drought emergency (Figure ____). This information about what flow would constitute a drought is extremely useful for water managers.  
 
 ## Question 3: What factors contribute to the variability of total nitrogen in the rivers?
 
