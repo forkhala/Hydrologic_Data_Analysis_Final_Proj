@@ -64,11 +64,37 @@ print(Clarinda.plot) #no discernable patter, huge variation in N conc within
 #small changes of discharge (influenced by season?)
 
 Randolph.plot <- ggplot(Randolph,
-                 aes(x = Flow_Inst, y = Nitrate_mgl)) +
+                 aes(x = Flow_Inst, y = log(Nitrate_mgl))) +
                  geom_point() +
-                 scale_x_log10() +
-                 scale_y_log10()
+                 scale_x_log10(labels=comma) +
+                 scale_y_log10() +
+  labs(x="Discharge (cfs)", y = "Inorganic Nitrogen (mg/l)", 
+       title = "Nishnabotna River at Randolph, Iowa")
 print(Randolph.plot) #chemostatic no discernable pattern whatsoever
+
+Missouri <- readNWISdv(siteNumbers="06775900", parameterCd = c("00060", "00600"))
+MissouriN <- readNWISqw(siteNumbers = "06775900", parameterCd = "00600")
+MissouriN$Date <- as.Date(MissouriN$sample_dt)
+MissouriN <- MissouriN %>%
+  dplyr::select(site_no, Date, result_va)
+Missouri$Date <- as.Date(Missouri$Date)
+Missouri <- Missouri %>%
+  dplyr::select(site_no, Date, X_00060_00003)
+Missouri.DN <- left_join(Missouri, MissouriN, by=c("site_no", "Date"))
+Missouri.DN.plot <- ggplot(Missouri.DN, aes(x=X_00060_00003, y=log(result_va))) +
+  geom_point() +
+  labs(x="Discharge (cfs)", y = "Total Nitrogen (mg/l)", 
+       title = "Missouri River at St. Joseph, MO") +
+  xlim(0,300000) + scale_x_continuous(labels = comma)
+print(Missouri.DN.plot)
+
+CQmod <- lm(data = Missouri.DN, log(result_va) ~ X_00060_00003)
+summary(CQmod)
+
+
+CQplots <- plot_grid(Randolph.plot, Missouri.DN.plot)
+print(CQplots)
+
 
 
 #Chemostatic: Randolph, Clarinda, and Hermann are all chemostatic.
