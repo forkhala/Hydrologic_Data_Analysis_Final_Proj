@@ -19,8 +19,7 @@ bibliography: reference.bib
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(message=FALSE, warning=FALSE, echo=FALSE, fig.height = 3, 
-                      fig.width = 4)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, echo=FALSE)
 # Set your working directory
 getwd()
 
@@ -38,6 +37,9 @@ library(trend)
 library(forecast)
 library(tseries)
 library(jpeg)
+library(grid)
+library(gridExtra)
+library(ggpubr)
 require(pander)
 
 # Set your ggplot theme
@@ -74,7 +76,7 @@ knitr::include_graphics('../Figures/cropland3.png')
 2. What effects do specific flood and drought events have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
 
     a) Rivers will exhibit a flushing behavior due to the land use and type of flow during storms - Rachel
-    b) Discharge will decrease during drought, causing nutrient levels to also decrease due to decreased overland flow. - Caroline
+    b) Discharge will decrease during drought due to decreased overland flow. - Caroline
     
 3. What factors contribute to the variability of total nitrogen in the rivers?
 
@@ -89,17 +91,94 @@ knitr::include_graphics('../Figures/cropland3.png')
 
 # Dataset Information
 
-The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the lower Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030. We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, representing a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that contained discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin for a total of 22. We chose the two sites from each HUC sub basin by comparing the periods of records for each of our chosen variables and finding the sites with the longest periods of records. We chose to look at two sites per HUC region (for a total of 22) in order to maintain a digestable scope. We retrieved data on water quantity, water quality (N, P concentrations), pH, and coliform concentrations (Table 1).
+The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the lower Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030. We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, representing a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that contained discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin for a total of 22. We chose the two sites from each HUC sub basin by comparing the periods of records for each of our chosen variables and finding the sites with the longest periods of records. We chose to look at two sites per HUC region (for a total of 22) in order to maintain a digestable scope. We retrieved data on water quantity, water quality (N, P concentrations) (Table 1).
 
-Only seven sites within our HUC subbasin boundary contained any high frequency nitrogen data. Therefore, we also looked at these 7 sites in order to do analyses and answer our research question about flooding.
+Only seven sites within our HUC subbasin boundary contained any high frequency nitrogen data. Therefore, we also looked at these 6 sites in order to do analyses and answer our research question about flooding. Since flooding and droughts can be thought of as opposites, we looked at the same 6 sites for droughts as we did for flooding (Table 2). 
 
-We have three main datasets:
+We have two main datasets:
 
-- The daily values dataset containing discharge, nitrogen, and phosphorus data for 22 sites.
+- The daily values dataset containing discharge, nitrogen, and phosphorus data for 22 sites. Following is an example of daily values from site No. 22 Missouri River At Hermann, MO (\autoref{fig:dataexample}):
 
-- The water quality dataset containing nitrogen, phosphorus, and pH for 22 sites and total coliform for 6 sites.
+```{r datawxample, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily data of site No. 22 Missouri River At Hermann, MO."}
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, echo=FALSE, fig.height = 8, 
+                      fig.width = 10)
+## Discharge
+MRHDischarge <- readNWISdv(siteNumbers = "06934500",
+                             parameterCd = "00060", # discharge (ft3/s)
+                             startDate = "",
+                             endDate = "")
+names(MRHDischarge)[4:5] <-c("Discharge", "Approval.Code")
 
-- The high freqency dataset containing high frequency data for nitrogen and discharge for 7 sites.
+# Plot discharge over time
+MRHPlot <- 
+  ggplot(MRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+        title = "  22 Missouri River At Hermann, MO") + 
+  xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
+  par(pin = c(50,40))
+
+## Nitrogen
+MRHNitrogen <- readNWISqw(siteNumbers = "06934500",
+                            parameterCd = "00600", # nitrogen (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+
+# What do these data look like?
+MRHN <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point()
+
+# Remove outliers
+MRHNitrogen <- MRHNitrogen %>%
+  filter(result_va < 10) %>%
+  arrange(sample_dt)
+
+# Re-plot data
+MRHN <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_line() +
+  labs(x = " ", y = expression("nitrogen (mg/L)")) +
+  xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
+
+## Phosphorus
+MRHPhosphorus <- readNWISqw(siteNumbers = "06934500",
+                              parameterCd = "00665", # phosphorus (mg/L)
+                              startDate = "",
+                              endDate = "") %>%
+  select(sample_dt, result_va)
+
+# What do these data look like?
+MRHP <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()
+
+# Remove outliers
+MRHPhosphorus <- MRHPhosphorus %>%
+  filter(result_va < 3) %>%
+  arrange(sample_dt)
+
+# Re-plot data
+MRHP <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)"))  +
+  xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
+
+ggarrange(MRHPlot, MRHN, MRHP
+          + font("x.text", size = 10), ncol = 1, nrow = 3)
+```
+
+
+- The high freqency dataset containing high frequency data for nitrogen and discharge for 6 sites.
+
+Variable   |   Unit  |   Number of Sites   |   
+----------- | :---------------: | --------------- |
+Discharge  | cfs or $m^{3}$/s | 22 
+Time | UTC | 22
+Nitrogen | mg/L | 22 daily values, 6 high frequency
+Phosphorus | mg/L | 22
 
 <Add a table that summarizes your data structure (variables, units, ranges and/or central tendencies, data source if multiple are used, etc.). This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.>
 
@@ -121,13 +200,13 @@ knitr::include_graphics('../Figures/discharge.jpg')
 ```
 
 ## Change in Discharge Variations over Years
-To reveal how variability of discharge has changed over time, we analyzed the relationship between standard deviation of discharge within a year and years, using linear models (\autoref{fig:varfig}, \autoref{tab:vartab}). Among all the 22 sites, 14 sites suggest increasing SD over time, and 4 of them show statistically significant increase. By contrast, only 8 sites suggest declining SD trends, and 2 of them exhibit statistically significant rising in SD. Despite that only data from six sites (around 27%) yield conclusive results, within these sites the number of streams that have become more variable are two times as many as those with decreasing variability. Thus, our results suggest that the whole Missouri Basin appear to have become more variable over years since around the mid-19th century. The low percentage of significant results could result from the small effect size, and/or the short time span of available data for some sites. Hence, more monitoring on discharge in the basin are required in the future to reach a more definitive conclusion.
+To reveal how variability of discharge has changed over time, we analyzed the relationship between standard deviation of discharge within a year and years, using linear models (\autoref{fig:varfig}; \autoref{tab:vartab}). Among all the 22 sites, 14 sites suggest increasing SD over time, and 4 of them show statistically significant increase. By contrast, only 8 sites suggest declining SD trends, and 2 of them exhibit statistically significant rising in SD. Despite that only data from six sites (around 27%) yield conclusive results, within these sites the number of streams that have become more variable are two times as many as those with decreasing variability. Thus, our results suggest that the whole Missouri Basin appear to have become more variable over years since around the mid-19th century. The low percentage of significant results could result from the small effect size, and/or the short time span of available data for some sites. Hence, more monitoring on discharge in the basin are required in the future to reach a more definitive conclusion.
 
-```{r varfig, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:varfig} Changes in the standard deviations (SD) of discharge within a year at 22 sites over the whole time span of available data. Red regression lines and confidence intervals suggest increasing SD, whereas blue for decreasing SD over time. Bolded site labels and HUC8, and colors with higher saturation indicate statistically significant results (\\$ alpha = 0.05)."}
+```{r varfig, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:varfig} Changes in the standard deviations (SD) of discharge within a year at 22 sites over the whole time span of available data. Red regression lines and confidence intervals suggest increasing SD, whereas blue for decreasing SD over time. Bolded site labels and HUC8, and colors with higher saturation indicate statistically significant results ($\\alpha = 0.05$)."}
 knitr::include_graphics('../Figures/sd_year.png')
 ```
 
-```{r vartab, echo=FALSE, eval=TRUE, caption="\\label{tab:vartab}",results="asis"}
+```{r vartab, echo=FALSE, eval=TRUE, results="asis"}
 var.table <- read.csv("../Data/Processed/sd_year.csv")
 
 panderOptions("digits", c(1, 0, 4, 3, 3))
@@ -137,7 +216,7 @@ set.alignment(c("right", "centre", "center", "center", "center"))
 
 pandoc.table(var.table, style = 'rmarkdown', 
              col.names = c("","Site Name", "HUC4","$\\beta_1$","*P*"),
-             caption = "Slopes of linear regression between year and standard deviation of discharge at 22 sites.")
+             caption = "\\label{tab:vartab} Slopes of linear regression between year and standard deviation of discharge at 22 sites.")
 ```
 
 # Analysis
@@ -195,7 +274,49 @@ print(RandolphStorm.plot)
 
 ## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
+Site Name    |   Site Number   |  Dec. 2019  | Jan. 2020  |  Feb. 2020  |  Mar. 2020  |  Apr. 2020  |  May 2020  |  June 2020  |   July 2020  |  Aug. 2020  |  Sept. 2020  | Oct. 2020  | Nov. 2020  |
+-------------|-----------------|-------------|------------|-------------|-------------|-------------|------------|---------------|--------------|-------------|--------------|------------|------------|
+Platte River near Overton, Nebr.
+Platte River at Louisville, Nebr.
+Dismal River near Thedford, Nebr.
+Beaver Creek at Genoa, Nebr.
+Maple Creek near Nickerson, Nebr.
+Elkhorn River at Waterloo, Nebr.
+Missouri River at Omaha, NE
+Boyer River at Logan, IA
+Nishnabotna River above Hamburg, IA
+Missouri River at St. Joseph, MO
+Republican River near Orleans, Nebr.
+REPUBLICAN R AT CLAY CENTER, KS
+SMOKY HILL R AT ENTERPRISE, KS
+SF SOLOMON R AT OSBORNE, KS
+KANSAS R AT WAMEGO, KS
+KANSAS R AT DESOTO, KS
+Grand River near Sumner, MO
+Chariton River near Prairie Hill, MO
+Pomme de Terre River near Polk, MO
+Osage River below St. Thomas, MO
+Little Blue River near Lake City, MO
+Missouri River at Hermann, MO
 
+
+
+
+
+### Droughts
+Droughts in the Missouri River Basin were known to occur throughout the years. 
+
+
+Table summarizing the 7Q10 values for each of the streams that were analyzed for droughts.
+
+Site Name   |   Site Number   |  7Q10 Minimum Discharge (cfs)  |     
+----------- | --------------- | ------------------------------ |
+West Nishnabotna River in Randolph, IA | 06808500  | 41.3
+Nodaway River at Clarinda, IA  | 06817000 | 5.93
+Kansas River in Desoto, KS  | 06892350 | 562   
+Missouri River at Hermann, MO  | 06934500  | 12414
+Mill C at Johnson Drive, Shawnee, KS  | 06892513 | 1.47
+Grand River, Sumner MO  | 06902000 | 39.1  
 
 
 \newpage

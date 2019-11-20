@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.1)  19 NOV 2019 23:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.1)  20 NOV 2019 00:13
 entering extended mode
 **./Missouri-Reasearch-Project---FINAL.tex
 (Missouri-Reasearch-Project---FINAL.tex
@@ -809,7 +809,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 114.
 [2]
-<../Figures/cropland3.png, id=72, 650.43pt x 383.031pt>
+<../Figures/cropland3.png, id=76, 650.43pt x 383.031pt>
 File: ../Figures/cropland3.png Graphic file (type png)
 <use ../Figures/cropland3.png>
 Package pdftex.def Info: ../Figures/cropland3.png  used on input line 190.
@@ -827,115 +827,204 @@ LaTeX Font Info:    Try loading font information for T1+lmtt on input line 260.
 ("D:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd"
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 283.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 285.
 
 ("D:\Program Files\MiKTeX 2.9\tex/latex/lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-<../Figures/site_map.png, id=95, 650.43pt x 383.031pt>
+<Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxample-1.pdf, id=10
+0, 469.755pt x 325.215pt>
+File: Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxample-1.pdf G
+raphic file (type pdf)
+<use Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxample-1.pdf>
+Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
+datawxample-1.pdf  used on input line 293.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+<../Figures/site_map.png, id=101, 650.43pt x 383.031pt>
 File: ../Figures/site_map.png Graphic file (type png)
 <use ../Figures/site_map.png>
-Package pdftex.def Info: ../Figures/site_map.png  used on input line 300.
+Package pdftex.def Info: ../Figures/site_map.png  used on input line 324.
 (pdftex.def)             Requested size: 469.76817pt x 276.64125pt.
-[5]
-<../Figures/discharge.png, id=104, 1011.78pt x 650.43pt>
+[5] [6pdfTeX warning (ext4): destination with the same identifier (name{figure.
+2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.327 \newpage
+               <./Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxa
+mple-1.pdf>]
+<../Figures/discharge.png, id=123, 1011.78pt x 650.43pt>
 File: ../Figures/discharge.png Graphic file (type png)
 <use ../Figures/discharge.png>
-Package pdftex.def Info: ../Figures/discharge.png  used on input line 337.
+Package pdftex.def Info: ../Figures/discharge.png  used on input line 361.
 (pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
-
-LaTeX Warning: Reference `tab:vartab' on page 6 undefined on input line 347.
-
-[6pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) 
+[7pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.360 
-       <../Figures/site_map.png (PNG copy)>] [7pdfTeX warning (ext4): destinati
-on with the same identifier (name{figure.3}) has been already used, duplicate i
+l.384 
+       <../Figures/site_map.png (PNG copy)>] [8pdfTeX warning (ext4): destinati
+on with the same identifier (name{figure.4}) has been already used, duplicate i
 gnored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.360 
+l.384 
        <../Figures/discharge.png>]
-<../Figures/sd_year.png, id=121, 1011.78pt x 650.43pt>
+<../Figures/sd_year.png, id=141, 1011.78pt x 650.43pt>
 File: ../Figures/sd_year.png Graphic file (type png)
 <use ../Figures/sd_year.png>
-Package pdftex.def Info: ../Figures/sd_year.png  used on input line 362.
+Package pdftex.def Info: ../Figures/sd_year.png  used on input line 386.
 (pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
-[8pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) 
+[9pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.407 2
+l.431 2
        1 & Little Blue River Near Lake City, MO & 1030 & 2.1 & <../Figures/sd_y
-ear.png>] [9] [10]
+ear.png>] [10] [11]
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-1-1.pdf, i
-d=144, 289.08pt x 216.81pt>
+d=163, 722.7pt x 578.16pt>
 File: Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-1-1.p
 df Graphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-1-1.pd
 f>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-unnamed-chunk-1-1.pdf  used on input line 577.
-(pdftex.def)             Requested size: 289.09251pt x 216.81938pt.
-[11pdfTeX warning (ext4): destination with the same identifier (name{figure.5})
- has been already used, duplicate ignored
+unnamed-chunk-1-1.pdf  used on input line 601.
+(pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
+
+Overfull \hbox (5.61383pt too wide) in paragraph at lines 618--619
+\T1/lmr/m/n/12 (-20) Name|  
+ []
+
+
+Overfull \hbox (12.43416pt too wide) in paragraph at lines 620--621
+\T1/lmr/m/n/12 (-20) Number|  
+ []
+
+
+Overfull \hbox (24.38016pt too wide) in paragraph at lines 622--623
+[]\T1/lmr/m/n/12 (-20) Dec. 2019|  
+ []
+
+
+Overfull \hbox (27.8174pt too wide) in paragraph at lines 624--625
+[]\T1/lmr/m/n/12 (-20) Jan. 2020|  
+ []
+
+
+Overfull \hbox (23.401pt too wide) in paragraph at lines 626--627
+[]\T1/lmr/m/n/12 (-20) Feb. 2020|  
+ []
+
+
+Overfull \hbox (26.13765pt too wide) in paragraph at lines 628--629
+[]\T1/lmr/m/n/12 (-20) Mar. 2020|  
+ []
+
+
+Overfull \hbox (24.42303pt too wide) in paragraph at lines 630--631
+[]\T1/lmr/m/n/12 (-20) Apr. 2020|  
+ []
+
+
+Overfull \hbox (2.83844pt too wide) in paragraph at lines 632--633
+[]\T1/lmr/m/n/12 (-20) May 
+ []
+
+
+Overfull \hbox (3.94917pt too wide) in paragraph at lines 632--633
+\T1/lmr/m/n/12 (-20) 2020|  
+ []
+
+
+Overfull \hbox (25.37617pt too wide) in paragraph at lines 638--639
+[]\T1/lmr/m/n/12 (-20) Aug. 2020|  
+ []
+
+
+Overfull \hbox (27.7409pt too wide) in paragraph at lines 640--641
+[]\T1/lmr/m/n/12 (-20) Sept. 2020|  
+ []
+
+
+Overfull \hbox (28.60442pt too wide) in paragraph at lines 642--643
+[]\T1/lmr/m/n/12 (-20) Oct. 2020|  
+ []
+
+
+Overfull \hbox (30.19312pt too wide) in paragraph at lines 644--645
+[]\T1/lmr/m/n/12 (-20) Nov. 2020|  
+ []
+
+
+Overfull \hbox (0.97975pt too wide) in alignment at lines 615--647
+ [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (0.97975pt too wide) in alignment at lines 647--649
+ [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 649
+ []
+
+[12] [13pdfTeX warning (ext4): destination with the same identifier (name{figur
+e.6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.591 \newpage
-               <./Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed
--chunk-1-1.pdf>] [12] [13]
-Underfull \hbox (badness 2376) in paragraph at lines 618--622
+l.669 T
+       able summarizing the 7Q10 values for each of the streams that were <./Mi
+ssouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-1-1.pdf>] [14
+] [15]
+Underfull \hbox (badness 2376) in paragraph at lines 713--717
 \T1/lmr/m/n/12 (+20) Cen-tral Great Plains Drought.'' Gov-ern-ment Doc-u-ment. 
 []$https : / / cpo . noaa . gov /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 618--622
+Underfull \hbox (badness 10000) in paragraph at lines 713--717
 \T1/lmr/m/n/12 (+20) Meet-[]the-[]Divisions / Earth-[]System-[]Science-[]and-[]
 Modeling / MAPP / MAPP-[]Task-[]Forces /
  []
 
 
-Overfull \hbox (80.66743pt too wide) in paragraph at lines 618--622
+Overfull \hbox (80.66743pt too wide) in paragraph at lines 713--717
 \T1/lmr/m/n/12 (-20) Drought / Drought-[]Task-[]Force-[]II / An-[]Interpretatio
 n-[]of-[]the-[]Origins-[]of-[]the-[]2012-[]Central-[]Great-[]Plains-[]Drought$[
 ]. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 632--636
+Underfull \hbox (badness 10000) in paragraph at lines 727--731
 \T1/lmr/m/n/12 (+20) Doc-u-ment. []$https : / / www . usbr . gov / watersmart /
  bsp / docs / nalreport / republican /
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 643.
-[14]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 643.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 738.
+[16]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 738.
 (Missouri-Reasearch-Project---FINAL.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 643.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 643.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 738.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 738.
 Package rerunfilecheck Info: File `Missouri-Reasearch-Project---FINAL.out' has 
 not changed.
-(rerunfilecheck)             Checksum: A3BA7594B2698ADDC8CE409DCCC3EB00;4232.
-
-LaTeX Warning: There were undefined references.
-
+(rerunfilecheck)             Checksum: BDDC898B73C1C284EE2CEBA024C763D9;4341.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 643.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 738.
  ) 
 Here is how much of TeX's memory you used:
- 14494 strings out of 492895
- 210333 string characters out of 3133477
- 341248 words of memory out of 3000000
- 18004 multiletter control sequences out of 15000+200000
+ 14512 strings out of 492895
+ 210797 string characters out of 3133477
+ 341784 words of memory out of 3000000
+ 18014 multiletter control sequences out of 15000+200000
  67185 words of font info for 111 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  32i,7n,38p,999b,480s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -948,10 +1037,10 @@ ts/type1/public/lm/lmr12.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm
 /lmr17.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr8.pfb><D:/Prog
 ram Files/MiKTeX 2.9/fonts/type1/public/lm/lmri12.pfb><D:/Program Files/MiKTeX 
 2.9/fonts/type1/public/lm/lmtt12.pfb>
-Output written on Missouri-Reasearch-Project---FINAL.pdf (14 pages, 853402 byte
-s).
+Output written on Missouri-Reasearch-Project---FINAL.pdf (16 pages, 1013872 byt
+es).
 PDF statistics:
- 235 PDF objects out of 1000 (max. 8388607)
- 68 named destinations out of 1000 (max. 500000)
- 14466 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 264 PDF objects out of 1000 (max. 8388607)
+ 76 named destinations out of 1000 (max. 500000)
+ 14479 words of extra memory for PDF output out of 17280 (max. 10000000)
 

@@ -2,7 +2,7 @@
 
 library(noncensus); library(tidyverse); library(sf); library(dataRetrieval);
 library(sp); library(lubridate); library(lme4); library(stats); library(MASS);
-library(car); library(GGally)
+library(car); library(GGally); library(maps);
 
 #database with population by county
 data("counties")
@@ -10,7 +10,7 @@ countypop <- counties %>% filter(state %in% c("KS", "NE", "MO", "IA"))
 countypop$county_name <- gsub("St. Louis city", "St. Louis City County", countypop$county_name)
 
 #creating maps by county with polygon data
-KS.county <- st_as_sf(map(database = "county",'kansas', plot=TRUE, fill = TRUE, col = "white"))
+KS.county <- sf::st_as_sf(map(database = "county",'kansas', plot=TRUE, fill = TRUE, col = "white"))
 KS.county$state <- "KS"
 KS.county$ID <- gsub("kansas,", "", KS.county$ID)
 KS.county$ID <- stringr::str_to_title(KS.county$ID) %>%
@@ -83,13 +83,13 @@ length(unique(sites.county$county_name))
 
 bestsites.countypop.info <- full_join(sites.county, best.sites.list)
 bestsites.countypop.info <- bestsites.countypop.info %>%
-  select(site_no, site_nm, huc_cd, huc4, huc4_nm, state, county_name, county_fips, 
+  dplyr::select(site_no, site_nm, huc_cd, huc4, huc4_nm, state, county_name, county_fips, 
          population, geometry, site_lab)
 
 #full list with site no, site name, population and county info
 write.csv(bestsites.countypop.info, file = "./Data/Processed/bestsites.countypop.info.csv")
 
-bestsites.countypop.info <- read.csv("./Data/Processed/bestsites.countypop.info.csv", as.is=TRUE)
+bestsites.countypop.info <- read.csv("./Data/Processed/bestsites.countypop.info.csv")
 
 bestsites.WQ <- read.csv("./Data/Raw/bestsites.WQ.csv")
 unique(bestsites.WQ$parm_cd)
@@ -108,21 +108,46 @@ bestsites.WQ.skinny <- bestsites.WQ %>%
   rename(pH = '400', total.coliform = '31501', 
          Discharge2 = '60', total.nitrogen = '600', 
          total.phosphorus = '665') %>%
-  mutate(Year = year(Date)) %>%
-  select(-total.coliform) 
+  mutate(Year = year(Date)) 
 
 
 #wrangle so they can be joined
-bestsites.WQ.skinny$Site <- paste0("0", bestsites.WQ.skinny$Site)
+#bestsites.WQ.skinny$Site <- paste0("0", bestsites.WQ.skinny$Site)
 bestsites.countypop.info <- bestsites.countypop.info %>% rename_at("site_no",~"Site")
 
 #join WQ info with site, population, and county df
 WQ.countypop.joined <- left_join(bestsites.WQ.skinny, bestsites.countypop.info, 
                                  by = "Site")
 
+WQ.countypop.joined <- WQ.countypop.joined %>%
+  cbind(., st_coordinates(.)) %>% 
+  st_set_geometry(NULL) %>% 
+  write_csv(., './Data/Processed/WQ.countypop.joined.csv')
+
+st_write(WQ.countypop.joined, "./Data/Processed/WQ.countypop.joined.csv", 
+         layer_options = "GEOMETRY=AS_XY")
+
+
 ##prep for making lm
+
+#correct
+WQ.countypop.joined <- read.csv("./Data/Processed/WQ.countypop.joined.csv")
+
 hist(log(WQ.countypop.joined$total.nitrogen)) 
-#nitrogen should be logged so it is normally distributed
+nit <- ggplot(WQ.countypop.joined) +
+  geom_histogram(aes(WQ.countypop.joined$total.nitrogen), binwidth = 2) +
+  theme_set(theme_classic()) +
+  labs(x = "Total Nitrogen (g/ml)", y = "Count", title = "Range of total nitrogen values") + 
+  xlim(0,75)
+nit.logged <- ggplot(WQ.countypop.joined) +
+  geom_histogram(aes(log(WQ.countypop.joined$total.nitrogen)), binwidth = 0.2) +
+  theme_set(theme_classic()) +
+  labs(x = "Log of Total Nitrogen (g/ml)", y = "Count")
+print(nit.logged)
+nit.range <- cowplot::plot_grid(nit, nit.logged, ncol=2)
+
+
+#read this in
 str(WQ.countypop.joined)
 WQ.countypop.joined$Site <- as.factor(WQ.countypop.joined$Site)
 WQ.countypop.joined$state <- as.factor(WQ.countypop.joined$state)
@@ -138,21 +163,22 @@ step.mod <- stepAIC(mod1) #review what this means (negative values??)
 formula(step.mod)
 avPlots(step.mod)
 
-#lm2
+#read this in
 WQ.countypop.joined$Year.c <- WQ.countypop.joined$Year - mean(WQ.countypop.joined$Year)
-WQ.countypop.joined$population.c <- WQ.countypop.joined$popultion - mean(WQ.countypop.joined$population)
+WQ.countypop.joined$population.c <- WQ.countypop.joined$population - mean(WQ.countypop.joined$population)
+WQ.countypop.joined$population100 <- WQ.countypop.joined$population/100
 
-mod2 <- lm(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population + 
-             factor(huc4))
-summary(mod2)
+#mod2 <- lm(data=WQ.countypop.joined, log(total.nitrogen) ~ Year.c + population + 
+            # factor(huc4))
+#summary(mod2)
 #Year, population, and 10/11 huc4 regions are statistically significant
 
-#lm2
-mod3 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population + huc4 +
-               (1|Site))
-summary(mod3) #not working with site as a random effect. consider rescaling??
+#read this in
+mod3 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ Year.c + population100  +
+               (1|huc4))
+summary(mod3)
 anova(mod3)
-interaction.plot(total.nitrogen, Site, population)
+
 
 #lm4
 hist(log(WQ.countypop.joined$total.phosphorus))
