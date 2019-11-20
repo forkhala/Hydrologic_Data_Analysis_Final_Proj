@@ -115,18 +115,18 @@ Typical discharge patterns within a year for each HUC4 watershed from 1020 to 10
 knitr::include_graphics('../Figures/discharge.jpg')
 ```
 
-## Change in Discharge Variation over Years
+## Change in Yearly Discharge Variations over Years
 
-```{r dispattern, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:dispattern}Yearly discharge pattern for 11 HUC4 watersheds. Thick, dark lines are the median of all discharge records on a day of year, while light, thin lines are the 75th quantile and 25 th quantile discharge on that day. The blue lines represent the first site in a HUC4 watershed, while the green lines represent the second site."}
+```{r varfig, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:varfig}Changes in the standard deviations of discharge within a year at 22 sites over the whole time span of available data."}
 knitr::include_graphics('../Figures/sd_year.png')
 ```
 
 
-```{r variation, echo=FALSE, eval=TRUE, out.width, caption="\\label{tab:variation}", results="asis"}
-var.table <- read.csv("./Data/Processed/sd_year.csv")
+```{r vartab, echo=FALSE, eval=TRUE, caption="\\label{tab:vartab}",results="asis"}
+var.table <- read.csv("../Data/Processed/sd_year.csv")
 
 panderOptions("digits", c(1, 0, 4, 3, 3))
-panderOptions("table.split.table", 300)
+panderOptions("table.split.table", Inf)
 emphasize.strong.rows(which(var.table$p < 0.05, arr.ind = TRUE))
 set.alignment(c("right", "centre", "center", "center", "center"))
 
@@ -134,14 +134,6 @@ pandoc.table(var.table, style = 'rmarkdown',
              col.names = c("","Site Name", "HUC4","$\\beta_1$","*P*"),
              caption = "Slopes of linear regression between year and standard deviation of discharge at 22 sites.")
 ```
-
-
-
-<Insert exploratory visualizations of your dataset. This may include, but is not limited to, graphs illustrating the distributions of variables of interest and/or maps of the spatial context of your dataset. Format your R chunks so that graphs are displayed but code is not displayed. Accompany these graphs with text sections that describe the visualizations and provide context for further analyses.>
-
-<Each figure should be accompanied by a caption, and each figure should be referenced within the text>
-
-\newpage
 
 # Analysis
 
