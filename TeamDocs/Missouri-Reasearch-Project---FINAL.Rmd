@@ -242,7 +242,7 @@ pandoc.table(var.table, style = 'rmarkdown',
 
 ## Question 1:  How have changes in discharge interacted with nutrient enrichment in the Missouri River Basin?
 
-In order to determine whether nutrient levels increase with discharge, C-Q (concentration - discharge) plots were created for each site (\autoref{fig:CQplot}). At sites with high frequency nitrogen data, high frequency nitrogen and discharge values were used. When sites did not have high frequency nitrogen data, daily values were used. The 22 sites showed no consistent pattern when it came to nitrogen and discharge.
+In order to determine whether nutrient levels increase with discharge, C-Q (concentration - discharge) plots were created for each site (\autoref{fig:CQplot}). At sites with high frequency nitrogen data, high frequency nitrogen and discharge values were used. When sites did not have high frequency nitrogen data, daily values were used. A linear model with total nitrogen as the response variable and discharge as the independent variable was created for every site to determine if there was a linear relationship between the two. In 18 out of 22 total sites, there was a significant relationship where as discharge increased, nitrogen also increased.
 
 ```{r CQplot, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:CQplot} C-Q plots of two sites in the Missouri River Basin. High frequency (left) and daily values (right) shown for two different sites. Nitrogen values are log transformed."}  
 knitr::include_graphics('../Figures/CQplots.png')
@@ -294,6 +294,8 @@ print(RandolphStorm.plot)
 
 
 ## Question 3: What factors contribute to the variability of total nitrogen in the rivers?
+
+In order to better understand what contributes to the variability of nitrogen concentration in our study area of interest, we created a linear model with fixed effects. By considering the huc4 region each site is in as a fixed effect, we can estimate the amount of variation of nitrogen between each huc4. 
 
 ## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
