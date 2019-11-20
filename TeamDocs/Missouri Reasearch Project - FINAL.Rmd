@@ -18,8 +18,7 @@ editor_options:
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(message=FALSE, warning=FALSE, echo=FALSE, fig.height = 3, 
-                      fig.width = 4)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, echo=FALSE)
 # Set your working directory
 getwd()
 
@@ -37,6 +36,9 @@ library(trend)
 library(forecast)
 library(tseries)
 library(jpeg)
+library(grid)
+library(gridExtra)
+library(ggpubr)
 require(pander)
 
 # Set your ggplot theme
@@ -91,7 +93,81 @@ Only seven sites within our HUC subbasin boundary contained any high frequency n
 
 We have two main datasets:
 
-- The daily values dataset containing discharge, nitrogen, and phosphorus data for 22 sites.
+- The daily values dataset containing discharge, nitrogen, and phosphorus data for 22 sites. Following is an example of daily values from site No. 22 Missouri River At Hermann, MO (\autoref{fig:dataexample}):
+
+```{r datawxample, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily data of site No. 22 Missouri River At Hermann, MO."}
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, echo=FALSE, fig.height = 8, 
+                      fig.width = 10)
+## Discharge
+MRHDischarge <- readNWISdv(siteNumbers = "06934500",
+                             parameterCd = "00060", # discharge (ft3/s)
+                             startDate = "",
+                             endDate = "")
+names(MRHDischarge)[4:5] <-c("Discharge", "Approval.Code")
+
+# Plot discharge over time
+MRHPlot <- 
+  ggplot(MRHDischarge, aes(x = Date, y = Discharge)) +
+  geom_line() +
+  labs(x = "", y = expression("Discharge (ft"^3*"/s)"), 
+        title = "  22 Missouri River At Hermann, MO") + 
+  xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
+  par(pin = c(50,40))
+
+## Nitrogen
+MRHNitrogen <- readNWISqw(siteNumbers = "06934500",
+                            parameterCd = "00600", # nitrogen (mg/L)
+                            startDate = "",
+                            endDate = "") %>%
+  select(sample_dt, result_va)
+
+# What do these data look like?
+MRHN <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point()
+
+# Remove outliers
+MRHNitrogen <- MRHNitrogen %>%
+  filter(result_va < 10) %>%
+  arrange(sample_dt)
+
+# Re-plot data
+MRHN <-
+  ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = " ", y = expression("nitrogen (mg/L)")) +
+  xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
+
+## Phosphorus
+MRHPhosphorus <- readNWISqw(siteNumbers = "06934500",
+                              parameterCd = "00665", # phosphorus (mg/L)
+                              startDate = "",
+                              endDate = "") %>%
+  select(sample_dt, result_va)
+
+# What do these data look like?
+MRHP <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point()
+
+# Remove outliers
+MRHPhosphorus <- MRHPhosphorus %>%
+  filter(result_va < 3) %>%
+  arrange(sample_dt)
+
+# Re-plot data
+MRHP <-
+  ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Date", y = expression("phosphorus (mg/L)"))  +
+  xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
+
+ggarrange(MRHPlot, MRHN, MRHP
+          + font("x.text", size = 10), ncol = 1, nrow = 3)
+```
+
 
 - The high freqency dataset containing high frequency data for nitrogen and discharge for 6 sites.
 
