@@ -70,7 +70,7 @@ Given all the background information above, we would like to know the current st
 2. What effects do specific flood and drought events have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
 
     a) Rivers will exhibit a flushing behavior due to the land use and type of flow during storms - Rachel
-    b) Discharge will decrease during drought, causing nutrient levels to also decrease due to decreased overland flow. - Caroline
+    b) Discharge will decrease during drought due to decreased overland flow. - Caroline
     
 3. What factors contribute to the variability of total nitrogen in the rivers?
 
