@@ -238,6 +238,9 @@ pandoc.table(var.table, style = 'rmarkdown',
 
 ## Question 1:  How have changes in discharge interacted with nutrient enrichment in the Missouri River Basin?
 
+We analyzed discharge, nitrogen and phosphorus trends at 22 sites using daily value data. The results are listed in the following table. In our analysis, discharge of 18 sites increase while 4 sites show the decreasing trend of discharge. However, these four sites all locate in HUC 1025 and 1026, away from the main stem of the Missouri River. Therefore, overall, the discharge in Missouri River is increasing.
+The trend of nitrogen and phosphorus concentration of 22 sites are quite different. But generally, the trend of nitrogen and the trend of phosphorus are similar, which indicates that there is high possiblity that nitrogen and phosphorus come from the same sources. If we focus on the sites located at the main stem of the Missouri River (06610000 Missouri River at Omaha, NE; 06818000 Missouri River at St. Joseph, MO; 06934500 Missouri River at Hermann, MO), we can see significant increasing trend of nitrogen and phosphorus. The water quality in Missouri River is still deteriorating and protection is urgently needed.
+
 Site Name    |   Site Number   |  Discharge Trend  |  Discharge Trend Significance  |   Nitrogen Trend  |  Nitrogen Trend Significance  |   Phosphorus Trend    |  Phosphorus Trend Significance   |
 :-------------:|:-----------------:|:-------------------:|:--------------------------------:|:-------------------:|:------------------------------------------:|:---------------------:|:--------------------------------:|
 Platte River near Overton, Nebr.  |  06768000  |  Increase  |    |  Decrease  |  *  |  Decrease  |  ***  |
