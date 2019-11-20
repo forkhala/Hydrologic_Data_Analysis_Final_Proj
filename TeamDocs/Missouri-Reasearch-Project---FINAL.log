@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.1)  20 NOV 2019 01:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.29)  20 NOV 2019 08:23
 entering extended mode
 **./Missouri-Reasearch-Project---FINAL.tex
 (Missouri-Reasearch-Project---FINAL.tex
 LaTeX2e <2018-12-01>
-("D:\Program Files\MiKTeX 2.9\tex/latex/base\article.cls"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\article.cls"
 Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
-("D:\Program Files\MiKTeX 2.9\tex/latex/base\size12.clo"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\size12.clo"
 File: size12.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
 )
 \c@part=\count80
@@ -19,7 +19,7 @@ File: size12.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/lm\lmodern.sty"
+) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\lmodern.sty"
 Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -53,29 +53,40 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\amssymb.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amssymb.s
+ty"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-("D:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\amsfonts.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amsfonts.
+sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \@emptytoks=\toks14
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) ("D:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsmath.sty"
+))
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsmath.st
+y"
 Package: amsmath 2018/12/01 v2.17b AMS math features
 \@mathmargin=\skip43
 For additional information on amsmath, use the `?' option.
-("D:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amstext.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amstext.st
+y"
 Package: amstext 2000/06/29 v2.01 AMS text
-("D:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsgen.sty"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsgen.sty
+"
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks15
 \ex@=\dimen103
-)) ("D:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsbsy.sty"
+)) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsbsy.
+sty"
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen104
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsopn.sty"
+) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsopn.s
+ty"
 Package: amsopn 2016/03/08 v2.02 operator names
 )
 \inf@bad=\count88
@@ -115,12 +126,17 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
 \mathdisplay@stack=\toks19
 LaTeX Info: Redefining \[ on input line 2844.
 LaTeX Info: Redefining \] on input line 2845.
-) ("D:\Program Files\MiKTeX 2.9\tex/generic/ifxetex\ifxetex.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/generic/ifxetex\ifxetex.
+sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
-) ("D:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ifluatex.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ifluate
+x.sty"
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/base\fixltx2e.sty"
+) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\fixltx2e.st
+y"
 Package: fixltx2e 2016/12/29 v2.1a fixes to LaTeX (obsolete)
 Applying: [2015/01/01] Old fixltx2e package on input line 46.
 
@@ -129,19 +145,23 @@ Package fixltx2e Warning: fixltx2e is not required with releases after 2015
 (fixltx2e)                See the latexrelease package for details.
 
 Already applied: [0000/00/00] Old fixltx2e package on input line 53.
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/base\fontenc.sty"
+) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\fontenc.sty
+"
 Package: fontenc 2018/08/11 v2.0j Standard LaTeX package
-("D:\Program Files\MiKTeX 2.9\tex/latex/base\t1enc.def"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\t1enc.def"
 File: t1enc.def 2018/08/11 v2.0j Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
-)) ("D:\Program Files\MiKTeX 2.9\tex/latex/base\inputenc.sty"
+)) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\inputenc.s
+ty"
 Package: inputenc 2018/08/11 v1.3c Input encoding file
 \inpenc@prehook=\toks20
 \inpenc@posthook=\toks21
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/upquote\upquote.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/upquote\upquote.st
+y"
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
-("D:\Program Files\MiKTeX 2.9\tex/latex/base\textcomp.sty"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\textcomp.sty"
 Package: textcomp 2018/08/11 v2.0j Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
@@ -155,11 +175,11 @@ Package textcomp Info: Sub-encoding information:
 (textcomp)             Family '?' is the default used for unknown fonts.
 (textcomp)             See the documentation for details.
 Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
-("D:\Program Files\MiKTeX 2.9\tex/latex/base\ts1enc.def"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ts1enc.def"
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 Now handling font encoding TS1 ...
 ... processing UTF-8 mapping file for font encoding TS1
-("D:\Program Files\MiKTeX 2.9\tex/latex/base\ts1enc.dfu"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ts1enc.dfu"
 File: ts1enc.dfu 2018/10/05 v1.2f UTF-8 support for inputenc
    defining Unicode char U+00A2 (decimal 162)
    defining Unicode char U+00A3 (decimal 163)
@@ -295,9 +315,13 @@ Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
 Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
-)) ("D:\Program Files\MiKTeX 2.9\tex/latex/microtype\microtype.sty"
+))
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/microtype\microtyp
+e.sty"
 Package: microtype 2019/02/28 v2.7b Micro-typographical refinements (RS)
-("D:\Program Files\MiKTeX 2.9\tex/latex/graphics\keyval.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\keyval.st
+y"
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks22
 )
@@ -307,7 +331,9 @@ LaTeX Info: Redefining \textls on input line 790.
 \MT@outer@kern=\dimen112
 LaTeX Info: Redefining \textmicrotypecontext on input line 1336.
 \MT@listname@count=\count101
-("D:\Program Files\MiKTeX 2.9\tex/latex/microtype\microtype-pdftex.def"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/microtype\microtyp
+e-pdftex.def"
 File: microtype-pdftex.def 2019/02/28 v2.7b Definitions specific to pdftex (RS)
 
 LaTeX Info: Redefining \lsstyle on input line 914.
@@ -315,13 +341,21 @@ LaTeX Info: Redefining \lslig on input line 914.
 \MT@outer@space=\skip46
 )
 Package microtype Info: Loading configuration file microtype.cfg.
-("D:\Program Files\MiKTeX 2.9\tex/latex/microtype\microtype.cfg"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/microtype\microtyp
+e.cfg"
 File: microtype.cfg 2019/02/28 v2.7b microtype main configuration file (RS)
-)) ("D:\Program Files\MiKTeX 2.9\tex/latex/geometry\geometry.sty"
+))
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.
+sty"
 Package: geometry 2018/04/16 v5.8 Page Geometry
-("D:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ifpdf.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ifpdf.s
+ty"
 Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
-) ("D:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ifvtex.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ifvtex.
+sty"
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
@@ -337,13 +371,20 @@ Package ifvtex Info: VTeX not detected.
 \Gm@layouthoffset=\dimen119
 \Gm@layoutvoffset=\dimen120
 \Gm@dimlist=\toks24
-("D:\Program Files\MiKTeX 2.9\tex/latex/geometry\geometry.cfg")) ("D:\Program F
-iles\MiKTeX 2.9\tex/latex/hyperref\hyperref.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.
+cfg"))
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\hyperref.
+sty"
 Package: hyperref 2019/06/12 v6.88h Hypertext links for LaTeX
-("D:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\hobsub-hyperref.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\hobsub-
+hyperref.sty"
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 
-("D:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\hobsub-generic.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\hobsub-
+generic.sty"
 Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
@@ -376,21 +417,29 @@ Package atveryend Info: \enddocument detected (standard20110627).
 Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
 Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\auxhook.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\auxhook.s
+ty"
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\kvoptions.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\kvoptions
+.sty"
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
 \@linkdim=\dimen121
 \Hy@linkcounter=\count105
 \Hy@pagecounter=\count106
-("D:\Program Files\MiKTeX 2.9\tex/latex/hyperref\pd1enc.def"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\pd1enc.de
+f"
 File: pd1enc.def 2019/06/12 v6.88h Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
 \Hy@SavedSpaceFactor=\count107
-("D:\Program Files\MiKTeX 2.9\tex/latex/00miktex\hyperref.cfg"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/00miktex\hyperref.
+cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
 Package hyperref Info: Hyper figures OFF on input line 4550.
@@ -401,7 +450,7 @@ Package hyperref Info: Backreferencing OFF on input line 4570.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4803.
 \c@Hy@tempcnt=\count108
-("D:\Program Files\MiKTeX 2.9\tex/latex/url\url.sty"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/url\url.sty"
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
@@ -424,11 +473,15 @@ LaTeX Info: Redefining \pageref on input line 6485.
 \c@Hfootnote=\count112
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
-("D:\Program Files\MiKTeX 2.9\tex/latex/hyperref\hpdftex.def"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\hpdftex.d
+ef"
 File: hpdftex.def 2019/06/12 v6.88h Hyperref driver for pdfTeX
 \Fld@listcount=\count113
 \c@bookmark@seq@number=\count114
-("D:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\rerunfilecheck.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\rerunfile
+check.sty"
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
@@ -436,13 +489,16 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 \Hy@SectionHShift=\skip47
 )
 Package hyperref Info: Option `unicode' set `true' on input line 31.
-("D:\Program Files\MiKTeX 2.9\tex/latex/hyperref\puenc.def"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\puenc.def
+"
 File: puenc.def 2019/06/12 v6.88h Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
 Package hyperref Info: Option `breaklinks' set `true' on input line 31.
-("D:\Program Files\MiKTeX 2.9\tex/latex/tools\longtable.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\longtable.st
+y"
 Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)+ FMi change
 \LTleft=\skip48
 \LTright=\skip49
@@ -459,7 +515,9 @@ Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)+ FMi change
 \c@LT@tables=\count118
 \c@LT@chunks=\count119
 \LT@p@ftn=\toks25
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/booktabs\booktabs.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/booktabs\booktabs.
+sty"
 Package: booktabs 2019/10/08 v1.6180339 publication quality tables
 \heavyrulewidth=\dimen126
 \lightrulewidth=\dimen127
@@ -478,38 +536,54 @@ Package: booktabs 2019/10/08 v1.6180339 publication quality tables
 \@thisruleclass=\count122
 \@lastruleclass=\count123
 \@thisrulewidth=\dimen138
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphicx.
+sty"
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
-("D:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphics.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphics.
+sty"
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
-("D:\Program Files\MiKTeX 2.9\tex/latex/graphics\trig.sty"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\trig.sty"
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/graphics-cfg\graphics.cfg"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\graph
+ics.cfg"
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
-("D:\Program Files\MiKTeX 2.9\tex/latex/graphics-def\pdftex.def"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-def\pdfte
+x.def"
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen139
 \Gin@req@width=\dimen140
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\grffile.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\grffile.s
+ty"
 Package: grffile 2017/06/30 v1.18 Extended file name support for graphics (HO)
 Package grffile Info: Option `multidot' is set to `true'.
 Package grffile Info: Option `extendedchars' is set to `false'.
 Package grffile Info: Option `space' is set to `true'.
 Package grffile Info: \Gin@ii of package `graphicx' fixed on input line 494.
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/parskip\parskip.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/parskip\parskip.st
+y"
 Package: parskip 2019-01-16 v2.0c non-zero parskip adjustments
-("D:\Program Files\MiKTeX 2.9\tex/latex/etoolbox\etoolbox.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/etoolbox\etoolbox.
+sty"
 Package: etoolbox 2018/08/19 v2.5f e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count124
-)) ("D:\Program Files\MiKTeX 2.9\tex/latex/titling\titling.sty"
+))
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/titling\titling.st
+y"
 Package: titling 2009/09/04 v2.1d maketitle typesetting
 \thanksmarkwidth=\skip52
 \thanksmargin=\skip53
 \droptitle=\skip54
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/tools\array.sty"
+) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\array.sty"
 Package: array 2018/12/30 v2.4k Tabular extension package (FMi)
 \col@sep=\dimen141
 \ar@mcellbox=\box33
@@ -518,46 +592,61 @@ Package: array 2018/12/30 v2.4k Tabular extension package (FMi)
 \extratabsurround=\skip55
 \backup@length=\skip56
 \ar@cellbox=\box34
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/multirow\multirow.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/multirow\multirow.
+sty"
 Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
 \multirow@colwidth=\skip57
 \multirow@cntb=\count125
 \multirow@dima=\skip58
 \bigstrutjot=\dimen143
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/wrapfig\wrapfig.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/wrapfig\wrapfig.st
+y"
 \wrapoverhang=\dimen144
 \WF@size=\dimen145
 \c@WF@wrappedlines=\count126
 \WF@box=\box35
 \WF@everypar=\toks27
 Package: wrapfig 2003/01/31  v 3.6
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/float\float.sty"
+) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/float\float.sty"
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count127
 \float@exts=\toks28
 \float@box=\box36
 \@float@everytoks=\toks29
 \@floatcapt=\box37
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/colortbl\colortbl.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/colortbl\colortbl.
+sty"
 Package: colortbl 2018/12/12 v1.0d Color table columns (DPC)
-("D:\Program Files\MiKTeX 2.9\tex/latex/graphics\color.sty"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\color.sty
+"
 Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
-("D:\Program Files\MiKTeX 2.9\tex/latex/graphics-cfg\color.cfg"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\color
+.cfg"
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 147.
 )
 \everycr=\toks30
 \minrowclearance=\skip59
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\pdflscape.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\pdflscape
+.sty"
 Package: pdflscape 2016/05/14 v0.11 Display of landscape pages in PDF (HO)
-("D:\Program Files\MiKTeX 2.9\tex/latex/graphics\lscape.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\lscape.st
+y"
 Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/tabu\tabu.sty"
+) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tabu\tabu.sty"
 Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
-("D:\Program Files\MiKTeX 2.9\tex/latex/varwidth\varwidth.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/varwidth\varwidth.
+sty"
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@box=\box38
 \sift@deathcycles=\count128
@@ -586,18 +675,26 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \tabu@hleads=\box41
 \tabu@vleads=\box42
 \tabu@cellskip=\skip60
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/threeparttable\threeparttable.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/threeparttable\thr
+eeparttable.sty"
 Package: threeparttable 2003/06/13  v 3.0
 \@tempboxb=\box43
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/threeparttablex\threeparttablex.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/threeparttablex\th
+reeparttablex.sty"
 Package: threeparttablex 2013/07/23 v0.3 by daleif
-("D:\Program Files\MiKTeX 2.9\tex/latex/environ\environ.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/environ\environ.st
+y"
 Package: environ 2014/05/04 v0.3 A new way to define environments
-("D:\Program Files\MiKTeX 2.9\tex/latex/trimspaces\trimspaces.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/trimspaces\trimspa
+ces.sty"
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
 \TPTL@width=\skip61
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/ulem\ulem.sty"
+) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/ulem\ulem.sty"
 \UL@box=\box44
 \UL@hyphenbox=\box45
 \UL@skip=\skip62
@@ -608,14 +705,19 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 \ULC@box=\box46
 Package: ulem 2012/05/18
 \ULdepth=\dimen159
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/makecell\makecell.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/makecell\makecell.
+sty"
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 \rotheadsize=\dimen160
 \c@nlinenum=\count136
 \TeXr@lab=\toks34
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/xcolor\xcolor.sty"
+) ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcolor\xcolor.st
+y"
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
-("D:\Program Files\MiKTeX 2.9\tex/latex/graphics-cfg\color.cfg"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\color
+.cfg"
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -660,7 +762,7 @@ LaTeX Font Info:    ... okay on input line 104.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 104.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 104.
 
-("D:\Program Files\MiKTeX 2.9\tex/latex/base\ts1cmr.fd"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 104.
@@ -669,7 +771,7 @@ LaTeX Font Info:    ... okay on input line 104.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 104.
 LaTeX Font Info:    ... okay on input line 104.
 LaTeX Font Info:    Try loading font information for T1+lmr on input line 104.
-("D:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmr.fd"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmr.fd"
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Info: Redefining \microtypecontext on input line 104.
@@ -682,7 +784,9 @@ Package microtype Info: Using default expansion set `basictext'.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
-("D:\Program Files\MiKTeX 2.9\tex/latex/microtype\mt-cmr.cfg"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/microtype\mt-cmr.c
+fg"
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
@@ -722,9 +826,13 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 
 \AtBeginShipoutBox=\box47
 Package hyperref Info: Link coloring OFF on input line 104.
-("D:\Program Files\MiKTeX 2.9\tex/latex/hyperref\nameref.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\nameref.s
+ty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
-("D:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\gettitlestring.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\gettitl
+estring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count137
@@ -737,7 +845,9 @@ t)
 \@outlinefile=\write3
 \openout3 = `Missouri-Reasearch-Project---FINAL.out'.
 
-("D:\Program Files\MiKTeX 2.9\tex/context/base/mkii\supp-pdf.mkii"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-p
+df.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count138
 \scratchdimen=\dimen161
@@ -750,9 +860,13 @@ t)
 \MPnumerator=\count142
 \makeMPintoPDFobject=\count143
 \everyMPtoPDFconversion=\toks36
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-base.sty"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-
+base.sty"
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
-("D:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\grfext.sty"
+
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\grfext.st
+y"
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -764,22 +878,22 @@ G,.JBIG2,.JB2,.eps]
 )
 LaTeX Font Info:    Try loading font information for OT1+lmr on input line 105.
 
-("D:\Program Files\MiKTeX 2.9\tex/latex/lm\ot1lmr.fd"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for OML+lmm on input line 105.
 
-("D:\Program Files\MiKTeX 2.9\tex/latex/lm\omllmm.fd"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 105
 .
-("D:\Program Files\MiKTeX 2.9\tex/latex/lm\omslmsy.fd"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for OMX+lmex on input line 105
 .
-("D:\Program Files\MiKTeX 2.9\tex/latex/lm\omxlmex.fd"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -789,19 +903,23 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 105.
 LaTeX Font Info:    Try loading font information for U+msa on input line 105.
-("D:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/microtype\mt-msa.cfg"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/microtype\mt-msa.c
+fg"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 105.
-("D:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/microtype\mt-msb.cfg"
+)
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/microtype\mt-msb.c
+fg"
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [1
 
-{C:/Users/Hubert/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+{C:/Users/19524/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <12> on input line 114.
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -823,223 +941,237 @@ l.198
        <../Figures/cropland3.png>] [4]
 LaTeX Font Info:    Try loading font information for T1+lmtt on input line 260.
 
-("D:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd"
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for TS1+lmr on input line 285.
 
-("D:\Program Files\MiKTeX 2.9\tex/latex/lm\ts1lmr.fd"
+("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
+<../Figures/Nitrogenhist.png, id=100, 576.65437pt x 381.67593pt>
+File: ../Figures/Nitrogenhist.png Graphic file (type png)
+<use ../Figures/Nitrogenhist.png>
+Package pdftex.def Info: ../Figures/Nitrogenhist.png  used on input line 291.
+(pdftex.def)             Requested size: 576.67934pt x 381.69247pt.
+
+Overfull \hbox (106.92395pt too wide) in paragraph at lines 291--292
+[][] 
+ []
+
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxample-1.pdf, id=10
-0, 469.755pt x 325.215pt>
+1, 469.755pt x 325.215pt>
 File: Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxample-1.pdf G
 raphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxample-1.pdf>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-datawxample-1.pdf  used on input line 293.
+datawxample-1.pdf  used on input line 295.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<../Figures/site_map.png, id=101, 650.43pt x 383.031pt>
+[5]
+<../Figures/site_map.png, id=110, 650.43pt x 383.031pt>
 File: ../Figures/site_map.png Graphic file (type png)
 <use ../Figures/site_map.png>
-Package pdftex.def Info: ../Figures/site_map.png  used on input line 324.
+Package pdftex.def Info: ../Figures/site_map.png  used on input line 326.
 (pdftex.def)             Requested size: 469.76817pt x 276.64125pt.
-[5] [6pdfTeX warning (ext4): destination with the same identifier (name{figure.
-2}) has been already used, duplicate ignored
+[6 <../Figures/Nitrogenhist.png>] [7pdfTeX warning (ext4): destination with the
+ same identifier (name{figure.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.327 \newpage
+l.329 \newpage
                <./Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxa
 mple-1.pdf>]
-<../Figures/discharge.png, id=123, 1011.78pt x 650.43pt>
+<../Figures/discharge.png, id=130, 1011.78pt x 650.43pt>
 File: ../Figures/discharge.png Graphic file (type png)
 <use ../Figures/discharge.png>
-Package pdftex.def Info: ../Figures/discharge.png  used on input line 361.
+Package pdftex.def Info: ../Figures/discharge.png  used on input line 363.
 (pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
-[7pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
+[8pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.384 
-       <../Figures/site_map.png (PNG copy)>] [8pdfTeX warning (ext4): destinati
+l.386 
+       <../Figures/site_map.png (PNG copy)>] [9pdfTeX warning (ext4): destinati
 on with the same identifier (name{figure.4}) has been already used, duplicate i
 gnored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.384 
+l.386 
        <../Figures/discharge.png>]
-<../Figures/sd_year.png, id=141, 1011.78pt x 650.43pt>
+<../Figures/sd_year.png, id=147, 1011.78pt x 650.43pt>
 File: ../Figures/sd_year.png Graphic file (type png)
 <use ../Figures/sd_year.png>
-Package pdftex.def Info: ../Figures/sd_year.png  used on input line 386.
+Package pdftex.def Info: ../Figures/sd_year.png  used on input line 388.
 (pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
-[9pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
-has been already used, duplicate ignored
+[10pdfTeX warning (ext4): destination with the same identifier (name{figure.5})
+ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.431 2
+l.433 2
        1 & Little Blue River Near Lake City, MO & 1030 & 2.1 & <../Figures/sd_y
-ear.png>] [10] [11]
-<Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-1-1.pdf, i
-d=163, 722.7pt x 578.16pt>
-File: Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-1-1.p
+ear.png>] [11] [12]
+<Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-2-1.pdf, i
+d=169, 722.7pt x 578.16pt>
+File: Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-2-1.p
 df Graphic file (type pdf)
-<use Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-1-1.pd
+<use Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-2-1.pd
 f>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-unnamed-chunk-1-1.pdf  used on input line 601.
+unnamed-chunk-2-1.pdf  used on input line 603.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 
-Overfull \hbox (5.61383pt too wide) in paragraph at lines 618--619
+Overfull \hbox (5.61383pt too wide) in paragraph at lines 620--621
 \T1/lmr/m/n/12 (-20) Name|  
  []
 
 
-Overfull \hbox (12.43416pt too wide) in paragraph at lines 620--621
+Overfull \hbox (12.43416pt too wide) in paragraph at lines 622--623
 \T1/lmr/m/n/12 (-20) Number|  
  []
 
 
-Overfull \hbox (24.38016pt too wide) in paragraph at lines 622--623
+Overfull \hbox (24.38016pt too wide) in paragraph at lines 624--625
 []\T1/lmr/m/n/12 (-20) Dec. 2019|  
  []
 
 
-Overfull \hbox (27.8174pt too wide) in paragraph at lines 624--625
+Overfull \hbox (27.8174pt too wide) in paragraph at lines 626--627
 []\T1/lmr/m/n/12 (-20) Jan. 2020|  
  []
 
 
-Overfull \hbox (23.401pt too wide) in paragraph at lines 626--627
+Overfull \hbox (23.401pt too wide) in paragraph at lines 628--629
 []\T1/lmr/m/n/12 (-20) Feb. 2020|  
  []
 
 
-Overfull \hbox (26.13765pt too wide) in paragraph at lines 628--629
+Overfull \hbox (26.13765pt too wide) in paragraph at lines 630--631
 []\T1/lmr/m/n/12 (-20) Mar. 2020|  
  []
 
 
-Overfull \hbox (24.42303pt too wide) in paragraph at lines 630--631
+Overfull \hbox (24.42303pt too wide) in paragraph at lines 632--633
 []\T1/lmr/m/n/12 (-20) Apr. 2020|  
  []
 
 
-Overfull \hbox (2.83844pt too wide) in paragraph at lines 632--633
+Overfull \hbox (2.83844pt too wide) in paragraph at lines 634--635
 []\T1/lmr/m/n/12 (-20) May 
  []
 
 
-Overfull \hbox (3.94917pt too wide) in paragraph at lines 632--633
+Overfull \hbox (3.94917pt too wide) in paragraph at lines 634--635
 \T1/lmr/m/n/12 (-20) 2020|  
  []
 
 
-Overfull \hbox (25.37617pt too wide) in paragraph at lines 638--639
+Overfull \hbox (25.37617pt too wide) in paragraph at lines 640--641
 []\T1/lmr/m/n/12 (-20) Aug. 2020|  
  []
 
 
-Overfull \hbox (27.7409pt too wide) in paragraph at lines 640--641
+Overfull \hbox (27.7409pt too wide) in paragraph at lines 642--643
 []\T1/lmr/m/n/12 (-20) Sept. 2020|  
  []
 
 
-Overfull \hbox (28.60442pt too wide) in paragraph at lines 642--643
+Overfull \hbox (28.60442pt too wide) in paragraph at lines 644--645
 []\T1/lmr/m/n/12 (-20) Oct. 2020|  
  []
 
 
-Overfull \hbox (30.19312pt too wide) in paragraph at lines 644--645
+Overfull \hbox (30.19312pt too wide) in paragraph at lines 646--647
 []\T1/lmr/m/n/12 (-20) Nov. 2020|  
  []
 
 
-Overfull \hbox (0.97975pt too wide) in alignment at lines 615--647
+Overfull \hbox (0.97975pt too wide) in alignment at lines 617--649
  [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (0.97975pt too wide) in alignment at lines 647--649
+Overfull \hbox (0.97975pt too wide) in alignment at lines 649--651
  [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
  []
 
 
-Underfull \vbox (badness 10000) detected at line 649
+Underfull \vbox (badness 10000) detected at line 651
  []
 
-[12] [13pdfTeX warning (ext4): destination with the same identifier (name{figur
+[13] [14pdfTeX warning (ext4): destination with the same identifier (name{figur
 e.6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.669 T
+l.671 T
        able summarizing the 7Q10 values for each of the streams that were <./Mi
-ssouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-1-1.pdf>] [14
-] [15]
-Underfull \hbox (badness 2376) in paragraph at lines 713--717
+ssouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-2-1.pdf>] [15
+] [16]
+Underfull \hbox (badness 2376) in paragraph at lines 715--719
 \T1/lmr/m/n/12 (+20) Cen-tral Great Plains Drought.'' Gov-ern-ment Doc-u-ment. 
 []$https : / / cpo . noaa . gov /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 713--717
+Underfull \hbox (badness 10000) in paragraph at lines 715--719
 \T1/lmr/m/n/12 (+20) Meet-[]the-[]Divisions / Earth-[]System-[]Science-[]and-[]
 Modeling / MAPP / MAPP-[]Task-[]Forces /
  []
 
 
-Overfull \hbox (80.66743pt too wide) in paragraph at lines 713--717
+Overfull \hbox (80.66743pt too wide) in paragraph at lines 715--719
 \T1/lmr/m/n/12 (-20) Drought / Drought-[]Task-[]Force-[]II / An-[]Interpretatio
 n-[]of-[]the-[]Origins-[]of-[]the-[]2012-[]Central-[]Great-[]Plains-[]Drought$[
 ]. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 727--731
+Underfull \hbox (badness 10000) in paragraph at lines 729--733
 \T1/lmr/m/n/12 (+20) Doc-u-ment. []$https : / / www . usbr . gov / watersmart /
  bsp / docs / nalreport / republican /
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 738.
-[16]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 738.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 740.
+[17]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 740.
 (Missouri-Reasearch-Project---FINAL.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 738.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 738.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 740.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 740.
 Package rerunfilecheck Info: File `Missouri-Reasearch-Project---FINAL.out' has 
 not changed.
 (rerunfilecheck)             Checksum: BDDC898B73C1C284EE2CEBA024C763D9;4341.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 738.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 740.
  ) 
 Here is how much of TeX's memory you used:
- 14510 strings out of 492895
- 210777 string characters out of 3133477
- 341907 words of memory out of 3000000
- 18014 multiletter control sequences out of 15000+200000
+ 14515 strings out of 492895
+ 215439 string characters out of 3123735
+ 341909 words of memory out of 3000000
+ 18018 multiletter control sequences out of 15000+200000
  67094 words of font info for 110 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  32i,7n,38p,999b,437s stack positions out of 5000i,500n,10000p,200000b,50000s
-{D:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{D:/Program Files/M
-iKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{D:/Program Files/MiKTeX 2.9/fonts/e
-nc/dvips/lm/lm-ts1.enc}{D:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.en
-c}<D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmbx12.pfb><D:/Program Fil
-es/MiKTeX 2.9/fonts/type1/public/lm/lmmi12.pfb><D:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/lm/lmr12.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm
-/lmr17.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr8.pfb><D:/Prog
-ram Files/MiKTeX 2.9/fonts/type1/public/lm/lmri12.pfb><D:/Program Files/MiKTeX 
-2.9/fonts/type1/public/lm/lmtt12.pfb>
-Output written on Missouri-Reasearch-Project---FINAL.pdf (16 pages, 1022860 byt
+{C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.en
+c}{C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathi
+t.enc}{C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-t
+s1.enc}{C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-
+ec.enc}<C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/
+lmbx12.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
+/lm/lmmi12.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/lm/lmr12.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
+/public/lm/lmr17.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/lm/lmr8.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/lm/lmri12.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fo
+nts/type1/public/lm/lmtt12.pfb>
+Output written on Missouri-Reasearch-Project---FINAL.pdf (17 pages, 1028551 byt
 es).
 PDF statistics:
- 264 PDF objects out of 1000 (max. 8388607)
- 76 named destinations out of 1000 (max. 500000)
- 14479 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 270 PDF objects out of 1000 (max. 8388607)
+ 77 named destinations out of 1000 (max. 500000)
+ 14484 words of extra memory for PDF output out of 17280 (max. 10000000)
 

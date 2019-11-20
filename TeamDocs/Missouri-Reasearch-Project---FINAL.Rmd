@@ -99,6 +99,11 @@ We have two main datasets:
 
 - The daily values dataset containing discharge, nitrogen, and phosphorus data for 22 sites. Following is an example of daily values from site No. 22 Missouri River At Hermann, MO (\autoref{fig:dataexample}):
 
+```{r}
+knitr::include_graphics("../Figures/Nitrogenhist.png")
+```
+
+
 ```{r datawxample, echo=FALSE, warning=FALSE, fig.cap="\\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily data of site No. 22 Missouri River At Hermann, MO."}
 knitr::opts_chunk$set(message=FALSE, warning=FALSE, echo=FALSE, fig.height = 8, 
                       fig.width = 10)
