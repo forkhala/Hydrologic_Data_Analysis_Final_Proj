@@ -470,6 +470,7 @@ styled.plot.Nodaway <- drought.plot.Nodaway +
 
 print(styled.plot.Nodaway)
 
+ 
 #### Drought Plots for site Kansas River in Desoto, KS, # 06892350 ####
 #### Drought Plots for site Missouri River at Hermann, MO, # 6934500  ####
 #### Drought PLots for site Mill C at Johnson Drive, Shawnee, KS, # 06892513 #### 
@@ -525,7 +526,7 @@ print(recurr.plot)
 #####Sites to do 7Q10 Analysis on (same as Flood Analysis)####
 Site Name   |   Site Number   |   Time Period   |   Direction   |  Slope
 ----------- | --------------- | --------------- | ------------- | ---------
-  West Nishnabotna River in Randolph, IA | 06808500  | Oct 7 - 13, 2018 | counter clockwise | negative (Figure xx)
+West Nishnabotna River in Randolph, IA | 06808500  | Oct 7 - 13, 2018 | counter clockwise | negative (Figure xx)
 Nodaway River at Clarinda, IA  | 06817000 | Oct 8 - 12, 2018 | clockwise | negative
 Kansas River in Desoto, KS  | 06892350 |   Nov 30 - Dec 5, 2018 | counter clockwise | positive
 Missouri River at Hermann, MO  | 06934500  |  Oct 7 - 20, 2018  | counter clockwise | negative
@@ -553,7 +554,7 @@ avg.dis.Nish <- site.dis %>%
 #7Q10 value for Nish
 sv.q.ten.Nish <- tail(avg.dis.Nish %>%
   arrange(Probability) %>%
-  filter(Probability <= 0.10), 1) #set up function or loop if want to have all sites come out at once
+  filter(Probability <= 0.10),  1) #set up function or loop if want to have all sites come out at once
 sv.q.ten.Nish
 
 #plot of minimum 7 day average flow over time
@@ -761,6 +762,6 @@ West Nishnabotna River in Randolph, IA | 06808500  | 41.3
 Nodaway River at Clarinda, IA  | 06817000 | 5.93
 Kansas River in Desoto, KS  | 06892350 | 562   
 Missouri River at Hermann, MO  | 06934500  | 12414
-Mill C at Johnson Drive, Shawnee, KS  | 1.47
+Mill C at Johnson Drive, Shawnee, KS  | 06892513 | 1.47
 Grand River, Sumner MO  | 06902000 | 39.1  
 
