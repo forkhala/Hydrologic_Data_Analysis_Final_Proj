@@ -283,14 +283,13 @@ Baseflow and quickflow from each site were determined with the `EcoHydRology` pa
 
 Contrary to our hypotheses, greater county population does not contribute to a decrease in percent of discharge as baseflow (p = 0.4199, F = 0.8067) in our sites of interest. This may be due to our small sample size of sites, or perhaps the size of the rivers in our study.
 
-
 High frequency nitrogen data was only available for seven sites within our region. In order to better understand the behavior of rivers during floods, we examined dygraph plots of discharge and nitrogen, and created hysteresis plots. Storms from the fall of 2018 (September - December)  were examined for each river site with data from that time period. We chose to only look at storms that occurred in the second half of the year in order to avoid conflating snowpack melt and precipitation affects. 
 
-We predicted that most rivers in the area would behave the same way, and that rivers would exhibit flushing behavior. We thought that flushing rivers would be more prevalent because of the many agricultural fields in our region of study, and any overland flow to the rivers would bring with it a high concentration of nutrients (nitrogen being one of them) from the fertilized fields. Our results say otherwise (Table 2). Our sites of interest had both positive and negative slopes in the hysteresis plots, and also exhibited both clockwise and counter clockwise directions of flow (\autoref{fig:RandolphStorm}). The same river was analyzed multiple times throughout the year, and even the same river showed different slopes and directions in the hysteresis plots for different storm events. 
+We predicted that most rivers in the area would behave the same way, and that rivers would exhibit flushing behavior. We thought that flushing rivers would be more prevalent because of the many agricultural fields in our region of study, and any overland flow to the rivers would bring with it a high concentration of nutrients (nitrogen being one of them) from the fertilized fields. Our results say otherwise (Table 2). Our sites of interest had both positive and negative slopes in the hysteresis plots, and also exhibited both clockwise and counter clockwise directions of flow (\autoref{fig:Randolphstorm}). The same river was analyzed multiple times throughout the year, and even the same river showed different slopes and directions in the hysteresis plots for different storm events. 
 
 Site Name   |   Site Number   |   Time Period   |   Direction   |  Slope
 ----------- | :---------------: | --------------- | ------------- | ---------
-West Nishnabotna River in Randolph, IA | 06808500  | Oct 7 - 13, 2018 | counter clockwise | negative (Figure xx)
+West Nishnabotna River in Randolph, IA | 06808500  | Oct 7 - 13, 2018 | counter clockwise | negative (\autoref{fig:Randolphstorm})
 Nodaway River at Clarinda, IA  | 06817000 | Oct 8 - 12, 2018 | clockwise | negative
 Kansas River in Desoto, KS  | 06892350 |   Nov 30 - Dec 5, 2018 | counter clockwise | positive
 Missouri River at Hermann, MO  | 06934500  |  Oct 7 - 20, 2018  | counter clockwise | negative
@@ -322,13 +321,13 @@ Drought was defined as determining the 7Q10, which is the minimum 7-day average 
 
 The recurrence interval is calculated using the following equation: 
 
-$T = (n+1)/m$
+$$T = (n+1)/m$$
 
 where T is the recurrence interval, n is the number of years of data, and m is the ranking of the event within the years of data.
 
 Exceedance probability is calculated to determine the probability of having a discharge event of a given size or greater in a year. The equation is: 
 
-$P = 1/T$
+$$P = 1/T$$
 
 where P is the exceedance probability, and T is the recurrence interval. 
 
@@ -337,7 +336,8 @@ The 7Q10 was calculated for each of the six sites by first filtering the dischar
 The 7Q10 value was then determined from the probability column by filtering the data to show the minimum 7-day average discharge with probability less than or equal to 0.1 (Table 3).
 
 
-Table summarizing the 7Q10 values for each of the streams that were analyzed for droughts.
+
+**Table x:** WRITE caption summarizing the 7Q10 values for each of the streams that were analyzed for droughts.
 
 Site Name   |   Site Number   |  7Q10 Minimum Discharge (cfs)  |     
 ----------- | --------------- | ------------------------------ |
