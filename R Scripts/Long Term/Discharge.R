@@ -10,7 +10,7 @@ theme_set(theme_classic())
 # Import site info ####
 
 site.list <- read_csv("./Data/Processed/bestsiteslist.csv", col_types = cols(
-  X1 = "d", site_no = "c",site_nm = "c", huc_cd = "c", huc4 = "c", huc4_nm = "c", site_lab = "c"))%>%
+  site_no = "c",site_nm = "c", huc_cd = "c", huc4 = "c", huc4_nm = "c", site_lab = "c"))%>%
   arrange(huc4, huc_cd)
 
 site.nos <- site.list$site_no
@@ -157,11 +157,11 @@ for(i in 1:11){
 
   fig <- ggplot(site1.pattern, mapping = aes(x = DOY)) +
     geom_line(aes(y = Median.Discharge), color = "lightskyblue4", size = 0.73) +
-    geom_line(aes(y = Discharge75), color = "lightskyblue3", alpha = 0.8) +
-    geom_line(aes(y = Discharge25), color = "lightskyblue3", alpha = 0.8) +  
+    geom_line(aes(y = Discharge75), color = "lightskyblue3", alpha = 0.8, linetype = 6) +
+    geom_line(aes(y = Discharge25), color = "lightskyblue3", alpha = 0.8, linetype = 6) +  
     geom_line(aes(y = Median.Discharge),site2.pattern, color = "darkseagreen4",size = 0.73)+
-    geom_line(aes(y = Discharge75), site2.pattern, color = "darkseagreen3", alpha = 0.8) +
-    geom_line(aes(y = Discharge25), site2.pattern, color = "darkseagreen3", alpha = 0.8) + 
+    geom_line(aes(y = Discharge75),site2.pattern,color = "darkseagreen3",alpha = 0.8,linetype = 6)+
+    geom_line(aes(y = Discharge25),site2.pattern,color = "darkseagreen3",alpha = 0.8,linetype = 6)+ 
     annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1, size = 3,
              label = paste(site.list$huc4[2*i], site.list$huc4_nm[2*i], sep = " "))+
     labs(x = element_blank(), y = element_blank())

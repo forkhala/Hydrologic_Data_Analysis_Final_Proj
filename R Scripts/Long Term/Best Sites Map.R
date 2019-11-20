@@ -6,21 +6,21 @@ pacman::p_load(tidyverse, dataRetrieval, sf, maps, foreign, RColorBrewer)
 library(ggsflabel)
 theme_set(theme_classic())
 
-##### Map sites selected, water bodies, and watersheds in the study region ####
-# Finished parts commented out
-# Gathering site nos from scripts
-# bestsites1021.1026.1027.1030 <- 
-#   c("06775900", "06794000", "06877600", "06874000", "06892350", 
+#### Map sites selected, water bodies, and watersheds in the study region ####
+# # Finished parts commented out
+# # Gathering site nos from scripts
+# bestsites1021.1026.1027.1030 <-
+#   c("06775900", "06794000", "06877600", "06874000", "06892350",
 #     "06887500", "06934500", "06894000")
 # bestsites1024.1025 <- c("06844500", "06856600", "06818000", "06810000")
-# bestsites1020.1023 <- c("06768000", "06805500", "06775900", "06794000", 
+# bestsites1020.1023 <- c("06768000", "06805500", "06775900", "06794000",
 #                         "06800000", "06800500", "06609500", "06610000")
 # bestsites1028.1029 <- c("06902000", "06905500", "06921070", "06926510")
 # 
-# best.sites <- c(bestsites1020.1023, bestsites1021.1026.1027.1030, 
+# best.sites <- c(bestsites1020.1023, bestsites1021.1026.1027.1030,
 #                 bestsites1024.1025, bestsites1028.1029)
 # best.sites <- unique(best.sites)
-
+# 
 # # Generate a list of selected sites with info on huc and names
 # site.list <- whatNWISdata(siteNumbers = best.sites, parameterCd = "00060") %>%
 #   select(site_no, station_nm, huc_cd) %>%
@@ -39,20 +39,15 @@ theme_set(theme_classic())
 # # Adjust letter case; make state abbreviation constant
 # site.list$site_nm <- gsub(site.list$site_nm, pattern = "Nebr.", replacement = "NE")
 # site.list <- site.list %>%
-#   mutate(site_nm = paste0(str_to_title(str_extract(site_nm, pattern = ".*,")), 
+#   mutate(site_nm = paste0(str_to_title(str_extract(site_nm, pattern = ".*,")),
 #                           str_extract(site_nm, pattern = "[:blank:][:upper:]{2}$")))
 # 
-# save the list
-# write.csv(site.list, file="./Data/Processed/bestsiteslist.csv")
+# # save the list
+# write.csv(site.list, file="./Data/Processed/bestsiteslist.csv", row.names = F)
 
 site.list <- read_csv("./Data/Processed/bestsiteslist.csv", col_types = cols(
-  X1 = "d", site_no = "c",site_nm = "c", huc_cd = "c", huc4 = "c", huc4_nm = "c", site_lab = "c"))%>%
+  site_no = "c",site_nm = "c", huc_cd = "c", huc4 = "c", huc4_nm = "c", site_lab = "c"))%>%
   arrange(huc4, huc_cd)
-# Adjust letter case; make state abbreviation constant
-site.list$site_nm <- gsub(site.list$site_nm, pattern = "Nebr.", replacement = "NE")
-site.list <- site.list %>%
-  mutate(site_nm = paste0(str_to_title(str_extract(site_nm, pattern = ".*,")), 
-                          str_extract(site_nm, pattern = "[:blank:][:upper:]{2}$")))
 
 site.nos <- site.list$site_no
 
