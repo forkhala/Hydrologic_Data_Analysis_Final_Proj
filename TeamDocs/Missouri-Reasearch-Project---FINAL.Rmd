@@ -110,6 +110,8 @@ Time | UTC | 22
 Nitrogen | mg/L | 22 with daily values, 6 with high frequency values
 Phosphorus | mg/L | 22
 
+Table 1: Table showing information about the dataset used for this analysis. 
+
 <Add a table that summarizes your data structure (variables, units, ranges and/or central tendencies, data source if multiple are used, etc.). This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.>
 
 ```{r sitemap, out.width="\\maxwidth", fig.cap="\\label{fig:sitemap} Map of USGS sites used for long term analysis."}
