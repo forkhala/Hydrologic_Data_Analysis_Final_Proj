@@ -185,12 +185,13 @@ quality. The effect of population on nutrient enrichment was also
 examined to illustrate potential non-agricultural impact from human
 activities. Finally, based on the pattern in the past and the best model
 we could fit, we attempted to predict the likely future conditions and
-trends in the Missouri River Basin. Our research questions and
-acccompanying hypotheses are below:
+trends in the Missouri River Basin.
 
 \begin{figure}[H]
 \includegraphics[width=\maxwidth]{../Figures/cropland3} \caption{\label{fig:cropland} Map of agricultural lands and impaired waters in the Missouri River Basin. Row and Close Grain Crop Cultural Formation shown by tan-colored areas, pasture and hay field shown by yellowgreen areas, imparied water bodies according to Clean Water Act Section 303(d) (EPA 2015) denoted by red areas, and all HUC4 watersheds in the Missouri River Basin (1001-1030) delineated by gray polygons. The thin light-blue lines outline all streams of a Strahler order higher than 2, and the thick blue line represents the mainstem of Missouri River.}\label{fig:cropland}
 \end{figure}
+
+Our research questions and acccompanying hypotheses are below.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -464,6 +465,7 @@ figure should be referenced within the text\textgreater{}
 nutrient enrichment in the Missouri River
 Basin?}\label{question-1-how-have-changes-in-discharge-interacted-with-nutrient-enrichment-in-the-missouri-river-basin}}
 
+<<<<<<< HEAD
 \begin{longtable}[]{@{}cccccccc@{}}
 \toprule
 \begin{minipage}[b]{0.06\columnwidth}\centering
@@ -866,6 +868,22 @@ Note: *** p-value \textless{} 0.001 ** 0.001 \textless{}= p-value
 \textless{} 0.01 * 0.01 \textless{}= p-value \textless{} 0.05 . 0.05
 \textless{}= p-value \textless{} 0.1 otherwise 0.1 \textless{}= p-value
 \textless{} 1
+=======
+In order to determine whether nutrient levels increase with discharge,
+C-Q (concentration - discharge) plots were created for each site
+(\autoref{fig:CQplot}). At sites with high frequency nitrogen data, high
+frequency nitrogen and discharge values were used. When sites did not
+have high frequency nitrogen data, daily values were used. A linear
+model with total nitrogen as the response variable and discharge as the
+independent variable was created for every site to determine if there
+was a linear relationship between the two. In 18 out of 22 total sites,
+there was a significant relationship where as discharge increased,
+nitrogen also increased.
+
+\begin{figure}[H]
+\includegraphics[width=\maxwidth]{../Figures/CQplots} \caption{\label{fig:CQplot} C-Q plots of two sites in the Missouri River Basin. High frequency (left) and daily values (right) shown for two different sites. Nitrogen values are log transformed.}\label{fig:CQplot}
+\end{figure}
+>>>>>>> dda3ca03cf7e8f0911b7b7adee4a8f1edd881077
 
 \hypertarget{question-2-what-effects-do-specific-flood-and-drought-events-have-on-the-water-quality-and-quantity-of-rivers-in-the-missouri-river-basin-areas-of-interest}{%
 \subsection{Question 2: What effects do specific flood and drought
@@ -1020,6 +1038,41 @@ slope (diluting behavior) in a counter clockwise direction.}
 \subsection{Question 3: What factors contribute to the variability of
 total nitrogen in the
 rivers?}\label{question-3-what-factors-contribute-to-the-variability-of-total-nitrogen-in-the-rivers}}
+
+In order to better understand what contributes to the variability of
+nitrogen concentration in our study area of interest, we created a
+linear model with fixed effects and random effects. By considering the
+HUC 4 region each site is in as a random effect, we can estimate the
+amount of variation of nitrogen between each HUC 4. In order to better
+model the interaction, I chose to divide the year variable by 10 and the
+population by 1000 so that rescaling is not an issue. The model chosen
+is below:
+
+\begin{quote}
+\texttt{lmer(data,\ log(total.nitrogen)\ \textasciitilde{}\ Year\ +\ population\ \ +\ (1\textbar{}huc4))}
+\end{quote}
+
+Year and population are fixed effects while the grouping of the HUC 4
+region is a random effect. This means we take the HUC 4 region variance
+into account when modeling the effect of year and population on total
+nitrogen. Using log transformed nitrogen data and HUC 4 region as a
+random effect, there is a significant difference in total nitrogen
+across each decade and every 1000 people (p \textless{} 2e-16). The
+regression equation is below:
+
+\[log(Total Nitrogen) = -3.68 + 0.0229(Year/10) - 9.95e-04(population/1000)\]
+
+Because we used a log transformed data set, we have to exponentiate the
+coefficients in the model to interpret them. The intercept is 0.025,
+which is the mean of total nitrogen when year is 0 and population is 0.
+When exponentiating the Year coefficient, we can conclude that every
+decade has a 1.02 multiplicative effect on nitrogen. When exponentiating
+the population coefficient, we can conclude that every 1000 people have
+a 0.99 multiplicative effect on nitrogen. The model demonstrates the the
+level of decade and population affected the total nitrogen in each HUC 4
+region. Residuals are evenly distributed, and the R\^{}2 value = 0.514,
+indicating that 51.4\% of the variation in nitrogen is explained by this
+model.
 
 \hypertarget{question-4-given-past-and-current-data-what-can-we-predict-about-the-future-state-of-water-in-the-missouri-river-basin}{%
 \subsection{Question 4: Given past and current data, what can we predict
