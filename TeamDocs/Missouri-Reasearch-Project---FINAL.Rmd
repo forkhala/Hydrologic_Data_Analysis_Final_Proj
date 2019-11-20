@@ -295,7 +295,15 @@ print(RandolphStorm.plot)
 
 ## Question 3: What factors contribute to the variability of total nitrogen in the rivers?
 
-In order to better understand what contributes to the variability of nitrogen concentration in our study area of interest, we created a linear model with fixed effects. By considering the huc4 region each site is in as a fixed effect, we can estimate the amount of variation of nitrogen between each huc4. 
+In order to better understand what contributes to the variability of nitrogen concentration in our study area of interest, we created a linear model with fixed effects and random effects. By considering the HUC 4 region each site is in as a random effect, we can estimate the amount of variation of nitrogen between each HUC 4. In order to better model the interaction, I chose to divide the year variable by 10 and the population by 1000 so that rescaling is not an issue. The model chosen is below:
+
+> `lmer(data, log(total.nitrogen) ~ Year + population  + (1|huc4))`
+
+Year and population are fixed effects while the grouping of the HUC 4 region is a random effect. This means we take the HUC 4 region variance into account when modeling the effect of year and population on total nitrogen. Using log transformed nitrogen data and HUC 4 region as a random effect, there is a significant difference in total nitrogen across each decade and every 1000 people (p < 2e-16). The regression equation is below:
+
+$$log(Total Nitrogen) = -3.68 + 0.0229(Year/10) - 9.95e-04(population/1000)$$
+
+Because we used a log transformed data set, we have to exponentiate the coefficients in the model to interpret them. The intercept is 0.025, which is the mean of total nitrogen when year is 0 and population is 0. When exponentiating the Year coefficient, we can conclude that every decade has a 1.02 multiplicative effect on nitrogen. When exponentiating the population coefficient, we can conclude that every 1000 people have a 0.99 multiplicative effect on nitrogen. The model demonstrates the the level of decade and population affected the total nitrogen in each HUC 4 region. Residuals are evenly distributed, and the R^2 value = 0.514, indicating that 51.4% of the variation in nitrogen is explained by this model.
 
 ## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
