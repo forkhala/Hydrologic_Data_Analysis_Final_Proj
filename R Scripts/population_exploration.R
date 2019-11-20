@@ -166,6 +166,7 @@ formula(step.mod)
 avPlots(step.mod)
 
 #read this in
+WQ.countypop.joined$Year <- WQ.countypop.joined$Year/10
 WQ.countypop.joined$Year.c <- WQ.countypop.joined$Year - mean(WQ.countypop.joined$Year)
 WQ.countypop.joined$population <- WQ.countypop.joined$population/1000
 WQ.countypop.joined$population.c <- WQ.countypop.joined$population - mean(WQ.countypop.joined$population)
@@ -176,10 +177,29 @@ WQ.countypop.joined$population.c <- WQ.countypop.joined$population - mean(WQ.cou
 #Year, population, and 10/11 huc4 regions are statistically significant
 
 #read this in
-mod3 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ Year.c + population.c  +
+mod3 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population  +
                (1|huc4))
 summary(mod3)
+
 anova(mod3)
+plot(mod3)
+
+exp(-3.68)# 0.025  = mean of N when year = 0 and pop = 0
+exp(2.287e-02) #1.02 = every ten years has a multiplicative effect on N
+exp(-9.952e-04) #0.99= multiplicative effect of change in 1000 people on N
+require(sjstats)
+r2(mod3)
+#Year and population are fixed effects while the grouping of the HUC 4 region is a random effect. 
+#This means we take the HUC 4 region variance into account when modeling the effect of year and population on total nitrogen.
+#The model demonstrates the the level of decade and population affected the total nitrogen in each HUC 4 region. 
+#Residuals are evenly distributed, and the R^2 value = 0.514, indicating that 51.4% of the variation in nitrogen is explained by this model.
+
+
+mod4 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population  +
+               (1 + population|huc4))
+
+anova(mod3, mod4, test = "Chisq")
+ranef(mod4)
 
 
 #lm4
