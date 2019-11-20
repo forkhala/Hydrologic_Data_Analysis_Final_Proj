@@ -198,7 +198,20 @@ print(RandolphStorm.plot)
 
 ## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
+### Droughts
+Droughts in the Missouri River Basin were known to occur throughout the years. 
 
+
+Table summarizing the 7Q10 values for each of the streams that were analyzed for droughts.
+
+Site Name   |   Site Number   |  7Q10 Minimum Discharge (cfs)  |     
+----------- | --------------- | ------------------------------ |
+West Nishnabotna River in Randolph, IA | 06808500  | 41.3
+Nodaway River at Clarinda, IA  | 06817000 | 5.93
+Kansas River in Desoto, KS  | 06892350 | 562   
+Missouri River at Hermann, MO  | 06934500  | 12414
+Mill C at Johnson Drive, Shawnee, KS  | 1.47
+Grand River, Sumner MO  | 06902000 | 39.1  
 
 
 \newpage
