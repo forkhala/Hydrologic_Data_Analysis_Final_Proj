@@ -7,6 +7,7 @@ library(ggsflabel)
 theme_set(theme_classic())
 
 ##### Map sites selected, water bodies, and watersheds in the study region ####
+# Finished parts commented out
 # Gathering site nos from scripts
 # bestsites1021.1026.1027.1030 <- 
 #   c("06775900", "06794000", "06877600", "06874000", "06892350", 
@@ -20,29 +21,42 @@ theme_set(theme_classic())
 #                 bestsites1024.1025, bestsites1028.1029)
 # best.sites <- unique(best.sites)
 
+# # Generate a list of selected sites with info on huc and names
+# site.list <- whatNWISdata(siteNumbers = best.sites, parameterCd = "00060") %>%
+#   select(site_no, station_nm, huc_cd) %>%
+#   group_by(site_no) %>%
+#   summarise(site_nm = first(station_nm),
+#             huc_cd = first(huc_cd)) %>%
+#   arrange(huc_cd) %>%
+#   mutate(huc4 = substr(huc_cd, start = 1, stop = 4),
+#          site_lab = seq(1, 22, by = 1))
+# 
+# huc4_nm <- rep(c("Platte", "Loup", "Elkhorn", "Missouri-Little Sioux", "Missouri-Nishnabotna",
+#                  "Republican", "Smoky Hill", "Kansas", "Chariton-Grand", "Gasconade-Osage",
+#                  "Lower Missouri"), each = 2)
+# site.list <- cbind(site.list, huc4_nm)
+# 
+# # Adjust letter case; make state abbreviation constant
+# site.list$site_nm <- gsub(site.list$site_nm, pattern = "Nebr.", replacement = "NE")
+# site.list <- site.list %>%
+#   mutate(site_nm = paste0(str_to_title(str_extract(site_nm, pattern = ".*,")), 
+#                           str_extract(site_nm, pattern = "[:blank:][:upper:]{2}$")))
+# 
+# save the list
+# write.csv(site.list, file="./Data/Processed/bestsiteslist.csv")
+
 site.list <- read_csv("./Data/Processed/bestsiteslist.csv", col_types = cols(
   X1 = "d", site_no = "c",site_nm = "c", huc_cd = "c", huc4 = "c", huc4_nm = "c", site_lab = "c"))%>%
   arrange(huc4, huc_cd)
+# Adjust letter case; make state abbreviation constant
+site.list$site_nm <- gsub(site.list$site_nm, pattern = "Nebr.", replacement = "NE")
+site.list <- site.list %>%
+  mutate(site_nm = paste0(str_to_title(str_extract(site_nm, pattern = ".*,")), 
+                          str_extract(site_nm, pattern = "[:blank:][:upper:]{2}$")))
 
 site.nos <- site.list$site_no
 
-# Generate a list of selected sites with info on huc and names
-site.list <- whatNWISdata(siteNumbers = site.nos, parameterCd = "00060") %>%
-  select(site_no, station_nm, huc_cd) %>%
-  group_by(site_no) %>%
-  summarise(site_nm = first(station_nm),
-            huc_cd = first(huc_cd)) %>%
-  arrange(huc_cd) %>%
-  mutate(huc4 = substr(huc_cd, start = 1, stop = 4),
-         site_lab = seq(1, 22, by = 1))
-
-huc4_nm <- rep(c("Platte", "Loup", "Elkhorn", "Missouri-Little Sioux", "Missouri-Nishnabotna",
-                 "Republican", "Smoky Hill", "Kansas", "Chariton-Grand", "Gasconade-Osage",
-                 "Lower Missouri"), each = 2)
-site.list <- cbind(site.list, huc4_nm)
-# save the list
-# write.csv(site.list, file="./Data/Processed/bestsiteslist.csv")
-# ---- site selection end ----
+#---- site selection end ----
 
 ########## Mapping Best Sites ##########
 
