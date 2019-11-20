@@ -134,7 +134,6 @@ MRHNitrogen <- MRHNitrogen %>%
 # Re-plot data
 MRHN <-
   ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
-  geom_point() +
   geom_line() +
   labs(x = " ", y = expression("nitrogen (mg/L)")) +
   xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
@@ -159,7 +158,6 @@ MRHPhosphorus <- MRHPhosphorus %>%
 # Re-plot data
 MRHP <-
   ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
-  geom_point() +
   geom_line() +
   labs(x = "Date", y = expression("phosphorus (mg/L)"))  +
   xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
