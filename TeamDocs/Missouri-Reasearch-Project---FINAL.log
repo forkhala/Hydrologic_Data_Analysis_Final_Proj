@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.29)  20 NOV 2019 08:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.29)  20 NOV 2019 08:53
 entering extended mode
 **./Missouri-Reasearch-Project---FINAL.tex
 (Missouri-Reasearch-Project---FINAL.tex
@@ -739,6 +739,9 @@ LaTeX Warning: Label `fig:cropland' multiply defined.
 LaTeX Warning: Label `fig:sitemap' multiply defined.
 
 
+LaTeX Warning: Label `fig:Nhist' multiply defined.
+
+
 LaTeX Warning: Label `fig:dispattern' multiply defined.
 
 
@@ -747,34 +750,34 @@ LaTeX Warning: Label `fig:varfig' multiply defined.
 )
 \openout1 = `Missouri-Reasearch-Project---FINAL.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 104.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 104.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 106.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 106.
 
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 104.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 106.
+LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 106.
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmr.fd"
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Info: Redefining \microtypecontext on input line 104.
+LaTeX Info: Redefining \microtypecontext on input line 106.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
@@ -825,7 +828,7 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box47
-Package hyperref Info: Link coloring OFF on input line 104.
+Package hyperref Info: Link coloring OFF on input line 106.
 
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\nameref.s
 ty"
@@ -837,9 +840,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count137
 )
-LaTeX Info: Redefining \ref on input line 104.
-LaTeX Info: Redefining \pageref on input line 104.
-LaTeX Info: Redefining \nameref on input line 104.
+LaTeX Info: Redefining \ref on input line 106.
+LaTeX Info: Redefining \pageref on input line 106.
+LaTeX Info: Redefining \nameref on input line 106.
 (Missouri-Reasearch-Project---FINAL.out) (Missouri-Reasearch-Project---FINAL.ou
 t)
 \@outlinefile=\write3
@@ -876,33 +879,33 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 105.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 107.
 
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 105.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 107.
 
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 105
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 107
 .
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 105
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 107
 .
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 105.
+(Font)              <14.4> on input line 107.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 105.
+(Font)              <10> on input line 107.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 105.
-LaTeX Font Info:    Try loading font information for U+msa on input line 105.
+(Font)              <7> on input line 107.
+LaTeX Font Info:    Try loading font information for U+msa on input line 107.
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
@@ -910,7 +913,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 fg"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 105.
+LaTeX Font Info:    Try loading font information for U+msb on input line 107.
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -921,241 +924,249 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 
 {C:/Users/19524/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 114.
+(Font)              <12> on input line 116.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 114.
+(Font)              <8> on input line 116.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 114.
+(Font)              <6> on input line 116.
 [2]
-<../Figures/cropland3.png, id=76, 650.43pt x 383.031pt>
+<../Figures/cropland3.png, id=80, 650.43pt x 383.031pt>
 File: ../Figures/cropland3.png Graphic file (type png)
 <use ../Figures/cropland3.png>
-Package pdftex.def Info: ../Figures/cropland3.png  used on input line 190.
+Package pdftex.def Info: ../Figures/cropland3.png  used on input line 192.
 (pdftex.def)             Requested size: 469.76817pt x 276.64125pt.
 [3pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.198 
+l.200 
        <../Figures/cropland3.png>] [4]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 260.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 262.
 
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd"
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 285.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 286.
 
 ("C:\Users\19524\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-<../Figures/Nitrogenhist.png, id=100, 576.65437pt x 381.67593pt>
-File: ../Figures/Nitrogenhist.png Graphic file (type png)
-<use ../Figures/Nitrogenhist.png>
-Package pdftex.def Info: ../Figures/Nitrogenhist.png  used on input line 291.
-(pdftex.def)             Requested size: 576.67934pt x 381.69247pt.
-
-Overfull \hbox (106.92395pt too wide) in paragraph at lines 291--292
-[][] 
- []
-
-<Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxample-1.pdf, id=10
-1, 469.755pt x 325.215pt>
-File: Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxample-1.pdf G
-raphic file (type pdf)
-<use Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxample-1.pdf>
-Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-datawxample-1.pdf  used on input line 295.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[5]
-<../Figures/site_map.png, id=110, 650.43pt x 383.031pt>
+<../Figures/site_map.png, id=103, 650.43pt x 383.031pt>
 File: ../Figures/site_map.png Graphic file (type png)
 <use ../Figures/site_map.png>
-Package pdftex.def Info: ../Figures/site_map.png  used on input line 326.
+Package pdftex.def Info: ../Figures/site_map.png  used on input line 312.
 (pdftex.def)             Requested size: 469.76817pt x 276.64125pt.
-[6 <../Figures/Nitrogenhist.png>] [7pdfTeX warning (ext4): destination with the
- same identifier (name{figure.2}) has been already used, duplicate ignored
+[5] [6pdfTeX warning (ext4): destination with the same identifier (name{figure.
+2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.329 \newpage
-               <./Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxa
-mple-1.pdf>]
-<../Figures/discharge.png, id=130, 1011.78pt x 650.43pt>
-File: ../Figures/discharge.png Graphic file (type png)
-<use ../Figures/discharge.png>
-Package pdftex.def Info: ../Figures/discharge.png  used on input line 363.
-(pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
-[8pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
+l.315 \newpage
+               <../Figures/site_map.png (PNG copy)>]
+<../Figures/Nitrogenhist.png, id=120, 576.65437pt x 381.67593pt>
+File: ../Figures/Nitrogenhist.png Graphic file (type png)
+<use ../Figures/Nitrogenhist.png>
+Package pdftex.def Info: ../Figures/Nitrogenhist.png  used on input line 330.
+(pdftex.def)             Requested size: 469.77118pt x 310.9321pt.
+<Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf, id=12
+2, 469.755pt x 325.215pt>
+File: Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf G
+raphic file (type pdf)
+<use Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf>
+Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
+dataexample-1.pdf  used on input line 339.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[7pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.386 
-       <../Figures/site_map.png (PNG copy)>] [9pdfTeX warning (ext4): destinati
-on with the same identifier (name{figure.4}) has been already used, duplicate i
-gnored
+l.371 
+       <../Figures/Nitrogenhist.png>] [8pdfTeX warning (ext4): destination with
+ the same identifier (name{figure.4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.386 
+l.371 
+       <./Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.p
+df>]
+<../Figures/discharge.png, id=145, 1011.78pt x 650.43pt>
+File: ../Figures/discharge.png Graphic file (type png)
+<use ../Figures/discharge.png>
+Package pdftex.def Info: ../Figures/discharge.png  used on input line 373.
+(pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
+[9pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.396 
        <../Figures/discharge.png>]
-<../Figures/sd_year.png, id=147, 1011.78pt x 650.43pt>
+<../Figures/sd_year.png, id=154, 1011.78pt x 650.43pt>
 File: ../Figures/sd_year.png Graphic file (type png)
 <use ../Figures/sd_year.png>
-Package pdftex.def Info: ../Figures/sd_year.png  used on input line 388.
+Package pdftex.def Info: ../Figures/sd_year.png  used on input line 398.
 (pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
-[10pdfTeX warning (ext4): destination with the same identifier (name{figure.5})
+[10pdfTeX warning (ext4): destination with the same identifier (name{figure.6})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.433 2
+l.443 2
        1 & Little Blue River Near Lake City, MO & 1030 & 2.1 & <../Figures/sd_y
-ear.png>] [11] [12]
-<Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-2-1.pdf, i
-d=169, 722.7pt x 578.16pt>
-File: Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-2-1.p
-df Graphic file (type pdf)
-<use Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-2-1.pd
-f>
-Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-unnamed-chunk-2-1.pdf  used on input line 603.
-(pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
+ear.png>] [11]
 
-Overfull \hbox (5.61383pt too wide) in paragraph at lines 620--621
+LaTeX Warning: Reference `fig:RandolphStorm' on page 12 undefined on input line
+ 523.
+
+[12]
+<Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf, id=
+176, 469.755pt x 325.215pt>
+File: Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf
+ Graphic file (type pdf)
+<use Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf>
+
+Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
+Randolphstorm-1.pdf  used on input line 614.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \hbox (5.61383pt too wide) in paragraph at lines 632--633
 \T1/lmr/m/n/12 (-20) Name|  
  []
 
 
-Overfull \hbox (12.43416pt too wide) in paragraph at lines 622--623
+Overfull \hbox (12.43416pt too wide) in paragraph at lines 634--635
 \T1/lmr/m/n/12 (-20) Number|  
  []
 
 
-Overfull \hbox (24.38016pt too wide) in paragraph at lines 624--625
+Overfull \hbox (24.38016pt too wide) in paragraph at lines 636--637
 []\T1/lmr/m/n/12 (-20) Dec. 2019|  
  []
 
 
-Overfull \hbox (27.8174pt too wide) in paragraph at lines 626--627
+Overfull \hbox (27.8174pt too wide) in paragraph at lines 638--639
 []\T1/lmr/m/n/12 (-20) Jan. 2020|  
  []
 
 
-Overfull \hbox (23.401pt too wide) in paragraph at lines 628--629
+Overfull \hbox (23.401pt too wide) in paragraph at lines 640--641
 []\T1/lmr/m/n/12 (-20) Feb. 2020|  
  []
 
 
-Overfull \hbox (26.13765pt too wide) in paragraph at lines 630--631
+Overfull \hbox (26.13765pt too wide) in paragraph at lines 642--643
 []\T1/lmr/m/n/12 (-20) Mar. 2020|  
  []
 
 
-Overfull \hbox (24.42303pt too wide) in paragraph at lines 632--633
+Overfull \hbox (24.42303pt too wide) in paragraph at lines 644--645
 []\T1/lmr/m/n/12 (-20) Apr. 2020|  
  []
 
 
-Overfull \hbox (2.83844pt too wide) in paragraph at lines 634--635
+Overfull \hbox (2.83844pt too wide) in paragraph at lines 646--647
 []\T1/lmr/m/n/12 (-20) May 
  []
 
 
-Overfull \hbox (3.94917pt too wide) in paragraph at lines 634--635
+Overfull \hbox (3.94917pt too wide) in paragraph at lines 646--647
 \T1/lmr/m/n/12 (-20) 2020|  
  []
 
 
-Overfull \hbox (25.37617pt too wide) in paragraph at lines 640--641
+Overfull \hbox (25.37617pt too wide) in paragraph at lines 652--653
 []\T1/lmr/m/n/12 (-20) Aug. 2020|  
  []
 
 
-Overfull \hbox (27.7409pt too wide) in paragraph at lines 642--643
+Overfull \hbox (27.7409pt too wide) in paragraph at lines 654--655
 []\T1/lmr/m/n/12 (-20) Sept. 2020|  
  []
 
 
-Overfull \hbox (28.60442pt too wide) in paragraph at lines 644--645
+Overfull \hbox (28.60442pt too wide) in paragraph at lines 656--657
 []\T1/lmr/m/n/12 (-20) Oct. 2020|  
  []
 
 
-Overfull \hbox (30.19312pt too wide) in paragraph at lines 646--647
+Overfull \hbox (30.19312pt too wide) in paragraph at lines 658--659
 []\T1/lmr/m/n/12 (-20) Nov. 2020|  
  []
 
 
-Overfull \hbox (0.97975pt too wide) in alignment at lines 617--649
+Overfull \hbox (0.97975pt too wide) in alignment at lines 629--661
  [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (0.97975pt too wide) in alignment at lines 649--651
+Overfull \hbox (0.97975pt too wide) in alignment at lines 661--663
  [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
  []
 
 
-Underfull \vbox (badness 10000) detected at line 651
+Underfull \vbox (badness 10000) detected at line 663
  []
 
 [13] [14pdfTeX warning (ext4): destination with the same identifier (name{figur
-e.6}) has been already used, duplicate ignored
+e.7}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.671 T
+l.683 T
        able summarizing the 7Q10 values for each of the streams that were <./Mi
-ssouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-2-1.pdf>] [15
-] [16]
-Underfull \hbox (badness 2376) in paragraph at lines 715--719
+ssouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf>] [15] 
+[16]
+Underfull \hbox (badness 2376) in paragraph at lines 727--731
 \T1/lmr/m/n/12 (+20) Cen-tral Great Plains Drought.'' Gov-ern-ment Doc-u-ment. 
 []$https : / / cpo . noaa . gov /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 715--719
+Underfull \hbox (badness 10000) in paragraph at lines 727--731
 \T1/lmr/m/n/12 (+20) Meet-[]the-[]Divisions / Earth-[]System-[]Science-[]and-[]
 Modeling / MAPP / MAPP-[]Task-[]Forces /
  []
 
 
-Overfull \hbox (80.66743pt too wide) in paragraph at lines 715--719
+Overfull \hbox (80.66743pt too wide) in paragraph at lines 727--731
 \T1/lmr/m/n/12 (-20) Drought / Drought-[]Task-[]Force-[]II / An-[]Interpretatio
 n-[]of-[]the-[]Origins-[]of-[]the-[]2012-[]Central-[]Great-[]Plains-[]Drought$[
 ]. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 729--733
+Underfull \hbox (badness 10000) in paragraph at lines 741--745
 \T1/lmr/m/n/12 (+20) Doc-u-ment. []$https : / / www . usbr . gov / watersmart /
  bsp / docs / nalreport / republican /
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 740.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 752.
 [17]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 740.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 752.
 (Missouri-Reasearch-Project---FINAL.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 740.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 740.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 752.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 752.
 Package rerunfilecheck Info: File `Missouri-Reasearch-Project---FINAL.out' has 
 not changed.
-(rerunfilecheck)             Checksum: BDDC898B73C1C284EE2CEBA024C763D9;4341.
+(rerunfilecheck)             Checksum: 3F0AAC332FCA43C0B7E23E591996E4CA;4526.
+
+LaTeX Warning: There were undefined references.
+
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 740.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 752.
  ) 
 Here is how much of TeX's memory you used:
- 14515 strings out of 492895
- 215439 string characters out of 3123735
- 341909 words of memory out of 3000000
- 18018 multiletter control sequences out of 15000+200000
- 67094 words of font info for 110 fonts, out of 3000000 for 9000
+ 14525 strings out of 492895
+ 215579 string characters out of 3123735
+ 342256 words of memory out of 3000000
+ 18023 multiletter control sequences out of 15000+200000
+ 67185 words of font info for 111 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,7n,38p,999b,437s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 32i,7n,38p,999b,433s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.en
 c}{C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathi
 t.enc}{C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-t
@@ -1168,10 +1179,10 @@ blic/lm/lmr12.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
 pe1/public/lm/lmr8.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/
 type1/public/lm/lmri12.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fo
 nts/type1/public/lm/lmtt12.pfb>
-Output written on Missouri-Reasearch-Project---FINAL.pdf (17 pages, 1028551 byt
+Output written on Missouri-Reasearch-Project---FINAL.pdf (17 pages, 1040979 byt
 es).
 PDF statistics:
- 270 PDF objects out of 1000 (max. 8388607)
- 77 named destinations out of 1000 (max. 500000)
- 14484 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 279 PDF objects out of 1000 (max. 8388607)
+ 80 named destinations out of 1000 (max. 500000)
+ 14492 words of extra memory for PDF output out of 17280 (max. 10000000)
 

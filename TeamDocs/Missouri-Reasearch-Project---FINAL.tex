@@ -101,6 +101,8 @@
 \usepackage{makecell}
 \usepackage{xcolor}
 
+\usepackage{float}
+
 \begin{document}
 \maketitle
 
@@ -186,7 +188,7 @@ we could fit, we attempted to predict the likely future conditions and
 trends in the Missouri River Basin. Our research questions and
 acccompanying hypotheses are below:
 
-\begin{figure}
+\begin{figure}[H]
 \includegraphics[width=\maxwidth]{../Figures/cropland3} \caption{\label{fig:cropland} Map of agricultural lands and impaired waters in the Missouri River Basin. Row and Close Grain Crop Cultural Formation shown by tan-colored areas, pasture and hay field shown by yellowgreen areas, imparied water bodies according to Clean Water Act Section 303(d) (EPA 2015) denoted by red areas, and all HUC4 watersheds in the Missouri River Basin (1001-1030) delineated by gray polygons. The thin light-blue lines outline all streams of a Strahler order higher than 2, and the thick blue line represents the mainstem of Missouri River.}\label{fig:cropland}
 \end{figure}
 
@@ -280,25 +282,9 @@ the same 6 sites for droughts as we did for flooding (Table 2).
 We have two main datasets:
 
 \begin{itemize}
-\tightlist
 \item
   The daily values dataset containing discharge, nitrogen, and
-  phosphorus data for 22 sites. Following is an example of daily values
-  from site No.~22 Missouri River At Hermann, MO
-  (\autoref{fig:dataexample}):
-\end{itemize}
-
-\includegraphics[width=10.64in]{../Figures/Nitrogenhist}
-
-\begin{figure}
-\centering
-\includegraphics{Missouri-Reasearch-Project---FINAL_files/figure-latex/datawxample-1.pdf}
-\caption{\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily
-data of site No.~22 Missouri River At Hermann, MO.}
-\end{figure}
-
-\begin{itemize}
-\tightlist
+  phosphorus data for 22 sites.
 \item
   The high freqency dataset containing high frequency data for nitrogen
   and discharge for 6 sites.
@@ -322,7 +308,7 @@ used, etc.). This table can be made in markdown text or inserted as a
 \texttt{kable} function in an R chunk. If the latter, do not include the
 code used to generate your table.\textgreater{}
 
-\begin{figure}
+\begin{figure}[H]
 \includegraphics[width=\maxwidth]{../Figures/site_map} \caption{\label{fig:sitemap} Map of USGS sites used for long term analysis.}\label{fig:sitemap}
 \end{figure}
 
@@ -330,6 +316,30 @@ code used to generate your table.\textgreater{}
 
 \hypertarget{exploratory-analysis}{%
 \section{Exploratory Analysis}\label{exploratory-analysis}}
+
+\hypertarget{exploration-of-variables}{%
+\subsection{Exploration of variables}\label{exploration-of-variables}}
+
+Basic data wrangling was needed in order to obtain all variables of
+interest. After obtaining all pertinent data, each variable was
+visualized in order to see the shape of the data and the range of values
+(\autoref{fig:Nhist}). Any necessary transformation or cleaning was
+completed after this step.
+
+\begin{figure}[H]
+\includegraphics[width=\maxwidth]{../Figures/Nitrogenhist} \caption{\label{fig:Nhist} Histograms showing the range of total nitrogen values obtained from all sites during the total period of record. Raw (left) and logged (right) nitrogen data are shown to show that any analysis requiring normally distributed data will use the log transformed nitrogen data.}\label{fig:Nhist}
+\end{figure}
+
+Discharge, nitrogen, and phosphorus were plotted for each site and
+examined together in order to see if there were any obvious patterns or
+trends (\autoref{fig:dataexample}).
+
+\begin{figure}
+\centering
+\includegraphics{Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf}
+\caption{\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily
+data of site No.~22 Missouri River At Hermann, MO.}
+\end{figure}
 
 \hypertarget{yearly-discharge-pattern}{%
 \subsection{Yearly Discharge Pattern}\label{yearly-discharge-pattern}}
@@ -359,7 +369,7 @@ Republican River basin is underlain by Ogallala Aquifer (Reclamation
 2016a), and a plausible high proportion of water source from groundwater
 could explain the little variation across years.
 
-\begin{figure}
+\begin{figure}[H]
 \includegraphics[width=\maxwidth]{../Figures/discharge} \caption{\label{fig:dispattern}Yearly discharge pattern for the lower Missouri HUC4 watersheds. Thick, dark lines are the median of all discharge records on a day of year, while light, thin lines are the 25th and 75 discharge quantiles on that day. The blue lines represent the first site in a HUC4 watershed, while the green lines represent the second site.}\label{fig:dispattern}
 \end{figure}
 
@@ -384,7 +394,7 @@ size, and/or the short time span of available data for some sites.
 Hence, more monitoring on discharge in the basin are required in the
 future to reach a more definitive conclusion.
 
-\begin{figure}
+\begin{figure}[H]
 \includegraphics[width=\maxwidth]{../Figures/sd_year} \caption{\label{fig:varfig} Changes in the standard deviations (SD) of discharge within a year at 22 sites over the whole time span of available data. Red regression lines and confidence intervals suggest increasing SD, whereas blue for decreasing SD over time. Bolded site labels and HUC8, and colors with higher saturation indicate statistically significant results ($\alpha = 0.05$).}\label{fig:varfig}
 \end{figure}
 
@@ -510,9 +520,10 @@ with it a high concentration of nutrients (nitrogen being one of them)
 from the fertilized fields. Our results say otherwise (Table 2). Our
 sites of interest had both positive and negative slopes in the
 hysteresis plots, and also exhibited both clockwise and counter
-clockwise directions of flow (Figure xx). The same river was analyzed
-multiple times throughout the year, and even the same river showed
-different slopes and directions in the hysteresis plots.
+clockwise directions of flow (\autoref{fig:RandolphStorm}). The same
+river was analyzed multiple times throughout the year, and even the same
+river showed different slopes and directions in the hysteresis plots for
+different storm events.
 
 \begin{longtable}[]{@{}lclll@{}}
 \toprule
@@ -525,7 +536,7 @@ Time Period\strut
 \end{minipage} & \begin{minipage}[b]{0.17\columnwidth}\raggedright
 Direction\strut
 \end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
-\textbf{Slope}\strut
+Slope\strut
 \end{minipage}\tabularnewline
 \midrule
 \endhead
@@ -600,8 +611,9 @@ positive\strut
 
 \begin{figure}
 \centering
-\includegraphics{Missouri-Reasearch-Project---FINAL_files/figure-latex/unnamed-chunk-2-1.pdf}
-\caption{write fig caption for this hysteresis plot}
+\includegraphics{Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf}
+\caption{Hyteresis plot for site in Randolph, IA that shows a negative
+slope (diluting behavior) in a counter clockwise direction.}
 \end{figure}
 
 \hypertarget{question-3-what-factors-contribute-to-the-variability-of-total-nitrogen-in-the-rivers}{%

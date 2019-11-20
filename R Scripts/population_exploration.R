@@ -2,7 +2,7 @@
 
 library(noncensus); library(tidyverse); library(sf); library(dataRetrieval);
 library(sp); library(lubridate); library(lme4); library(stats); library(MASS);
-library(car); library(GGally); library(maps);
+library(car); library(GGally); library(maps); library(lmerTest)
 
 #database with population by county
 data("counties")
@@ -147,6 +147,8 @@ print(nit.logged)
 nit.range <- cowplot::plot_grid(nit, nit.logged, ncol=2)
 
 
+
+
 #read this in
 str(WQ.countypop.joined)
 WQ.countypop.joined$Site <- as.factor(WQ.countypop.joined$Site)
@@ -165,8 +167,8 @@ avPlots(step.mod)
 
 #read this in
 WQ.countypop.joined$Year.c <- WQ.countypop.joined$Year - mean(WQ.countypop.joined$Year)
+WQ.countypop.joined$population <- WQ.countypop.joined$population/1000
 WQ.countypop.joined$population.c <- WQ.countypop.joined$population - mean(WQ.countypop.joined$population)
-WQ.countypop.joined$population100 <- WQ.countypop.joined$population/100
 
 #mod2 <- lm(data=WQ.countypop.joined, log(total.nitrogen) ~ Year.c + population + 
             # factor(huc4))
@@ -174,7 +176,7 @@ WQ.countypop.joined$population100 <- WQ.countypop.joined$population/100
 #Year, population, and 10/11 huc4 regions are statistically significant
 
 #read this in
-mod3 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ Year.c + population100  +
+mod3 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ Year.c + population.c  +
                (1|huc4))
 summary(mod3)
 anova(mod3)
