@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.1)  20 NOV 2019 11:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.1)  20 NOV 2019 12:05
 entering extended mode
 **./Missouri-Reasearch-Project---FINAL.tex
 (Missouri-Reasearch-Project---FINAL.tex
@@ -980,34 +980,113 @@ File: Missouri-Reasearch-Project---FINAL_files/figure-latex/randolphstorm-1.pdf
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
 randolphstorm-1.pdf  used on input line 566.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
+
+Overfull \hbox (5.61383pt too wide) in paragraph at lines 583--584
+\T1/lmr/m/n/12 (-20) Name|  
+ []
+
+
+Overfull \hbox (12.43416pt too wide) in paragraph at lines 585--586
+\T1/lmr/m/n/12 (-20) Number|  
+ []
+
+
+Overfull \hbox (24.38016pt too wide) in paragraph at lines 587--588
+[]\T1/lmr/m/n/12 (-20) Dec. 2019|  
+ []
+
+
+Overfull \hbox (27.8174pt too wide) in paragraph at lines 589--590
+[]\T1/lmr/m/n/12 (-20) Jan. 2020|  
+ []
+
+
+Overfull \hbox (23.401pt too wide) in paragraph at lines 591--592
+[]\T1/lmr/m/n/12 (-20) Feb. 2020|  
+ []
+
+
+Overfull \hbox (26.13765pt too wide) in paragraph at lines 593--594
+[]\T1/lmr/m/n/12 (-20) Mar. 2020|  
+ []
+
+
+Overfull \hbox (24.42303pt too wide) in paragraph at lines 595--596
+[]\T1/lmr/m/n/12 (-20) Apr. 2020|  
+ []
+
+
+Overfull \hbox (2.83844pt too wide) in paragraph at lines 597--598
+[]\T1/lmr/m/n/12 (-20) May 
+ []
+
+
+Overfull \hbox (3.94917pt too wide) in paragraph at lines 597--598
+\T1/lmr/m/n/12 (-20) 2020|  
+ []
+
+
+Overfull \hbox (25.37617pt too wide) in paragraph at lines 603--604
+[]\T1/lmr/m/n/12 (-20) Aug. 2020|  
+ []
+
+
+Overfull \hbox (27.7409pt too wide) in paragraph at lines 605--606
+[]\T1/lmr/m/n/12 (-20) Sept. 2020|  
+ []
+
+
+Overfull \hbox (28.60442pt too wide) in paragraph at lines 607--608
+[]\T1/lmr/m/n/12 (-20) Oct. 2020|  
+ []
+
+
+Overfull \hbox (30.19312pt too wide) in paragraph at lines 609--610
+[]\T1/lmr/m/n/12 (-20) Nov. 2020|  
+ []
+
+
+Overfull \hbox (0.97975pt too wide) in alignment at lines 580--612
+ [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (0.97975pt too wide) in alignment at lines 612--614
+ [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 614
+ []
+
 [11] [12pdfTeX warning (ext4): destination with the same identifier (name{figur
 e.5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.601 \end{longtable}
-                      <./Missouri-Reasearch-Project---FINAL_files/figure-latex/
-randolphstorm-1.pdf>] [13] [14]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 619.
+l.627 
+       <./Missouri-Reasearch-Project---FINAL_files/figure-latex/randolphstorm-1
+.pdf>] [13] [14]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 667.
 [15]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 619.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 667.
 (Missouri-Reasearch-Project---FINAL.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 619.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 619.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 667.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 667.
 Package rerunfilecheck Info: File `Missouri-Reasearch-Project---FINAL.out' has 
 not changed.
 (rerunfilecheck)             Checksum: E7F9AE8D145ED997351E291B67AB72D4;4335.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 619.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 667.
  ) 
 Here is how much of TeX's memory you used:
- 14486 strings out of 492895
- 214545 string characters out of 3124203
- 342020 words of memory out of 3000000
- 18007 multiletter control sequences out of 15000+200000
- 66745 words of font info for 107 fonts, out of 3000000 for 9000
+ 14490 strings out of 492895
+ 214578 string characters out of 3124203
+ 342361 words of memory out of 3000000
+ 18008 multiletter control sequences out of 15000+200000
+ 66836 words of font info for 108 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  32i,7n,38p,999b,441s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/keqi/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc
@@ -1022,10 +1101,10 @@ lm/lmr17.pfb><C:/Users/keqi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
 c/lm/lmr8.pfb><C:/Users/keqi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
 ic/lm/lmri12.pfb><C:/Users/keqi/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
 ublic/lm/lmtt12.pfb>
-Output written on Missouri-Reasearch-Project---FINAL.pdf (15 pages, 888428 byte
+Output written on Missouri-Reasearch-Project---FINAL.pdf (15 pages, 889421 byte
 s).
 PDF statistics:
- 232 PDF objects out of 1000 (max. 8388607)
- 65 named destinations out of 1000 (max. 500000)
+ 233 PDF objects out of 1000 (max. 8388607)
+ 66 named destinations out of 1000 (max. 500000)
  14474 words of extra memory for PDF output out of 17280 (max. 10000000)
 
