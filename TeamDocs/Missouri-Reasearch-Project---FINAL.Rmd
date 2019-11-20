@@ -315,7 +315,40 @@ RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl,
 print(RandolphStorm.plot)
 ```
 
+### Droughts
+Droughts in the Missouri River Basin were known to occur throughout the years and six sites were analyzed for drought information. The six sites were chosen based off what was examined for floods. 
 
+Drought was defined as determining the 7Q10, which is the minimum 7-day average flow that will occur every 10 years (probability of 10%) (EPA, 2019). The 7Q10 measurement is used to determine streamflow limits, allocate water resources, dilution rates in watersheds, and more (USGS, 2019). 7Q10 is calculated by determining the recurrence interval, which is the past recurrence of an event, which for droughts would be the minimum 7-day average discharge. The recurrence interval can then be used to calculate the probability, which would be the probability or likelihood of having a minimum 7-day average flow of this magnitude or greater. In this case, the minimum 7-day average flow that has a 10% chance of going below that  value in a given year. 
+
+The recurrence interval is calculated using the following equation: 
+
+$T = (n+1)/m$
+
+where T is the recurrence interval, n is the number of years of data, and m is the ranking of the event within the years of data.
+
+Exceedance probability is calculated to determine the probability of having a discharge event of a given size or greater in a year. The equation is: 
+
+$P = 1/T$
+
+where P is the exceedance probability, and T is the recurrence interval. 
+
+The 7Q10 was calculated for each of the six sites by first filtering the discharge data to only include the selected site. The ‘rollmean’ function was then used to calculate the average flow every 7 days for said site. Once the 7-day average flow was calculated, the data was grouped by the year so that it could then be summarized to obtain the minimum 7-day average flow. After grouping and summarizing the data, there was one value, the minimum 7-day average flow, for each year of data obtained. From here, the recurrence interval and probability were calculated in each data frame. 
+
+The 7Q10 value was then determined from the probability column by filtering the data to show the minimum 7-day average discharge with probability less than or equal to 0.1 (Table 3).
+
+
+Table summarizing the 7Q10 values for each of the streams that were analyzed for droughts.
+
+Site Name   |   Site Number   |  7Q10 Minimum Discharge (cfs)  |     
+----------- | --------------- | ------------------------------ |
+West Nishnabotna River in Randolph, IA | 06808500  | 41.3
+Nodaway River at Clarinda, IA  | 06817000 | 5.93
+Kansas River in Desoto, KS  | 06892350 | 562   
+Missouri River at Hermann, MO  | 06934500  | 12414
+Mill C at Johnson Drive, Shawnee, KS  | 06892513 | 1.47
+Grand River, Sumner MO  | 06902000 | 39.1  
+
+In addition to calculating the 7Q10 values for the 6 sites, the sites were analyzed to determine the 7-day moving average flow over a period of years. The 25th, 50th, and 75th quantiles were calculated to determine the minimum, median, and maximum values for discharge in a given year. The 7-day moving average flow over a period of years was then plotted with the 25th, 50th, and 75th quantiles representing normal drought conditions, drought watch, drought warning, and drought emergency (Figure ____). This information about droughts and whether the river is expected to be in a drought, or whether it is a drought watch or warning, is extremely useful for water managers. 
 
 ## Question 3: What factors contribute to the variability of total nitrogen in the rivers?
 
@@ -346,20 +379,6 @@ Osage River below St. Thomas, MO  |  06926510  |  12184.39	 |  13730.31	 |  1303
 Little Blue River near Lake City, MO  |  06894000  |  181.6666	 |  206.4976	 |  203.7249 	|  206.7256	 |  214.5459	 |  320.4555	 |  220.6817	 |  228.4371	 |  209.8449	 |  231.759	 |  198.792	 |  190.647  |
 Missouri River at Hermann, MO  |  06934500  |  189461.2	 |  194893.2	 |  194212.8	 |  215398.5	 |  212735.9	 |  230589.3	 |  240828.8	 |  227848.5 	|  213285.9	 |  216789.6	 |  230480	 |  210515  |
 
-### Droughts
-Droughts in the Missouri River Basin were known to occur throughout the years. 
-
-
-Table summarizing the 7Q10 values for each of the streams that were analyzed for droughts.
-
-Site Name   |   Site Number   |  7Q10 Minimum Discharge (cfs)  |     
------------ | --------------- | ------------------------------ |
-West Nishnabotna River in Randolph, IA | 06808500  | 41.3
-Nodaway River at Clarinda, IA  | 06817000 | 5.93
-Kansas River in Desoto, KS  | 06892350 | 562   
-Missouri River at Hermann, MO  | 06934500  | 12414
-Mill C at Johnson Drive, Shawnee, KS  | 06892513 | 1.47
-Grand River, Sumner MO  | 06902000 | 39.1  
 
 
 \newpage
