@@ -224,7 +224,7 @@ emphasize.strong.rows(which(var.table$p < 0.05, arr.ind = TRUE))
 set.alignment(c("right", "centre", "center", "center", "center"))
 
 pandoc.table(var.table, style = 'rmarkdown', 
-             col.names = c("","Site Name", "HUC4","$\\beta_1$","*P*"),
+             col.names = c("No.","Site Name", "HUC4","$\\beta_1$","*P*"),
              caption = "\\label{tab:vartab} Slopes of linear regression between year and standard deviation of discharge at 22 sites.")
 ```
 
@@ -237,40 +237,49 @@ pandoc.table(var.table, style = 'rmarkdown',
 
 ## Question 1:  How have changes in discharge interacted with nutrient enrichment in the Missouri River Basin?
 
-We analyzed discharge, nitrogen and phosphorus trends at 22 sites using daily value data. The results are listed in the following table. In our analysis, discharge of 18 sites increase while 4 sites show the decreasing trend of discharge. However, these four sites all locate in HUC 1025 and 1026, away from the main stem of the Missouri River. Therefore, overall, the discharge in Missouri River is increasing.
-The trend of nitrogen and phosphorus concentration of 22 sites are quite different. But generally, the trend of nitrogen and the trend of phosphorus are similar, which indicates that there is high possiblity that nitrogen and phosphorus come from the same sources. If we focus on the sites located at the main stem of the Missouri River (06610000 Missouri River at Omaha, NE; 06818000 Missouri River at St. Joseph, MO; 06934500 Missouri River at Hermann, MO), we can see significant increasing trend of nitrogen and phosphorus. The water quality in Missouri River is still deteriorating and protection is urgently needed.
+We analyzed nitrogen and phosphorus trends at 22 sites using daily value data and Seasonal Mann-Kendall Trend Test. The Seasonal Mann Kendall Trend Test is used to analyze seasonal data collected over time for consistently increasing or decreasing trends (monotonic) in Y values. It is suitable for analyzing the data with seasonality, non-parametric, no temporal autocorelation, identical distribution. 
 
-Site Name    |   Site Number   |  Discharge Trend  |  Discharge Trend Significance  |   Nitrogen Trend  |  Nitrogen Trend Significance  |   Phosphorus Trend    |  Phosphorus Trend Significance   |
-:-------------:|:-----------------:|:-------------------:|:--------------------------------:|:-------------------:|:------------------------------------------:|:---------------------:|:--------------------------------:|
-Platte River near Overton, Nebr.  |  06768000  |  Increase  |    |  Decrease  |  *  |  Decrease  |  ***  |
-Platte River at Louisville, Nebr.  |  06805500  |  Increase  |  ***  |  Increase  |  ***  |  Increase  |  ***  |
-Dismal River near Thedford, Nebr.  |  06775900  |  Increase  |  ***  |  Decrease  |  ***  |  Decrease  |    |
-Beaver Creek at Genoa, Nebr.  |  06794000  |  Increase  |    |  Increase  |    |  Increase  |    |
-Maple Creek near Nickerson, Nebr.  |  06800000  |  Increase  |  ***  |  Increase  |  ***  |  Increase  |  ***  |
-Elkhorn River at Waterloo, Nebr.  |  06800500  |  Increase  |  ***  |  Increase  |  *  |  Increase  |    |
-Missouri River at Omaha, NE  |  06610000  |  Increase  |  ***  |  Increase  |  **  |  Increase  |  ***  |
-Boyer River at Logan, IA  |  06609500  |  Increase  |  ***  |  Decrease  |    |  Increase  |    |
-Nishnabotna River above Hamburg, IA  |  06810000  |  Increase  |  ***  |  Decrease  |    |  Increase  |    |
-Missouri River at St. Joseph, MO  |  06818000  |  Increase  |  ***  |  Increase  |  .  |  Increase  |    |
-Republican River near Orleans, Nebr.  |  06844500  |  Decrease  |  ***  |  Increase  |  .  |  Decrease  |  **  |
-REPUBLICAN R AT CLAY CENTER, KS  |  06856600  |  Decrease  |  **  |  Decrease  |  **  |  Decrease  |  ***  |
-SMOKY HILL R AT ENTERPRISE, KS  |  06877600  |  Decrease  |    |  Decrease  |  .  |  Increase  |    |
-SF SOLOMON R AT OSBORNE, KS  |  06874000  |  Decrease  |  .  |  Decrease  |  ***  |  Decrease  |  ***  |
-KANSAS R AT WAMEGO, KS  |  06887500  |  Increase  |    |  Increase  |  ***  |  Increase  |  ***  |
-KANSAS R AT DESOTO, KS  |  06892350  |  Increase  |  .  |  Increase  |  **  |  Increase  |  ***  |
-Grand River near Sumner, MO  |  06902000  |  Increase  |  *  |  Decrease  |  ***  |  Increase  |    |
-Chariton River near Prairie Hill, MO  |  06905500  |  Increase  |  *  |  Decrease  |    |  Increase  |    |
-Pomme de Terre River near Polk, MO  |  06921070  |  Increase  |    |  Decrease  |  .  |  Decrease  |    |
-Osage River below St. Thomas, MO  |  06926510  |  Increase  |    |  Decrease  |  ***  |  Increase  |  ***  |
-Little Blue River near Lake City, MO  |  06894000  |  Increase  |  **  |  Decrease  |  ***  |  Decrease  |  ***  |
-Missouri River at Hermann, MO  |  06934500  |  Increase  |  ***  |  Increase  |  ***  |  Increase  |  ***  |
+The overall results of the analysis can be seen in the following table (Table 3).The trend of nitrogen and phosphorus concentration of 22 sites are quite different. But generally, the trend of nitrogen and the trend of phosphorus are similar, which indicates that there is a high possibility that nitrogen and phosphorus come from the same sources. If we focus on the sites located at the main stem of the Missouri River (No. 7 06610000 Missouri River at Omaha, NE; No. 10 06818000 Missouri River at St. Joseph, MO; No. 22 06934500 Missouri River at Hermann, MO), we can see a significant increasing trend of nitrogen and phosphorus. The water quality in Missouri River is still deteriorating and protection is urgently needed.
+
+Table: Nitrogen and Phosphorus Trend over Time for Every Site
+
+No.    |   Site Number   |   Nitrogen Trend  |  Nitrogen Trend Significance  |   Phosphorus Trend    |  Phosphorus Trend Significance   |
+:----------:|:-------:|:------------:|:----------:|:-------:|:------------:|
+1  |  06768000  |  Decrease  |  *  |  Decrease  |  ***  |
+2  |  06805500  |  Increase  |  ***  |  Increase  |  ***  |
+3  |  06775900  |  Decrease  |  ***  |  Decrease  |    |
+4  |  06794000  |  Increase  |    |  Increase  |    |
+5  |  06800000  |  Increase  |  ***  |  Increase  |  ***  |
+6  |  06800500  |  Increase  |  *  |  Increase  |    |
+7  |  06610000  |  Increase  |  **  |  Increase  |  ***  |
+8  |  06609500  |  Decrease  |    |  Increase  |    |
+9  |  06810000  |  Decrease  |    |  Increase  |    |
+10  |  06818000  |  Increase  |  .  |  Increase  |    |
+11  |  06844500  |  Increase  |  .  |  Decrease  |  **  |
+12  |  06856600  |  Decrease  |  **  |  Decrease  |  ***  |
+13  |  06877600  |  Decrease  |  .  |  Increase  |    |
+14  |  06874000  |  Decrease  |  ***  |  Decrease  |  ***  |
+15  |  06887500  |  Increase  |  ***  |  Increase  |  ***  |
+16  |  06892350  |  Increase  |  **  |  Increase  |  ***  |
+17  |  06902000  |  Decrease  |  ***  |  Increase  |    |
+18  |  06905500  |  Decrease  |    |  Increase  |    |
+19  |  06921070  |  Decrease  |  .  |  Decrease  |    |
+20  |  06926510  |  Decrease  |  ***  |  Increase  |  ***  |
+21  |  06894000  |  Decrease  |  ***  |  Decrease  |  ***  |
+22  |  06934500  |  Increase  |  ***  |  Increase  |  ***  |
 
 Note:
-*** p-value < 0.001 
-** 0.001 <= p-value < 0.01
-* 0.01 <= p-value < 0.05 
-. 0.05 <= p-value < 0.1 
+
+'***' p-value < 0.001 
+
+'**' 0.001 <= p-value < 0.01
+
+'*' 0.01 <= p-value < 0.05 
+
+'.' 0.05 <= p-value < 0.1 
+
 otherwise  0.1 <= p-value < 1 
+
 
 ## Question 2: What effects do specific flood and drought events have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
 
@@ -286,17 +295,7 @@ High frequency nitrogen data was only available for seven sites within our regio
 
 We predicted that most rivers in the area would behave the same way, and that rivers would exhibit flushing behavior. We thought that flushing rivers would be more prevalent because of the many agricultural fields in our region of study, and any overland flow to the rivers would bring with it a high concentration of nutrients (nitrogen being one of them) from the fertilized fields. Our results say otherwise (Table 2). Our sites of interest had both positive and negative slopes in the hysteresis plots, and also exhibited both clockwise and counter clockwise directions of flow (\autoref{fig:Randolphstorm}). The same river was analyzed multiple times throughout the year, and even the same river showed different slopes and directions in the hysteresis plots for different storm events. 
 
-Site Name   |   Site Number   |   Time Period   |   Direction   |  Slope
------------ | :---------------: | --------------- | ------------- | ---------
-West Nishnabotna River in Randolph, IA | 06808500  | Oct 7 - 13, 2018 | counter clockwise | negative (\autoref{fig:Randolphstorm})
-Nodaway River at Clarinda, IA  | 06817000 | Oct 8 - 12, 2018 | clockwise | negative
-Kansas River in Desoto, KS  | 06892350 |   Nov 30 - Dec 5, 2018 | counter clockwise | positive
-Missouri River at Hermann, MO  | 06934500  |  Oct 7 - 20, 2018  | counter clockwise | negative
-Mill C at Johnson Drive, Shawnee, KS  | 06892513 | Nov 27 - Dec 4, 2018 | clockwise | negative
-Grand River, Sumner MO  | 06902000 |  Sep 6 - 10, 2018 | clockwise | positive
-
-
-```{r Randolphstorm, echo=FALSE, fig.cap = "Hyteresis plot for site in Randolph, IA that shows a negative slope (diluting behavior) in a counter clockwise direction."}
+```{r Randolphstorm, echo=FALSE, fig.cap="\\label{fig:Randolphstorm}Hyteresis plot for site in Randolph, IA that shows a negative slope (diluting behavior) in a counter clockwise direction."}
 Randolph <- read.csv("../Data/Processed/Randolph.csv", as.is=TRUE)
 
 
@@ -312,6 +311,16 @@ RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl,
        title="West Nishnabotna River in Randolph, IA")
 print(RandolphStorm.plot)
 ```
+
+
+Site Name   |   Site Number   |   Time Period   |   Direction   |  Slope
+----------- | :---------------: | --------------- | ------------- | ---------
+West Nishnabotna River in Randolph, IA | 06808500  | Oct 7 - 13, 2018 | counter clockwise | negative (\autoref{fig:Randolphstorm})
+Nodaway River at Clarinda, IA  | 06817000 | Oct 8 - 12, 2018 | clockwise | negative
+Kansas River in Desoto, KS  | 06892350 |   Nov 30 - Dec 5, 2018 | counter clockwise | positive
+Missouri River at Hermann, MO  | 06934500  |  Oct 7 - 20, 2018  | counter clockwise | negative
+Mill C at Johnson Drive, Shawnee, KS  | 06892513 | Nov 27 - Dec 4, 2018 | clockwise | negative
+Grand River, Sumner MO  | 06902000 |  Sep 6 - 10, 2018 | clockwise | positive
 
 ### Droughts
 Droughts in the Missouri River Basin were known to occur throughout the years and six sites were analyzed for drought information. The six sites were chosen based off what was examined for floods. 
@@ -336,7 +345,7 @@ The 7Q10 value was then determined from the probability column by filtering the 
 
 
 
-**Table x:** WRITE caption summarizing the 7Q10 values for each of the streams that were analyzed for droughts.
+Table: WRITE caption summarizing the 7Q10 values for each of the streams that were analyzed for droughts.
 
 Site Name   |   Site Number   |  7Q10 Minimum Discharge (cfs)  |     
 ----------- | --------------- | ------------------------------ |
@@ -363,32 +372,103 @@ Because we used a log transformed data set, we have to exponentiate the coeffici
 
 ## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
-Site Name    |   Site Number   |  Dec. 2019  | Jan. 2020  |  Feb. 2020  |  Mar. 2020  |  Apr. 2020  |  May 2020  |  June 2020  |   July 2020  |  Aug. 2020  |  Sept. 2020  | Oct. 2020  | Nov. 2020  |
-:-------------:|:-----------------:|:-------------:|:------------:|:-------------:|:-------------:|:-------------:|:------------:|:---------------:|:--------------:|:-------------:|:--------------:|:------------:|:------------:|
-Platte River near Overton, Nebr.  |  06768000  |  2019.992	 |  1942.129	 |  1929.816 	|  2040.176	 |  2032.186	 |  1990.873	 |  2023.824	 |  2008.55	 |  1928.585	 |  1996.895	 |  1979.38	 |  2026.699  |
-Platte River at Louisville, Nebr.  |  06805500  |  14060.7	 |  12802.25	 |  12845.87	 |  23729.49	 |  15056.78	 |  16585.16	 |  18430.86	 |  15168.09	 |  15216.99	 |  14719.46	 |  13635.78	 |  12780.16  |
-Dismal River near Thedford, Nebr.  |  06775900  |  239.2089	 |  238.9801	 |  238.3116	 |  239.5916	 |  240.5232	 |  242.5456	 |  242.0369	 |  241.6409	 |  242.0486	 |  242.2389	 |  241.9548	 |  240.2764  |
-Beaver Creek at Genoa, Nebr.  |  06794000  |  148.0349	 |  129.4563	 |  129.6965	 |  327.3795	 |   165.0577	 |  190.15	 |  189.022	 |  172.7318	 |   157.0474	 |  146.7917	 |  151.0374	 |  136.0562  |
-Maple Creek near Nickerson, Nebr.  |  06800000  |  173.1581	 |  150.6924	 |  141.7451 	|  313.545	 |  159.0779	 |  199.5598 	|  187.1167	 |  149.6114	 |  148.6135	 |  149.6721	 |  146.2639	 |  136.3859  |
-Elkhorn River at Waterloo, Nebr.  |  06800500  |  2607.337	 |  2598.611	 |  2672.196	 |  3208.066	 |  3341.665	 |  3977.717	 |  3785.948	 |  2912.286	 |  2434.121	 |  3091.355	 |  2733.932	 |  2520.393  |
-Missouri River at Omaha, NE  |  06610000  |  70976.66	 |  60591.76	 |  55874.04	 |  73723.59	 |  81113.53	 |  83595.71	 |  90800.91	 |  85219.7	 |  78593.88	 |  80467.92	 |  78227.7	 |  70854.33  |
-Boyer River at Logan, IA  |  06609500  |  708.6843	 |  691.4817	 |  645.5966	 |  1176.8041	 |  714.8702	 |  814.9989	 |  800.516	 |  733.6069	 |  650.3337	 |  655.3034	 |  724.2999	 |  689.9273  |
-Nishnabotna River above Hamburg, IA  |  06810000  |  2422.32	 |  2391.721	 |  2377.854	 |  3204.073	 |  2417.139	 |  2731.861	 |  3004.86	 |  2650.792	 |  2460.292	 |  2777.403	 |  3156.369	 |  2595.649  |
-Missouri River at St. Joseph, MO  |  06818000  |  90011.3	 |  77760.16	 |  70549.03	 |   116938.26	 |  110927.07	 |  130362.46	 | 131671.16	 |  110560.74	 |  99105.45	 |  103960.49	 |  121688.94	 |  96803.96 |
-Republican River near Orleans, Nebr.  |  06844500  |  154.9544	 |  145.2851	 |  147.9408	 |  228.2876	 |  171.8784	 |  166.0301	 |  184.0507	 |  321.3987	 |  164.3744	 |  150.4602	 |  149.7053	 |  158.701  |
-REPUBLICAN R AT CLAY CENTER, KS  |  06856600  |  2212.686	 |  2012.946	 |  1966.35	 |  2354.776	 |  2052.399	 |  2615.569	 |  2571.786	 |  2483.559	 |  2404.832	 |  2283.906	 |  2196.924	 |  2058.036  |
-SMOKY HILL R AT ENTERPRISE, KS  |  06877600  |  1999.598	 |  1814.097	 |  1688.58	 |  1807.765	 |  1634.919	 |  2308.793	 |  2034.465 	|  1885.749	 |  1831.551	 |  1777.794	 |  1663.053	 |  1556.348  |
-SF SOLOMON R AT OSBORNE, KS  |  06874000  |  174.3205	 |  140.6582	 |  123.4546	 |  114.6624	 |  110.1691	 |  107.8727	 |  106.6991	 |  106.0993	 |  105.7928	 |  105.6361	 |  105.556	 |  105.5151  |
-KANSAS R AT WAMEGO, KS  |  06887500  |  14398.77	 |  10484.501	 |  7784.95	 |  6938.432	 |  5800.966	 |  7571.298	 |  8326.411	 |  9052.989	 |  6796.397	 |  6676.547	 |  6316.088	 |  7646.2  |
-KANSAS R AT DESOTO, KS  |  06892350  |  17433.744	 |  13064.978 	|  10272.795	 |  9334.909	 |  7730.841	 |  11531.101	 |  11710.275	 |  12100.027	 |  10099.463	 |  9499.502	 |  8509.621	 |  9945.916  |
-Grand River near Sumner, MO  |  06902000  |  9634.729	 |  9456.489	 |  10440.135	 |  10753.103	 |  9392.489	 |  12326.771	 |  11756.818 	|  9390.933	 |  9517.493	 |  10274.174	 |  12340.875	 |  9446.777  |
-Chariton River near Prairie Hill, MO  |  06905500  |  1946.371	 |  2523.677	 |  2663.863	 |  2701.267	 |  2556.851	 |  3142.349	 |  2904.042	 |  2597.213	 |  2511.393	 |  2678.037	 |  2898.101	 |  2629.494  |
-Pomme de Terre River near Polk, MO  |  06921070  |  302.1977	 |  290.1968	 |  335.3464	 |  317.8665	 |  267.6631	 |  404.104	 |  262.339	 |  255.1629	 |  247.3837	 |  250.4061	 |  269.6108	 |  277.8386  |
-Osage River below St. Thomas, MO  |  06926510  |  12184.39	 |  13730.31	 |  13039.62	 |  12564.56	 |  14026.34	 |  14174.23	 |  16191.64	 |  16801.49	 |  15671.6	 |  14122.26	 |  13155.48	 |  12236.42  |
-Little Blue River near Lake City, MO  |  06894000  |  181.6666	 |  206.4976	 |  203.7249 	|  206.7256	 |  214.5459	 |  320.4555	 |  220.6817	 |  228.4371	 |  209.8449	 |  231.759	 |  198.792	 |  190.647  |
-Missouri River at Hermann, MO  |  06934500  |  189461.2	 |  194893.2	 |  194212.8	 |  215398.5	 |  212735.9	 |  230589.3	 |  240828.8	 |  227848.5 	|  213285.9	 |  216789.6	 |  230480	 |  210515  |
+We also analyzed discharge trend at 22 sites using daily value data and Mann-Kandall Trend Test. The results are listed in the following table (Table 6). In our analysis, discharge of 18 sites increases while 4 sites show the decreasing trend of discharge. However, these four sites all locate in HUC 1025 and 1026, away from the main stem of the Missouri River. Therefore, overall, the discharge in Missouri River is increasing.
 
 
+Table: Discharge Trend over Time
+
+NO.    |   Site Number   |  Discharge Trend  |  Discharge Trend Significance  |
+:-------------:|:-----------------:|:-------------------:|:--------------------------------:|
+1  |  06768000  |  Increase  |    |
+2  |  06805500  |  Increase  |  ***  |
+3  |  06775900  |  Increase  |  ***  |
+4  |  06794000  |  Increase  |    |
+5  |  06800000  |  Increase  |  ***  |
+6  |  06800500  |  Increase  |  ***  |
+7  |  06610000  |  Increase  |  ***  |
+8  |  06609500  |  Increase  |  ***  |
+9  |  06810000  |  Increase  |  ***  |
+10  |  06818000  |  Increase  |  ***  |
+11  |  06844500  |  Decrease  |  ***  |
+12  |  06856600  |  Decrease  |  **  |
+13  |  06877600  |  Decrease  |    |
+14  |  06874000  |  Decrease  |  .  |
+15  |  06887500  |  Increase  |    |
+16  |  06892350  |  Increase  |  .  |
+17  |  06902000  |  Increase  |  *  |
+18  |  06905500  |  Increase  |  *  |
+19  |  06921070  |  Increase  |    |
+20  |  06926510  |  Increase  |    |
+21  |  06894000  |  Increase  |  **  |
+22  |  06934500  |  Increase  |  ***  |
+
+Note:
+
+'***' p-value < 0.001 
+
+'**' 0.001 <= p-value < 0.01
+
+'*' 0.01 <= p-value < 0.05 
+
+'.' 0.05 <= p-value < 0.1 
+
+otherwise  0.1 <= p-value < 1 
+
+As discussed in Question 2, both severe drought and flooding events occurred in the basin in the past, which caused fatal damage to local agriculture. Therefore, 
+
+Table: One-year Discharge Prediction for Every Site 
+
+No.    |   Site Number   |  Dec. 2019  | Jan. 2020  |  Feb. 2020  |  Mar. 2020  |  Apr. 2020  |  May 2020  |
+:-----:|:-------------:|:-------------:|:------------:|:-------------:|:-------------:|:-------------:|:------------:|
+1  |  06768000  |  2019.992	 |  1942.129	 |  1929.816 	|  2040.176	 |  2032.186	 |  1990.873	 |
+2  |  06805500  |  14060.7	 |  12802.25	 |  12845.87	 |  23729.49	 |  15056.78	 |  16585.16	 |
+3  |  06775900  |  239.2089	 |  238.9801	 |  238.3116	 |  239.5916	 |  240.5232	 |  242.5456	 |
+4  |  06794000  |  148.0349	 |  129.4563	 |  129.6965	 |  327.3795	 |   165.0577	 |  190.15	 |
+5  |  06800000  |  173.1581	 |  150.6924	 |  141.7451 	|  313.545	 |  159.0779	 |  199.5598 	|
+6  |  06800500  |  2607.337	 |  2598.611	 |  2672.196	 |  3208.066	 |  3341.665	 |  3977.717	 |
+7  |  06610000  |  70976.66	 |  60591.76	 |  55874.04	 |  73723.59	 |  81113.53	 |  83595.71	 |
+8  |  06609500  |  708.6843	 |  691.4817	 |  645.5966	 |  1176.8041	 |  714.8702	 |  814.9989	 |
+9  |  06810000  |  2422.32	 |  2391.721	 |  2377.854	 |  3204.073	 |  2417.139	 |  2731.861	 |
+10  |  06818000  |  90011.3	 |  77760.16	 |  70549.03	 |   116938.26	 |  110927.07	 |  130362.46	 |
+11  |  06844500  |  154.9544	 |  145.2851	 |  147.9408	 |  228.2876	 |  171.8784	 |  166.0301	 |
+12  |  06856600  |  2212.686	 |  2012.946	 |  1966.35	 |  2354.776	 |  2052.399	 |  2615.569	 |
+13  |  06877600  |  1999.598	 |  1814.097	 |  1688.58	 |  1807.765	 |  1634.919	 |  2308.793	 |
+14  |  06874000  |  174.3205	 |  140.6582	 |  123.4546	 |  114.6624	 |  110.1691	 |  107.8727	 |
+15  |  06887500  |  14398.77	 |  10484.501	 |  7784.95	 |  6938.432	 |  5800.966	 |  7571.298	 |
+16  |  06892350  |  17433.744	 |  13064.978 	|  10272.795	 |  9334.909	 |  7730.841	 |  11531.101	 |
+17  |  06902000  |  9634.729	 |  9456.489	 |  10440.135	 |  10753.103	 |  9392.489	 |  12326.771	 |
+18  |  06905500  |  1946.371	 |  2523.677	 |  2663.863	 |  2701.267	 |  2556.851	 |  3142.349	 |
+19  |  06921070  |  302.1977	 |  290.1968	 |  335.3464	 |  317.8665	 |  267.6631	 |  404.104	 |
+20  |  06926510  |  12184.39	 |  13730.31	 |  13039.62	 |  12564.56	 |  14026.34	 |  14174.23	 |
+21  |  06894000  |  181.6666	 |  206.4976	 |  203.7249 	|  206.7256	 |  214.5459	 |  320.4555	 |
+22  |  06934500  |  189461.2	 |  194893.2	 |  194212.8	 |  215398.5	 |  212735.9	 |  230589.3	 |
+(To be continue)
+
+
+No.    |   Site Number   |  June 2020  |   July 2020  |  Aug. 2020  |  Sept. 2020  | Oct. 2020  | Nov. 2020  |
+:-----:|:-------------:|:-------------:|:------------:|:-------------:|:-------------:|:-------------:|:------------:|
+1  |  06768000  |  2023.824	 |  2008.55	 |  1928.585	 |  1996.895	 |  1979.38	 |  2026.699  |
+2  |  06805500  |  18430.86	 |  15168.09	 |  15216.99	 |  14719.46	 |  13635.78	 |  12780.16  |
+3  |  06775900  |  242.0369	 |  241.6409	 |  242.0486	 |  242.2389	 |  241.9548	 |  240.2764  |
+4  |  06794000  |  189.022	 |  172.7318	 |   157.0474	 |  146.7917	 |  151.0374	 |  136.0562  |
+5  |  06800000  |  187.1167	 |  149.6114	 |  148.6135	 |  149.6721	 |  146.2639	 |  136.3859  |
+6  |  06800500  |  3785.948	 |  2912.286	 |  2434.121	 |  3091.355	 |  2733.932	 |  2520.393  |
+7  |  06610000  |  90800.91	 |  85219.7	 |  78593.88	 |  80467.92	 |  78227.7	 |  70854.33  |
+8  |  06609500  |  800.516	 |  733.6069	 |  650.3337	 |  655.3034	 |  724.2999	 |  689.9273  |
+9  |  06810000  |  3004.86	 |  2650.792	 |  2460.292	 |  2777.403	 |  3156.369	 |  2595.649  |
+10  |  06818000  | 131671.16	 |  110560.74	 |  99105.45	 |  103960.49	 |  121688.94	 |  96803.96 |
+11  |  06844500  |  184.0507	 |  321.3987	 |  164.3744	 |  150.4602	 |  149.7053	 |  158.701  |
+12  |  06856600  |  2571.786	 |  2483.559	 |  2404.832	 |  2283.906	 |  2196.924	 |  2058.036  |
+13  |  06877600  |  2034.465 	|  1885.749	 |  1831.551	 |  1777.794	 |  1663.053	 |  1556.348  |
+14  |  06874000  |  106.6991	 |  106.0993	 |  105.7928	 |  105.6361	 |  105.556	 |  105.5151  |
+15  |  06887500  |  8326.411	 |  9052.989	 |  6796.397	 |  6676.547	 |  6316.088	 |  7646.2  |
+16  |  06892350  |  11710.275	 |  12100.027	 |  10099.463	 |  9499.502	 |  8509.621	 |  9945.916  |
+17  |  06902000  |  11756.818 	|  9390.933	 |  9517.493	 |  10274.174	 |  12340.875	 |  9446.777  |
+18  |  06905500  |  2904.042	 |  2597.213	 |  2511.393	 |  2678.037	 |  2898.101	 |  2629.494  |
+19  |  06921070  |  262.339	 |  255.1629	 |  247.3837	 |  250.4061	 |  269.6108	 |  277.8386  |
+20  |  06926510  |  16191.64	 |  16801.49	 |  15671.6	 |  14122.26	 |  13155.48	 |  12236.42  |
+21  |  06894000  |  220.6817	 |  228.4371	 |  209.8449	 |  231.759	 |  198.792	 |  190.647  |
+22  |  06934500  |  240828.8	 |  227848.5 	|  213285.9	 |  216789.6	 |  230480	 |  210515  |
 
 \newpage
 
