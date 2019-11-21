@@ -73,6 +73,8 @@ for(i in 1:11){
   setWinProgressBar(pb, i/(11)*100, label=prog)
 }
 close(pb)
+#---- loop end ----
+
 ##### Combine all discharge plots #####
 
 DischargePlot <- ggarrange(DischargePlot1020,DischargePlot1021,DischargePlot1022,DischargePlot1023,
@@ -226,21 +228,32 @@ ggsave("./Figures/recurrence.png", annotated.RecPlot,
 
 ######################### Part III Variation over Years #########################
 
+################ Standard Deviation vs Year ################ 
 ######## for loop ######## 
 pb <- winProgressBar(title="Loop in progress", label="0% done", 
                      min=0, max=100, initial=0)
 for (i in 1:22) {
   site <- readNWISdv(siteNumbers = site.nos[i], 
-                          parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
+                     parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
     rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
   
   std <- site %>%
+    drop_na(Discharge) %>%
     mutate(Year = year(Date))%>%
     group_by(Year) %>%
-    summarise(SD = sd(Discharge))
-
+    summarise(Mean.yr = mean(Discharge),
+              SD = sd(Discharge))
+  
   model <- lm(data = std, SD ~ Year)
   model.sum <- summary(model)
+  
+  color.determine <- function(p, slope){
+    if(p < 0.05){
+      if_else(slope > 0, "coral2", "cornflowerblue")
+    } else {
+      "gray30"
+    }
+  }
   
   fig <- ggplot() +
     geom_point(data = std, aes(x = Year, y = SD),
@@ -248,20 +261,21 @@ for (i in 1:22) {
     stat_smooth(data = std, aes(x = Year, y = SD),
                 method = "lm" , formula = y ~ x,
                 geom = "line", size = 0.8,
-                color = if_else(model$coefficients[[2]] > 0, "coral2", "cornflowerblue"),
+                color = color.determine(p = model.sum$coefficients[2,4], slope = model$coefficients[[2]]),
                 alpha = if_else(model.sum$coefficients[2,4] < 0.05, 1, 0.3)) +
     stat_smooth(data = std, aes(x = Year, y = SD),
                 method = "lm" , formula = y ~ x, level = 0.95, 
                 linetype = 0,
-                color = if_else(model$coefficients[[2]] > 0, "coral2", "cornflowerblue"), 
-                fill = if_else(model$coefficients[[2]] > 0, "coral2", "cornflowerblue"),
+                color = color.determine(p = model.sum$coefficients[2,4], slope = model$coefficients[[2]]), 
+                fill = color.determine(p = model.sum$coefficients[2,4], slope = model$coefficients[[2]]),
                 alpha = if_else(model.sum$coefficients[2,4] < 0.05, 0.3, 0.1)) +
     annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1, size = 3,
-             label = paste("Site", site.list$site_lab[i], site.list$huc_cd[i], sep = " "),
+             label = paste("Site", site.list$site_lab[i], site.list$huc_cd[i], 
+                           if_else(model.sum$coefficients[2,4] < 0.05, "*", ""), sep = " "),
              fontface = if_else(model.sum$coefficients[2,4] < 0.05, "bold", "plain"))+
     labs(x = element_blank(), y = element_blank())
   
-  assign(paste0("SdPlot", formatC(i, width = 2, flag = "0")), fig)
+  assign(paste0("SDPlot", formatC(i, width = 2, flag = "0")), fig)
   assign(paste("mod", formatC(i, width = 2, flag = "0"), "sd", sep = "."), model)
   assign(paste("sum", formatC(i, width = 2, flag = "0"), "sd", sep = "."), model.sum)
   rm(site, std, model, model.sum, fig)
@@ -275,7 +289,7 @@ close(pb)
 models.sd <- mget(x = ls(pattern = "^mod.\\d\\d.sd$"))
 sums.sd <- mget(x = ls(pattern = "^sum.\\d\\d.sd$"))
 
-# Check assumptions
+# # Check assumptions
 # for (i in 1:22) {
 #   par(mfrow = c(2,2), mai = c(0.7,0.7,0.7,0.7))
 #   plot(models.sd[[i]])
@@ -298,32 +312,142 @@ for (i in 1:22) {
 sd.year$site_nm <- gsub(sd.year$site_nm, pattern = "Nebr.", replacement = "NE")
 sd.year <- sd.year %>%
   mutate(site_nm = paste0(str_to_title(str_extract(site_nm, pattern = ".*,")), 
-                         str_extract(site_nm, pattern = "[:blank:][:upper:]{2}$")))
+                          str_extract(site_nm, pattern = "[:blank:][:upper:]{2}$")))
 View(sd.year)
 
-# write.csv(sd.year, file = "./Data/Processed/sd_year.csv", row.names = F)
+write.csv(sd.year, file = "./Data/Processed/sd_year.csv", row.names = F)
 sd.year <- read.csv("./Data/Processed/sd_year.csv")
 sd.year <- arrange(sd.year, slope)
 
 #---- loop end ----
 
-######################### Part I Appendix #########################
-
 ##### Combine all SD vs year plots #####
 
-SdPlot <- ggarrange(SdPlot01, SdPlot02, SdPlot03, SdPlot04, SdPlot05, SdPlot06, 
-                    SdPlot07, SdPlot08, SdPlot09, SdPlot10, SdPlot11, SdPlot12,
-                    SdPlot13, SdPlot14, SdPlot15, SdPlot16, SdPlot17, SdPlot18,
-                    SdPlot19, SdPlot20, SdPlot21, SdPlot22
+SDPlot <- ggarrange(SDPlot01, SDPlot02, SDPlot03, SDPlot04, SDPlot05, SDPlot06, 
+                    SDPlot07, SDPlot08, SDPlot09, SDPlot10, SDPlot11, SDPlot12,
+                    SDPlot13, SDPlot14, SDPlot15, SDPlot16, SDPlot17, SDPlot18,
+                    SDPlot19, SDPlot20, SDPlot21, SDPlot22
                     + font("x.text", size = 10), ncol = 5, nrow = 5)
-annotated.SdPlot <- 
-  annotate_figure(SdPlot, bottom=text_grob("Year",color = "black",hjust = 0.5,size = 13),
-                  left = text_grob(expression("Standard Deviation within a Year"), color = "black",
+annotated.SDPlot <- 
+  annotate_figure(SDPlot, bottom=text_grob("Year",color = "black",hjust = 0.5,size = 13),
+                  left = text_grob(expression("Standard Deviation"), color = "black",
                                    rot = 90, size = 13))
 
-ggsave("./Figures/sd_year.png", annotated.SdPlot,
+ggsave("./Figures/sd_year.png", annotated.SDPlot,
        dpi = 300, width = 14, height = 9, units = "in")
 #---- Plot end ----
+
+################ Coefficient of Variation vs Year ################ 
+######## for loop ######## 
+pb <- winProgressBar(title="Loop in progress", label="0% done", 
+                     min=0, max=100, initial=0)
+for (i in 1:22) {
+  site <- readNWISdv(siteNumbers = site.nos[i], 
+                          parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
+    rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
+  
+  std <- site %>%
+    drop_na(Discharge) %>%
+    mutate(Year = year(Date))%>%
+    group_by(Year) %>%
+    summarise(Mean.yr = mean(Discharge),
+              SD = sd(Discharge),
+              CV = SD/Mean.yr)
+
+  model <- lm(data = std, CV ~ Year)
+  model.sum <- summary(model)
+  
+  color.determine <- function(p, slope){
+    if(p < 0.05){
+      if_else(slope > 0, "coral2", "cornflowerblue")
+    } else {
+      "gray30"
+    }
+  }
+  
+  fig <- ggplot() +
+    geom_point(data = std, aes(x = Year, y = CV),
+               color = "lightskyblue4", size = 1, alpha = 0.7)+
+    stat_smooth(data = std, aes(x = Year, y = CV),
+                method = "lm" , formula = y ~ x,
+                geom = "line", size = 0.8,
+                color = color.determine(p = model.sum$coefficients[2,4], slope = model$coefficients[[2]]),
+                alpha = if_else(model.sum$coefficients[2,4] < 0.05, 1, 0.3)) +
+    stat_smooth(data = std, aes(x = Year, y = CV),
+                method = "lm" , formula = y ~ x, level = 0.95, 
+                linetype = 0,
+                color = color.determine(p = model.sum$coefficients[2,4], slope = model$coefficients[[2]]), 
+                fill = color.determine(p = model.sum$coefficients[2,4], slope = model$coefficients[[2]]),
+                alpha = if_else(model.sum$coefficients[2,4] < 0.05, 0.3, 0.1)) +
+    annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1, size = 3,
+             label = paste("Site", site.list$site_lab[i], site.list$huc_cd[i], 
+                           if_else(model.sum$coefficients[2,4] < 0.05, "*", ""), sep = " "),
+             fontface = if_else(model.sum$coefficients[2,4] < 0.05, "bold", "plain"))+
+    labs(x = element_blank(), y = element_blank())
+  
+  assign(paste0("CVPlot", formatC(i, width = 2, flag = "0")), fig)
+  assign(paste("mod", formatC(i, width = 2, flag = "0"), "cv", sep = "."), model)
+  assign(paste("sum", formatC(i, width = 2, flag = "0"), "cv", sep = "."), model.sum)
+  rm(site, std, model, model.sum, fig)
+  
+  # output info on progress
+  prog <- sprintf("%d%% done", round((i/22)*100))
+  setWinProgressBar(pb, i/(22)*100, label=prog)
+}
+close(pb)
+##### Put results in data frame
+models.cv <- mget(x = ls(pattern = "^mod.\\d\\d.cv$"))
+sums.cv <- mget(x = ls(pattern = "^sum.\\d\\d.cv$"))
+
+# # Check assumptions
+# for (i in 1:22) {
+#   par(mfrow = c(2,2), mai = c(0.7,0.7,0.7,0.7))
+#   plot(models.cv[[i]])
+# }
+
+cv.year <- site.list %>%
+  select(site_lab, site_nm, huc4) %>%
+  mutate(slope = NA, p = NA)
+
+for (i in 1:22) {
+  cv.year$slope[[i]] <- coef(models.cv[[i]])[[2]] %>%
+    round(., digits = 3) %>%
+    format(nsmall = 3)
+  cv.year$p[[i]] <- sums.cv[[i]]$coefficients[2,4] %>%
+    round(., digits = 4) %>%
+    format(nsmall = 4)
+}
+
+# Adjust letter case; make state abbreviation constant
+cv.year$site_nm <- gsub(cv.year$site_nm, pattern = "Nebr.", replacement = "NE")
+cv.year <- cv.year %>%
+  mutate(site_nm = paste0(str_to_title(str_extract(site_nm, pattern = ".*,")), 
+                         str_extract(site_nm, pattern = "[:blank:][:upper:]{2}$")))
+View(cv.year)
+
+write.csv(cv.year, file = "./Data/Processed/cv_year.csv", row.names = F)
+cv.year <- read.csv("./Data/Processed/cv_year.csv")
+cv.year <- arrange(cv.year, slope)
+
+#---- loop end ----
+
+##### Combine all CV vs year plots #####
+
+CVPlot <- ggarrange(CVPlot01, CVPlot02, CVPlot03, CVPlot04, CVPlot05, CVPlot06, 
+                    CVPlot07, CVPlot08, CVPlot09, CVPlot10, CVPlot11, CVPlot12,
+                    CVPlot13, CVPlot14, CVPlot15, CVPlot16, CVPlot17, CVPlot18,
+                    CVPlot19, CVPlot20, CVPlot21, CVPlot22
+                    + font("x.text", size = 10), ncol = 5, nrow = 5)
+annotated.CVPlot <- 
+  annotate_figure(CVPlot, bottom=text_grob("Year",color = "black",hjust = 0.5,size = 13),
+                  left = text_grob(expression("Coefficient of Variation"), color = "black",
+                                   rot = 90, size = 13))
+
+ggsave("./Figures/cv_year.png", annotated.CVPlot,
+       dpi = 300, width = 14, height = 9, units = "in")
+#---- Plot end ----
+
+######################### Part I Appendix #########################
 
 # Following codes for specific watersheds are only for validation; use loop to analyze all
 
