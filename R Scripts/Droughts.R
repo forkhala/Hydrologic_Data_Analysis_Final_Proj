@@ -38,8 +38,7 @@ stationInfo.Nish <- readNWISsite(siteNumber = "06808500")
 
 #filtering for just one site and completing date sequence
 site.1.dis <- site.dis %>%
-  filter(site_no == "06808500") %>%
-  mutate(site.name = "West Nishnabotna River")
+  filter(site_no == "06808500")
 
 #could add this code to the filter above, but don't think it's working
 #%>%
@@ -200,66 +199,63 @@ Nish.dis <- site.dis %>%
 
 #Check for missing days, if so, add NA rows:
 if(as.numeric(diff(range(Nish.dis$Date))) != (nrow(Nish.dis)+1)){
-  fullDates.dis <- seq(from=min(Nish.dis$Date),
+  fullDates.dis.Nish <- seq(from=min(Nish.dis$Date),
                        to = max(Nish.dis$Date), by="1 day")
-  fullDates.dis <- data.frame(Date = fullDates.dis, 
+  fullDates.dis.Nish <- data.frame(Date = fullDates.dis, 
                               agency_cd = Nish.dis$agency_cd[1],
                               site_no = Nish.dis$site_no[1],
                               stringsAsFactors = FALSE)
-  dailyQ <- full_join(Nish.dis, fullDates.dis,
+  dailyQ.Nish <- full_join(Nish.dis, fullDates.dis,
                       by=c("Date","agency_cd","site_no")) %>%
     arrange(Date)
 }
 
-#calculate a moving average to determine 7 day average 
-ma <- function(x, n=7){stats::filter(x, rep(1/n, n), sides=1)}
 
-
-dailyQ.7.avg.Nish <- dailyQ %>%
-  mutate(rollMean = as.numeric(ma(Flow)),
+dailyQ.7.avg.Nish <-dailyQ.Nish %>%
+  mutate(rM = rollmean(Flow, 7, na.pad = TRUE, align = "center"),
          day.of.year = as.numeric(strftime(Date, 
                                            format = "%j")))
 
 #summarizing historical data
 summaryQ.Nish <- dailyQ.7.avg.Nish %>%
   group_by(day.of.year) %>%
-  summarize(p75 = quantile(rollMean, probs = .75, na.rm = TRUE),
-            p25 = quantile(rollMean, probs = .25, na.rm = TRUE),
-            p10 = quantile(rollMean, probs = 0.1, na.rm = TRUE),
-            p05 = quantile(rollMean, probs = 0.05, na.rm = TRUE),
-            p00 = quantile(rollMean, probs = 0, na.rm = TRUE)) 
+  summarize(p75 = quantile(rM, probs = .75, na.rm = TRUE),
+            p25 = quantile(rM, probs = .25, na.rm = TRUE),
+            p10 = quantile(rM, probs = 0.1, na.rm = TRUE),
+            p05 = quantile(rM, probs = 0.05, na.rm = TRUE),
+            p00 = quantile(rM, probs = 0, na.rm = TRUE)) 
 
 #looking at current year (2019) data
 current.year <- as.numeric(strftime(Sys.Date(), format = "%Y"))
 
 #summarizing data for 2017
-summary.0 <- summaryQ.Nish %>%
+summary.0.Nish <- summaryQ.Nish %>%
   mutate(Date = as.Date(day.of.year - 1, 
                         origin = paste0(current.year-2,"-01-01")),
          day.of.year = day.of.year - 365)
 
 #summarizing data for 2018
-summary.1 <- summaryQ.Nish %>%
+summary.1.Nish <- summaryQ.Nish %>%
   mutate(Date = as.Date(day.of.year - 1, 
                         origin = paste0(current.year-1,"-01-01")))
 
 #summarizing data for 2019
-summary.2 <- summaryQ.Nish %>%
+summary.2.Nish <- summaryQ.Nish %>%
   mutate(Date = as.Date(day.of.year - 1, 
                         origin = paste0(current.year,"-01-01")),
          day.of.year = day.of.year + 365)
 
 #putting data for 2017, 2018, and 2019 in one table
-summaryQ.Nish <- bind_rows(summary.0, summary.1, summary.2) 
+summaryQ.Nish <- bind_rows(summary.0.Nish, summary.1.Nish, summary.2.Nish) 
 
 smooth.span <- 0.3
 
 #predicting percentiles for 2017 -2019 low flow data
-summaryQ.Nish$sm.75 <- predict(loess(p75~day.of.year, data = summaryQ, span = smooth.span))
-summaryQ.Nish$sm.25 <- predict(loess(p25~day.of.year, data = summaryQ, span = smooth.span))
-summaryQ.Nish$sm.10 <- predict(loess(p10~day.of.year, data = summaryQ, span = smooth.span))
-summaryQ.Nish$sm.05 <- predict(loess(p05~day.of.year, data = summaryQ, span = smooth.span))
-summaryQ.Nish$sm.00 <- predict(loess(p00~day.of.year, data = summaryQ, span = smooth.span))
+summaryQ.Nish$sm.75 <- predict(loess(p75~day.of.year, data = summaryQ.Nish, span = smooth.span))
+summaryQ.Nish$sm.25 <- predict(loess(p25~day.of.year, data = summaryQ.Nish, span = smooth.span))
+summaryQ.Nish$sm.10 <- predict(loess(p10~day.of.year, data = summaryQ.Nish, span = smooth.span))
+summaryQ.Nish$sm.05 <- predict(loess(p05~day.of.year, data = summaryQ.Nish, span = smooth.span))
+summaryQ.Nish$sm.00 <- predict(loess(p00~day.of.year, data = summaryQ.Nish, span = smooth.span))
 
 #filtering to only have certain columns in the data table for 2018 - 2020 discharge
 summaryQ.Nish <- select(summaryQ.Nish, Date, day.of.year,
@@ -267,7 +263,7 @@ summaryQ.Nish <- select(summaryQ.Nish, Date, day.of.year,
   filter(Date >= as.Date(paste0(current.year-1,"-01-01")))
 
 #filtering to only have latest years in one dataframe (2018 - 2019 data)
-latest.years <- dailyQ.7.avg.Nish %>%
+latest.years.Nish <- dailyQ.7.avg.Nish %>%
   filter(Date >= as.Date(paste0(current.year-1,"-01-01"))) %>%
   mutate(day.of.year = 1:nrow(.))
 
@@ -278,12 +274,12 @@ drought.plot.Nish <- ggplot(data = summaryQ.Nish, aes(x = day.of.year)) +
   geom_ribbon(aes(ymin = sm.10, ymax = sm.25, fill = "Drought Watch")) +
   geom_ribbon(aes(ymin = sm.05, ymax = sm.10, fill = "Drought Warning")) +
   geom_ribbon(aes(ymin = sm.00, ymax = sm.05, fill = "Drought Emergency")) +
-  scale_y_log10(limits = c(1,1000)) +
-  geom_line(data = latest.years, aes(x=day.of.year, 
-                                     y=rollMean, color = "7-Day Mean"),size=2) +
+  scale_y_log10(limits = c(1,30000)) +
+  geom_line(data = latest.years.Nish, aes(x=day.of.year, 
+                                     y=rM, color = "7-Day Mean"),size=2) +
   geom_vline(xintercept = 365) 
 
-print(drought.plot)
+print(drought.plot.Nish)
 
 #info for plotting 
 mid.month.days <- c(15, 45, 74, 105, 135, 166, 196, 227, 258, 288, 319, 349)
@@ -291,17 +287,17 @@ month.letters <- c("J","F","M","A","M","J","J","A","S","O","N","D")
 start.month.days <- c(1, 32, 61, 92, 121, 152, 182, 214, 245, 274, 305, 335)
 label.text <- c("Normal","Drought Watch","Drought Warning","Drought Emergency")
 
-title.text <- paste0(stationInfo$station_nm,"\n",
+title.text.Nish <- paste0(stationInfo.Nish$station_nm,"\n",
                      "Record Start = ", min(dailyQ$Date),
                      "  Number of years = ",
-                     as.integer(as.numeric(difftime(time1 = max(dailyQ$Date), 
-                                                    time2 = min(dailyQ$Date),
+                     as.integer(as.numeric(difftime(time1 = max(dailyQ.Nish$Date), 
+                                                    time2 = min(dailyQ.Nish$Date),
                                                     units = "weeks"))/52.25),
                      "\nDate of plot = ",Sys.Date(),
-                     "  Drainage Area = ",stationInfo$drain_area_va, "mi^2")
+                     "  Drainage Area = ",stationInfo.Nish$drain_area_va, "mi^2")
 
 #plotting a better plot for 06921070
-styled.plot <- drought.plot +
+styled.plot.Nish <- drought.plot.Nish +
   scale_x_continuous(breaks = c(mid.month.days, 365+mid.month.days),
                      labels = rep(month.letters, 2),
                      expand = c(0, 0),
@@ -311,19 +307,19 @@ styled.plot <- drought.plot +
   annotate(geom = "text", 
            x = c(182,547), 
            y = 1, 
-           label = c(current.year-1, current.year), size = 4) +
+           label = c(current.year-2, current.year-1), size = 4) +
   theme_bw() + 
   theme(axis.ticks.x = element_blank(),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) +
-  labs(list(title = title.text,
+  labs(list(title = title.text.Nish,
             y = "7-day moving average", x = "Month")) +
   scale_fill_manual(name = "", breaks = label.text,
                     values = c("red","orange","yellow","darkgreen")) +
   scale_color_manual(name = "", values = "black") +
   theme(legend.position="bottom")
 
-print(styled.plot)
+print(styled.plot.Nish)
 #### Drought Plots for site Nodaway River at Clarinda, IA, # 06817000 ####
 
 #reading in site info for 06817000
