@@ -54,36 +54,36 @@ theme_set(theme_classic())
 
 # Rationale and Research Questions
 
-The Missouri River is the largest river in North America (2,540 miles) and has the second largest watershed (529,000 mi^2^/339 million acres, U.S.-Canada, [@kammerer1990]). Its watershed covers portions of ten states, which account for approximately one-sixth of the continental United States, as well as a small part of Canada [@usace2018]. The headwater is located in the Bitterroot Mountains River of northwestern Wyoming and southwestern Montana [@nrc2002]. The basin is primarily rural, but also has several large and medium-sized cities. In 2012, the basin was home to approximately 15.5 million people, and many large cities in the region are in proximity to the Missouri River [@usace2018]. Demands for managing the river for the benefit of human livelihood has resulted in drastic modification in the river and the floodplains. Numerous reservoirs and dams have been constructed, of which six major dams were built on the mainstream [@nrc2002]. Now, the river is used intensively in multiple ways, including municipal, agricultural, hydropower, recreation, flood control etc. [@bor2016-1].
+The Missouri River is the largest river in North America (2,540 miles) and has the second largest watershed spanning 529,000 mi^2^ ([@kammerer1990]). Its watershed covers portions of ten states, which account for approximately one-sixth of the continental United States, as well as a small part of Canada [@usace2018]. The headwater is located in the Bitterroot Mountains River of northwestern Wyoming and southwestern Montana [@nrc2002]. The basin is primarily rural, but also has several large and medium-sized cities. In 2012, the basin was home to approximately 15.5 million people, and many large cities in the region are in proximity to the Missouri River [@usace2018]. Demands for managing the river for the benefit of human livelihood has resulted in drastic modification in the river and the floodplains. Numerous reservoirs and dams have been constructed, of which six major dams were built on the mainstream [@nrc2002]. Now, the river is used intensively in multiple ways, including municipal, agricultural, hydropower, recreation, flood control etc. [@bor2016-1].
 
-Within the 328 million acres of the basin’s total area in the United States, 64.2% (218 acres) are related to agricultural uses, while the rest dedicated for recreation, fish and wildlife, and urban [@bor2016-1; @usace2018]. 37.1% of the total basin area is pasture and range grassland primarily for grazing, and cropland consists of almost 92 million acres [@usace2018]. As of 2012, irrigated land comprises 14.2 million acres, and required a delivery of about 13 million acre-feet of surface water annually [@usace2018]. Wetlands and Water bodies, on the other hand, cover 3.7 and 1.8 million acres, respectively [@usace2018]. In spite of the low proportion of water areas (2.3%), they are the pivotal foundation for agricultural or other usages, and thus critical to the whole region’s economy. 
+Within the 328 million acres of the basin’s total area in the United States, 64.2% are related to agricultural uses, while the rest are dedicated for recreation, fish and wildlife, and urban development [@bor2016-1]. 37.1% of the total basin area is pasture and range grassland primarily for grazing, and cropland consists of almost 92 million acres [@usace2018]. As of 2012, irrigated land comprises 14.2 million acres, and require a delivery of about 13 million acre-feet of surface water annually [@usace2018]. Wetlands and water bodies, on the other hand, cover 3.7 and 1.8 million acres, respectively [@usace2018]. In spite of the low proportion of water areas (2.3%), they are the pivotal foundation for agricultural or other usages, and thus critical to the whole region’s economy. 
 
-Along with the agricultural, urban, and industrial development in the region is nutrient loading and enrichment in water bodies, especially for nitrogen (N) and phosphorus (P). Agricultural input through fertilizer is the predominant anthropogenic source for nutrient in water bodies in the whole basin [@nrc2002]. Regardless of the major anthropogenic source, nutrient enrichment is considered nationally as one of the leading factors for water quality impairment. According to the Clean Water Act 303(d) lists (2015), more than 160 stream reaches or waterbodies were reported by USEPA to suffer nutrient-related impairment in 2015.
+The agricultural, urban, and industrial development in the region inevitably causes nutrient loading and enrichment in water bodies, especially for nitrogen (N) and phosphorus (P). Agricultural input through fertilizer is the predominant anthropogenic source for nutrient in water bodies in the whole basin [@nrc2002]. Regardless of the major anthropogenic source, nutrient enrichment is considered nationally as one of the leading factors for water quality impairment. According to the Clean Water Act 303(d) lists (2015), more than 160 stream reaches or waterbodies were reported by USEPA to suffer nutrient-related impairment in 2015.
 
-In addition to change in nutrient concentration, discharge appears to be highly variable in the basin, and both severe drought and flooding events occurred in the basin in the past. For example, in the spring and summer of 2011, an unprecedented flooding event caused over \$2 billion damage and 5 fatalities, leading to FEMA disaster declaration made in all states along the Missouri River [@noaa2012]. During the flooding event, around 11,000 people evacuated Minot, North Dakota owing to high water level in Souris River, which flooded 4,000 homes [@noaa2012]. In 2012, a drought even struck the Central Great Plain, including the basin, and inflicted at least \$12 billion of loss before July, 2012 [@noaa2013]. Recently, another flooding event occurred in the spring of 2019. 
+In addition to change in nutrient concentration, discharge appears to be highly variable in the basin, and both severe drought and flooding events have occurred in the basin regularly. For example, in the spring and summer of 2011, an unprecedented flooding event caused over \$2 billion damage and 5 fatalities, leading to FEMA disaster declaration made in all states along the Missouri River [@noaa2012]. During the flooding event, around 11,000 people evacuated from Minot, North Dakota owing to high water level in Souris River, which flooded 4,000 homes [@noaa2012]. In 2012, a drought struck the Central Great Plain, including the basin, and inflicted at least \$12 billion of agricultural loss before July, 2012 [@noaa2013]. Recently, another flooding event occurred in the spring of 2019, due to the months of January through May being the wettest period on record for the U.S.
 
-Given all the background information above, we would like to know the current state of Missouri River and its tributaries, with a focus on the changing patterns in discharge and nutrient levels. Water bodies along the downstream are more likely to be impaired by nutrients accumulated from the upstream, and more croplands and pastures which can further load nutrients into streams are distributed in the lower basins (\autoref{fig:cropland}). Therefore, in the present project, study sites were concentrated in the southeast of the whole Missouri Basin. By analyzing data retrieved from these sites, we first revealed the general yearly discharge pattern and changes in variability over years. Then we investigated how the dramatic change in discharge (i.e. water quantity) could potentially interact with nutrient enrichment (i.e. water quality). We examined a few specific flooding and drought events, during which changes in both water quality and quantity were well recorded, so that we could make inference on the interplay between quantity and quality. The effect of population on nutrient enrichment was also examined to illustrate potential non-agricultural impact from human activities. Finally, based on the pattern in the past and the best model we could fit, we attempted to predict the likely future conditions and trends in the Missouri River Basin. Our research questions and acccompanying hypotheses are below:
+Given all the background information above, we would like to know the current state of Missouri River and its tributaries, with a focus on the changing patterns in discharge and nutrient levels. Water bodies along the downstream are more likely to be impaired by nutrients accumulated from the upstream. Croplands and pastures, which can further load nutrients into streams, are distributed throughout the lower basin (\autoref{fig:cropland}). Therefore, in the present project, study sites were concentrated in the southeast of the whole Missouri Basin. By analyzing data retrieved from these sites, we first revealed the general yearly discharge pattern and changes in variability over years. Then we investigated how the dramatic change in discharge (i.e. water quantity) could potentially interact with nutrient enrichment (i.e. water quality). We examined a few specific flooding and drought events, during which changes in both water quality and quantity were well recorded, so that we could make inference on the interplay between quantity and quality. The effect of population on nutrient enrichment was also examined to illustrate potential non-agricultural impact from human activities. Finally, based on the pattern in the past and the best model we could fit, we attempted to predict the likely future conditions and trends in the Missouri River Basin. Our research questions and acccompanying hypotheses are below:
 
 1. How have changes in discharge (i.e. water quantity) interacted with nutrient enrichment (i.e. water quality) in the Missouri River Basin?
 
-    a) Nutrient levels have increased over time - Keqi
-    b) Discharge has become more variable over time - Hubert
-    c) Nutrient levels increase with discharge - Rachel
+    a) Nutrient levels have increased over time
+    b) Discharge has become more variable over time 
+    c) Nutrient levels increase with discharge 
   
  
 2. What effects do specific flood and drought events have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
 
-    a) Rivers will exhibit a flushing behavior due to the land use and type of flow during storms - Rachel
-    b) Discharge will decrease during drought due to decreased overland flow. - Caroline
+    a) Rivers will exhibit a flushing behavior due to the land use and type of flow during storms 
+    b) Discharge will decrease during drought due to decreased overland flow. 
     
 3. What factors contribute to the variability of total nitrogen in the rivers?
 
-    a) Land use, year, discharge, phosphorus, and HUC region will contribute to the variability of total nitrogen across sites - Rachel
+    a) Land use, year, discharge, phosphorus, and HUC region will contribute to the variability of total nitrogen across sites 
 
 4. Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
-    a) Total flow in the Missouri River Basin is increasing (non-stationary) over time - Keqi
-    b) The future situation of the river basin will see the continuation of current trends of increasing overall volume of flow. - Keqi
+    a) Total flow in the Missouri River Basin is increasing (non-stationary) over time 
+    b) The future situation of the river basin will see the continuation of current trends of increasing overall volume of flow. 
 
 ```{r cropland, out.width="\\maxwidth", fig.cap="\\label{fig:cropland} Map of agricultural lands and impaired waters in the Missouri River Basin. Row and Close Grain Crop Cultural Formation shown by tan-colored areas, pasture and hay field shown by yellowgreen areas, imparied water bodies according to Clean Water Act Section 303(d) (EPA 2015) denoted by red areas, and all HUC4 watersheds in the Missouri River Basin (1001-1030) delineated by gray polygons. The thin, light-blue lines outline all streams of a Strahler order higher than 2, and the thick blue line represents the mainstem of Missouri River."}
 knitr::include_graphics('../Figures/cropland3.png')
@@ -93,9 +93,9 @@ knitr::include_graphics('../Figures/cropland3.png')
 
 # Dataset Information
 
-The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the lower Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030. We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, representing a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that contained discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin for a total of 22. We chose the two sites from each HUC sub basin by comparing the periods of records for each of our chosen variables and finding the sites with the longest periods of records. We chose to look at two sites per HUC region (for a total of 22) in order to maintain a digestable scope. We retrieved data on water quantity, water quality (N, P concentrations) (Table 1).
+The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the southern part of the Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030. We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, representing a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that contained discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin for a total of 22. We chose the two sites from each HUC sub basin by comparing the periods of records for each of our chosen variables and finding the sites with the longest periods of records. We chose to look at two sites per HUC region (for a total of 22) in order to maintain a digestable scope (\autoref{fig:sitemap}). We retrieved data on water quantity and water quality (N, P concentrations) (Table 1).
 
-Only six sites within our HUC subbasin boundary contained any high frequency nitrogen data. Therefore, we also looked at these 6 sites in order to do analyses and answer our research question about flooding. Since flooding and droughts can be thought of as opposites, we looked at the same 6 sites for droughts as we did for flooding (Table 2). 
+Only six sites within our HUC subbasin boundary contained any high frequency nitrogen data. Therefore, we also looked at these six sites in order to do analyses and answer our research question about flooding. Since flooding and droughts can be thought of as opposites, we looked at the same 6 sites for droughts as we did for flooding (Table x - add table??). 
 
 We have two main datasets:
 
@@ -103,6 +103,9 @@ We have two main datasets:
 
 - The high freqency dataset containing high frequency data for nitrogen and discharge for 6 sites.
 
+
+
+**Table 1:** Add title
 Variable   |   Unit  |   Number of Sites   |   
 ----------- | :---------------: | --------------- |
 Discharge  | cfs or $m^{3}$/s | 22 
@@ -110,7 +113,8 @@ Time | UTC | 22
 Nitrogen | mg/L | 22 with daily values, 6 with high frequency values
 Phosphorus | mg/L | 22
 
-<Add a table that summarizes your data structure (variables, units, ranges and/or central tendencies, data source if multiple are used, etc.). This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.>
+**Table 2:** Add table for date ranges and possibly sites used for flooding?
+
 
 ```{r sitemap, out.width="\\maxwidth", fig.cap="\\label{fig:sitemap} Map of USGS sites used for long term analysis."}
 knitr::include_graphics("../Figures/site_map.png")
@@ -130,7 +134,7 @@ knitr::include_graphics("../Figures/Nitrogenhist.png")
 
 Discharge, nitrogen, and phosphorus were plotted for each site and examined together in order to see if there were any obvious patterns or trends (\autoref{fig:dataexample}).
 
-```{r dataexample, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily data of Site No. 22 Missouri River At Hermann, MO."}
+```{r dataexample, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily data of Site No. 22, the  Missouri River At Hermann, MO."}
 
 ## Discharge
 MRHDischarge <- readNWISdv(siteNumbers = "06934500",
