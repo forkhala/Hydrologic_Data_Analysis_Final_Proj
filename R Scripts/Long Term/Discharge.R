@@ -18,114 +18,8 @@ site.nos <- site.list$site_no
 
 ######################### Part I Discharge Pattern in a Year #########################
 
-# Following codes for specific watersheds are only for validation; use loop to analyze all
-
-######## HU 1020 Platte ########
-
-##### 10200101 Middle Platte-Buffalo #####
-
-# Import data from NWIS
-hu10200101 <- readNWISdv(siteNumbers = site.nos[1], 
-                          parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
-  rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
-
-hu10200101.pattern <- hu10200101 %>%
-  mutate(DOY = day(Date)) %>%
-  group_by(DOY) %>%
-  summarise(Median.Discharge = median(Discharge), 
-            Max.Discharge = max(Discharge),
-            Min.Discharge = min(Discharge))
-fig10200101.1 <- ggplot(hu10200101.pattern, aes(x = DOY)) +
-  geom_line(aes(y = Median.Discharge)) +
-  geom_line(aes(y = Max.Discharge), color = "gray") +
-  geom_line(aes(y = Min.Discharge), color = "gray") +  
-  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) 
-print(fig10200101.1)
-
-#---- 10200101 ----
-
-##### 10200202 Lower Platte #####
-
-hu10200202 <- readNWISdv(siteNumbers = site.nos[2], 
-                         parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
-  rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
-
-hu10200202.pattern <- hu10200202 %>%
-  mutate(DOY = day(Date)) %>%
-  group_by(DOY) %>%
-  summarise(Median.Discharge = median(Discharge), 
-            Max.Discharge = max(Discharge),
-            Min.Discharge = min(Discharge))
-fig10200202.1 <- ggplot(hu10200202.pattern, aes(x = DOY)) +
-  geom_line(aes(y = Median.Discharge)) +
-  geom_line(aes(y = Max.Discharge), color = "gray") +
-  geom_line(aes(y = Min.Discharge), color = "gray") +  
-  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) 
-print(fig10200202.1)
-
-#---- 10200202 end ----
-
-######## HU 1020 Platte ########
-
-##### 10200101 Middle Platte-Buffalo #####
-
-# Import data from NWIS
-hu10200101 <- readNWISdv(siteNumbers = site.nos[1], 
-                         parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
-  rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
-
-hu10200101.pattern <- hu10200101 %>%
-  mutate(DOY = yday(Date)) %>%
-  group_by(DOY) %>%
-  summarise(Median.Discharge = median(Discharge), 
-            Max.Discharge = max(Discharge),
-            Min.Discharge = min(Discharge))
-fig10200101.1 <- ggplot(hu10200101.pattern, aes(x = DOY)) +
-  geom_line(aes(y = Median.Discharge)) +
-  geom_line(aes(y = Max.Discharge), color = "gray") +
-  geom_line(aes(y = Min.Discharge), color = "gray") +  
-  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) 
-print(fig10200101.1)
-
-#---- 10200101 ----
-
-##### 10200202 Lower Platte #####
-
-hu10200202 <- readNWISdv(siteNumbers = site.nos[2], 
-                         parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
-  rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
-
-hu10200202.pattern <- hu10200202 %>%
-  mutate(DOY = yday(Date)) %>%
-  group_by(DOY) %>%
-  summarise(Median.Discharge = median(Discharge), 
-            Max.Discharge = max(Discharge),
-            Min.Discharge = min(Discharge))
-fig10200202.1 <- ggplot(hu10200202.pattern, aes(x = DOY)) +
-  geom_line(aes(y = Median.Discharge)) +
-  geom_line(aes(y = Max.Discharge), color = "gray") +
-  geom_line(aes(y = Min.Discharge), color = "gray") +  
-  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) 
-print(fig10200202.1)
-
-#---- 10200202 end ----
-
-##### Combine the two 1020 sites #####
-
-fig1020 <- ggplot(hu10200101.pattern, mapping = aes(x = DOY)) +
-  geom_line(aes(y = Median.Discharge), color = "lightskyblue4", size = 0.73) +
-  geom_line(aes(y = Max.Discharge), color = "lightskyblue3") +
-  geom_line(aes(y = Min.Discharge), color = "lightskyblue3") +  
-  geom_line(aes(y = Median.Discharge), hu10200202.pattern, color = "darkseagreen4", size = 0.73)+
-  geom_line(aes(y = Max.Discharge), hu10200202.pattern, color = "darkseagreen3") +
-  geom_line(aes(y = Min.Discharge), hu10200202.pattern, color = "darkseagreen3") +  
-  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) 
-print(fig1020)
-
-#---- Combining end ----
-
 ######## for loop ########
-##### The codes above are only for validation; use loop below to generate all figures
+##### Codes for specific sites (at the end) are only for validation; use loop to generate all figures
 pb <- winProgressBar(title="Loop in progress", label="0% done", 
                      min=0, max=100, initial=0)
 for(i in 1:11){
@@ -136,11 +30,12 @@ for(i in 1:11){
   site1.pattern <- site1 %>%
     mutate(DOY = yday(Date)) %>%
     group_by(DOY) %>%
+    drop_na(Discharge) %>%
     summarise(Median.Discharge = median(Discharge), 
               Max.Discharge = max(Discharge),
               Min.Discharge = min(Discharge),
-              Discharge75 = quantile(Discharge, probs = 0.75, na.rm = T),
-              Discharge25 = quantile(Discharge, probs = 0.25, na.rm = T))
+              Discharge75 = quantile(Discharge, probs = 0.75),
+              Discharge25 = quantile(Discharge, probs = 0.25))
 
   site2 <- readNWISdv(siteNumbers = site.nos[2*i], 
                            parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
@@ -149,11 +44,12 @@ for(i in 1:11){
   site2.pattern <- site2 %>%
     mutate(DOY = yday(Date)) %>%
     group_by(DOY) %>%
+    drop_na(Discharge) %>%
     summarise(Median.Discharge = median(Discharge), 
               Max.Discharge = max(Discharge),
               Min.Discharge = min(Discharge),
-              Discharge75 = quantile(Discharge, probs = 0.75, na.rm = T),
-              Discharge25 = quantile(Discharge, probs = 0.25, na.rm = T))
+              Discharge75 = quantile(Discharge, probs = 0.75),
+              Discharge25 = quantile(Discharge, probs = 0.25))
 
   fig <- ggplot(site1.pattern, mapping = aes(x = DOY)) +
     geom_line(aes(y = Median.Discharge), color = "lightskyblue4", size = 0.73) +
@@ -192,55 +88,31 @@ ggsave("./Figures/discharge.png", annotated.DisChargePlot,
 
 #---- end ----
 
+####### Look at site 5 b/c of missing values #####
+
+site6 <- readNWISdv(siteNumbers = site.nos[6], 
+                    parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
+  rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
+
+site6.pattern <- site6 %>%
+  mutate(DOY = yday(Date)) %>%
+  group_by(DOY) %>%
+  drop_na(Discharge) %>%
+  summarise(Median.Discharge = median(Discharge), 
+            Max.Discharge = max(Discharge),
+            Min.Discharge = min(Discharge),
+            Discharge75 = quantile(Discharge, probs = 0.75, na.rm = T),
+            Discharge25 = quantile(Discharge, probs = 0.25, na.rm = T))
+
+ggplot(site6.pattern, mapping = aes(x = DOY)) +
+  geom_line(aes(y = Median.Discharge),color = "darkseagreen4",size = 0.73)+
+  geom_line(aes(y = Discharge75),color = "darkseagreen3",alpha = 0.8,linetype = 6)+
+  geom_line(aes(y = Discharge25),color = "darkseagreen3",alpha = 0.8,linetype = 6)+ 
+  annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1, size = 3,
+           label = paste(site.list$huc4[6], site.list$huc4_nm[6], sep = " "))+
+  labs(x = element_blank(), y = element_blank())
+
 ######################### Part II Recurrence Interval #########################
-
-######## HU 1020 Platte (for validation) ########
-
-Recurrence1020.1 <- 
-  dat1020.1 %>%
-  mutate(Year = year(Date))%>%
-  group_by(Year) %>%
-  summarise(PeakDischarge = max(Discharge)) %>% 
-  mutate(Rank = rank(-PeakDischarge),
-         RecurrenceInterval = (length(Year) + 1)/Rank, 
-         Probability = 1/RecurrenceInterval)
-
-PeakPlot.1020.1 <- 
-  ggplot(Recurrence1020.1, aes(x = Year, y = PeakDischarge)) +
-  geom_bar(stat = "identity") +
-  xlab("Year")
-print(PeakPlot.1020.1)
-
-RecurrencePlot.1020.1 <- ggplot() +
-  geom_point(data = Recurrence1020.1, aes(x = RecurrenceInterval, y = PeakDischarge),
-             color = "lightskyblue4", size = 1, alpha = 0.7)+
-  stat_smooth(data = Recurrence1020.1, aes(x = RecurrenceInterval, y = PeakDischarge),
-              method = "lm" , formula = y ~ log(x), 
-              level = 0.95, alpha = 0.3, size = 0.75, 
-              color = "lightskyblue4", fill = "lightskyblue3") #+
-#scale_x_log10() 
-print(RecurrencePlot.1020.1)
-
-# fit model
-model.1020.1 <- lm(data = Recurrence1020.1, PeakDischarge ~ log(RecurrenceInterval))
-summary(model.1020.1)
-# par(mfrow = c(2,2), mai = c(0.7,0.7,0.7,0.7)); plot(model.1020.1)
-
-# Use custom fitted values and CI 
-newdat <- data.frame(
-  RecurrenceInterval = seq(min(Recurrence1020.1$RecurrenceInterval), 
-                           max(Recurrence1020.1$RecurrenceInterval), length.out = 100))
-
-newdat[,2:4] <- predict.lm(model.1020.1, newdat, interval = "c", level = 0.95)
-names(newdat)[2:4] <- c("fit", "lwr", "upr")
-
-ggplot()+
-  geom_point(dat = Recurrence1020.1, aes(x = RecurrenceInterval, y = PeakDischarge))+
-  geom_ribbon(data = newdat, aes(x = RecurrenceInterval, ymin = lwr, ymax = upr), 
-              fill = "gray70", alpha = 0.5)+
-  geom_line(data = newdat, aes(x = RecurrenceInterval, y = fit))
-
-#----1020 end----
 
 ######## for loop ########
 pb <- winProgressBar(title="Loop in progress", label="0% done", 
@@ -435,6 +307,8 @@ sd.year <- arrange(sd.year, slope)
 
 #---- loop end ----
 
+######################### Part I Appendix #########################
+
 ##### Combine all SD vs year plots #####
 
 SdPlot <- ggarrange(SdPlot01, SdPlot02, SdPlot03, SdPlot04, SdPlot05, SdPlot06, 
@@ -451,3 +325,158 @@ ggsave("./Figures/sd_year.png", annotated.SdPlot,
        dpi = 300, width = 14, height = 9, units = "in")
 #---- Plot end ----
 
+# Following codes for specific watersheds are only for validation; use loop to analyze all
+
+######## HU 1020 Platte ########
+
+##### 10200101 Middle Platte-Buffalo #####
+
+# Import data from NWIS
+hu10200101 <- readNWISdv(siteNumbers = site.nos[1], 
+                         parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
+  rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
+
+hu10200101.pattern <- hu10200101 %>%
+  mutate(DOY = day(Date)) %>%
+  group_by(DOY) %>%
+  summarise(Median.Discharge = median(Discharge), 
+            Max.Discharge = max(Discharge),
+            Min.Discharge = min(Discharge))
+fig10200101.1 <- ggplot(hu10200101.pattern, aes(x = DOY)) +
+  geom_line(aes(y = Median.Discharge)) +
+  geom_line(aes(y = Max.Discharge), color = "gray") +
+  geom_line(aes(y = Min.Discharge), color = "gray") +  
+  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) 
+print(fig10200101.1)
+
+#---- 10200101 ----
+
+##### 10200202 Lower Platte #####
+
+hu10200202 <- readNWISdv(siteNumbers = site.nos[2], 
+                         parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
+  rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
+
+hu10200202.pattern <- hu10200202 %>%
+  mutate(DOY = day(Date)) %>%
+  group_by(DOY) %>%
+  summarise(Median.Discharge = median(Discharge), 
+            Max.Discharge = max(Discharge),
+            Min.Discharge = min(Discharge))
+fig10200202.1 <- ggplot(hu10200202.pattern, aes(x = DOY)) +
+  geom_line(aes(y = Median.Discharge)) +
+  geom_line(aes(y = Max.Discharge), color = "gray") +
+  geom_line(aes(y = Min.Discharge), color = "gray") +  
+  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) 
+print(fig10200202.1)
+
+#---- 10200202 end ----
+
+######## HU 1020 Platte ########
+
+##### 10200101 Middle Platte-Buffalo #####
+
+# Import data from NWIS
+hu10200101 <- readNWISdv(siteNumbers = site.nos[1], 
+                         parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
+  rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
+
+hu10200101.pattern <- hu10200101 %>%
+  mutate(DOY = yday(Date)) %>%
+  group_by(DOY) %>%
+  summarise(Median.Discharge = median(Discharge), 
+            Max.Discharge = max(Discharge),
+            Min.Discharge = min(Discharge))
+fig10200101.1 <- ggplot(hu10200101.pattern, aes(x = DOY)) +
+  geom_line(aes(y = Median.Discharge)) +
+  geom_line(aes(y = Max.Discharge), color = "gray") +
+  geom_line(aes(y = Min.Discharge), color = "gray") +  
+  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) 
+print(fig10200101.1)
+
+#---- 10200101 ----
+
+##### 10200202 Lower Platte #####
+
+hu10200202 <- readNWISdv(siteNumbers = site.nos[2], 
+                         parameterCd = "00060", endDate = "2019-11-1")[,2:5] %>%
+  rename(Discharge = X_00060_00003, Approval.Code = X_00060_00003_cd)
+
+hu10200202.pattern <- hu10200202 %>%
+  mutate(DOY = yday(Date)) %>%
+  group_by(DOY) %>%
+  summarise(Median.Discharge = median(Discharge), 
+            Max.Discharge = max(Discharge),
+            Min.Discharge = min(Discharge))
+fig10200202.1 <- ggplot(hu10200202.pattern, aes(x = DOY)) +
+  geom_line(aes(y = Median.Discharge)) +
+  geom_line(aes(y = Max.Discharge), color = "gray") +
+  geom_line(aes(y = Min.Discharge), color = "gray") +  
+  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) 
+print(fig10200202.1)
+
+#---- 10200202 end ----
+
+##### Combine the two 1020 sites #####
+
+fig1020 <- ggplot(hu10200101.pattern, mapping = aes(x = DOY)) +
+  geom_line(aes(y = Median.Discharge), color = "lightskyblue4", size = 0.73) +
+  geom_line(aes(y = Max.Discharge), color = "lightskyblue3") +
+  geom_line(aes(y = Min.Discharge), color = "lightskyblue3") +  
+  geom_line(aes(y = Median.Discharge), hu10200202.pattern, color = "darkseagreen4", size = 0.73)+
+  geom_line(aes(y = Max.Discharge), hu10200202.pattern, color = "darkseagreen3") +
+  geom_line(aes(y = Min.Discharge), hu10200202.pattern, color = "darkseagreen3") +  
+  labs(x = "Day of Year", y = expression("Discharge ft"^3*" s"^-1)) 
+print(fig1020)
+
+#---- Combining end ----
+
+######################### Part II Appendix #########################
+
+######## HU 1020 Platte (for validation) ########
+
+Recurrence1020.1 <- 
+  dat1020.1 %>%
+  mutate(Year = year(Date))%>%
+  group_by(Year) %>%
+  summarise(PeakDischarge = max(Discharge)) %>% 
+  mutate(Rank = rank(-PeakDischarge),
+         RecurrenceInterval = (length(Year) + 1)/Rank, 
+         Probability = 1/RecurrenceInterval)
+
+PeakPlot.1020.1 <- 
+  ggplot(Recurrence1020.1, aes(x = Year, y = PeakDischarge)) +
+  geom_bar(stat = "identity") +
+  xlab("Year")
+print(PeakPlot.1020.1)
+
+RecurrencePlot.1020.1 <- ggplot() +
+  geom_point(data = Recurrence1020.1, aes(x = RecurrenceInterval, y = PeakDischarge),
+             color = "lightskyblue4", size = 1, alpha = 0.7)+
+  stat_smooth(data = Recurrence1020.1, aes(x = RecurrenceInterval, y = PeakDischarge),
+              method = "lm" , formula = y ~ log(x), 
+              level = 0.95, alpha = 0.3, size = 0.75, 
+              color = "lightskyblue4", fill = "lightskyblue3") #+
+#scale_x_log10() 
+print(RecurrencePlot.1020.1)
+
+# fit model
+model.1020.1 <- lm(data = Recurrence1020.1, PeakDischarge ~ log(RecurrenceInterval))
+summary(model.1020.1)
+# par(mfrow = c(2,2), mai = c(0.7,0.7,0.7,0.7)); plot(model.1020.1)
+
+# Use custom fitted values and CI 
+newdat <- data.frame(
+  RecurrenceInterval = seq(min(Recurrence1020.1$RecurrenceInterval), 
+                           max(Recurrence1020.1$RecurrenceInterval), length.out = 100))
+
+newdat[,2:4] <- predict.lm(model.1020.1, newdat, interval = "c", level = 0.95)
+names(newdat)[2:4] <- c("fit", "lwr", "upr")
+
+ggplot()+
+  geom_point(dat = Recurrence1020.1, aes(x = RecurrenceInterval, y = PeakDischarge))+
+  geom_ribbon(data = newdat, aes(x = RecurrenceInterval, ymin = lwr, ymax = upr), 
+              fill = "gray70", alpha = 0.5)+
+  geom_line(data = newdat, aes(x = RecurrenceInterval, y = fit))
+
+#----1020 end----
