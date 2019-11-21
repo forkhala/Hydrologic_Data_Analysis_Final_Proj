@@ -31,6 +31,9 @@ site.dis <- readNWISdv(siteNumbers = c(sites),
                        endDate = "") %>%
   renameNWISColumns()
 
+#saving processed file
+write.csv(site.dis, "./Data/Raw/drought.sites")
+
 ####Exploratory data analysis (droughts)####
 
 #reading in site info for 06808500
