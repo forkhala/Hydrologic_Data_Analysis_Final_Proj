@@ -1,0 +1,52 @@
+# USGS NWIS Database
+
+
+## Summary
+These datasets were prepared for the final project in the Hydrologic Data Analytics class. 
+
+The dataset contains data from several sites in the Missouri River Basin, specificically within HUC 4 regions 1020-1030, the lower Missouri River Basin. 
+
+## Database Information
+Data were collected using the `dataRetrieval` R package which pulls from the USGS National Water Information System interface, or NWIS. More information can be found here: https://cran.r-project.org/web/packages/dataRetrieval/vignettes/dataRetrieval.html
+
+Water quality, daily values, and instantaneous data were all pulled for various sites, using the commands:
+
+* readNWISdata
+* whatNWISsites
+* readNWISdv
+* readNWISuv
+* readNWISqw
+
+Wrangled data were saved as csv files and were saved in the Data > Processed folders.
+
+Data were accessed between November 1 - 20th.
+
+## Data Content Information
+ 
+
+### Parameter Codes
+
+* 00060 Discharge, streamflow, mean daily, cubic feet per second
+
+* 00600 Total nitrogen [nitrate + nitrite + ammonia + organic-N], water, unfiltered, milligrams per liter
+
+* 99133 Nitrate plus nitrite, water, in situ, milligrams per liter as nitrogen, high frequency
+
+* pH, water, unfiltered, field, standard units
+
+* Phosphate, water, unfiltered, milligrams per liter as PO4
+
+## File organization
+
+Files are organized based on the type of data it contains and who processed the data. Processed csv files are saved in Data > Processed.
+
+**high frequency** refers to data with instantaneous nitrogen values
+
+**longterm** refers to data with historical records as far back as USGS has them
+
+**R scripts** are files where data wrangling and processing of the data occurred
+
+**figures**refers are the saved images from analysis we want to share in our report
+
+**team docs** are files that will be worked on collaboratively
+
