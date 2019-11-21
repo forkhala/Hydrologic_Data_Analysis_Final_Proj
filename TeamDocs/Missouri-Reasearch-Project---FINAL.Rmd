@@ -28,7 +28,6 @@ getwd()
 library(tidyverse)
 library(kableExtra)
 library(dataRetrieval)
-library(dplyr)
 library(xts)
 library(dygraphs)
 library(lubridate)
@@ -37,14 +36,12 @@ library(cowplot)
 library(trend)
 library(forecast)
 library(tseries)
-library(jpeg)
 library(grid)
 library(gridExtra)
 library(ggpubr)
 require(pander)
 
 # Set your ggplot theme
-
 theme_set(theme_classic())
 
 # Load your datasets
@@ -54,7 +51,7 @@ theme_set(theme_classic())
 
 # Rationale and Research Questions
 
-The Missouri River is the largest river in North America (2,540 miles) and has the second largest watershed spanning 529,000 mi^2^ ([@kammerer1990]). Its watershed covers portions of ten states, which account for approximately one-sixth of the continental United States, as well as a small part of Canada [@usace2018]. The headwater is located in the Bitterroot Mountains River of northwestern Wyoming and southwestern Montana [@nrc2002]. The basin is primarily rural, but also has several large and medium-sized cities. In 2012, the basin was home to approximately 15.5 million people, and many large cities in the region are in proximity to the Missouri River [@usace2018]. Demands for managing the river for the benefit of human livelihood has resulted in drastic modification in the river and the floodplains. Numerous reservoirs and dams have been constructed, of which six major dams were built on the mainstream [@nrc2002]. Now, the river is used intensively in multiple ways, including municipal, agricultural, hydropower, recreation, flood control etc. [@bor2016-1].
+The Missouri River is the largest river in North America (2,540 miles) and has the second largest watershed spanning 529,000 mi^2^ ([@kammerer1990]). Its watershed covers portions of ten states, which account for approximately one-sixth of the continental United States, as well as a small part of Canada [@usace2018]. The headwater is located in the Bitterroot Mountains River of northwestern Wyoming and southwestern Montana [@nrc2002]. The basin is primarily rural, but also has several large and medium-sized cities. In 2012, the basin was home to approximately 15.5 million people, and many large cities in the region are in proximity to the Missouri River [@usace2018]. Demands for managing the river for the benefit of human livelihood has resulted in drastic modification in the river and the floodplains. Now, the river is used intensively in multiple ways, including municipal, agricultural, hydropower, recreation, flood control etc. [@bor2016-1].
 
 Within the 328 million acres of the basin’s total area in the United States, 64.2% are related to agricultural uses, while the rest are dedicated for recreation, fish and wildlife, and urban development [@bor2016-1]. 37.1% of the total basin area is pasture and range grassland primarily for grazing, and cropland consists of almost 92 million acres [@usace2018]. As of 2012, irrigated land comprises 14.2 million acres, and require a delivery of about 13 million acre-feet of surface water annually [@usace2018]. Wetlands and water bodies, on the other hand, cover 3.7 and 1.8 million acres, respectively [@usace2018]. In spite of the low proportion of water areas (2.3%), they are the pivotal foundation for agricultural or other usages, and thus critical to the whole region’s economy. 
 
@@ -216,21 +213,36 @@ knitr::include_graphics('../Figures/discharge.jpg')
 ## Change in Discharge Variations over Years
 To reveal how variability of discharge has changed over time, we analyzed the relationship between standard deviation (SD) of discharge within a year and years, using linear models (\autoref{fig:varfig}; \autoref{tab:vartab}). Among all the 22 sites, 14 sites suggest increasing SD over time, and 4 of them show statistically significant increase. By contrast, only 8 sites suggest declining SD trends, and 2 of them exhibit statistically significant rising in SD. Despite that only data from six sites (around 27%) yield conclusive results, within these sites the number of streams that have become more variable are two times as many as those with decreasing variability. Thus, our results suggest that the whole Missouri Basin appear to have become more variable over years since around the mid-19th century. The low percentage of significant results could result from the small effect size, and/or the short time span of available data for some sites. Hence, more monitoring on discharge in the basin are required in the future to reach a more definitive conclusion.
 
-```{r varfig, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:varfig} Changes in the standard deviations (SD) of discharge within a year at 22 sites over the whole time span of available data. Red regression lines and confidence intervals suggest increasing SD, whereas blue for decreasing SD over time. Bolded site labels and HUC8, and colors with higher saturation indicate statistically significant results ($\\alpha = 0.05$)."}
+```{r varfig, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:varfig} Changes in the standard deviations (SD) of discharge within a year at 22 sites over the whole time span of available data. Red regression lines and confidence intervals suggest increasing SD, whereas blue for decreasing SD over time. Bolded site labels and HUC8 with asterisk indicate significant results, whereas regression lines in gray are non-significant ($\\alpha = 0.05$)."}
 knitr::include_graphics('../Figures/sd_year.png')
 ```
 
-```{r vartab, echo=FALSE, eval=TRUE, results="asis"}
-var.table <- read.csv("../Data/Processed/sd_year.csv")
+```{r vartab, echo=FALSE, out.width="\\maxwidth", eval=TRUE, results="asis"}
+sd.table <- read.csv("../Data/Processed/sd_year.csv")
+cv.table <- read.csv("../Data/Processed/cv_year.csv")
+tab1 <- left_join(sd.table, cv.table[,c("site_nm","slope", "p")], 
+                   by = "site_nm", suffix = c(".sd", ".cv"))
+# add significance note
+tab <- tab1 %>% 
+  mutate(p.sd = case_when(p.sd < 0.001 ~ paste0(format(base::round(p.sd, 3), digits = 3), "***"),
+                          p.sd < 0.01 ~ paste0(format(base::round(p.sd, 3), digits = 3), "**"),
+                          p.sd < 0.05 ~ paste0(format(base::round(p.sd, 3), digits = 3), "*"),
+                          TRUE ~ as.character(format(base::round(p.cv, 3), digits = 3))),
+         p.cv = case_when(p.cv < 0.001 ~ paste0(format(base::round(p.cv, 3), digits = 3), "***"),
+                          p.cv < 0.01 ~ paste0(format(base::round(p.cv, 3), digits = 3), "*"),
+                          p.cv < 0.05 ~ paste0(format(base::round(p.cv, 3), digits = 3), "*"),
+                          TRUE ~ as.character(format(base::round(p.cv, 3), digits = 3))))
 
-panderOptions("digits", c(1, 0, 4, 3, 3))
-panderOptions("table.split.table", Inf)
-emphasize.strong.rows(which(var.table$p < 0.05, arr.ind = TRUE))
-set.alignment(c("right", "centre", "center", "center", "center"))
-
-pandoc.table(var.table, style = 'rmarkdown', 
-             col.names = c("No.","Site Name", "HUC4","$\\beta_1$","*P*"),
-             caption = "\\label{tab:vartab} Slopes of linear regression between year and standard deviation of discharge at 22 sites.")
+kable(tab, format = "latex", booktabs = T,
+      col.names = c("No.","Site Name", "HUC4","Slope","$P$-value", "Slope","$P$-value"), escape = FALSE,
+      align = c("r", "c", "c", "c", "c", "c", "c"),
+      caption = "\\label{tab:vartab} Slopes of linear regression between year and standard deviation or coefficient of variation of discharge at 22 sites.") %>%
+  footnote() %>%
+  kable_styling(latex_options = c("striped", "scale_down", "hold_position")) %>%
+  add_header_above(header = c(" " = 3,"Standard Deviation" = 2,"Coefficient of Variation" = 2)) %>%
+  footnote(general = "Significance level",
+           symbol = c("<0.05;", "<0.01;", "<0.001;"),
+           symbol_manual = c("*", "**", "***"))
 ```
 
 \newpage

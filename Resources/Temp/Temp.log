@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.1)  14 NOV 2019 18:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.1)  21 NOV 2019 18:14
 entering extended mode
 **./Temp.tex
 (Temp.tex
@@ -442,43 +442,7 @@ Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
 Package hyperref Info: Option `breaklinks' set `true' on input line 31.
-("D:\Program Files\MiKTeX 2.9\tex/latex/tools\longtable.sty"
-Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)+ FMi change
-\LTleft=\skip48
-\LTright=\skip49
-\LTpre=\skip50
-\LTpost=\skip51
-\LTchunksize=\count115
-\LTcapwidth=\dimen125
-\LT@head=\box29
-\LT@firsthead=\box30
-\LT@foot=\box31
-\LT@lastfoot=\box32
-\LT@cols=\count116
-\LT@rows=\count117
-\c@LT@tables=\count118
-\c@LT@chunks=\count119
-\LT@p@ftn=\toks25
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/booktabs\booktabs.sty"
-Package: booktabs 2019/10/08 v1.6180339 publication quality tables
-\heavyrulewidth=\dimen126
-\lightrulewidth=\dimen127
-\cmidrulewidth=\dimen128
-\belowrulesep=\dimen129
-\belowbottomsep=\dimen130
-\aboverulesep=\dimen131
-\abovetopsep=\dimen132
-\cmidrulesep=\dimen133
-\cmidrulekern=\dimen134
-\defaultaddspace=\dimen135
-\@cmidla=\count120
-\@cmidlb=\count121
-\@aboverulesep=\dimen136
-\@belowrulesep=\dimen137
-\@thisruleclass=\count122
-\@lastruleclass=\count123
-\@thisrulewidth=\dimen138
-) ("D:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
+("D:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 ("D:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphics.sty"
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
@@ -491,8 +455,8 @@ Package graphics Info: Driver file: pdftex.def on input line 99.
 ("D:\Program Files\MiKTeX 2.9\tex/latex/graphics-def\pdftex.def"
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen139
-\Gin@req@width=\dimen140
+\Gin@req@height=\dimen125
+\Gin@req@width=\dimen126
 ) ("D:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\grffile.sty"
 Package: grffile 2017/06/30 v1.18 Extended file name support for graphics (HO)
 Package grffile Info: Option `multidot' is set to `true'.
@@ -503,12 +467,48 @@ Package grffile Info: \Gin@ii of package `graphicx' fixed on input line 494.
 Package: parskip 2019-01-16 v2.0c non-zero parskip adjustments
 ("D:\Program Files\MiKTeX 2.9\tex/latex/etoolbox\etoolbox.sty"
 Package: etoolbox 2018/08/19 v2.5f e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count124
+\etb@tempcnta=\count115
 )) ("D:\Program Files\MiKTeX 2.9\tex/latex/titling\titling.sty"
 Package: titling 2009/09/04 v2.1d maketitle typesetting
-\thanksmarkwidth=\skip52
-\thanksmargin=\skip53
-\droptitle=\skip54
+\thanksmarkwidth=\skip48
+\thanksmargin=\skip49
+\droptitle=\skip50
+) ("D:\Program Files\MiKTeX 2.9\tex/latex/booktabs\booktabs.sty"
+Package: booktabs 2019/10/08 v1.6180339 publication quality tables
+\heavyrulewidth=\dimen127
+\lightrulewidth=\dimen128
+\cmidrulewidth=\dimen129
+\belowrulesep=\dimen130
+\belowbottomsep=\dimen131
+\aboverulesep=\dimen132
+\abovetopsep=\dimen133
+\cmidrulesep=\dimen134
+\cmidrulekern=\dimen135
+\defaultaddspace=\dimen136
+\@cmidla=\count116
+\@cmidlb=\count117
+\@aboverulesep=\dimen137
+\@belowrulesep=\dimen138
+\@thisruleclass=\count118
+\@lastruleclass=\count119
+\@thisrulewidth=\dimen139
+) ("D:\Program Files\MiKTeX 2.9\tex/latex/tools\longtable.sty"
+Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)+ FMi change
+\LTleft=\skip51
+\LTright=\skip52
+\LTpre=\skip53
+\LTpost=\skip54
+\LTchunksize=\count120
+\LTcapwidth=\dimen140
+\LT@head=\box29
+\LT@firsthead=\box30
+\LT@foot=\box31
+\LT@lastfoot=\box32
+\LT@cols=\count121
+\LT@rows=\count122
+\c@LT@tables=\count123
+\c@LT@chunks=\count124
+\LT@p@ftn=\toks25
 ) ("D:\Program Files\MiKTeX 2.9\tex/latex/tools\array.sty"
 Package: array 2018/12/30 v2.4k Tabular extension package (FMi)
 \col@sep=\dimen141
@@ -631,42 +631,57 @@ Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 ) (Temp.aux
 
+LaTeX Warning: Label `fig:cropland' multiply defined.
+
+
 LaTeX Warning: Label `fig:sitemap' multiply defined.
+
+
+LaTeX Warning: Label `fig:Nhist' multiply defined.
+
+
+LaTeX Warning: Label `fig:dataexample' multiply defined.
 
 
 LaTeX Warning: Label `fig:dispattern' multiply defined.
 
+
+LaTeX Warning: Label `fig:varfig' multiply defined.
+
+
+LaTeX Warning: Label `tab:vartab' multiply defined.
+
 )
 \openout1 = `Temp.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 104.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 104.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 105.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 105.
 
 ("D:\Program Files\MiKTeX 2.9\tex/latex/base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 104.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 105.
 ("D:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmr.fd"
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Info: Redefining \microtypecontext on input line 104.
+LaTeX Info: Redefining \microtypecontext on input line 105.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
@@ -715,7 +730,7 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box47
-Package hyperref Info: Link coloring OFF on input line 104.
+Package hyperref Info: Link coloring OFF on input line 105.
 ("D:\Program Files\MiKTeX 2.9\tex/latex/hyperref\nameref.sty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 ("D:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\gettitlestring.sty"
@@ -723,9 +738,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count137
 )
-LaTeX Info: Redefining \ref on input line 104.
-LaTeX Info: Redefining \pageref on input line 104.
-LaTeX Info: Redefining \nameref on input line 104.
+LaTeX Info: Redefining \ref on input line 105.
+LaTeX Info: Redefining \pageref on input line 105.
+LaTeX Info: Redefining \nameref on input line 105.
 (Temp.out) (Temp.out)
 \@outlinefile=\write3
 \openout3 = `Temp.out'.
@@ -755,134 +770,211 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 105.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 106.
 
 ("D:\Program Files\MiKTeX 2.9\tex/latex/lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 105.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 106.
 
 ("D:\Program Files\MiKTeX 2.9\tex/latex/lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 105
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 106
 .
 ("D:\Program Files\MiKTeX 2.9\tex/latex/lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 105
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 106
 .
 ("D:\Program Files\MiKTeX 2.9\tex/latex/lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 105.
+(Font)              <14.4> on input line 106.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 105.
+(Font)              <10> on input line 106.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 105.
-LaTeX Font Info:    Try loading font information for U+msa on input line 105.
+(Font)              <7> on input line 106.
+LaTeX Font Info:    Try loading font information for U+msa on input line 106.
 ("D:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) ("D:\Program Files\MiKTeX 2.9\tex/latex/microtype\mt-msa.cfg"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 105.
+LaTeX Font Info:    Try loading font information for U+msb on input line 106.
 ("D:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) ("D:\Program Files\MiKTeX 2.9\tex/latex/microtype\mt-msb.cfg"
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [1
 
-{C:/Users/Hubert/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] (Temp.toc
+{C:/Users/Hubert/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 4.
+(Font)              <12> on input line 116.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 4.
+(Font)              <8> on input line 116.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 4.
-)
-\tf@toc=\write4
-\openout4 = `Temp.toc'.
-
-[2] (Temp.lot)
-\tf@lot=\write5
-\openout5 = `Temp.lot'.
-
-[3] (Temp.lof)
-\tf@lof=\write6
-\openout6 = `Temp.lof'.
-
-[4] [5]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 208.
-
-("D:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd"
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-<../../Figures/site_map.jpg, id=66, 650.43pt x 383.031pt>
-File: ../../Figures/site_map.jpg Graphic file (type jpg)
-<use ../../Figures/site_map.jpg>
-Package pdftex.def Info: ../../Figures/site_map.jpg  used on input line 250.
+(Font)              <6> on input line 116.
+[2]
+<../../Figures/cropland3.png, id=48, 650.43pt x 383.031pt>
+File: ../../Figures/cropland3.png Graphic file (type png)
+<use ../../Figures/cropland3.png>
+Package pdftex.def Info: ../../Figures/cropland3.png  used on input line 259.
 (pdftex.def)             Requested size: 469.76817pt x 276.64125pt.
-[6] [7pdfTeX warning (ext4): destination with the same identifier (name{figure.
+[3] [4pdfTeX warning (ext4): destination with the same identifier (name{figure.
 1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.286 W
-       e have three main datasets: <../../Figures/site_map.jpg>]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 290.
+l.262 \newpage
+               <../../Figures/cropland3.png>]
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 270.
+
+("D:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd"
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 296.
 
 ("D:\Program Files\MiKTeX 2.9\tex/latex/lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [8]
-<../../Figures/discharge.jpg, id=90, 1011.78pt x 650.43pt>
-File: ../../Figures/discharge.jpg Graphic file (type jpg)
-<use ../../Figures/discharge.jpg>
-Package pdftex.def Info: ../../Figures/discharge.jpg  used on input line 341.
-(pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
-[9pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) 
+)
+<../../Figures/site_map.png, id=72, 650.43pt x 383.031pt>
+File: ../../Figures/site_map.png Graphic file (type png)
+<use ../../Figures/site_map.png>
+Package pdftex.def Info: ../../Figures/site_map.png  used on input line 315.
+(pdftex.def)             Requested size: 469.76817pt x 276.64125pt.
+[5] [6pdfTeX warning (ext4): destination with the same identifier (name{figure.
+2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.318 \newpage
+               <../../Figures/site_map.png (PNG copy)>]
+<../../Figures/Nitrogenhist.png, id=88, 576.65437pt x 381.67593pt>
+File: ../../Figures/Nitrogenhist.png Graphic file (type png)
+<use ../../Figures/Nitrogenhist.png>
+Package pdftex.def Info: ../../Figures/Nitrogenhist.png  used on input line 333
+.
+(pdftex.def)             Requested size: 469.77118pt x 310.9321pt.
+<Temp_files/figure-latex/dataexample-1.pdf, id=90, 469.755pt x 325.215pt>
+File: Temp_files/figure-latex/dataexample-1.pdf Graphic file (type pdf)
+<use Temp_files/figure-latex/dataexample-1.pdf>
+Package pdftex.def Info: Temp_files/figure-latex/dataexample-1.pdf  used on inp
+ut line 341.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 341--341
+[][]
+ []
+
+[7pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.394 \end{longtable}
-                      <../../Figures/discharge.jpg>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 397.
-[10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 397.
+l.343 
+       <../../Figures/Nitrogenhist.png>] [8pdfTeX warning (ext4): destination w
+ith the same identifier (name{figure.4}) has been already used, duplicate ignor
+ed
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.371 
+       <./Temp_files/figure-latex/dataexample-1.pdf>]
+<../../Figures/discharge.png, id=113, 1011.78pt x 650.43pt>
+File: ../../Figures/discharge.png Graphic file (type png)
+<use ../../Figures/discharge.png>
+Package pdftex.def Info: ../../Figures/discharge.png  used on input line 373.
+(pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
+<../../Figures/sd_year.png, id=116, 1011.78pt x 650.43pt>
+File: ../../Figures/sd_year.png Graphic file (type png)
+<use ../../Figures/sd_year.png>
+Package pdftex.def Info: ../../Figures/sd_year.png  used on input line 398.
+(pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
+[9pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.399 \end{figure}
+                   <../../Figures/discharge.png>] [10pdfTeX warning (ext4): des
+tination with the same identifier (name{figure.6}) has been already used, dupli
+cate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.446 
+       <../../Figures/sd_year.png>]
+Underfull \hbox (badness 1168) in paragraph at lines 452--456
+[]\T1/lmr/m/n/12 (+20) Bureau of Recla-ma-tion. 2016a. ``Re-pub-li-can River Ba
+sin Study.'' Gov-ern-ment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 452--456
+\T1/lmr/m/n/12 (+20) Doc-u-ment. []$https : / / www . usbr . gov / watersmart /
+ bsp / docs / nalreport / republican /
+ []
+
+[11pdfTeX warning (ext4): destination with the same identifier (name{table.1}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.471 
+      ]
+Underfull \hbox (badness 2376) in paragraph at lines 477--481
+\T1/lmr/m/n/12 (+20) Cen-tral Great Plains Drought.'' Gov-ern-ment Doc-u-ment. 
+[]$https : / / cpo . noaa . gov /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 477--481
+\T1/lmr/m/n/12 (+20) Meet-[]the-[]Divisions / Earth-[]System-[]Science-[]and-[]
+Modeling / MAPP / MAPP-[]Task-[]Forces /
+ []
+
+
+Overfull \hbox (80.66743pt too wide) in paragraph at lines 477--481
+\T1/lmr/m/n/12 (-20) Drought / Drought-[]Task-[]Force-[]II / An-[]Interpretatio
+n-[]of-[]the-[]Origins-[]of-[]the-[]2012-[]Central-[]Great-[]Plains-[]Drought$[
+]. 
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 488.
+[12]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 488.
 (Temp.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 397.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 397.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 488.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 488.
 Package rerunfilecheck Info: File `Temp.out' has not changed.
-(rerunfilecheck)             Checksum: D02C5115DB988CF23512B8971CA9BFA8;785.
+(rerunfilecheck)             Checksum: AFEAAA75CF29DD42007899826B8CE1EC;1243.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 397.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 488.
  ) 
 Here is how much of TeX's memory you used:
- 14434 strings out of 492895
- 208198 string characters out of 3133477
- 339320 words of memory out of 3000000
- 17978 multiletter control sequences out of 15000+200000
- 72674 words of font info for 109 fonts, out of 3000000 for 9000
+ 14467 strings out of 492895
+ 208819 string characters out of 3133477
+ 353038 words of memory out of 3000000
+ 18000 multiletter control sequences out of 15000+200000
+ 66745 words of font info for 107 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,9n,38p,969b,441s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 32i,14n,38p,969b,415s stack positions out of 5000i,500n,10000p,200000b,50000s
 {D:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{D:/Program Files/M
 iKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{D:/Program Files/MiKTeX 2.9/fonts/e
 nc/dvips/lm/lm-ts1.enc}{D:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.en
-c}<D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmbx10.pfb><D:/Program Fil
-es/MiKTeX 2.9/fonts/type1/public/lm/lmbx12.pfb><D:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/lm/lmmi12.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/l
-m/lmr10.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr12.pfb><D:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/lm/lmr17.pfb><D:/Program Files/MiKTeX
- 2.9/fonts/type1/public/lm/lmr8.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/lm/lmri12.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmtt12.pf
-b>
-Output written on Temp.pdf (10 pages, 1224892 bytes).
+c}<D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmbx12.pfb><D:/Program Fil
+es/MiKTeX 2.9/fonts/type1/public/lm/lmmi12.pfb><D:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/lm/lmr12.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm
+/lmr17.pfb><D:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr8.pfb><D:/Prog
+ram Files/MiKTeX 2.9/fonts/type1/public/lm/lmri12.pfb><D:/Program Files/MiKTeX 
+2.9/fonts/type1/public/lm/lmtt12.pfb>
+Output written on Temp.pdf (12 pages, 1000101 bytes).
 PDF statistics:
- 147 PDF objects out of 1000 (max. 8388607)
- 31 named destinations out of 1000 (max. 500000)
- 16427 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 200 PDF objects out of 1000 (max. 8388607)
+ 54 named destinations out of 1000 (max. 500000)
+ 14423 words of extra memory for PDF output out of 17280 (max. 10000000)
 
