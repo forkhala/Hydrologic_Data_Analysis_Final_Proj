@@ -32,7 +32,7 @@ site.dis <- readNWISdv(siteNumbers = c(sites),
   renameNWISColumns()
 
 #saving processed file
-write.csv(site.dis, "./Data/Raw/drought.sites")
+write.csv(site.dis, "./Data/Raw/drought.sites.csv")
 
 ####Exploratory data analysis (droughts)####
 
