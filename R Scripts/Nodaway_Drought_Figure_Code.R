@@ -90,7 +90,7 @@ drought.plot.Nodaway <- ggplot(data = summaryQ.Nodaway, aes(x = day.of.year)) +
   geom_ribbon(aes(ymin = sm.10, ymax = sm.25, fill = "Drought Watch")) +
   geom_ribbon(aes(ymin = sm.05, ymax = sm.10, fill = "Drought Warning")) +
   geom_ribbon(aes(ymin = sm.00, ymax = sm.05, fill = "Drought Emergency")) +
-  scale_y_log10(limits = c(10,10000)) +
+  scale_y_log10(limits = c(1,10000)) +
   geom_line(data = latest.years.Nodaway, aes(x=day.of.year, 
                                           y=rM, color = "30-Day Mean"),size=2) + #plotting 7-day mean for 2018-2019
   geom_vline(xintercept = 365) 
@@ -122,7 +122,7 @@ styled.plot.Nodaway <- drought.plot.Nodaway +
   expand_limits(x = 0) +
   annotate(geom = "text", 
            x = c(182,547), 
-           y = 10, 
+           y = 1, 
            label = c(current.year-1, current.year), size = 4) +
   theme_bw() + 
   theme(axis.ticks.x = element_blank(),
