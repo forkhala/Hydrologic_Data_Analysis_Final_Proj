@@ -224,14 +224,14 @@ tab1 <- left_join(sd.table, cv.table[,c("site_nm","slope", "p")],
                    by = "site_nm", suffix = c(".sd", ".cv"))
 # add significance note
 tab <- tab1 %>% 
-  mutate(p.sd = case_when(p.sd < 0.001 ~ paste0(format(base::round(p.sd, 3), digits = 3), "***"),
-                          p.sd < 0.01 ~ paste0(format(base::round(p.sd, 3), digits = 3), "**"),
-                          p.sd < 0.05 ~ paste0(format(base::round(p.sd, 3), digits = 3), "*"),
-                          TRUE ~ as.character(format(base::round(p.cv, 3), digits = 3))),
-         p.cv = case_when(p.cv < 0.001 ~ paste0(format(base::round(p.cv, 3), digits = 3), "***"),
-                          p.cv < 0.01 ~ paste0(format(base::round(p.cv, 3), digits = 3), "*"),
-                          p.cv < 0.05 ~ paste0(format(base::round(p.cv, 3), digits = 3), "*"),
-                          TRUE ~ as.character(format(base::round(p.cv, 3), digits = 3))))
+  mutate(p.sd = case_when(p.sd < 0.001 ~ paste0(format(round(p.sd, 3), digits = 3), "***"),
+                          p.sd < 0.01 ~ paste0(format(round(p.sd, 3), digits = 3), "**"),
+                          p.sd < 0.05 ~ paste0(format(round(p.sd, 3), digits = 3), "*"),
+                          TRUE ~ as.character(format(round(p.cv, 3), digits = 3))),
+         p.cv = case_when(p.cv < 0.001 ~ paste0(format(round(p.cv, 3), digits = 3), "***"),
+                          p.cv < 0.01 ~ paste0(format(round(p.cv, 3), digits = 3), "*"),
+                          p.cv < 0.05 ~ paste0(format(round(p.cv, 3), digits = 3), "*"),
+                          TRUE ~ as.character(format(round(p.cv, 3), digits = 3))))
 
 kable(tab, format = "latex", booktabs = T,
       col.names = c("No.","Site Name", "HUC4","Slope","$P$-value", "Slope","$P$-value"), escape = FALSE,
