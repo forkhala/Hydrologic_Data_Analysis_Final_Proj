@@ -43,16 +43,6 @@ stationInfo.Nish <- readNWISsite(siteNumber = "06808500")
 site.1.dis <- site.dis %>%
   filter(site_no == "06808500")
 
-#could add this code to the filter above, but don't think it's working
-#%>%
-mutate(Date = as.Date(Date)) %>%
-  complete(Date = seq.Date(min(Date), max(Date), by = "day"))
-
-#check for missing dates in dataframe
-d <- site.1.dis$Date
-date_range <- seq(min(d), max(d), by = 1) 
-date_range[!date_range %in% d] 
-
 #checking to see if there are missing dates in the dataframe
 table(diff(site.1.dis$Date))
 
