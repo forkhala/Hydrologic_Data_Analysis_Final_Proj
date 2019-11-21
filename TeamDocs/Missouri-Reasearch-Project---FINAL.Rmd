@@ -129,7 +129,7 @@ knitr::include_graphics("../Figures/Nitrogenhist.png")
 
 Discharge, nitrogen, and phosphorus were plotted for each site and examined together in order to see if there were any obvious patterns or trends (\autoref{fig:dataexample}).
 
-```{r dataexample, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily data of site No. 22 Missouri River At Hermann, MO."}
+```{r dataexample, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily data of Site No. 22 Missouri River At Hermann, MO."}
 
 ## Discharge
 MRHDischarge <- readNWISdv(siteNumbers = "06934500",
@@ -228,6 +228,7 @@ pandoc.table(var.table, style = 'rmarkdown',
              caption = "\\label{tab:vartab} Slopes of linear regression between year and standard deviation of discharge at 22 sites.")
 ```
 
+\newpage
 # Analysis
 
 <Insert visualizations and text describing your main analyses. Format your R chunks so that graphs are displayed but code and other output is not displayed. Instead, describe the results of any statistical tests in the main text (e.g., "Variable x was significantly different among y groups (ANOVA; df = 300, F = 5.55, p < 0.0001)"). Each paragraph, accompanied by one or more visualizations, should describe the major findings and how they relate to the question and hypotheses. Divide this section into subsections, one for each research question.>
@@ -241,6 +242,7 @@ We analyzed nitrogen and phosphorus trends at 22 sites using daily value data an
 
 The overall results of the analysis can be seen in the following table (Table 3).The trend of nitrogen and phosphorus concentration of 22 sites are quite different. But generally, the trend of nitrogen and the trend of phosphorus are similar, which indicates that there is a high possibility that nitrogen and phosphorus come from the same sources. If we focus on the sites located at the main stem of the Missouri River (No. 7 06610000 Missouri River at Omaha, NE; No. 10 06818000 Missouri River at St. Joseph, MO; No. 22 06934500 Missouri River at Hermann, MO), we can see a significant increasing trend of nitrogen and phosphorus. The water quality in Missouri River is still deteriorating and protection is urgently needed.
 
+\newpage
 Table: Nitrogen and Phosphorus Trend over Time for Every Site
 
 No.    |   Site Number   |   Nitrogen Trend  |  Nitrogen Trend Significance  |   Phosphorus Trend    |  Phosphorus Trend Significance   |
@@ -372,9 +374,10 @@ Because we used a log transformed data set, we have to exponentiate the coeffici
 
 ## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
+### Discharge Trends Analysis
 We also analyzed discharge trend at 22 sites using daily value data and Mann-Kandall Trend Test. The results are listed in the following table (Table 6). In our analysis, discharge of 18 sites increases while 4 sites show the decreasing trend of discharge. However, these four sites all locate in HUC 1025 and 1026, away from the main stem of the Missouri River. Therefore, overall, the discharge in Missouri River is increasing.
 
-
+\newpage
 Table: Discharge Trend over Time
 
 NO.    |   Site Number   |  Discharge Trend  |  Discharge Trend Significance  |
@@ -414,7 +417,11 @@ Note:
 
 otherwise  0.1 <= p-value < 1 
 
-As discussed in Question 2, both severe drought and flooding events occurred in the basin in the past, which caused fatal damage to local agriculture. Therefore, 
+
+### Discharge Prediction
+As discussed in Question 2, both severe drought and flooding events occurred in the basin in the past, which caused fatal damage to local agriculture. Therefore, it is important to make accurate forecasts of discharge, providing data support to policymakers.
+
+We employed Autoregressive and Moving Average Models (ARMA) to effectively forecast into the future. The ARMA model is a tool for understanding and predicting future values in a time series. The AR part involves regressing the variable on its own lagged (i.e., past) values. The MA part involves modeling the error term as a linear combination of error terms occurring contemporaneously and at various times in the past. By using the discharge measurement data in the past and the ARMA model, we make a one-year discharge prediction for every site (Table 7). 
 
 Table: One-year Discharge Prediction for Every Site 
 
