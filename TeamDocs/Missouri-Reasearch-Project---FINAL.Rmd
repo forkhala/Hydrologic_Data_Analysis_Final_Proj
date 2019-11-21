@@ -64,9 +64,6 @@ In addition to change in nutrient concentration, discharge appears to be highly 
 
 Given all the background information above, we would like to know the current state of Missouri River and its tributaries, with a focus on the changing patterns in discharge and nutrient levels. Water bodies along the downstream are more likely to be impaired by nutrients accumulated from the upstream, and more croplands and pastures which can further load nutrients into streams are distributed in the lower basins (\autoref{fig:cropland}). Therefore, in the present project, study sites were concentrated in the southeast of the whole Missouri Basin. By analyzing data retrieved from these sites, we first revealed the general yearly discharge pattern and changes in variability over years. Then we investigated how the dramatic change in discharge (i.e. water quantity) could potentially interact with nutrient enrichment (i.e. water quality). We examined a few specific flooding and drought events, during which changes in both water quality and quantity were well recorded, so that we could make inference on the interplay between quantity and quality. The effect of population on nutrient enrichment was also examined to illustrate potential non-agricultural impact from human activities. Finally, based on the pattern in the past and the best model we could fit, we attempted to predict the likely future conditions and trends in the Missouri River Basin. Our research questions and acccompanying hypotheses are below:
 
-```{r cropland, out.width="\\maxwidth", fig.cap="\\label{fig:cropland} Map of agricultural lands and impaired waters in the Missouri River Basin. Row and Close Grain Crop Cultural Formation shown by tan-colored areas, pasture and hay field shown by yellowgreen areas, imparied water bodies according to Clean Water Act Section 303(d) (EPA 2015) denoted by red areas, and all HUC4 watersheds in the Missouri River Basin (1001-1030) delineated by gray polygons. The thin, light-blue lines outline all streams of a Strahler order higher than 2, and the thick blue line represents the mainstem of Missouri River."}
-knitr::include_graphics('../Figures/cropland3.png')
-```
 1. How have changes in discharge (i.e. water quantity) interacted with nutrient enrichment (i.e. water quality) in the Missouri River Basin?
 
     a) Nutrient levels have increased over time - Keqi
@@ -87,6 +84,10 @@ knitr::include_graphics('../Figures/cropland3.png')
 
     a) Total flow in the Missouri River Basin is increasing (non-stationary) over time - Keqi
     b) The future situation of the river basin will see the continuation of current trends of increasing overall volume of flow. - Keqi
+
+```{r cropland, out.width="\\maxwidth", fig.cap="\\label{fig:cropland} Map of agricultural lands and impaired waters in the Missouri River Basin. Row and Close Grain Crop Cultural Formation shown by tan-colored areas, pasture and hay field shown by yellowgreen areas, imparied water bodies according to Clean Water Act Section 303(d) (EPA 2015) denoted by red areas, and all HUC4 watersheds in the Missouri River Basin (1001-1030) delineated by gray polygons. The thin, light-blue lines outline all streams of a Strahler order higher than 2, and the thick blue line represents the mainstem of Missouri River."}
+knitr::include_graphics('../Figures/cropland3.png')
+```
 
 \newpage
 
@@ -112,7 +113,7 @@ Phosphorus | mg/L | 22
 <Add a table that summarizes your data structure (variables, units, ranges and/or central tendencies, data source if multiple are used, etc.). This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.>
 
 ```{r sitemap, out.width="\\maxwidth", fig.cap="\\label{fig:sitemap} Map of USGS sites used for long term analysis."}
-knitr::include_graphics("../Figures/site_map.jpg")
+knitr::include_graphics("../Figures/site_map.png")
 ```
 
 \newpage
@@ -281,12 +282,6 @@ Note:
 '.' 0.05 <= p-value < 0.1 
 
 otherwise  0.1 <= p-value < 1 
-
-In order to determine whether nutrient levels increase with discharge, C-Q (concentration - discharge) plots were created for each site (\autoref{fig:CQplot}). At sites with high frequency nitrogen data, high frequency nitrogen and discharge values were used. When sites did not have high frequency nitrogen data, daily values were used. A linear model with total nitrogen as the response variable and discharge as the independent variable was created for every site to determine if there was a linear relationship between the two. In 18 out of 22 total sites, there was a significant relationship where as discharge increased, nitrogen also increased (p < 0.05). 
-
-```{r CQplot, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:CQplot} C-Q plots of two sites in the Missouri River Basin. High frequency (left) and daily values (right) shown for two different sites. Nitrogen values are log transformed."}  
-knitr::include_graphics('../Figures/CQplots.png')
-```
 
 
 ## Question 2: What effects do specific flood and drought events have on the water quality and quantity of rivers in the Missouri River Basin areas of interest?
