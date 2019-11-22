@@ -1,0 +1,4 @@
+"","Parameter","unit","minDate","maxDate","minva","maxva","Count","TypeSites"
+"1","Discharge","cfs","1899-10-01","2019-11-06",0,739000,645422,"daily and high frequency"
+"2","Nitrogen","mg/L","1967-06-13","2019-10-16",0.02,100,6207,"daily and high frequency"
+"3","Phosphorus","mg/L","1969-07-23","2019-10-16",0,28.5,7021,"daily"
