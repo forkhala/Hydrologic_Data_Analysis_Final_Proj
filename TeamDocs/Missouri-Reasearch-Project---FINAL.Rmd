@@ -369,6 +369,16 @@ The miniumum 7 day average flow (cfs) for each river differed and the miniumum 7
 
 ```{r MinFlowMill, echo=FALSE, fig.cap="\\label{fig:MinFlowMill}Plot showing the minimum 7 day average flow (cfs) at Mill Creek for the period of record (October 2002 - November 2019). The miniumum 7 day average flow was very low in 2012 and decreased again in 2018."}
 
+#compiling site numbers together for drought analysis
+sites <- c("06808500", "06817000", "06892350", "06934500", "06892513", "06902000")
+
+#reading in data for sites that were analyzed for floods to analyze discharge
+site.dis <- readNWISdv(siteNumbers = c(sites),
+                       parameterCd = "00060", #discharge
+                       startDate = "",
+                       endDate = "") %>%
+  renameNWISColumns()
+
 #filtering dataframe to get 7 day average and recurrence interval for 06892513 
 avg.dis.Mill <- site.dis %>%
   filter(site_no == "06892513") %>%
@@ -412,15 +422,7 @@ In addition to calculating the 7Q10 values for the 6 sites, the sites were analy
 
 options(scipen = 100)
 
-#compiling site numbers together for drought analysis
-sites <- c("06808500", "06817000", "06892350", "06934500", "06892513", "06902000")
 
-#reading in data for sites that were analyzed for floods to analyze discharge
-site.dis <- readNWISdv(siteNumbers = c(sites),
-                       parameterCd = "00060", #discharge
-                       startDate = "",
-                       endDate = "") %>%
-  renameNWISColumns()
 
 
 #### Drought PLots for site Mill C at Johnson Drive, Shawnee, KS, # 06892513 ####
