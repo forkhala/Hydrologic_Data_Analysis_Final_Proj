@@ -1,0 +1,41 @@
+---
+title: "Dataset Tables"
+author: "Rachel Bash"
+date: "11/21/2019"
+output:
+  pdf_document: default
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(kableExtra)
+```
+
+```{r, bestsitestable}
+bestsites.table <- read.csv("../Data/Processed/bestsites.table.csv")
+bestsites.table <- bestsites.table %>% dplyr::select(-X)
+kable(bestsites.table, format = "latex", booktabs = T,
+      col.names = c("No.", "Site Number", "Site Name", "HUC 4 Region", "State", "County Name", "County Population"), escape = FALSE,
+      align = c("r", "c", "c", "c", "c", "c", "c"),
+      caption = "\\label{tab:bestsitestable} A list of the 22 chosen sites in the lower Missouri River Basin") %>%
+  kable_styling(latex_options = c("striped", "scale_down", "hold_position"))
+  
+```
+
+
+```{r, rangetable}
+range.table <- read.csv("../Data/Processed/range.table.csv")
+range.table <- range.table %>% dplyr::select(-X)
+kable(range.table, format = "latex", booktabs = T,
+      col.names = c("Parameter", "Unit", "First Date", "Last Date", "Minimum Value", "Maximum Value", "Total Count", "Type of Data"), escape = FALSE,
+      align = c("r", "c", "c", "c", "c", "c", "c", "c"),
+      caption = "\\label{tab:rangetable} Range and Count of Relevant Data") %>%
+  kable_styling(latex_options = c("striped", "scale_down", "hold_position"))
+
+  
+```
+
