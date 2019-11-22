@@ -13,7 +13,7 @@ fontsize: 12pt
 mainfont: Times New Roman
 editor_options: 
   chunk_output_type: console
-  bibliography: reference.bib
+bibliography: reference.bib
 ---
 
 \newpage
