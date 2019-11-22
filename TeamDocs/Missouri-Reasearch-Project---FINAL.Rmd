@@ -100,9 +100,8 @@ We have two main datasets:
 
 - The high freqency dataset containing high frequency data for nitrogen and discharge for 6 sites.
 
+Table: Add title
 
-
-**Table 1:** Add title
 Variable   |   Unit  |   Number of Sites   |   
 ----------- | :---------------: | --------------- |
 Discharge  | cfs or $m^{3}$/s | 22 
@@ -237,7 +236,6 @@ kable(tab, format = "latex", booktabs = T,
       col.names = c("No.","Site Name", "HUC4","Slope","$P$-value", "Slope","$P$-value"), escape = FALSE,
       align = c("r", "c", "c", "c", "c", "c", "c"),
       caption = "\\label{tab:vartab} Slopes of linear regression between year and standard deviation or coefficient of variation of discharge at 22 sites.") %>%
-  footnote() %>%
   kable_styling(latex_options = c("striped", "scale_down", "hold_position")) %>%
   add_header_above(header = c(" " = 3,"Standard Deviation" = 2,"Coefficient of Variation" = 2)) %>%
   footnote(general = "Significance level",
@@ -291,7 +289,7 @@ Note:
 
 '***' p-value < 0.001 
 
-'**' 0.001 ≤ p-value < 0.01
+'**' 0.001 <= p-value < 0.01
 
 '*' 0.01 <= p-value < 0.05 
 
@@ -374,7 +372,8 @@ The miniumum 7 day average flow (cfs) for each river differed and the miniumum 7
 sites <- c("06808500", "06817000", "06892350", "06934500", "06892513", "06902000")
 
 #reading in data for sites that were analyzed for floods to analyze discharge
-site.dis <- read.csv("../Data/Raw/drought.sites.csv")
+site.dis <- read.csv("../Data/Raw/drought.sites.csv",
+                     colClasses = c("site_no" = "character"))
 
 #changing class of date to date
 site.dis$Date <- as.Date(site.dis$Date)
