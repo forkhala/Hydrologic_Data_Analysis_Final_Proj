@@ -13,7 +13,7 @@ fontsize: 12pt
 mainfont: Times New Roman
 editor_options: 
   chunk_output_type: console
-bibliography: reference.bib
+  bibliography: reference.bib
 ---
 
 \newpage
@@ -374,11 +374,10 @@ The miniumum 7 day average flow (cfs) for each river differed and the miniumum 7
 sites <- c("06808500", "06817000", "06892350", "06934500", "06892513", "06902000")
 
 #reading in data for sites that were analyzed for floods to analyze discharge
-site.dis <- readNWISdv(siteNumbers = c(sites),
-                       parameterCd = "00060", #discharge
-                       startDate = "",
-                       endDate = "") %>%
-  renameNWISColumns()
+site.dis <- read.csv("../Data/Raw/drought.sites.csv")
+
+#changing class of date to date
+site.dis$Date <- as.Date(site.dis$Date)
 
 #filtering dataframe to get 7 day average and recurrence interval for 06892513 
 avg.dis.Mill <- site.dis %>%
@@ -424,7 +423,7 @@ In addition to calculating the 7Q10 values for the 6 sites, the sites were analy
 options(scipen = 100)
 
 
-#### Drought PLots for site Mill C at Johnson Drive, Shawnee, KS, # 06892513 ####
+#### Drought Plots for site Mill C at Johnson Drive, Shawnee, KS, # 06892513 ####
 
 #reading in site info for 06892513 
 stationInfo.Mill <- readNWISsite(siteNumber = "06892513")
@@ -506,6 +505,8 @@ summaryQ.Mill <- select(summaryQ.Mill, Date, day.of.year,
 latest.years.Mill <- dailyQ.30.avg.Mill %>%
   filter(Date >= as.Date(paste0(current.year-1,"-01-01"))) %>%
   mutate(day.of.year = 1:nrow(.))
+
+latest.years.Mill$day.of.year <- as.numeric(latest.years.Mill$day.of.year)
 
 #info for site 06892513
 mid.month.days <- c(15, 45, 74, 105, 135, 166, 196, 227, 258, 288, 319, 349)

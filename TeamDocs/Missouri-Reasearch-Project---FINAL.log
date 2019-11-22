@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  21 NOV 2019 22:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  21 NOV 2019 22:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -803,31 +803,31 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 117.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 117.
+
+LaTeX Warning: Reference `fig:cropland' on page 2 undefined on input line 175.
+
 [2]
-
-LaTeX Warning: Reference `fig:cropland' on page 3 undefined on input line 183.
-
 <../Figures/cropland3.png, id=21, 650.43pt x 383.031pt>
 File: ../Figures/cropland3.png Graphic file (type png)
 <use ../Figures/cropland3.png>
-Package pdftex.def Info: ../Figures/cropland3.png  used on input line 258.
+Package pdftex.def Info: ../Figures/cropland3.png  used on input line 250.
 (pdftex.def)             Requested size: 469.76817pt x 276.64125pt.
 [3] [4pdfTeX warning (ext4): destination with the same identifier (name{figure.
 1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.261 \newpage
+l.253 \newpage
                <../Figures/cropland3.png>]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 269.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 261.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 
-LaTeX Warning: Reference `fig:sitemap' on page 5 undefined on input line 280.
+LaTeX Warning: Reference `fig:sitemap' on page 5 undefined on input line 272.
 
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 295.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 287.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -835,26 +835,26 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 <../Figures/site_map.png, id=44, 650.43pt x 383.031pt>
 File: ../Figures/site_map.png Graphic file (type png)
 <use ../Figures/site_map.png>
-Package pdftex.def Info: ../Figures/site_map.png  used on input line 314.
+Package pdftex.def Info: ../Figures/site_map.png  used on input line 306.
 (pdftex.def)             Requested size: 469.76817pt x 276.64125pt.
 [5] [6pdfTeX warning (ext4): destination with the same identifier (name{figure.
 2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.317 \newpage
+l.309 \newpage
                <../Figures/site_map.png (PNG copy)>]
 
-LaTeX Warning: Reference `fig:Nhist' on page 7 undefined on input line 328.
+LaTeX Warning: Reference `fig:Nhist' on page 7 undefined on input line 320.
 
 <../Figures/Nitrogenhist.png, id=60, 576.65437pt x 381.67593pt>
 File: ../Figures/Nitrogenhist.png Graphic file (type png)
 <use ../Figures/Nitrogenhist.png>
-Package pdftex.def Info: ../Figures/Nitrogenhist.png  used on input line 332.
+Package pdftex.def Info: ../Figures/Nitrogenhist.png  used on input line 324.
 (pdftex.def)             Requested size: 469.77118pt x 310.9321pt.
 
-LaTeX Warning: Reference `fig:dataexample' on page 7 undefined on input line 33
-7.
+LaTeX Warning: Reference `fig:dataexample' on page 7 undefined on input line 32
+9.
 
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf, id=61
 , 463.7325pt x 317.185pt>
@@ -862,17 +862,17 @@ File: Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf G
 raphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-dataexample-1.pdf  used on input line 340.
+dataexample-1.pdf  used on input line 332.
 (pdftex.def)             Requested size: 463.73842pt x 317.18904pt.
 [7pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.342 
+l.334 
        <../Figures/Nitrogenhist.png>]
 
-LaTeX Warning: Reference `fig:dispattern' on page 8 undefined on input line 348
+LaTeX Warning: Reference `fig:dispattern' on page 8 undefined on input line 340
 .
 
 [8pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) 
@@ -880,31 +880,31 @@ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.370 
+l.362 
        <./Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.p
 df>]
 <../Figures/discharge.png, id=87, 1011.78pt x 650.43pt>
 File: ../Figures/discharge.png Graphic file (type png)
 <use ../Figures/discharge.png>
-Package pdftex.def Info: ../Figures/discharge.png  used on input line 372.
+Package pdftex.def Info: ../Figures/discharge.png  used on input line 364.
 (pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
 
-LaTeX Warning: Reference `fig:varfig' on page 9 undefined on input line 381.
+LaTeX Warning: Reference `fig:varfig' on page 9 undefined on input line 373.
 
 
-LaTeX Warning: Reference `tab:vartab' on page 9 undefined on input line 382.
+LaTeX Warning: Reference `tab:vartab' on page 9 undefined on input line 374.
 
 <../Figures/sd_year.png, id=88, 1011.78pt x 650.43pt>
 File: ../Figures/sd_year.png Graphic file (type png)
 <use ../Figures/sd_year.png>
-Package pdftex.def Info: ../Figures/sd_year.png  used on input line 397.
+Package pdftex.def Info: ../Figures/sd_year.png  used on input line 389.
 (pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
 [9pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.398 \end{figure}
+l.390 \end{figure}
                    <../Figures/discharge.png>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -914,21 +914,21 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.446 \newpage
+l.438 \newpage
                <../Figures/sd_year.png>] [11pdfTeX warning (ext4): destination 
 with the same identifier (name{table.1}) has been already used, duplicate ignor
 ed
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.475 
+l.467 
       ] [12]
-Overfull \hbox (6.82785pt too wide) in paragraph at lines 506--507
+Overfull \hbox (6.82785pt too wide) in paragraph at lines 498--499
  []\T1/lmr/m/n/12 (-20) Phosphorus 
  []
 
 
-Overfull \hbox (6.82785pt too wide) in paragraph at lines 522--523
+Overfull \hbox (6.82785pt too wide) in paragraph at lines 514--515
  []\T1/lmr/m/n/12 (-20) Phosphorus 
  []
 
@@ -940,14 +940,14 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.821 '**' 0.001 ≤
+l.813 '**' 0.001 ≤
                      p-value \textless{} 0.01 
 Here is how much of TeX's memory you used:
- 14084 strings out of 492649
- 205426 string characters out of 6129622
+ 14090 strings out of 492649
+ 205486 string characters out of 6129622
  342999 words of memory out of 5000000
  17609 multiletter control sequences out of 15000+600000
- 66381 words of font info for 103 fonts, out of 8000000 for 9000
+ 66654 words of font info for 106 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  34i,14n,38p,717b,415s stack positions out of 5000i,500n,10000p,200000b,80000s
 
