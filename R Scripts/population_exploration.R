@@ -87,11 +87,15 @@ bestsites.countypop.info <- bestsites.countypop.info %>%
          population, geometry, site_lab)
 
 #full list with site no, site name, population and county info
-write.csv(bestsites.countypop.info, file = "./Data/Processed/bestsites.countypop.info.csv")
+st_write(bestsites.countypop.info, "./Data/Processed/bestsites.countypop.info.csv", 
+         layer_options = "GEOMETRY=AS_XY")
+
 
 bestsites.countypop.info <- read.csv("./Data/Processed/bestsites.countypop.info.csv")
 
 bestsites.WQ <- read.csv("./Data/Raw/bestsites.WQ.csv")
+sum(unique(bestsites.WQ$site_no))
+
 unique(bestsites.WQ$parm_cd)
 
 #caroline's wrangling of water quality data. I took out total coliform
@@ -177,7 +181,8 @@ WQ.countypop.joined$population.c <- WQ.countypop.joined$population - mean(WQ.cou
 #Year, population, and 10/11 huc4 regions are statistically significant
 
 #read this in
-mod3 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population  +
+mod3 <- lmer(data=WQ.countypop.joined, log(total.nitrogen) ~ Year + population  
+             + total.phosphorus +
                (1|huc4))
 summary(mod3)
 
