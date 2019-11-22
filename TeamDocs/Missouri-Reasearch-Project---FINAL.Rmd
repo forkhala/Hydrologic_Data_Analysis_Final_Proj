@@ -299,7 +299,8 @@ Note:
 
 otherwise  0.1 <= p-value < 1 
 
-In order to determine whether nutrient levels increase with discharge, C-Q (concentration - discharge) plots were created for each site (\autoref{fig:CQplot}). At sites with high frequency nitrogen data, high frequency nitrogen and discharge values were used. When sites did not have high frequency nitrogen data, daily values were used. A linear model with total nitrogen as the response variable and discharge as the independent variable was created for every site to determine if there was a linear relationship between the two. In 18 out of 22 total sites, there was a significant relationship where as discharge increased, nitrogen also increased (p < 0.05). 
+In order to determine whether nutrient levels increase with discharge, C-Q (concentration - discharge) plots were created for each site (\autoref{fig:CQplot}). At sites with high frequency nitrogen data, high frequency nitrogen and discharge values were used. When sites did not have high frequency nitrogen data, daily values were used. A linear model with total nitrogen as the response variable and discharge as the independent variable was created for every site to determine if there was a linear relationship between the two. In 18 out of 22 total sites, there was a significant relationship where as discharge increased, nitrogen also increased (p < 0.05).
+
 ```{r CQplot, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:CQplot} C-Q plots of two sites in the Missouri River Basin. High frequency (left) and daily values (right) shown for two different sites. Nitrogen values are log transformed."}  
 knitr::include_graphics('../Figures/CQplots.png')
 ```
@@ -423,8 +424,6 @@ In addition to calculating the 7Q10 values for the 6 sites, the sites were analy
 options(scipen = 100)
 
 
-
-
 #### Drought PLots for site Mill C at Johnson Drive, Shawnee, KS, # 06892513 ####
 
 #reading in site info for 06892513 
@@ -440,13 +439,13 @@ table(diff(site.dis.Mill$Date))
 #Check for missing days, if so, add NA rows:
 if(as.numeric(diff(range(site.dis.Mill$Date))) != (nrow(site.dis.Mill)+1)){
   fullDates.dis.Mill <- seq(from = min(site.dis.Mill$Date),
-                              to = max(site.dis.Mill$Date), by="1 day")
+                            to = max(site.dis.Mill$Date), by="1 day")
   fullDates.dis.Mill <- data.frame(Date = fullDates.dis.Mill, 
-                                     agency_cd = site.dis.Mill$agency_cd[1],
-                                     site_no = site.dis.Mill$site_no[1],
-                                     stringsAsFactors = FALSE)
+                                   agency_cd = site.dis.Mill$agency_cd[1],
+                                   site_no = site.dis.Mill$site_no[1],
+                                   stringsAsFactors = FALSE)
   dailyQ.Mill <- full_join(site.dis.Mill, fullDates.dis.Mill,
-                             by=c("Date","agency_cd","site_no")) %>%
+                           by=c("Date","agency_cd","site_no")) %>%
     arrange(Date)
 }
 
@@ -500,7 +499,7 @@ summaryQ.Mill$sm.00 <- predict(loess(p00~day.of.year, data = summaryQ.Mill, span
 
 #filtering to only have certain columns in the data table for 2018 - 2020 discharge
 summaryQ.Mill <- select(summaryQ.Mill, Date, day.of.year,
-                          sm.75, sm.25, sm.10, sm.05, sm.00) %>%
+                        sm.75, sm.25, sm.10, sm.05, sm.00) %>%
   filter(Date >= as.Date(paste0(current.year-1,"-01-01")))
 
 #filtering to only have latest years in one dataframe (2018 - 2019 data)
@@ -515,13 +514,13 @@ start.month.days <- c(1, 32, 61, 92, 121, 152, 182, 214, 245, 274, 305, 335)
 label.text <- c("Normal","Drought Watch","Drought Warning","Drought Emergency")
 
 title.text.Mill <- paste0(stationInfo.Mill$station_nm,"\n",
-                            "Record Start = ", min(dailyQ.30.avg.Mill$Date),
-                            "  Number of years = ",
-                            as.integer(as.numeric(difftime(time1 = max(dailyQ.30.avg.Mill$Date), 
-                                                           time2 = min(dailyQ.30.avg.Mill$Date),
-                                                           units = "weeks"))/52.25),
-                            "\nDate of plot = ",Sys.Date(),
-                            "  Drainage Area = ",stationInfo.Mill$drain_area_va, "mi^2")
+                          "Record Start = ", min(dailyQ.30.avg.Mill$Date),
+                          "  Number of years = ",
+                          as.integer(as.numeric(difftime(time1 = max(dailyQ.30.avg.Mill$Date), 
+                                                         time2 = min(dailyQ.30.avg.Mill$Date),
+                                                         units = "weeks"))/52.25),
+                          "\nDate of plot = ",Sys.Date(),
+                          "  Drainage Area = ",stationInfo.Mill$drain_area_va, "mi^2")
 
 
 #plotting low flow data and intervals 
@@ -533,7 +532,7 @@ drought.plot.Mill <- ggplot(data = summaryQ.Mill, aes(x = day.of.year)) +
   geom_ribbon(aes(ymin = sm.00, ymax = sm.05, fill = "Drought Emergency")) +
   scale_y_log10(limits = c(1, 1000)) +
   geom_line(data = latest.years.Mill, aes(x=day.of.year, 
-                                            y=rM, color = "30-Day Mean"),size=2) + #plotting 7-day mean for 2018-2019
+                                          y=rM, color = "30-Day Mean"),size=2) + #plotting 7-day mean for 2018-2019
   geom_vline(xintercept = 365) 
 
 print(drought.plot.Mill)
@@ -564,6 +563,7 @@ styled.plot.Mill <- drought.plot.Mill +
   theme(legend.position="bottom")
 
 print(styled.plot.Mill)
+
 ```
 
 ## Question 3: What factors contribute to the variability of total nitrogen in the rivers?
