@@ -365,9 +365,35 @@ where P is the exceedance probability, and T is the recurrence interval.
 
 The 7Q10 was calculated for each of the six sites by first filtering the discharge data to only include the selected site. The ‘rollmean’ function was then used to calculate the average flow every 7 days for said site. Once the 7-day average flow was calculated, the data was grouped by the year so that it could then be summarized to obtain the minimum 7-day average flow. After grouping and summarizing the data, there was one value, the minimum 7-day average flow, for each year of data obtained. From here, the recurrence interval and probability were calculated in each data frame. 
 
+The miniumum 7 day average flow (cfs) for each river differed and the miniumum 7 day average low flow (cfs) varied from year to year in the same river (\autoref{fig:MinFlowMill}). 
+
+```{r MinFlowMill, echo=FALSE, fig.cap="\\label{fig:MinFlowMill}Plot showing the minimum 7 day average flow (cfs) at Mill Creek for the period of record (October 2002 - November 2019). The miniumum 7 day average flow was very low in 2012 and decreased again in 2018."}
+
+#filtering dataframe to get 7 day average and recurrence interval for 06892513 
+avg.dis.Mill <- site.dis %>%
+  filter(site_no == "06892513") %>%
+  select(site_no, Date, Flow) %>%
+  mutate(Year = year(Date),
+         Month = month(Date), 
+         Day = day(Date)) %>%
+  arrange(Date) %>%
+  mutate(rM = rollmean(Flow, 7, na.pad = TRUE, align = "center")) %>%
+  na.omit() %>%
+  group_by(Year) %>%
+  summarise(MinDischarge = min(rM)) %>%
+  mutate(Rank = rank(MinDischarge),
+         RecurrenceInterval = (length(Year) + 1)/Rank,
+         Probability = 1/RecurrenceInterval)
+
+#plot of minimum 7 day average flow over time
+sv.avg.plot.Mill <- ggplot(avg.dis.Mill, aes(x = Year, y = MinDischarge)) +
+  geom_line(color = 'steelblue') +
+  labs(x = "Year", y = "Minimum of 7 Day Average Flow (cfs)")
+print(sv.avg.plot.Mill)
+
+```
+
 The 7Q10 value was then determined from the probability column by filtering the data to show the minimum 7-day average discharge with probability less than or equal to 0.1 (Table 3).
-
-
 
 Table: WRITE caption summarizing the 7Q10 values for each of the streams that were analyzed for droughts.
 
