@@ -691,12 +691,12 @@ avg.dis.Mill <- site.dis %>%
 #7Q10 for Mill River
 sv.q.ten.Mill <- tail(avg.dis.Mill %>%
                             arrange(Probability) %>%
-                            filter(Probability <= 0.10), 1) #set up function or loop if want to have all sites come out at once
+                            filter(Probability <= 0.10), 1)
 sv.q.ten.Mill
 
 #plot of minimum 7 day average flow over time
 sv.avg.plot.Mill <- ggplot(avg.dis.Mill, aes(x = Year, y = MinDischarge)) +
-  geom_line() +
+  geom_line(color = 'steelblue') +
   labs(x = "Year", y = "Minimum of 7 Day Average Flow (cfs)")
 print(sv.avg.plot.Mill)
 
