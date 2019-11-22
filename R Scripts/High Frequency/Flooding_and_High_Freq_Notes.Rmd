@@ -410,3 +410,89 @@ RandolphStorm.plot <- ggplot(RandolphStorm, aes(x = Flow_Inst, y = Nitrate_mgl, 
 print(RandolphStorm.plot)
 ```
 
+
+```{r}
+#Datatable stuff
+bestsites.DNP <- read.csv("./Data/Raw/bestsites.DNP.csv", as.is=TRUE)
+bestsites.DNP$Date <- as.Date(bestsites.DNP$Date)
+
+range.P <- bestsites.DNP %>%
+  filter(parm_cd=="665") %>%
+  summarise(minDate = min(Date),
+            maxDate = max(Date),
+            Count = length(parm_cd),
+            minva = min(result_va), 
+            maxva = max(result_va))
+
+range.D <- bestsites.DNP %>%
+  filter(parm_cd=="60") %>%
+  summarise(minDate = min(Date),
+            maxDate = max(Date),
+            Count = length(parm_cd),
+            minva = min(Discharge), 
+            maxva = max(Discharge))
+range.D$minva <- "0"
+range.D$maxva <- "739000"
+
+range.N <- bestsites.DNP %>%
+  filter(parm_cd=="600") %>%
+  summarise(minDate = min(Date),
+            maxDate = max(Date),
+            Count = length(parm_cd),
+            minva = min(result_va), 
+            maxva = max(result_va))
+
+range.table <- rbind(range.D, range.N, range.P)
+range.table$Parameter <- c("Discharge", "Nitrogen", "Phosphorus")
+range.table$unit <- c("cfs", "mg/L", "mg/L")
+range.table$TypeSites <- c("daily and high frequency", "daily and high frequency", "daily")
+range.table <- range.table %>% dplyr::select(Parameter, unit, minDate, maxDate, minva, maxva, Count, TypeSites)
+write.csv(range.table, "./Data/Processed/range.table.csv")
+
+bestsites.table <- bestsites.countypop.info %>%
+  dplyr::select(site_lab, site_no, site_nm, huc4, state, county_name, population) %>%
+  arrange(site_lab)
+
+bestsites.table <- as.data.frame(bestsites.table)
+bestsites.table <- bestsites.table %>% dplyr::select(-geometry)
+names(bestsites.table) <- c("No.", "Site Number", "Site Name", "HUC 4 Region", "State", "County Name", "County Population")
+write.csv(bestsites.table, "./Data/Processed/bestsites.table.csv")
+```
+
+```{r, bestsitestable}
+
+kable(bestsites.table, format = "latex", booktabs = T,
+      col.names = c("No.", "Site Number", "Site Name", "HUC 4 Region", "State", "County Name", "County Population"), escape = FALSE,
+      align = c("r", "c", "c", "c", "c", "c", "c"),
+      caption = "\\label{tab:bestsitestable} Caption please finish") %>%
+  kable_styling(latex_options = c("striped", "scale_down", "hold_position")) %>%
+  
+```
+
+```{r vartab, echo=FALSE, out.width="\\maxwidth", eval=TRUE, results="asis"}
+sd.table <- read.csv("./Data/Processed/sd_year.csv")
+cv.table <- read.csv("./Data/Processed/cv_year.csv")
+tab1 <- left_join(sd.table, cv.table[,c("site_nm","slope", "p")], 
+                   by = "site_nm", suffix = c(".sd", ".cv"))
+# add significance note
+tab <- tab1 %>% 
+  mutate(p.sd = case_when(p.sd < 0.001 ~ paste0(format(round(p.sd, 3), digits = 3), "***"),
+                          p.sd < 0.01 ~ paste0(format(round(p.sd, 3), digits = 3), "**"),
+                          p.sd < 0.05 ~ paste0(format(round(p.sd, 3), digits = 3), "*"),
+                          TRUE ~ as.character(format(round(p.cv, 3), digits = 3))),
+         p.cv = case_when(p.cv < 0.001 ~ paste0(format(round(p.cv, 3), digits = 3), "***"),
+                          p.cv < 0.01 ~ paste0(format(round(p.cv, 3), digits = 3), "*"),
+                          p.cv < 0.05 ~ paste0(format(round(p.cv, 3), digits = 3), "*"),
+                          TRUE ~ as.character(format(round(p.cv, 3), digits = 3))))
+
+kable(tab, format = "latex", booktabs = T,
+      col.names = c("No.","Site Name", "HUC4","Slope","$P$-value", "Slope","$P$-value"), escape = FALSE,
+      align = c("r", "c", "c", "c", "c", "c", "c"),
+      caption = "\\label{tab:vartab} Slopes of linear regression between year and standard deviation or coefficient of variation of discharge at 22 sites.") %>%
+  footnote() %>%
+  kable_styling(latex_options = c("striped", "scale_down", "hold_position")) %>%
+  add_header_above(header = c(" " = 3,"Standard Deviation" = 2,"Coefficient of Variation" = 2)) %>%
+  footnote(general = "Significance level",
+           symbol = c("<0.05;", "<0.01;", "<0.001;"),
+           symbol_manual = c("*", "**", "***"))
+```
