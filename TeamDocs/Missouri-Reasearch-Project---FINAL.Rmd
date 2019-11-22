@@ -437,8 +437,8 @@ table(diff(site.dis.Mill$Date))
 
 #Check for missing days, if so, add NA rows:
 if(as.numeric(diff(range(site.dis.Mill$Date))) != (nrow(site.dis.Mill)+1)){
-  fullDates.dis.Mill <- seq(from = min(site.dis.Mill$Date),
-                            to = max(site.dis.Mill$Date), by="1 day")
+  fullDates.dis.Mill <- seq(min(site.dis.Mill$Date),
+                            max(site.dis.Mill$Date), by="1 day")
   fullDates.dis.Mill <- data.frame(Date = fullDates.dis.Mill, 
                                    agency_cd = site.dis.Mill$agency_cd[1],
                                    site_no = site.dis.Mill$site_no[1],
@@ -504,9 +504,7 @@ summaryQ.Mill <- select(summaryQ.Mill, Date, day.of.year,
 #filtering to only have latest years in one dataframe (2018 - 2019 data)
 latest.years.Mill <- dailyQ.30.avg.Mill %>%
   filter(Date >= as.Date(paste0(current.year-1,"-01-01"))) %>%
-  mutate(day.of.year = 1:nrow(.))
-
-latest.years.Mill$day.of.year <- as.numeric(latest.years.Mill$day.of.year)
+  mutate(day.of.year = as.numeric(1:nrow(.)))
 
 #info for site 06892513
 mid.month.days <- c(15, 45, 74, 105, 135, 166, 196, 227, 258, 288, 319, 349)
