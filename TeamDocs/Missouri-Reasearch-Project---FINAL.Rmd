@@ -13,7 +13,7 @@ fontsize: 12pt
 mainfont: Times New Roman
 editor_options: 
   chunk_output_type: console
-  bibliography: reference.bib
+bibliography: reference.bib
 ---
 
 \newpage
@@ -369,7 +369,7 @@ where P is the exceedance probability, and T is the recurrence interval.
 
 The 7Q10 was calculated for each of the six sites by first filtering the discharge data to only include the selected site. The ‘rollmean’ function was then used to calculate the average flow every 7 days for said site. Once the 7-day average flow was calculated, the data was grouped by the year so that it could then be summarized to obtain the minimum 7-day average flow. After grouping and summarizing the data, there was one value, the minimum 7-day average flow, for each year of data obtained. From here, the recurrence interval and probability were calculated in each data frame. 
 
-The miniumum 7 day average flow (cfs) for each river differed and the miniumum 7 day average low flow (cfs) varied from year to year in the same river (\autoref{fig:MinFlowMill}). 
+The miniumum 7 day average flow (cfs) varied for each river and between years in rivers in the same river (\autoref{fig:MinFlowMill}). 
 
 ```{r MinFlowMill, echo=FALSE, fig.cap="\\label{fig:MinFlowMill}Plot showing the minimum 7 day average flow (cfs) at Mill Creek for the period of record (October 2002 - November 2019). The miniumum 7 day average flow was very low in 2012 and decreased again in 2018."}
 
@@ -407,7 +407,7 @@ print(sv.avg.plot.Mill)
 
 ```
 
-The 7Q10 value was then determined from the probability column by filtering the data to show the minimum 7-day average discharge with probability less than or equal to 0.1 (Table 3).
+The 7Q10 value was then determined from the probability column by filtering the data to show the minimum 7-day average discharge with probability less than or equal to 0.1 (Table 5).
 
 **Table 5:** 7Q10 values for the six streams that were analyzed for droughts. The 7Q10 represents the minimum 7-day average flow that has a 10% probability of occuring in a given year. Mill Creek has the lowest 7Q10, whle the Missouri River has the highest 7Q10. This isn't surprising given that the Missouri River is the main river and Mill Creek is a smaller tributary flowing into the Missouri River.
 
@@ -437,7 +437,7 @@ site.dis.Mill <- site.dis %>%
   filter(site_no == "06892513")
 
 #checking to see if there are missing dates in the dataframe
-table(diff(site.dis.Mill$Date))
+#table(diff(site.dis.Mill$Date))
 
 #Check for missing days, if so, add NA rows:
 if(as.numeric(diff(range(site.dis.Mill$Date))) != (nrow(site.dis.Mill)+1)){
@@ -537,8 +537,6 @@ drought.plot.Mill <- ggplot(data = summaryQ.Mill, aes(x = day.of.year)) +
   geom_line(data = latest.years.Mill, aes(x=day.of.year, 
                                           y=rM, color = "30-Day Mean"),size=2) + #plotting 7-day mean for 2018-2019
   geom_vline(xintercept = 365) 
-
-print(drought.plot.Mill)
 
 
 #plotting a better plot for Mill River

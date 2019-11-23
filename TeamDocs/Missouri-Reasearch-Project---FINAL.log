@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  23 NOV 2019 13:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  23 NOV 2019 16:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -833,21 +833,21 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 <../Figures/cropland3.png, id=89, 650.43pt x 383.031pt>
 File: ../Figures/cropland3.png Graphic file (type png)
 <use ../Figures/cropland3.png>
-Package pdftex.def Info: ../Figures/cropland3.png  used on input line 250.
+Package pdftex.def Info: ../Figures/cropland3.png  used on input line 258.
 (pdftex.def)             Requested size: 469.76817pt x 276.64125pt.
 [3] [4pdfTeX warning (ext4): destination with the same identifier (name{figure.
 1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.253 \newpage
+l.261 \newpage
                <../Figures/cropland3.png>]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 261.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 269.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 287.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 295.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -855,19 +855,19 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 <../Figures/site_map.png, id=113, 650.43pt x 383.031pt>
 File: ../Figures/site_map.png Graphic file (type png)
 <use ../Figures/site_map.png>
-Package pdftex.def Info: ../Figures/site_map.png  used on input line 315.
+Package pdftex.def Info: ../Figures/site_map.png  used on input line 323.
 (pdftex.def)             Requested size: 469.76817pt x 276.64125pt.
 [5] [6pdfTeX warning (ext4): destination with the same identifier (name{figure.
 2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.318 \newpage
+l.326 \newpage
                <../Figures/site_map.png (PNG copy)>]
 <../Figures/Nitrogenhist.png, id=130, 576.65437pt x 381.67593pt>
 File: ../Figures/Nitrogenhist.png Graphic file (type png)
 <use ../Figures/Nitrogenhist.png>
-Package pdftex.def Info: ../Figures/Nitrogenhist.png  used on input line 333.
+Package pdftex.def Info: ../Figures/Nitrogenhist.png  used on input line 341.
 (pdftex.def)             Requested size: 469.77118pt x 310.9321pt.
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf, id=13
 2, 463.7325pt x 317.185pt>
@@ -875,38 +875,38 @@ File: Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf G
 raphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-dataexample-1.pdf  used on input line 341.
+dataexample-1.pdf  used on input line 349.
 (pdftex.def)             Requested size: 463.73842pt x 317.18904pt.
 [7pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.343 
+l.351 
        <../Figures/Nitrogenhist.png>] [8pdfTeX warning (ext4): destination with
  the same identifier (name{figure.4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.371 
+l.379 
        <./Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.p
 df>]
 <../Figures/discharge.png, id=157, 1011.78pt x 650.43pt>
 File: ../Figures/discharge.png Graphic file (type png)
 <use ../Figures/discharge.png>
-Package pdftex.def Info: ../Figures/discharge.png  used on input line 373.
+Package pdftex.def Info: ../Figures/discharge.png  used on input line 381.
 (pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
 <../Figures/sd_year.png, id=160, 1011.78pt x 650.43pt>
 File: ../Figures/sd_year.png Graphic file (type png)
 <use ../Figures/sd_year.png>
-Package pdftex.def Info: ../Figures/sd_year.png  used on input line 398.
+Package pdftex.def Info: ../Figures/sd_year.png  used on input line 406.
 (pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
 [9pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.399 \end{figure}
+l.407 \end{figure}
                    <../Figures/discharge.png>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -916,35 +916,35 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.447 \newpage
+l.455 \newpage
                <../Figures/sd_year.png>] [11pdfTeX warning (ext4): destination 
 with the same identifier (name{table.2}) has been already used, duplicate ignor
 ed
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.476 
+l.484 
       ] [12]
-Overfull \hbox (6.82785pt too wide) in paragraph at lines 507--508
+Overfull \hbox (6.82785pt too wide) in paragraph at lines 515--516
  []\T1/lmr/m/n/12 (-20) Phosphorus 
  []
 
 
-Overfull \hbox (6.82785pt too wide) in paragraph at lines 523--524
+Overfull \hbox (6.82785pt too wide) in paragraph at lines 531--532
  []\T1/lmr/m/n/12 (-20) Phosphorus 
  []
 
 <../Figures/CQplots.png, id=187, 576.65437pt x 381.67593pt>
 File: ../Figures/CQplots.png Graphic file (type png)
 <use ../Figures/CQplots.png>
-Package pdftex.def Info: ../Figures/CQplots.png  used on input line 842.
+Package pdftex.def Info: ../Figures/CQplots.png  used on input line 850.
 (pdftex.def)             Requested size: 469.77118pt x 310.9321pt.
 [13] [14pdfTeX warning (ext4): destination with the same identifier (name{figur
 e.7}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.874 
+l.882 
        <../Figures/CQplots.png>]
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf, id=
 203, 457.71pt x 316.18124pt>
@@ -953,119 +953,134 @@ File: Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf>
 
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-Randolphstorm-1.pdf  used on input line 905.
+Randolphstorm-1.pdf  used on input line 913.
 (pdftex.def)             Requested size: 457.72984pt x 316.19493pt.
 [15] [16] [17pdfTeX warning (ext4): destination with the same identifier (name{
 figure.8}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1054 T
-        he miniumum 7 day average flow (cfs) for each river differed and the <.
-/Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf>]
+l.1063 T
+        he miniumum 7 day average flow (cfs) varied for each river and between 
+<./Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf>]
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/MinFlowMill-1.pdf, id=22
 9, 463.7325pt x 315.1775pt>
 File: Missouri-Reasearch-Project---FINAL_files/figure-latex/MinFlowMill-1.pdf G
 raphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/MinFlowMill-1.pdf>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-MinFlowMill-1.pdf  used on input line 1060.
+MinFlowMill-1.pdf  used on input line 1068.
 (pdftex.def)             Requested size: 463.73842pt x 315.18153pt.
 [18pdfTeX warning (ext4): destination with the same identifier (name{figure.9})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1090 \end{longtable}
+l.1098 \end{longtable}
                        <./Missouri-Reasearch-Project---FINAL_files/figure-latex
 /MinFlowMill-1.pdf>]
-
-LaTeX Warning: Reference `fig:Milldrought' on page 19 undefined on input line 1
-101.
-
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-1.pdf, id=24
-3, 453.695pt x 315.1775pt>
+4, 468.75125pt x 309.155pt>
 File: Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-1.pdf G
 raphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-1.pdf>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-Milldrought-1.pdf  used on input line 1111.
-(pdftex.def)             Requested size: 453.6939pt x 315.17673pt.
-<Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-2.pdf, id=24
-4, 468.75125pt x 309.155pt>
-File: Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-2.pdf G
-raphic file (type pdf)
-<use Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-2.pdf>
-Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-Milldrought-2.pdf  used on input line 1112.
+Milldrought-1.pdf  used on input line 1115.
 (pdftex.def)             Requested size: 468.75009pt x 309.15424pt.
+[19] [20pdfTeX warning (ext4): destination with the same identifier (name{figur
+e.10}) has been already used, duplicate ignored
 
-Underfull \hbox (badness 10000) in paragraph at lines 1111--1113
-[][]
- []
-
-[19 <./Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-1.pdf>
-] [20 <./Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-2.pd
-f>] [21] [22]
-Overfull \hbox (0.67198pt too wide) in alignment at lines 1239--1245
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1167 ...e-of-water-in-the-missouri-river-basin}}
+                                                   <./Missouri-Reasearch-Projec
+t---FINAL_files/figure-latex/Milldrought-1.pdf>] [21] [22]
+Overfull \hbox (0.67198pt too wide) in alignment at lines 1249--1255
  [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (0.67198pt too wide) in alignment at lines 1245--1250
+Overfull \hbox (0.67198pt too wide) in alignment at lines 1255--1260
  [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (0.67198pt too wide) in alignment at lines 1250--1291
+Overfull \hbox (0.67198pt too wide) in alignment at lines 1260--1301
  [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (0.67198pt too wide) in alignment at lines 1291--1296
+Overfull \hbox (0.67198pt too wide) in alignment at lines 1301--1306
  [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (5.72858pt too wide) in alignment at lines 1300--1305
+Overfull \hbox (5.72858pt too wide) in alignment at lines 1310--1315
  [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (5.72858pt too wide) in alignment at lines 1305--1346
+Overfull \hbox (5.72858pt too wide) in alignment at lines 1315--1356
  [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (5.72858pt too wide) in alignment at lines 1346--1351
+Overfull \hbox (5.72858pt too wide) in alignment at lines 1356--1361
  [] [] [] [] [] [] [] [] 
  []
 
 [23] [24] [25]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1369.
+Underfull \hbox (badness 1168) in paragraph at lines 1380--1384
+[]\T1/lmr/m/n/12 (+20) Bureau of Recla-ma-tion. 2016a. ``Re-pub-li-can River Ba
+sin Study.'' Gov-ern-ment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1380--1384
+\T1/lmr/m/n/12 (+20) Doc-u-ment. []$https : / / www . usbr . gov / watersmart /
+ bsp / docs / ^^\nalreport / republican /
+ []
+
+
+Underfull \hbox (badness 2376) in paragraph at lines 1414--1418
+\T1/lmr/m/n/12 (+20) Cen-tral Great Plains Drought.'' Gov-ern-ment Doc-u-ment. 
+[]$https : / / cpo . noaa . gov /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1414--1418
+\T1/lmr/m/n/12 (+20) Meet-[]the-[]Divisions / Earth-[]System-[]Science-[]and-[]
+Modeling / MAPP / MAPP-[]Task-[]Forces /
+ []
+
+
+Overfull \hbox (80.66743pt too wide) in paragraph at lines 1414--1418
+\T1/lmr/m/n/12 (-20) Drought / Drought-[]Task-[]Force-[]II / An-[]Interpretatio
+n-[]of-[]the-[]Origins-[]of-[]the-[]2012-[]Central-[]Great-[]Plains-[]Drought$[
+]. 
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1430.
 [26]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1369.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1430.
 (./Missouri-Reasearch-Project---FINAL.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1369.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1369.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1430.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1430.
 
 Package rerunfilecheck Info: File `Missouri-Reasearch-Project---FINAL.out' has 
 not changed.
-(rerunfilecheck)             Checksum: 733EF5949AE1286BCE3B2A65FA35FEA8;4880.
-
-LaTeX Warning: There were undefined references.
-
+(rerunfilecheck)             Checksum: 9F4EA11859E6801647ADE5AB49940CE5;4881.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1369.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1430.
  ) 
 Here is how much of TeX's memory you used:
- 14214 strings out of 492649
- 209028 string characters out of 6129622
- 349604 words of memory out of 5000000
- 17674 multiletter control sequences out of 15000+600000
- 67109 words of font info for 111 fonts, out of 8000000 for 9000
+ 14220 strings out of 492649
+ 208817 string characters out of 6129622
+ 349952 words of memory out of 5000000
+ 17670 multiletter control sequences out of 15000+600000
+ 67018 words of font info for 110 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  34i,14n,38p,994b,437s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/lo
@@ -1080,11 +1095,11 @@ mbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmmi12.pfb>
 t/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive/2018/texmf-dist/fonts/ty
 pe1/public/lm/lmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
 /lm/lmtt12.pfb>
-Output written on Missouri-Reasearch-Project---FINAL.pdf (26 pages, 1122492 byt
+Output written on Missouri-Reasearch-Project---FINAL.pdf (26 pages, 1091747 byt
 es).
 PDF statistics:
- 360 PDF objects out of 1000 (max. 8388607)
- 294 compressed objects within 3 object streams
- 90 named destinations out of 1000 (max. 500000)
- 14528 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 381 PDF objects out of 1000 (max. 8388607)
+ 317 compressed objects within 4 object streams
+ 102 named destinations out of 1000 (max. 500000)
+ 14523 words of extra memory for PDF output out of 17280 (max. 10000000)
 
