@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  23 NOV 2019 16:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  23 NOV 2019 16:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -960,9 +960,9 @@ figure.8}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1063 T
-        he miniumum 7 day average flow (cfs) varied for each river and between 
-<./Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf>]
+l.1062 
+        <./Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-
+1.pdf>]
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/MinFlowMill-1.pdf, id=22
 9, 463.7325pt x 315.1775pt>
 File: Missouri-Reasearch-Project---FINAL_files/figure-latex/MinFlowMill-1.pdf G
@@ -1042,19 +1042,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 1380--1384
  []
 
 
-Underfull \hbox (badness 2376) in paragraph at lines 1414--1418
+Underfull \hbox (badness 2376) in paragraph at lines 1409--1413
 \T1/lmr/m/n/12 (+20) Cen-tral Great Plains Drought.'' Gov-ern-ment Doc-u-ment. 
 []$https : / / cpo . noaa . gov /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1414--1418
+Underfull \hbox (badness 10000) in paragraph at lines 1409--1413
 \T1/lmr/m/n/12 (+20) Meet-[]the-[]Divisions / Earth-[]System-[]Science-[]and-[]
 Modeling / MAPP / MAPP-[]Task-[]Forces /
  []
 
 
-Overfull \hbox (80.66743pt too wide) in paragraph at lines 1414--1418
+Overfull \hbox (80.66743pt too wide) in paragraph at lines 1409--1413
 \T1/lmr/m/n/12 (-20) Drought / Drought-[]Task-[]Force-[]II / An-[]Interpretatio
 n-[]of-[]the-[]Origins-[]of-[]the-[]2012-[]Central-[]Great-[]Plains-[]Drought$[
 ]. 
@@ -1095,7 +1095,7 @@ mbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmmi12.pfb>
 t/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive/2018/texmf-dist/fonts/ty
 pe1/public/lm/lmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
 /lm/lmtt12.pfb>
-Output written on Missouri-Reasearch-Project---FINAL.pdf (26 pages, 1091747 byt
+Output written on Missouri-Reasearch-Project---FINAL.pdf (26 pages, 1091852 byt
 es).
 PDF statistics:
  381 PDF objects out of 1000 (max. 8388607)
