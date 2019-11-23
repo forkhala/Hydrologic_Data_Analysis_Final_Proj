@@ -291,7 +291,7 @@ Note:
 
 '***' p-value < 0.001 
 
-'**' 0.001 ≤ p-value < 0.01
+'**' 0.001 <= p-value < 0.01
 
 '*' 0.01 <= p-value < 0.05 
 
@@ -374,7 +374,8 @@ The miniumum 7 day average flow (cfs) for each river differed and the miniumum 7
 sites <- c("06808500", "06817000", "06892350", "06934500", "06892513", "06902000")
 
 #reading in data for sites that were analyzed for floods to analyze discharge
-site.dis <- read.csv("../Data/Raw/drought.sites.csv")
+site.dis <- read.csv("../Data/Raw/drought.sites.csv",
+                     colClasses = c("site_no" = "character"))
 
 #changing class of date to date
 site.dis$Date <- as.Date(site.dis$Date)
