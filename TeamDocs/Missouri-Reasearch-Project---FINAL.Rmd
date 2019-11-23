@@ -689,6 +689,9 @@ No.    |   Site Number   |  June 2020  |   July 2020  |  Aug. 2020  |  Sept. 202
 # Summary and Conclusions
 <Summarize your major findings from your analyses in a few paragraphs. What conclusions do you draw from your findings? Relate your findings back to the original research questions and rationale.>
 
+##Droughts
+From the drought analysis of the 6 tributaries and rivers, it is evident that minimum discharge amounts vary greatly (range: 1.47 cfs – 12414) (Table 5). We predicted that discharge would decrease during periods of drought, and it does, but the 7-day minimum average flow clearly varies among sites. Although the analysis shows that droughts decrease flow, it is difficult to compare droughts and flow between the sites because the rivers are of different sizes and magnitudes, and thus discharge amounts vary greatly. For example, three sites were analyzed that are located on the Missouri River, which is much larger than some of the tributaries that were analyzed. Thus, the discharge patterns are not able to be compared because of the difference in sizes. If we were to do this analysis again, we would likely choose not located on the Missouri River and compare them, or choose only sites that are on the Missouri River to have a better comparison. 
+
 \newpage
 
 # References
