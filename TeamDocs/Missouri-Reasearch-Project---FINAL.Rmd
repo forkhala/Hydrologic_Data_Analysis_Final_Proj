@@ -102,13 +102,15 @@ We have two main datasets:
 
 
 
-**Table 1:** Add title
+**Table 1:** Structure of dataset and number of sites with that information.
+
 Variable   |   Unit  |   Number of Sites   |   
 ----------- | :---------------: | --------------- |
 Discharge  | cfs or $m^{3}$/s | 22 
 Time | UTC | 22
 Nitrogen | mg/L | 22 with daily values, 6 with high frequency values
 Phosphorus | mg/L | 22
+Population | k people | 6 sites
 
 **Table 2:** Add table for date ranges and possibly sites used for flooding?
 
@@ -347,6 +349,7 @@ Missouri River at Hermann, MO  | 06934500  |  Oct 7 - 20, 2018  | counter clockw
 Mill C at Johnson Drive, Shawnee, KS  | 06892513 | Nov 27 - Dec 4, 2018 | clockwise | negative
 Grand River, Sumner MO  | 06902000 |  Sep 6 - 10, 2018 | clockwise | positive
 
+
 ### Droughts
 Droughts in the Missouri River Basin were known to occur throughout the years and six sites were analyzed for drought information. The six sites were chosen based off what was examined for floods. 
 
@@ -406,7 +409,7 @@ print(sv.avg.plot.Mill)
 
 The 7Q10 value was then determined from the probability column by filtering the data to show the minimum 7-day average discharge with probability less than or equal to 0.1 (Table 3).
 
-Table: WRITE caption summarizing the 7Q10 values for each of the streams that were analyzed for droughts.
+**Table 5:** 7Q10 values for the six streams that were analyzed for droughts. The 7Q10 represents the minimum 7-day average flow that has a 10% probability of occuring in a given year. Mill Creek has the lowest 7Q10, whle the Missouri River has the highest 7Q10. This isn't surprising given that the Missouri River is the main river and Mill Creek is a smaller tributary flowing into the Missouri River.
 
 Site Name   |   Site Number   |  7Q10 Minimum Discharge (cfs)  |     
 ----------- | --------------- | ------------------------------ |
