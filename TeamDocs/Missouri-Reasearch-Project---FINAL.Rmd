@@ -263,11 +263,10 @@ kable(tab, format = "latex", booktabs = T,
       col.names = c("No.","Site Name", "HUC4","Slope","$P$-value", "Slope","$P$-value"), escape = FALSE,
       align = c("r", "c", "c", "c", "c", "c", "c"),
       caption = "\\label{tab:vartab} Slopes of linear regression between year and standard deviation or coefficient of variation of discharge at 22 sites.") %>%
-  footnote() %>%
   kable_styling(latex_options = c("striped", "scale_down", "hold_position")) %>%
   add_header_above(header = c(" " = 3,"Standard Deviation" = 2,"Coefficient of Variation" = 2)) %>%
   footnote(general = "Significance level",
-           symbol = c("<0.05;", "<0.01;", "<0.001;"),
+           symbol = c("<0.05;", "<0.01;", "<0.001"),
            symbol_manual = c("*", "**", "***"))
 ```
 
