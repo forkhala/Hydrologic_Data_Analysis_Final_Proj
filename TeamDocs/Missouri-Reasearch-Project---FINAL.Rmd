@@ -629,7 +629,41 @@ Note: `***` means p-value < 0.001; `**` means 0.001 $\leq$ p-value < 0.01;`*` 0.
 ### Discharge Prediction
 As discussed in Question 2, both severe drought and flooding events occurred in the basin in the past, which caused fatal damage to local agriculture. Therefore, it is important to make accurate forecasts of discharge, providing data support to policymakers.
 
-We employed Autoregressive and Moving Average Models (ARMA) to effectively forecast into the future. The ARMA model is a tool for understanding and predicting future values in a time series. The AR part involves regressing the variable on its own lagged (i.e., past) values. The MA part involves modeling the error term as a linear combination of error terms occurring contemporaneously and at various times in the past. By using the discharge measurement data in the past and the ARMA model, we make a one-year discharge prediction for every site (Table 8). 
+We employed Autoregressive and Moving Average Models (ARMA) to effectively forecast into the future. The ARMA model is a tool for understanding and predicting future values in a time series. The AR part involves regressing the variable on its own lagged (i.e., past) values. The MA part involves modeling the error term as a linear combination of error terms occurring contemporaneously and at various times in the past. By using the discharge measurement data in the past and the ARMA model, we make discharge prediction for every site (\autoref{fig:dischargepre} as an example).  From \autoref{fig:dischargepre}, we can see that only the first few years of discharge simulation is reasonable. Therefore, we decided only to make one-year prediction of discharge for every site (Table 8). 
+
+```{r dischargepre, echo=FALSE, fig.cap="\\label{fig:dischargepre}Historic and 10-year prediction of discharge at Site No. 22, the  Missouri River At Hermann, MO. (Solid Line: Historic Measurement of Discharge; Dash Line: 10-year Prediction of Discharge)"}
+
+MRHDischarge <- readNWISdv(siteNumbers = "06934500",
+                           parameterCd = "00060", # discharge (ft3/s)
+                           startDate = "",
+                           endDate = "")
+names(MRHDischarge)[4:5] <-c("Discharge", "Approval.Code")
+
+MRHDischarge <- na.omit(MRHDischarge)
+MRH_ts <- ts(MRHDischarge[[4]], frequency = 365)
+
+MRHDischarge.Monthly <- MRHDischarge %>%
+  mutate(Year = year(Date),
+         Month = month(Date)) %>%
+  group_by(Year, Month) %>%
+  summarise(Discharge = mean(Discharge))
+MRHMonthly_ts <- ts(MRHDischarge.Monthly[[3]], frequency = 12)
+# adf.test(MRHMonthly_ts, alternative = "stationary")
+# acf(MRHMonthly_ts)
+# pacf(MRHMonthly_ts)
+
+# run the arima function and search for best fit
+# auto.arima(MRHMonthly_ts, trace = TRUE)
+
+# create an object that defines the best fit model
+MRHfit <- arima(MRHMonthly_ts, c(5, 1, 0), seasonal = list(order = c(2, 0, 0), period = 12))
+
+# make a prediction into the future
+MRHprediction <- predict(MRHfit, n.ahead = 10*12)
+
+# plot future predictions
+ts.plot(MRHMonthly_ts/10^5, MRHprediction$pred/10^5, lty = c(1, 3))
+```
 
 **Table: 8** One-year Discharge Prediction for Every Site 
 
@@ -697,6 +731,14 @@ As for variation in discharge across different years, conclusion varies based on
 
 ## Droughts
 From the drought analysis of the 6 tributaries and rivers, it is evident that minimum discharge amounts vary greatly (range: 1.47 cfs – 12414) (Table 6). We predicted that discharge would decrease during periods of drought, and it does, but the 7-day minimum average flow clearly varies among sites. Although the analysis shows that droughts decrease flow, it is difficult to compare droughts and flow between the sites because the rivers are of different sizes and magnitudes, and thus discharge amounts vary greatly. For example, three sites were analyzed that are located on the Missouri River, which is much larger than some of the tributaries that were analyzed. Thus, the discharge patterns are not able to be compared because of the difference in sizes. If we were to do this analysis again, we would likely choose not located on the Missouri River and compare them, or choose only sites that are on the Missouri River to have a better comparison. 
+
+## Trends of the Concentration of Nitrogen and Phosphorus
+From the analysis of long-term daily nitrogen and phosphorus data, we see a significant increasing trend of nitrogen and phosphorus at the mainstem of the Missouri River. Corresponding, from the linear model we created, we can also see that the concentration of nitrogen will increase with the concentration of phosphorus and year, with indicates that the trends of the Concentration of Nitrogen and Phosphorus are increasing. Water quality in the Missouri River is still deteriorating and protection is urgently needed.
+
+## Discharge Trends Analysis and Discharge Prediction
+From the dicharge trends analysis, out of all 22 sites, only 4 sites that locate in HUC 1025 and 1026, away from the main stem of the Missouri River show decreasing trends of discharge. Overall, the discharge in Missouri River is increasing.
+
+In addition, we employed Autoregressive and Moving Average Models (ARMA) to forecast the discharge at all 22 sites into the future. Due to that only the first few years of discharge simulation is reasonable from the ARMA, we only made one-year prediction of discharge for every site.
 
 \newpage
 
