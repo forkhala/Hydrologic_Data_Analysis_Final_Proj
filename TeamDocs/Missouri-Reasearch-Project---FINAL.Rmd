@@ -90,9 +90,9 @@ knitr::include_graphics('../Figures/cropland3.png')
 
 # Dataset Information
 
-The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the southern part of the Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030. We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, representing a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that contained discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin for a total of 22. We chose the two sites from each HUC sub basin by comparing the periods of records for each of our chosen variables and finding the sites with the longest periods of records. We chose to look at two sites per HUC region (for a total of 22) in order to maintain a digestible scope (\autoref{fig:sitemap}). We retrieved data on water quantity and water quality (N, P concentrations) (Table 1).
+The data we are analyzing comes from the United States Geological Survey (USGS) database called the National Water Information System interface, or NWIS. We pulled data from the interface using the R package `dataRetrieval`. Because we are interested in the southern part of the Missouri River basin, we pulled sites from each HUC4 subbasin from 1020 to 1030. We chose these subbasins because they had a variety of tributaries that all flowed into the Missouri River, representing a variety of river sizes and lengths. We filtered these subbasin queries to only show us sites that contained discharge, nitrogen, and phosphorus data. Once we found the sites with all of this data, we chose 2 sites from each HUC sub basin for a total of 22. We chose the two sites from each HUC sub basin by comparing the periods of records for each of our chosen variables and finding the sites with the longest periods of records. We chose to look at two sites per HUC region (for a total of 22) in order to maintain a digestible scope (\autoref{fig:sitemap}; \autoref{tab:bestsitestable}). From NWIS, we retrieved data on water quantity and water quality (\autoref{tab:rangetable}). From R's `noncensus` package, we retrieved data on county population for counties that our sites are located.
 
-Only six sites within our HUC subbasin boundary contained any high frequency nitrogen data. Therefore, we also looked at these six sites in order to do analyses and answer our research question about flooding. Since flooding and droughts can be thought of as opposites, we looked at the same 6 sites for droughts as we did for flooding (Table x - add table??). 
+Only six sites within our HUC subbasin boundary contained any high frequency nitrogen data. Therefore, we also looked at these six sites in order to do analyses and answer our research question about flooding. Since flooding and droughts can be thought of as opposites, we looked at the same six sites for droughts as we did for flooding. 
 
 We have two main datasets:
 
@@ -102,17 +102,31 @@ We have two main datasets:
 
 
 
-**Table 1:** Structure of dataset and number of sites with that information.
+```{r bestsitestable, out.width="\\maxwidth", echo=FALSE}
+bestsites.table <- read.csv("../Data/Processed/bestsites.table.csv")
+bestsites.table <- bestsites.table %>% dplyr::select(-X)
+kable(bestsites.table, format = "latex", booktabs = T,
+      col.names = c("No.", "Site Number", "Site Name", "HUC 4 Region", "State", "County Name", "County Population"), escape = FALSE,
+      align = c("r", "c", "c", "c", "c", "c", "c"),
+      caption = "\\label{tab:bestsitestable} A list of the 22 chosen sites in the lower Missouri River Basin") %>%
+  kable_styling(latex_options = c("striped", "scale_down", "hold_position"))
+  
+```
 
-Variable   |   Unit  |   Number of Sites   |   
------------ | :---------------: | --------------- |
-Discharge  | cfs or $m^{3}$/s | 22 
-Time | UTC | 22
-Nitrogen | mg/L | 22 with daily values, 6 with high frequency values
-Phosphorus | mg/L | 22
-Population | k people | 6 sites
 
-**Table 2:** Add table for date ranges and possibly sites used for flooding?
+```{r rangetable, echo=FALSE, out.width="\\maxwidth"}
+range.table <- read.csv("../Data/Processed/range.table.csv")
+range.table <- range.table %>% dplyr::select(-X)
+kable(range.table, format = "latex", booktabs = T,
+      col.names = c("Parameter", "Unit", "First Date", "Last Date", "Minimum Value", "Maximum Value", "Total Count", "Type of Data"), escape = FALSE,
+      align = c("r", "c", "c", "c", "c", "c", "c", "c"),
+      caption = "\\label{tab:rangetable} Range and Count of Relevant Data") %>%
+  kable_styling(latex_options = c("striped", "scale_down", "hold_position"))
+
+  
+```
+
+
 
 
 ```{r sitemap, out.width="\\maxwidth", fig.cap="\\label{fig:sitemap} Map of USGS sites used for long term analysis."}
@@ -256,10 +270,10 @@ kable(tab, format = "latex", booktabs = T,
 
 We analyzed nitrogen and phosphorus trends at 22 sites using long-term daily value data and the Seasonal Mann-Kendall Trend Test. The Seasonal Mann Kendall Trend Test is used to analyze seasonal data collected over time for consistently increasing or decreasing trends (monotonic) in Y values. It is suitable for analyzing the data with seasonality, non-parametric, no temporal autocorelation, identical distribution. 
 
-The trend of nitrogen and phosphorus concentration of 22 sites are quite different across the 22 sites (Table X). Among all 22 sites, 7 sites show significantly increasing trends in nitrogen concentration, while 7 show decreasing trends. For phosphorus, concentrations at 7 sites have increased over time, while decreased at other 5 sites. But generally, the trend of nitrogen and the trend of phosphorus are similar, which indicates that there is a high possibility that nitrogen and phosphorus come from the same sources. Despite inconsistent results at all sites, those on the mainstem show higher nutrient concentration (No. 7, Missouri River at Omaha, NE; No. 10, Missouri River at St. Joseph, MO; No. 22, Missouri River at Hermann, MO), we can see a significant increasing trend of nitrogen and phosphorus. Our results suggest that water quality in the Missouri River is still deteriorating and protection is urgently needed.
+The trend of nitrogen and phosphorus concentration of 22 sites are quite different across the 22 sites (Table 4). Among all 22 sites, 7 sites show significantly increasing trends in nitrogen concentration, while 7 show decreasing trends. For phosphorus, concentrations at 7 sites have increased over time, while decreased at other 5 sites. But generally, the trend of nitrogen and the trend of phosphorus are similar, which indicates that there is a high possibility that nitrogen and phosphorus come from the same sources. Despite inconsistent results at all sites, those on the mainstem show higher nutrient concentration (No. 7, Missouri River at Omaha, NE; No. 10, Missouri River at St. Joseph, MO; No. 22, Missouri River at Hermann, MO), we can see a significant increasing trend of nitrogen and phosphorus. Our results suggest that water quality in the Missouri River is still deteriorating and protection is urgently needed.
 
 \newpage
-**Table X:** Nitrogen and phosphorus trend over time for each site
+**Table 4:** Nitrogen and phosphorus trend over time for each site
 
 No.    |   Site Number   |   Nitrogen Trend  |  Nitrogen Trend Significance  |   Phosphorus Trend    |  Phosphorus Trend Significance   |
 :----------:|:-------:|:------------:|:----------:|:-------:|:------------:|
@@ -272,21 +286,21 @@ No.    |   Site Number   |   Nitrogen Trend  |  Nitrogen Trend Significance  |  
 7  |  06610000  |  Increase  |  **  |  Increase  |  ***  |
 8  |  06609500  |  Decrease  |    |  Increase  |    |
 9  |  06810000  |  Decrease  |    |  Increase  |    |
-10  |  06818000  |  Increase  |  \cdot  |  Increase  |    |
-11  |  06844500  |  Increase  |  \cdot  |  Decrease  |  **  |
+10  |  06818000  |  Increase  |  $\cdot$  |  Increase  |    |
+11  |  06844500  |  Increase  |  $\cdot$  |  Decrease  |  **  |
 12  |  06856600  |  Decrease  |  **  |  Decrease  |  ***  |
-13  |  06877600  |  Decrease  |  \cdot  |  Increase  |    |
+13  |  06877600  |  Decrease  |  $\cdot$  |  Increase  |    |
 14  |  06874000  |  Decrease  |  ***  |  Decrease  |  ***  |
 15  |  06887500  |  Increase  |  ***  |  Increase  |  ***  |
 16  |  06892350  |  Increase  |  **  |  Increase  |  ***  |
 17  |  06902000  |  Decrease  |  ***  |  Increase  |    |
 18  |  06905500  |  Decrease  |    |  Increase  |    |
-19  |  06921070  |  Decrease  |  \cdot  |  Decrease  |    |
+19  |  06921070  |  Decrease  |  $\cdot$  |  Decrease  |    |
 20  |  06926510  |  Decrease  |  ***  |  Increase  |  ***  |
 21  |  06894000  |  Decrease  |  ***  |  Decrease  |  ***  |
 22  |  06934500  |  Increase  |  ***  |  Increase  |  ***  |
 
-Note: `***` means p-value < 0.001; `**` means 0.001 \leq p-value < 0.01;`*` 0.01 \leq p-value < 0.05; \cdot means 0.05 \leq p-value < 0.1; otherwise  0.1 \leq p-value < 1 
+Note: `***` means p-value < 0.001; `**` means 0.001 $\leq$ p-value < 0.01;`*` 0.01 $\leq$ p-value < 0.05; "$\cdot$" means 0.05 $\leq$ p-value < 0.1; otherwise  0.1 $\leq$ p-value < 1 
 
 
 In order to determine whether nutrient levels increase with discharge, C-Q (concentration - discharge) plots were created for each site (\autoref{fig:CQplot}). At sites with high frequency nitrogen data, high frequency nitrogen and discharge values were used. When sites did not have high frequency nitrogen data, daily values were used. A linear model with total nitrogen as the response variable and discharge as the independent variable was created for every site to determine if there was a linear relationship between the two. In 18 out of 22 total sites, there was a significant relationship where as discharge increased, nitrogen also increased (p < 0.05). The four sites that showed either a nonsignificant change in discharge or a decrease, were all located in HUCs 1025 and 1026, the farthest HUCs away from the maintstem of the Missouri River. 
@@ -307,7 +321,7 @@ Contrary to our hypotheses, greater county population does not contribute to a d
 
 High frequency nitrogen data was only available for six sites within our region. In order to better understand the behavior of rivers during floods, we examined dygraph plots of discharge and nitrogen, and created hysteresis plots. Storms from the fall of 2018 (September - December)  were examined for each river site with data from that time period. We chose to only look at storms that occurred in the second half of the year in order to avoid conflating snowpack melt and precipitation affects. 
 
-We predicted that most rivers in the area would behave the same way, and that rivers would exhibit flushing behavior. We thought that flushing rivers would be more prevalent because of the many agricultural fields in our region of study, and any overland flow to the rivers would bring with it a high concentration of nutrients (nitrogen being one of them) from the fertilized fields. Our results say otherwise (Table 6). Our sites of interest had both positive and negative slopes in the hysteresis plots, and also exhibited both clockwise and counter clockwise directions of flow (\autoref{fig:Randolphstorm}). The same river was analyzed multiple times throughout the year, and even the same river showed different slopes and directions in the hysteresis plots for different storm events. 
+We predicted that most rivers in the area would behave the same way, and that rivers would exhibit flushing behavior. We thought that flushing rivers would be more prevalent because of the many agricultural fields in our region of study, and any overland flow to the rivers would bring with it a high concentration of nutrients (nitrogen being one of them) from the fertilized fields. Our results say otherwise (Table 5). Our sites of interest had both positive and negative slopes in the hysteresis plots, and also exhibited both clockwise and counter clockwise directions of flow (\autoref{fig:Randolphstorm}). The same river was analyzed multiple times throughout the year, and even the same river showed different slopes and directions in the hysteresis plots for different storm events. 
 
 ```{r Randolphstorm, echo=FALSE, fig.cap="\\label{fig:Randolphstorm}Hyteresis plot for site number 9 in Randolph, IA that shows a negative slope (diluting behavior) in a counter clockwise direction."}
 Randolph <- read.csv("../Data/Processed/Randolph.csv", as.is=TRUE)
@@ -327,7 +341,7 @@ print(RandolphStorm.plot)
 ```
 
 
-**Table: XXX** Hysteresis results for all sites in area of interest with high frequency nitrogen data.
+**Table: 5** Hysteresis results for all sites in area of interest with high frequency nitrogen data.
 
 Site Name   |   Site Number   |   Time Period   |   Direction   |  Slope
 ----------- | :---------------: | --------------- | ------------- | ---------
@@ -396,9 +410,9 @@ print(sv.avg.plot.Mill)
 
 ```
 
-The 7Q10 value was then determined from the probability column by filtering the data to show the minimum 7-day average discharge with probability less than or equal to 0.1 (Table 5).
+The 7Q10 value was then determined from the probability column by filtering the data to show the minimum 7-day average discharge with probability less than or equal to 0.1 (Table 6).
 
-**Table 5:** 7Q10 values for the six streams that were analyzed for droughts. The 7Q10 represents the minimum 7-day average flow that has a 10% probability of occuring in a given year. Mill Creek has the lowest 7Q10, whle the Missouri River has the highest 7Q10. This isn't surprising given that the Missouri River is the main river and Mill Creek is a smaller tributary flowing into the Missouri River.
+**Table 6:** 7Q10 values for the six streams that were analyzed for droughts. The 7Q10 represents the minimum 7-day average flow that has a 10% probability of occuring in a given year. Mill Creek has the lowest 7Q10, whle the Missouri River has the highest 7Q10. This isn't surprising given that the Missouri River is the main river and Mill Creek is a smaller tributary flowing into the Missouri River.
 
 Site Name   |   Site Number   |  7Q10 Minimum Discharge (cfs)  |     
 ----------- |:---------------:|:------------------------------:|
@@ -571,12 +585,12 @@ Because we used a log transformed data set, we have to exponentiate the coeffici
 ## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
 ### Discharge Trends Analysis
-We also analyzed discharge trend at 22 sites using daily value data and Mann-Kandall Trend Test. The results are listed in the following table (Table 6). In our analysis, discharge of 18 sites increases while 4 sites show the decreasing trend of discharge. However, these four sites all locate in HUC 1025 and 1026, away from the main stem of the Missouri River. Therefore, overall, the discharge in Missouri River is increasing.
+We also analyzed discharge trend at 22 sites using daily value data and Mann-Kandall Trend Test (Table 7). In our analysis, discharge of 18 sites increases while 4 sites show the decreasing trend of discharge. However, these four sites all locate in HUC 1025 and 1026, away from the main stem of the Missouri River. Therefore, overall, the discharge in Missouri River is increasing.
 
 \newpage
-Table: Discharge Trend over Time
+**Table 7:** Discharge Trend over Time
 
-NO.    |   Site Number   |  Discharge Trend  |  Discharge Trend Significance  |
+No.    |   Site Number   |  Discharge Trend  |  Discharge Trend Significance  |
 :-------------:|:-----------------:|:-------------------:|:--------------------------------:|
 1  |  06768000  |  Increase  |    |
 2  |  06805500  |  Increase  |  ***  |
@@ -591,9 +605,9 @@ NO.    |   Site Number   |  Discharge Trend  |  Discharge Trend Significance  |
 11  |  06844500  |  Decrease  |  ***  |
 12  |  06856600  |  Decrease  |  **  |
 13  |  06877600  |  Decrease  |    |
-14  |  06874000  |  Decrease  |  .  |
+14  |  06874000  |  Decrease  |  $\cdot$  |
 15  |  06887500  |  Increase  |    |
-16  |  06892350  |  Increase  |  .  |
+16  |  06892350  |  Increase  |  $\cdot$  |
 17  |  06902000  |  Increase  |  *  |
 18  |  06905500  |  Increase  |  *  |
 19  |  06921070  |  Increase  |    |
@@ -601,25 +615,15 @@ NO.    |   Site Number   |  Discharge Trend  |  Discharge Trend Significance  |
 21  |  06894000  |  Increase  |  **  |
 22  |  06934500  |  Increase  |  ***  |
 
-Note:
-
-'***' p-value < 0.001 
-
-'**' 0.001 <= p-value < 0.01
-
-'*' 0.01 <= p-value < 0.05 
-
-'.' 0.05 <= p-value < 0.1 
-
-otherwise  0.1 <= p-value < 1 
+Note: `***` means p-value < 0.001; `**` means 0.001 $\leq$ p-value < 0.01;`*` 0.01 $\leq$ p-value < 0.05; $\cdot$ means 0.05 $\leq$ p-value < 0.1; otherwise  0.1 $\leq$ p-value < 1  
 
 
 ### Discharge Prediction
 As discussed in Question 2, both severe drought and flooding events occurred in the basin in the past, which caused fatal damage to local agriculture. Therefore, it is important to make accurate forecasts of discharge, providing data support to policymakers.
 
-We employed Autoregressive and Moving Average Models (ARMA) to effectively forecast into the future. The ARMA model is a tool for understanding and predicting future values in a time series. The AR part involves regressing the variable on its own lagged (i.e., past) values. The MA part involves modeling the error term as a linear combination of error terms occurring contemporaneously and at various times in the past. By using the discharge measurement data in the past and the ARMA model, we make a one-year discharge prediction for every site (Table 7). 
+We employed Autoregressive and Moving Average Models (ARMA) to effectively forecast into the future. The ARMA model is a tool for understanding and predicting future values in a time series. The AR part involves regressing the variable on its own lagged (i.e., past) values. The MA part involves modeling the error term as a linear combination of error terms occurring contemporaneously and at various times in the past. By using the discharge measurement data in the past and the ARMA model, we make a one-year discharge prediction for every site (Table 8). 
 
-Table: One-year Discharge Prediction for Every Site 
+**Table: 8** One-year Discharge Prediction for Every Site 
 
 No.    |   Site Number   |  Dec. 2019  | Jan. 2020  |  Feb. 2020  |  Mar. 2020  |  Apr. 2020  |  May 2020  |
 :-----:|:-------------:|:-------------:|:------------:|:-------------:|:-------------:|:-------------:|:------------:|
@@ -645,7 +649,7 @@ No.    |   Site Number   |  Dec. 2019  | Jan. 2020  |  Feb. 2020  |  Mar. 2020  
 20  |  06926510  |  12184.39	 |  13730.31	 |  13039.62	 |  12564.56	 |  14026.34	 |  14174.23	 |
 21  |  06894000  |  181.6666	 |  206.4976	 |  203.7249 	|  206.7256	 |  214.5459	 |  320.4555	 |
 22  |  06934500  |  189461.2	 |  194893.2	 |  194212.8	 |  215398.5	 |  212735.9	 |  230589.3	 |
-(To be continue)
+(To be continued)
 
 
 No.    |   Site Number   |  June 2020  |   July 2020  |  Aug. 2020  |  Sept. 2020  | Oct. 2020  | Nov. 2020  |
@@ -676,10 +680,10 @@ No.    |   Site Number   |  June 2020  |   July 2020  |  Aug. 2020  |  Sept. 202
 \newpage
 
 # Summary and Conclusions
-<Summarize your major findings from your analyses in a few paragraphs. What conclusions do you draw from your findings? Relate your findings back to the original research questions and rationale.>
+
 
 ##Droughts
-From the drought analysis of the 6 tributaries and rivers, it is evident that minimum discharge amounts vary greatly (range: 1.47 cfs – 12414) (Table 5). We predicted that discharge would decrease during periods of drought, and it does, but the 7-day minimum average flow clearly varies among sites. Although the analysis shows that droughts decrease flow, it is difficult to compare droughts and flow between the sites because the rivers are of different sizes and magnitudes, and thus discharge amounts vary greatly. For example, three sites were analyzed that are located on the Missouri River, which is much larger than some of the tributaries that were analyzed. Thus, the discharge patterns are not able to be compared because of the difference in sizes. If we were to do this analysis again, we would likely choose not located on the Missouri River and compare them, or choose only sites that are on the Missouri River to have a better comparison. 
+From the drought analysis of the 6 tributaries and rivers, it is evident that minimum discharge amounts vary greatly (range: 1.47 cfs – 12414) (Table 6). We predicted that discharge would decrease during periods of drought, and it does, but the 7-day minimum average flow clearly varies among sites. Although the analysis shows that droughts decrease flow, it is difficult to compare droughts and flow between the sites because the rivers are of different sizes and magnitudes, and thus discharge amounts vary greatly. For example, three sites were analyzed that are located on the Missouri River, which is much larger than some of the tributaries that were analyzed. Thus, the discharge patterns are not able to be compared because of the difference in sizes. If we were to do this analysis again, we would likely choose not located on the Missouri River and compare them, or choose only sites that are on the Missouri River to have a better comparison. 
 
 \newpage
 
