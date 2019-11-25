@@ -32,7 +32,7 @@ dailyQ.30.avg.Missouri <- dailyQ.Missouri %>%
                                            format = "%j")))
 
 #summarizing historical data
-summaryQ.Missouri <- dailyQ.7.avg.Missouri %>%
+summaryQ.Missouri <- dailyQ.30.avg.Missouri %>%
   group_by(day.of.year) %>%
   summarize(p75 = quantile(rM, probs = .75, na.rm = TRUE),
             p25 = quantile(rM, probs = .25, na.rm = TRUE),
@@ -78,7 +78,7 @@ summaryQ.Missouri <- select(summaryQ.Missouri, Date, day.of.year,
   filter(Date >= as.Date(paste0(current.year-1,"-01-01")))
 
 #filtering to only have latest years in one dataframe 
-latest.years.Missouri <- dailyQ.7.avg.Missouri %>%
+latest.years.Missouri <- dailyQ.30.avg.Missouri %>%
   filter(Date >= as.Date(paste0(current.year-1,"-01-01"))) %>%
   mutate(day.of.year = 1:nrow(.))
 
@@ -103,10 +103,10 @@ start.month.days <- c(1, 32, 61, 92, 121, 152, 182, 214, 245, 274, 305, 335)
 label.text <- c("Normal","Drought Watch","Drought Warning","Drought Emergency")
 
 title.text.Missouri <- paste0(stationInfo.Missouri$station_nm,"\n",
-                             "Record Start = ", min(dailyQ.7.avg.Missouri$Date),
+                             "Record Start = ", min(dailyQ.30.avg.Missouri$Date),
                              "  Number of years = ",
-                             as.integer(as.numeric(difftime(time1 = max(dailyQ.7.avg.Missouri$Date), 
-                                                            time2 = min(dailyQ.7.avg.Missouri$Date),
+                             as.integer(as.numeric(difftime(time1 = max(dailyQ.30.avg.Missouri$Date), 
+                                                            time2 = min(dailyQ.30.avg.Missouri$Date),
                                                             units = "weeks"))/52.25),
                              "\nDate of plot = ",Sys.Date(),
                              "  Drainage Area = ",stationInfo.Missouri$drain_area_va, "mi^2")

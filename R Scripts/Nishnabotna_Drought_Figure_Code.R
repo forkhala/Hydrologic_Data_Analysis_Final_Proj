@@ -33,7 +33,7 @@ dailyQ.30.avg.Nish <- dailyQ.Nish %>%
                                            format = "%j")))
 
 #summarizing historical data
-summaryQ.Nish <- dailyQ.7.avg.Nish %>%
+summaryQ.Nish <- dailyQ.30.avg.Nish %>%
   group_by(day.of.year) %>%
   summarize(p75 = quantile(rM, probs = .75, na.rm = TRUE),
             p25 = quantile(rM, probs = .25, na.rm = TRUE),
@@ -79,7 +79,7 @@ summaryQ.Nish <- select(summaryQ.Nish, Date, day.of.year,
   filter(Date >= as.Date(paste0(current.year-1,"-01-01")))
 
 #filtering to only have latest years in one dataframe 
-latest.years.Nish <- dailyQ.7.avg.Nish %>%
+latest.years.Nish <- dailyQ.30.avg.Nish %>%
   filter(Date >= as.Date(paste0(current.year-1,"-01-01"))) %>%
   mutate(day.of.year = 1:nrow(.))
 
@@ -104,10 +104,10 @@ start.month.days <- c(1, 32, 61, 92, 121, 152, 182, 214, 245, 274, 305, 335)
 label.text <- c("Normal","Drought Watch","Drought Warning","Drought Emergency")
 
 title.text.Nish <- paste0(stationInfo.Nish$station_nm,"\n",
-                              "Record Start = ", min(dailyQ.7.avg.Nish$Date),
+                              "Record Start = ", min(dailyQ.30.avg.Nish$Date),
                               "  Number of years = ",
-                              as.integer(as.numeric(difftime(time1 = max(dailyQ.7.avg.Nish$Date), 
-                                                             time2 = min(dailyQ.7.avg.Nish$Date),
+                              as.integer(as.numeric(difftime(time1 = max(dailyQ.30.avg.Nish$Date), 
+                                                             time2 = min(dailyQ.30.avg.Nish$Date),
                                                              units = "weeks"))/52.25),
                               "\nDate of plot = ",Sys.Date(),
                               "  Drainage Area = ",stationInfo.Nish$drain_area_va, "mi^2")
