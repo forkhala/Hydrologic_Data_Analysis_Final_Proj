@@ -32,7 +32,7 @@ dailyQ.30.avg.Grand <- dailyQ.Grand %>%
                                            format = "%j")))
 
 #summarizing historical data
-summaryQ.Grand <- dailyQ.7.avg.Grand %>%
+summaryQ.Grand <- dailyQ.30.avg.Grand %>%
   group_by(day.of.year) %>%
   summarize(p75 = quantile(rM, probs = .75, na.rm = TRUE),
             p25 = quantile(rM, probs = .25, na.rm = TRUE),
@@ -78,7 +78,7 @@ summaryQ.Grand <- select(summaryQ.Grand, Date, day.of.year,
   filter(Date >= as.Date(paste0(current.year-1,"-01-01")))
 
 #filtering to only have latest years in one dataframe (2017 - 2019 data)
-latest.years.Grand <- dailyQ.7.avg.Grand %>%
+latest.years.Grand <- dailyQ.30.avg.Grand %>%
   filter(Date >= as.Date(paste0(current.year-1,"-01-01"))) %>%
   mutate(day.of.year = 1:nrow(.))
 
@@ -89,10 +89,10 @@ start.month.days <- c(1, 32, 61, 92, 121, 152, 182, 214, 245, 274, 305, 335)
 label.text <- c("Normal","Drought Watch","Drought Warning","Drought Emergency")
 
 title.text.Grand <- paste0(stationInfo.Grand$station_nm,"\n",
-                          "Record Start = ", min(dailyQ.7.avg.Grand$Date),
+                          "Record Start = ", min(dailyQ.30.avg.Grand$Date),
                           "  Number of years = ",
-                          as.integer(as.numeric(difftime(time1 = max(dailyQ.7.avg.Grand$Date), 
-                                                         time2 = min(dailyQ.7.avg.Grand$Date),
+                          as.integer(as.numeric(difftime(time1 = max(dailyQ.30.avg.Grand$Date), 
+                                                         time2 = min(dailyQ.30.avg.Grand$Date),
                                                          units = "weeks"))/52.25),
                           "\nDate of plot = ",Sys.Date(),
                           "  Drainage Area = ",stationInfo.Grand$drain_area_va, "mi^2")
