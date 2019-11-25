@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.29)  24 NOV 2019 17:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.29)  24 NOV 2019 19:46
 entering extended mode
 **./Missouri-Reasearch-Project---FINAL.tex
 (Missouri-Reasearch-Project---FINAL.tex
@@ -948,7 +948,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 115.
 [2]
-<../Figures/cropland3.png, id=104, 650.43pt x 383.031pt>
+<../Figures/cropland3.png, id=108, 650.43pt x 383.031pt>
 File: ../Figures/cropland3.png Graphic file (type png)
 <use ../Figures/cropland3.png>
 Package pdftex.def Info: ../Figures/cropland3.png  used on input line 255.
@@ -976,7 +976,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../Figures/site_map.png, id=131, 650.43pt x 383.031pt>
+<../Figures/site_map.png, id=135, 650.43pt x 383.031pt>
 File: ../Figures/site_map.png Graphic file (type png)
 <use ../Figures/site_map.png>
 Package pdftex.def Info: ../Figures/site_map.png  used on input line 380.
@@ -1003,24 +1003,19 @@ l.382
                                                   \fi \fi 
 l.382 
        <../Figures/site_map.png (PNG copy)>]
-<../Figures/Nitrogenhist.png, id=148, 576.65437pt x 381.67593pt>
+<../Figures/Nitrogenhist.png, id=152, 576.65437pt x 381.67593pt>
 File: ../Figures/Nitrogenhist.png Graphic file (type png)
 <use ../Figures/Nitrogenhist.png>
 Package pdftex.def Info: ../Figures/Nitrogenhist.png  used on input line 401.
 (pdftex.def)             Requested size: 469.77118pt x 310.9321pt.
-<Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf, id=14
-9, 469.755pt x 325.215pt>
+<Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf, id=15
+3, 433.62pt x 289.08pt>
 File: Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf G
 raphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.pdf>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
 dataexample-1.pdf  used on input line 405.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 405--405
-[][]
- []
-
+(pdftex.def)             Requested size: 433.63878pt x 289.09251pt.
 [7pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
 has been already used, duplicate ignored
 
@@ -1035,31 +1030,31 @@ l.407
 l.439 
        <./Missouri-Reasearch-Project---FINAL_files/figure-latex/dataexample-1.p
 df>]
-<../Figures/discharge.png, id=172, 1011.78pt x 650.43pt>
+<../Figures/discharge.png, id=176, 1011.78pt x 650.43pt>
 File: ../Figures/discharge.png Graphic file (type png)
 <use ../Figures/discharge.png>
 Package pdftex.def Info: ../Figures/discharge.png  used on input line 441.
+(pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
+<../Figures/sd_year.png, id=179, 1011.78pt x 650.43pt>
+File: ../Figures/sd_year.png Graphic file (type png)
+<use ../Figures/sd_year.png>
+Package pdftex.def Info: ../Figures/sd_year.png  used on input line 464.
 (pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
 [9pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.462 
-       <../Figures/discharge.png>]
-<../Figures/sd_year.png, id=183, 1011.78pt x 650.43pt>
-File: ../Figures/sd_year.png Graphic file (type png)
-<use ../Figures/sd_year.png>
-Package pdftex.def Info: ../Figures/sd_year.png  used on input line 464.
-(pdftex.def)             Requested size: 469.76266pt x 301.99028pt.
-[10pdfTeX warning (ext4): destination with the same identifier (name{figure.6})
- has been already used, duplicate ignored
+l.466 
+       <../Figures/discharge.png>] [10pdfTeX warning (ext4): destination with t
+he same identifier (name{figure.6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.489 
-       <../Figures/sd_year.png>]
-<../Figures/cv_year.png, id=194, 1011.78pt x 650.43pt>
+l.490 O
+       verall, our results indicate that the absolute values of variability <..
+/Figures/sd_year.png>]
+<../Figures/cv_year.png, id=198, 1011.78pt x 650.43pt>
 File: ../Figures/cv_year.png Graphic file (type png)
 <use ../Figures/cv_year.png>
 Package pdftex.def Info: ../Figures/cv_year.png  used on input line 503.
@@ -1086,7 +1081,7 @@ Overfull \hbox (6.82785pt too wide) in paragraph at lines 597--598
  []
 
 [13]
-<../Figures/CQplots.png, id=215, 576.65437pt x 381.67593pt>
+<../Figures/CQplots.png, id=219, 576.65437pt x 381.67593pt>
 File: ../Figures/CQplots.png Graphic file (type png)
 <use ../Figures/CQplots.png>
 Package pdftex.def Info: ../Figures/CQplots.png  used on input line 912.
@@ -1099,7 +1094,7 @@ Package pdftex.def Info: ../Figures/CQplots.png  used on input line 912.
 l.944 
        <../Figures/CQplots.png>]
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf, id=
-224, 325.215pt x 216.81pt>
+228, 325.215pt x 216.81pt>
 File: Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf
  Graphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf>
@@ -1107,154 +1102,152 @@ File: Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-1.pdf
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
 Randolphstorm-1.pdf  used on input line 975.
 (pdftex.def)             Requested size: 325.22908pt x 216.81938pt.
-[15]
-Overfull \vbox (259.78635pt too high) has occurred while \output is active []
-
-[16pdfTeX warning (ext4): destination with the same identifier (name{figure.9})
- has been already used, duplicate ignored
+[15] [16pdfTeX warning (ext4): destination with the same identifier (name{figur
+e.9}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1098 
-        <./Missouri-Reasearch-Project---FINAL_files/figure-latex/Randolphstorm-
-1.pdf>]
+l.1070 \newpage
+                <./Missouri-Reasearch-Project---FINAL_files/figure-latex/Randol
+phstorm-1.pdf>]
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/MinFlowMill-1.pdf, id=24
-4, 469.755pt x 325.215pt>
+7, 325.215pt x 216.81pt>
 File: Missouri-Reasearch-Project---FINAL_files/figure-latex/MinFlowMill-1.pdf G
 raphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/MinFlowMill-1.pdf>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-MinFlowMill-1.pdf  used on input line 1122.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[17] [18pdfTeX warning (ext4): destination with the same identifier (name{figur
-e.10}) has been already used, duplicate ignored
+MinFlowMill-1.pdf  used on input line 1124.
+(pdftex.def)             Requested size: 325.22908pt x 216.81938pt.
+[17]
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.1166 
-        <./Missouri-Reasearch-Project---FINAL_files/figure-latex/MinFlowMill-1.
-pdf>]
-<Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-1.pdf, id=26
-1, 469.755pt x 325.215pt>
+LaTeX Warning: Reference `fig:Milldrought' on page 18 undefined on input line 1
+165.
+
+<Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-1.pdf, id=25
+4, 433.62pt x 325.215pt>
 File: Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-1.pdf G
 raphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/Milldrought-1.pdf>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
 Milldrought-1.pdf  used on input line 1169.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 1194--1195
-[]\T1/lmtt/m/n/12 lmer(data, log(total.nitrogen) ~ year + population  + phospho
-rus +
- []
-
-[19pdfTeX warning (ext4): destination with the same identifier (name{figure.11}
+(pdftex.def)             Requested size: 433.63878pt x 325.22908pt.
+[18pdfTeX warning (ext4): destination with the same identifier (name{figure.10}
 ) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1195 \end{quote}
-                   <./Missouri-Reasearch-Project---FINAL_files/figure-latex/Mil
-ldrought-1.pdf>] [20]
+l.1170 \newpage
+                <./Missouri-Reasearch-Project---FINAL_files/figure-latex/MinFlo
+wMill-1.pdf>] [19 <./Missouri-Reasearch-Project---FINAL_files/figure-latex/Mill
+drought-1.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 1188--1189
+[]\T1/lmtt/m/n/12 lmer(data, log(total.nitrogen) ~ year + population  + phospho
+rus +
+ []
+
+[20] [21]
 <Missouri-Reasearch-Project---FINAL_files/figure-latex/dischargepre-1.pdf, id=2
-82, 469.755pt x 325.215pt>
+90, 325.215pt x 216.81pt>
 File: Missouri-Reasearch-Project---FINAL_files/figure-latex/dischargepre-1.pdf 
 Graphic file (type pdf)
 <use Missouri-Reasearch-Project---FINAL_files/figure-latex/dischargepre-1.pdf>
 Package pdftex.def Info: Missouri-Reasearch-Project---FINAL_files/figure-latex/
-dischargepre-1.pdf  used on input line 1301.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+dischargepre-1.pdf  used on input line 1293.
+(pdftex.def)             Requested size: 325.22908pt x 216.81938pt.
 
-Overfull \hbox (0.67198pt too wide) in alignment at lines 1310--1315
+Overfull \hbox (0.67198pt too wide) in alignment at lines 1302--1307
  [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (0.67198pt too wide) in alignment at lines 1315--1356
+Overfull \hbox (0.67198pt too wide) in alignment at lines 1307--1348
  [] [] [] [] [] [] [] [] 
  []
 
-[21] [22pdfTeX warning (ext4): destination with the same identifier (name{figur
-e.12}) has been already used, duplicate ignored
+
+Overfull \hbox (0.67198pt too wide) in alignment at lines 1348--1353
+ [] [] [] [] [] [] [] [] 
+ []
+
+[22pdfTeX warning (ext4): destination with the same identifier (name{figure.11}
+) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1356 2
-        1 & 06894000 & 181.6666 & 206.4976 & 203.7249 & 206.7256 & 214.5459 & <
-./Missouri-Reasearch-Project---FINAL_files/figure-latex/dischargepre-1.pdf>]
-Overfull \hbox (0.67198pt too wide) in alignment at lines 1356--1361
+l.1353 \end{longtable}
+                       <./Missouri-Reasearch-Project---FINAL_files/figure-latex
+/dischargepre-1.pdf>]
+Overfull \hbox (5.72858pt too wide) in alignment at lines 1355--1360
  [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (5.72858pt too wide) in alignment at lines 1365--1370
+Overfull \hbox (5.72858pt too wide) in alignment at lines 1360--1401
  [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (5.72858pt too wide) in alignment at lines 1370--1411
+Overfull \hbox (5.72858pt too wide) in alignment at lines 1401--1406
  [] [] [] [] [] [] [] [] 
  []
 
-
-Overfull \hbox (5.72858pt too wide) in alignment at lines 1411--1416
- [] [] [] [] [] [] [] [] 
- []
-
-[23] [24] [25] [26]
-Underfull \hbox (badness 1168) in paragraph at lines 1501--1505
+[23] [24] [25]
+Underfull \hbox (badness 1168) in paragraph at lines 1541--1545
 []\T1/lmr/m/n/12 (+20) Bureau of Recla-ma-tion. 2016a. ``Re-pub-li-can River Ba
 sin Study.'' Gov-ern-ment
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1501--1505
+Underfull \hbox (badness 10000) in paragraph at lines 1541--1545
 \T1/lmr/m/n/12 (+20) Doc-u-ment. []$https : / / www . usbr . gov / watersmart /
  bsp / docs / nalreport / republican /
  []
 
 
-Underfull \hbox (badness 2376) in paragraph at lines 1547--1551
+Underfull \hbox (badness 2376) in paragraph at lines 1587--1591
 \T1/lmr/m/n/12 (+20) Cen-tral Great Plains Drought.'' Gov-ern-ment Doc-u-ment. 
 []$https : / / cpo . noaa . gov /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1547--1551
+Underfull \hbox (badness 10000) in paragraph at lines 1587--1591
 \T1/lmr/m/n/12 (+20) Meet-[]the-[]Divisions / Earth-[]System-[]Science-[]and-[]
 Modeling / MAPP / MAPP-[]Task-[]Forces /
  []
 
 
-Overfull \hbox (80.66743pt too wide) in paragraph at lines 1547--1551
+Overfull \hbox (80.66743pt too wide) in paragraph at lines 1587--1591
 \T1/lmr/m/n/12 (-20) Drought / Drought-[]Task-[]Force-[]II / An-[]Interpretatio
 n-[]of-[]the-[]Origins-[]of-[]the-[]2012-[]Central-[]Great-[]Plains-[]Drought$[
 ]. 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1568.
-[27]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1568.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1608.
+[26]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1608.
 (Missouri-Reasearch-Project---FINAL.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1568.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1568.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1608.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1608.
 
 Package rerunfilecheck Info: File `Missouri-Reasearch-Project---FINAL.out' has 
 not changed.
-(rerunfilecheck)             Checksum: 533499A92FFFD8BE07DAF4E25B1B8F7E;5894.
+(rerunfilecheck)             Checksum: B6CC3E8EC03C4D7477BA72A74DAD08C8;6188.
+
+LaTeX Warning: There were undefined references.
+
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1568.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1608.
  ) 
 Here is how much of TeX's memory you used:
- 14607 strings out of 492895
- 217773 string characters out of 3123735
- 359343 words of memory out of 3000000
- 18066 multiletter control sequences out of 15000+200000
+ 14609 strings out of 492895
+ 217873 string characters out of 3123735
+ 357845 words of memory out of 3000000
+ 18068 multiletter control sequences out of 15000+200000
  67200 words of font info for 112 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,14n,38p,999b,433s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 32i,14n,38p,999b,437s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-maths
 y.enc}{C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-r
 m.enc}{C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-m
@@ -1269,10 +1262,10 @@ s/type1/public/lm/lmr8.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.9/fo
 nts/type1/public/lm/lmri12.pfb><C:/Users/19524/AppData/Local/Programs/MiKTeX 2.
 9/fonts/type1/public/lm/lmsy10.pfb><C:/Users/19524/AppData/Local/Programs/MiKTe
 X 2.9/fonts/type1/public/lm/lmtt12.pfb>
-Output written on Missouri-Reasearch-Project---FINAL.pdf (27 pages, 1318265 byt
+Output written on Missouri-Reasearch-Project---FINAL.pdf (26 pages, 1318244 byt
 es).
 PDF statistics:
- 418 PDF objects out of 1000 (max. 8388607)
+ 417 PDF objects out of 1000 (max. 8388607)
  117 named destinations out of 1000 (max. 500000)
- 14565 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 14573 words of extra memory for PDF output out of 17280 (max. 10000000)
 

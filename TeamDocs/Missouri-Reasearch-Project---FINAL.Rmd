@@ -63,8 +63,8 @@ Given all the background information, we would like to know the current state of
 
 1. How have changes in discharge (i.e. water quantity) interacted with nutrient enrichment (i.e. water quality) in the Missouri River Basin?
 
-    a) Nutrient levels have increased over time
-    b) Discharge has become more variable over time 
+    a) Discharge has become more variable over time 
+    b) Nutrient levels have increased over time
     c) Nutrient levels increase with discharge 
   
  
@@ -147,7 +147,7 @@ knitr::include_graphics("../Figures/Nitrogenhist.png")
 ```
 
 
-```{r dataexample, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily data of Site No. 22, the  Missouri River At Hermann, MO."}
+```{r dataexample, fig.height=4, fig.width=6, echo=FALSE, warning=FALSE, out.width="\\maxwidth", fig.cap="\\label{fig:dataexample} Discharge, Nitrogen, Phosphorus daily data of Site No. 22, the  Missouri River At Hermann, MO."}
 
 ## Discharge
 MRHDischarge <- readNWISdv(siteNumbers = "06934500",
@@ -162,7 +162,8 @@ MRHPlot <-
   geom_line() +
   labs(x = "", y = expression("Discharge (10"^5*" ft"^3*"/s)"), 
         title = "  22 Missouri River At Hermann, MO") + 
-  xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
+  xlim(as.Date(c("1928-01-01", "2020-01-01")))  +
+  theme(text = element_text(size=8))
   par(pin = c(50,40))
 
 ## Nitrogen
@@ -187,7 +188,8 @@ MRHN <-
   ggplot(MRHNitrogen, aes(x = sample_dt, y = result_va)) +
   geom_line() +
   labs(x = " ", y = expression("Nitrogen (mg/L)")) +
-  xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
+  xlim(as.Date(c("1928-01-01", "2020-01-01")))  +
+  theme(text = element_text(size = 8))
 
 ## Phosphorus
 MRHPhosphorus <- readNWISqw(siteNumbers = "06934500",
@@ -211,7 +213,8 @@ MRHP <-
   ggplot(MRHPhosphorus, aes(x = sample_dt, y = result_va)) +
   geom_line() +
   labs(x = "Date", y = expression("Phosphorus (mg/L)"))  +
-  xlim(as.Date(c("1928-01-01", "2020-01-01"))) 
+  xlim(as.Date(c("1928-01-01", "2020-01-01"))) +
+  theme(text = element_text(size = 8))
 
 ggarrange(MRHPlot, MRHN, MRHP
           + font("x.text", size = 10), ncol = 1, nrow = 3)
@@ -360,6 +363,7 @@ Missouri River at Hermann, MO  | 06934500  |  Oct 7 - 20, 2018  | counter clockw
 Mill C at Johnson Drive, Shawnee, KS  | 06892513 | Nov 27 - Dec 4, 2018 | clockwise | negative
 Grand River, Sumner MO  | 06902000 |  Sep 6 - 10, 2018 | clockwise | positive
 
+\newpage
 
 ### Droughts
 Not only have massive floods characterized years and seasons throughout the Missouri River Basin, but also droughts have had a major impact on the rivers as well. The six sites that were analyzed for floods were also examined for droughts, in order to make direct comparisons and maintain consistency.
@@ -382,7 +386,7 @@ The 7Q10 was calculated for each of the six sites by first filtering the dischar
 
 The miniumum 7 day average flow (cfs) varied for each river and between years among rivers and in the same river (\autoref{fig:MinFlowMill}). 
 
-```{r MinFlowMill, echo=FALSE, fig.cap="\\label{fig:MinFlowMill}Plot showing the minimum 7 day average flow (cfs) at Mill Creek for the period of record (October 2002 - November 2019). The miniumum 7 day average flow was very low in 2012 and decreased again in 2018."}
+```{r MinFlowMill, fig.height=3, fig.width=4.5, echo=FALSE, fig.cap="\\label{fig:MinFlowMill}Plot showing the minimum 7 day average flow (cfs) at Mill Creek for the period of record (October 2002 - November 2019). The miniumum 7 day average flow was very low in 2012 and decreased again in 2018."}
 
 #compiling site numbers together for drought analysis
 sites <- c("06808500", "06817000", "06892350", "06934500", "06892513", "06902000")
@@ -433,7 +437,7 @@ Grand River, Sumner MO  | 06902000 | 39.1
 
 In addition to calculating the 7Q10 values for the 6 sites, the sites were analyzed to determine the 30-day moving average flow over a period of years. This was done using code from USGS to calculate moving averages and historical quantiles [@usgs2016]. The 25th, 50th, and 75th quantiles were calculated to determine the minimum, median, and maximum values for discharge in a given year to determine historical flow. The 30-day moving average flow over a period of years was then plotted with Normal (25th to 75th percentile), Drought Watch (10th to 25th percentile), Drought Warning (5th to 10th percentile), and Drought Emergency (0 to 5th percentile) (\autoref{fig:Milldrought}). This information about what flow would constitute a drought is extremely useful for water managers.  
 
-```{r Milldrought, echo=FALSE, fig.cap="\\label{fig:Milldrought}Plot showing the 30-day moving average of Mill Creek in 2017 and 2018 and whether it falls within a normal condition, drought watach condition, drought warning condition, or drought emergency condition. In March and April of 2017 and June, July, and August of 2018, Mill Creek was in a drought warning or drought emergency."}
+```{r Milldrought, echo=FALSE, fig.heigh=4, fig.width=6, fig.cap="\\label{fig:Milldrought}Plot showing the 30-day moving average of Mill Creek in 2017 and 2018 and whether it falls within a normal condition, drought watach condition, drought warning condition, or drought emergency condition. In March and April of 2017 and June, July, and August of 2018, Mill Creek was in a drought warning or drought emergency."}
 
 options(scipen = 100)
 
@@ -577,6 +581,7 @@ styled.plot.Mill <- drought.plot.Mill +
 print(styled.plot.Mill)
 
 ```
+\newpage
 
 ## Question 3: What factors contribute to the variability of total nitrogen in the rivers?
 
@@ -589,13 +594,13 @@ Year, population, and total phosphorus are fixed effects while the grouping of t
 $$Nitrogen = 0.28 + 1.01(year) + 0.99(population) + 1.44(phosphorus)$$
 
 Because we used a log transformed data set, we have to exponentiate the coefficients in the model to interpret them. The nonsensical intercept of the regression equation is 0.28, which is the mean of total nitrogen when year is 0, population is 0, and phosphorus is 0. When exponentiating the year coefficient, we can conclude that every decade has a 1.01 multiplicative effect on nitrogen. When exponentiating the population coefficient, we can conclude that every 1000 people have a 0.99 multiplicative effect on nitrogen. Lastly, we can conclude that every unit increase in phosphorus has a 1.44 multiplicative effect (or 44% increase) of nitrogen. The model demonstrates the the level of decade, population of the county, and phosphorus levels affected the total nitrogen in each HUC 4 region. Residuals are evenly distributed, and the R^2 value = 0.567, indicating that 56.7% of the variation in nitrogen is explained by this model. 
+\newpage
 
 ## Question 4: Given past and current data, what can we predict about the future state of water in the Missouri River Basin?
 
 ### Discharge Trends Analysis
 We also analyzed discharge trend at 22 sites using daily value data and Mann-Kandall Trend Test (Table 7). In our analysis, discharge of 18 sites increases while 4 sites show the decreasing trend of discharge. However, these four sites all locate in HUC 1025 and 1026, away from the main stem of the Missouri River. Therefore, overall, the discharge in Missouri River is increasing.
 
-\newpage
 **Table 7:** Discharge Trend over Time
 
 No.    |   Site Number   |  Discharge Trend  |  Discharge Trend Significance  |
@@ -631,7 +636,7 @@ As discussed in Question 2, both severe drought and flooding events occurred in 
 
 We employed Autoregressive and Moving Average Models (ARMA) to effectively forecast into the future. The ARMA model is a tool for understanding and predicting future values in a time series. The AR part involves regressing the variable on its own lagged (i.e., past) values. The MA part involves modeling the error term as a linear combination of error terms occurring contemporaneously and at various times in the past. By using the discharge measurement data in the past and the ARMA model, we make discharge prediction for every site (\autoref{fig:dischargepre} as an example).  From \autoref{fig:dischargepre}, we can see that only the first few years of discharge simulation is reasonable. Therefore, we decided only to make one-year prediction of discharge for every site (Table 8). 
 
-```{r dischargepre, echo=FALSE, fig.cap="\\label{fig:dischargepre}Historic and 10-year prediction of discharge at Site No. 22, the  Missouri River At Hermann, MO. (Solid Line: Historic Measurement of Discharge; Dash Line: 10-year Prediction of Discharge)"}
+```{r dischargepre, fig.height=3, fig.width=4.5, echo=FALSE, fig.cap="\\label{fig:dischargepre}Historic and 10-year prediction of discharge at Site No. 22, the  Missouri River At Hermann, MO. (Solid Line: Historic Measurement of Discharge; Dash Line: 10-year Prediction of Discharge)"}
 
 MRHDischarge <- readNWISdv(siteNumbers = "06934500",
                            parameterCd = "00060", # discharge (ft3/s)
@@ -691,8 +696,6 @@ No.    |   Site Number   |  Dec. 2019  | Jan. 2020  |  Feb. 2020  |  Mar. 2020  
 20  |  06926510  |  12184.39	 |  13730.31	 |  13039.62	 |  12564.56	 |  14026.34	 |  14174.23	 |
 21  |  06894000  |  181.6666	 |  206.4976	 |  203.7249 	|  206.7256	 |  214.5459	 |  320.4555	 |
 22  |  06934500  |  189461.2	 |  194893.2	 |  194212.8	 |  215398.5	 |  212735.9	 |  230589.3	 |
-(To be continued)
-
 
 No.    |   Site Number   |  June 2020  |   July 2020  |  Aug. 2020  |  Sept. 2020  | Oct. 2020  | Nov. 2020  |
 :-----:|:-------------:|:-------------:|:------------:|:-------------:|:-------------:|:-------------:|:------------:|
@@ -722,23 +725,35 @@ No.    |   Site Number   |  June 2020  |   July 2020  |  Aug. 2020  |  Sept. 202
 \newpage
 
 # Summary and Conclusions
+In this project, we aimed to take a close look at discharge and nutrient data at 22 sites to see if we could spot any trends and better understand the hydrologic properties of the Missouri River Basin.
 
-
-## Discharge Pattern and Variation
-In this project, we showed that most rivers and streams in the Missouri River Basin have higher discharge as well as larger variation during the summer than the winter. A few rivers that originate from aquifer or groundwater display more stable discharge pattern throughout a year.
+## Discharge and Nutrient Variation
+Our research question #1 focused on changes in nutrient enrichment and changes in discharge and whether those changes affected their interactions. Most rivers and streams in the Missouri River Basin have higher discharge as well as larger variation during the summer than the winter, confirming hypothesis 1a. A few rivers that originate from aquifer or groundwater display more stable discharge pattern throughout a year.
 
 As for variation in discharge across different years, conclusion varies based on two statistics, standard deviation (SD) and coefficient of variation (CV). Absolute magnitude of variation generally increases in the whole basin, while relative variation has diminished at almost all sites examined here. The disparity between the conclusions drawn from two variation statistics stems primary from higher mean discharge in more recent years. CV accounts for mean discharge and is therefore more accurate when comparing rivers with different discharge or comparing rivers across different time periods. However, information provided by SD is also informative and should not be disregarded, as damage caused by flooding is better explained by absolute magnitude of variation than relative variation. Both statistics should be considered when formulating conclusions on variability in discharge, and the emphasis on either one depends on the context where interpretation is made (e.g. for academic management purposes) as well as the audience to which information is offered (e.g. researchers or managers).
 
-## Droughts
-From the drought analysis of the 6 tributaries and rivers, it is evident that minimum discharge amounts vary greatly (range: 1.47 cfs – 12414) (Table 6). We predicted that discharge would decrease during periods of drought, and it does, but the 7-day minimum average flow clearly varies among sites. Although the analysis shows that droughts decrease flow, it is difficult to compare droughts and flow between the sites because the rivers are of different sizes and magnitudes, and thus discharge amounts vary greatly. For example, three sites were analyzed that are located on the Missouri River, which is much larger than some of the tributaries that were analyzed. Thus, the discharge patterns are not able to be compared because of the difference in sizes. If we were to do this analysis again, we would likely choose not located on the Missouri River and compare them, or choose only sites that are on the Missouri River to have a better comparison. 
+Our hypothesis, 1b, that nutrient levels have increased over time, was not proven. There was so much variability across sites that any prediction cannot hold true across the entire lower basin. A little more conclusive evidence was found for our hypothesis 1c, that nutrient levels increase discharge, since 18 of the total 22 sites were found to have significant increases. 
 
-## Trends of the Concentration of Nitrogen and Phosphorus
-From the analysis of long-term daily nitrogen and phosphorus data, we see a significant increasing trend of nitrogen and phosphorus at the mainstem of the Missouri River. Corresponding, from the linear model we created, we can also see that the concentration of nitrogen will increase with the concentration of phosphorus and year, with indicates that the trends of the Concentration of Nitrogen and Phosphorus are increasing. Water quality in the Missouri River is still deteriorating and protection is urgently needed.
+## Floods and Droughts
+
+Analyzing nutrient content in flooding events was a lot harder than originally anticipated. We wanted to analyze flooding across all sites, but were unable to do so because of a lack of high frequency nitrogen data. In addition, the data we did have was inconsistent and unclear. Our hypothesis 2b, that rivers will exhibit flushing events, was not correct. It was wrong to assume that all rivers in the area acted the same way during floods, simply because this basin is mostly agricultural land. The sites analyzed for floods exhibited a variety of behaviors depending on the storm and the time of year of the storm.
+
+From the drought analysis of the six tributaries and rivers, it is evident that minimum discharge amounts vary greatly (range: 1.47 cfs – 12414) (Table 6). Hypothesis 2b predicted that discharge would decrease during periods of drought, and it does, but the 7-day minimum average flow clearly varies among sites. Although the analysis shows that droughts decrease flow, it is difficult to compare droughts and flow between the sites because the rivers are of different sizes and magnitudes, and thus discharge amounts vary greatly. For example, three sites were analyzed that are located on the Missouri River, which is much larger than some of the tributaries that were analyzed. Thus, the discharge patterns are not able to be compared because of the difference in sizes. If we were to do this analysis again, we would likely choose not located on the Missouri River and compare them, or choose only sites that are on the Missouri River to have a better comparison. 
+
+## Linear model predicting nitrogen
+The linear model we created suggested that nitrogen variability could be explained by the variability of year, population, and phosphorus. Our hypothesis 3a was mostly correct, however the model failed to include discharge as a significant factor. We think this is odd, and are not sure why this is the case, since in hypothesis 1c, we found significant increases in nitrogen with increases in discharge. We speculate that perhaps the model, which took out the variance of the HUC 4 region as a random effect, did not account for the variability across regions, when in fact it should have. If time allowed, further research into this question would have been helpful.
 
 ## Discharge Trends Analysis and Discharge Prediction
-From the dicharge trends analysis, out of all 22 sites, only 4 sites that locate in HUC 1025 and 1026, away from the main stem of the Missouri River show decreasing trends of discharge. Overall, the discharge in Missouri River is increasing.
+From the discharge trend analysis, we found that out of all 22 sites, only 4 sites that are located in HUC 1025 and 1026, away from the main stem of the Missouri River show decreasing trends of discharge. Overall, the discharge in Missouri River is increasing, confirming our hypothesis 4a.
 
-In addition, we employed Autoregressive and Moving Average Models (ARMA) to forecast the discharge at all 22 sites into the future. Due to that only the first few years of discharge simulation is reasonable from the ARMA, we only made one-year prediction of discharge for every site.
+In addition, we employed Autoregressive and Moving Average Models (ARMA) to forecast the discharge at all 22 sites into the future. Due to that only the first few years of discharge simulation is reasonable from the ARMA, we only made one-year prediction of discharge for every site. Our simulation confirms our hypothesis 4b, that the future will see a continuation of current trends.
+
+
+## Trends of the Concentration of Nitrogen and Phosphorus
+Although we saw varying results from our analysis of long-term daily nitrogen and phosphorus data across all sites, we do see a significant increasing trend of nitrogen and phosphorus at the mainstem of the Missouri River. Corresponding with the linear model we created for question 3, we can also see that the concentration of nitrogen will increase with the concentration of phosphorus and year, which also indicates that nitrogen concentration will continue to trend upward over time. 
+
+In conclusion, although it was difficult to make sweeping conclusions across all our sites due to the size of the river and location variability, we were able to find out a lot about the Missouri River Basin and its water quality and quantity. We determined that the mainstem of the Missouri River did have increasing discharge, nitrogen, and phosphorus levels over time, while the tributaries had more varied characteristics. 
+
 
 \newpage
 
