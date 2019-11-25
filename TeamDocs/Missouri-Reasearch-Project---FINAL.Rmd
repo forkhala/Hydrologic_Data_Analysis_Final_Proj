@@ -437,7 +437,7 @@ Grand River, Sumner MO  | 06902000 | 39.1
 
 In addition to calculating the 7Q10 values for the 6 sites, the sites were analyzed to determine the 30-day moving average flow over a period of years. This was done using code from USGS to calculate moving averages and historical quantiles [@usgs2016]. The 25th, 50th, and 75th quantiles were calculated to determine the minimum, median, and maximum values for discharge in a given year to determine historical flow. The 30-day moving average flow over a period of years was then plotted with Normal (25th to 75th percentile), Drought Watch (10th to 25th percentile), Drought Warning (5th to 10th percentile), and Drought Emergency (0 to 5th percentile) (\autoref{fig:Milldrought}). This information about what flow would constitute a drought is extremely useful for water managers.  
 
-```{r Milldrought, echo=FALSE, fig.heigh=4, fig.width=6, fig.cap="\\label{fig:Milldrought}Plot showing the 30-day moving average of Mill Creek in 2017 and 2018 and whether it falls within a normal condition, drought watach condition, drought warning condition, or drought emergency condition. In March and April of 2017 and June, July, and August of 2018, Mill Creek was in a drought warning or drought emergency."}
+```{r Milldrought, echo=FALSE, fig.heigh=4, fig.width=7, fig.cap="\\label{fig:Milldrought}Plot showing the 30-day moving average of Mill Creek in 2017 and 2018 and whether it falls within a normal condition, drought watach condition, drought warning condition, or drought emergency condition. In March and April of 2017 and June, July, and August of 2018, Mill Creek was in a drought warning or drought emergency."}
 
 options(scipen = 100)
 
@@ -581,6 +581,7 @@ styled.plot.Mill <- drought.plot.Mill +
 print(styled.plot.Mill)
 
 ```
+
 \newpage
 
 ## Question 3: What factors contribute to the variability of total nitrogen in the rivers?
